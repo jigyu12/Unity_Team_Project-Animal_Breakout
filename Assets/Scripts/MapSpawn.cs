@@ -17,7 +17,6 @@ public class MapSpawn : MonoBehaviour
             SpawnNextSegment();
         }
 
-
     }
 
     public void SpawnNextSegment()
@@ -46,11 +45,14 @@ public class MapSpawn : MonoBehaviour
             }
 
             spawnPosition = lastSegment.exitPoint.position;
+            spawnPosition.y = -1f;
+
             spawnRotation = lastSegment.exitPoint.rotation;
         }
         else
         {
             spawnPosition = Vector3.zero;
+            spawnPosition.y = -1f;
             spawnRotation = Quaternion.identity;
         }
 
