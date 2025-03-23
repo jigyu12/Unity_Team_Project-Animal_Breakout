@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Attacker : Power
 {
+    public PowerDisplay powerDisplay;
+    
     public bool Attack(Power defender)
     {
         return defender.power < power;
@@ -12,12 +14,10 @@ public class Attacker : Power
 
     public void OnTriggerEnter(Collider other)
     {
-
-
-        if (other.gameObject.TryGetComponent<Power>(out Power defender))
+        if (other.gameObject.TryGetComponent(out Power defender))
         {
             bool result = Attack(defender);
-            Debug.Log($"°ø°Ý : {result}");
+            Debug.Log($"ê³µê²© ì„±ê³µ ì—¬ë¶€ : {result}");
         }
     }
 }
