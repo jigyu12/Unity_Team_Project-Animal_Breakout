@@ -1,25 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
-<<<<<<< Updated upstream
-    public float speed;
-    public int wayIndex;
-
-    public MapWay way;
-
-    private void Update()
-    {
-        var nextPosition = transform.position;
-        if (Input.GetKey(KeyCode.A))
-        {
-            nextPosition.x += -speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.D))
-=======
     public float moveSpeed = 10f;
     public int wayIndex = 1;
     public float jumpHeight = 2f;
@@ -50,19 +33,12 @@ public class PlayerMove : MonoBehaviour
     void UpdateJump()
     {
         if (isJumping)
->>>>>>> Stashed changes
         {
-            nextPosition.x += +speed * Time.deltaTime;
+            verticalVelocity += gravity * Time.deltaTime;
+            transform.position += new Vector3(0, verticalVelocity * Time.deltaTime, 0);
         }
-
-        nextPosition.x = Mathf.Clamp(nextPosition.x, way.minX, way.maxX);
-        transform.position = nextPosition;
-
-        wayIndex = way.PositionToWayIndex(transform.position);
     }
 
-<<<<<<< Updated upstream
-=======
     public void OnMoveLeft(InputAction.CallbackContext context)
     {
         if (context.performed) MoveLeft();
@@ -138,5 +114,4 @@ public class PlayerMove : MonoBehaviour
         wayIndex = Mathf.Clamp(wayIndex + 1, 0, 2);
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
->>>>>>> Stashed changes
 }
