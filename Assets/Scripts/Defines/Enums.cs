@@ -8,10 +8,16 @@ public enum WayType
     Count
 }
 
-public enum RewardType
+public enum ItemType
 {
-    TestRewardCoin = -1,
+    RewardItem = 0,
+    PenaltyItem,
     
+    Count
+}
+
+public enum RewardItemType
+{
     BronzeCoin = 0,
     SilverCoin,
     GoldCoin,
@@ -22,10 +28,8 @@ public enum RewardType
     Count
 }
 
-public enum PenaltyType
+public enum PenaltyItemType
 {
-    TestPenaltyCoin = -1,
-    
     GhostCoin = 0,
     PoisonCoin,
     SkullCoin,
@@ -33,4 +37,12 @@ public enum PenaltyType
     BlackHoleCoin,
     
     Count
-} 
+}
+
+public enum TrapType
+{
+    Bomb = 0,
+    Hole,
+    
+    Count
+}
