@@ -526,6 +526,7 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -20
   way: {fileID: 445219149}
+  mapSpawner: {fileID: 1643406228}
 --- !u!65 &620115730
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -702,13 +703,13 @@ MonoBehaviour:
     m_ActionName: PlayerActions/Jump[/Keyboard/w]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 620115727}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 620115729}
+        m_TargetAssemblyTypeName: PlayerMove, Assembly-CSharp
+        m_MethodName: OnRotateLeft
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -718,13 +719,13 @@ MonoBehaviour:
     m_ActionName: PlayerActions/RotationLeft[/Keyboard/q]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 620115727}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 620115729}
+        m_TargetAssemblyTypeName: PlayerMove, Assembly-CSharp
+        m_MethodName: OnRotateRight
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1008,6 +1009,17 @@ Transform:
   - {fileID: 1914923268}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1643406228 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5751396256218121023, guid: fcdada03717fc4c998f4bb2c0d48d131, type: 3}
+  m_PrefabInstance: {fileID: 6674692240432809151}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d39c64c1b0264e82bdfa1bde33598fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1914923267
 GameObject:
   m_ObjectHideFlags: 0
