@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public enum TurnDirection { Left, Right }
+
 public class PlayerMove : MonoBehaviour
 {
-
-
     public float moveSpeed = 10f;
     public int wayIndex = 1;
     public float jumpHeight = 2f;
@@ -18,6 +18,7 @@ public class PlayerMove : MonoBehaviour
     private Vector2 swipeStart;
     private Vector2 currentTouchPosition;
     public MapSpawn mapSpawner;
+
     private bool canTurn = false;
     private TurnDirection allowedTurn;
 
@@ -31,7 +32,12 @@ public class PlayerMove : MonoBehaviour
     {
         UpdateJump();
 
-        Vector3 moveTarget = new Vector3(targetPosition.x, transform.position.y + verticalVelocity * Time.deltaTime, targetPosition.z);
+        Vector3 moveTarget = new Vector3(
+            targetPosition.x,
+            transform.position.y + verticalVelocity * Time.deltaTime,
+            targetPosition.z
+        );
+
         transform.position = Vector3.MoveTowards(transform.position, moveTarget, moveSpeed * Time.deltaTime);
     }
 
@@ -78,6 +84,13 @@ public class PlayerMove : MonoBehaviour
             {
                 TryJump();
             }
+            else if (Mathf.Abs(delta.x) > 50f && Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+            {
+                if (delta.x < 0f)
+                    TryRotateLeft();
+                else
+                    TryRotateRight();
+            }
             else if (delta.magnitude < 10f)
             {
                 if (currentTouchPosition.x < Screen.width * 0.5f) MoveLeft();
@@ -95,19 +108,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Ground"))
-        {
-            isJumping = false;
-            verticalVelocity = 0f;
-
-            Vector3 pos = transform.position;
-            pos.y = 0f;
-            transform.position = pos;
-        }
-    }
-
     void MoveLeft()
     {
         wayIndex = Mathf.Clamp(wayIndex - 1, 0, 2);
@@ -120,28 +120,53 @@ public class PlayerMove : MonoBehaviour
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
 
+    // 회전 입력 처리용
     public void OnRotateLeft(InputAction.CallbackContext context)
     {
-        if (context.performed && canTurn && allowedTurn == TurnDirection.Left)
+        if (context.performed)
+            TryRotateLeft();
+    }
+
+    public void OnRotateRight(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            TryRotateRight();
+    }
+
+    void TryRotateLeft()
+    {
+        if (canTurn && allowedTurn == TurnDirection.Left)
         {
             mapSpawner.Rotate(90f);
             canTurn = false;
         }
     }
 
-    public void OnRotateRight(InputAction.CallbackContext context)
+    void TryRotateRight()
     {
-        if (context.performed && canTurn && allowedTurn == TurnDirection.Right)
+        if (canTurn && allowedTurn == TurnDirection.Right)
         {
             mapSpawner.Rotate(-90f);
             canTurn = false;
         }
     }
 
-
     public void SetCanTurn(bool value, TurnDirection direction)
     {
         canTurn = value;
         allowedTurn = direction;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            isJumping = false;
+            verticalVelocity = 0f;
+
+            Vector3 pos = transform.position;
+            pos.y = 0f;
+            transform.position = pos;
+        }
     }
 }
