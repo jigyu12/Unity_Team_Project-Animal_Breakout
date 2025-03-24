@@ -325,7 +325,7 @@ RectTransform:
   m_Father: {fileID: 346278932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.25363755, y: 0.23544973}
+  m_AnchorMax: {x: 0.5925781, y: 0.439375}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1103,6 +1103,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Map
       objectReference: {fileID: 0}
+    - target: {fileID: 6867170024708368119, guid: fcdada03717fc4c998f4bb2c0d48d131, type: 3}
+      propertyPath: objects.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6867170024708368119, guid: fcdada03717fc4c998f4bb2c0d48d131, type: 3}
+      propertyPath: objects.Array.data[0]
+      value: 
+      objectReference: {fileID: 7025421565100614825, guid: 48b6e18e4bba8684ca4f9bba5a79507b, type: 3}
+    - target: {fileID: 6867170024708368119, guid: fcdada03717fc4c998f4bb2c0d48d131, type: 3}
+      propertyPath: objects.Array.data[1]
+      value: 
+      objectReference: {fileID: 634137003826358994, guid: b77b70c2ade4e164383d9ce9ca536772, type: 3}
+    - target: {fileID: 6867170024708368119, guid: fcdada03717fc4c998f4bb2c0d48d131, type: 3}
+      propertyPath: objects.Array.data[2]
+      value: 
+      objectReference: {fileID: 8895273872817497400, guid: 1a5ab91b16e5d6641a39e2dbd18c55f2, type: 3}
+    - target: {fileID: 6867170024708368119, guid: fcdada03717fc4c998f4bb2c0d48d131, type: 3}
+      propertyPath: objects.Array.data[3]
+      value: 
+      objectReference: {fileID: 7409373488066852400, guid: c932e0a9561e7b345ac663f66bdf5042, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
