@@ -8,9 +8,11 @@ public class PlaneToGridMap : MonoBehaviour
     public int rows = 5;
     public int cols = 24;
 
-    public List<GameObject> leftSideTile = new();
-    public List<GameObject> rightSideTile = new();
-    public List<GameObject> middleTile = new();
+    public GameObject[,] LeftSideTile;
+    public GameObject[,] RightSideTile;
+    public GameObject[,] MiddleTile;
+    
+    public Dictionary<int, TrapType> Traps = new();
 
     private GameObject[,] tiles;
     private float tileSizeX, tileSizeZ;
@@ -18,7 +20,7 @@ public class PlaneToGridMap : MonoBehaviour
     
     public GameObject sidePrefab;
 
-    void Start()
+    void Awake()
     {
         CalculateTileSize();
         GenerateGrid();
@@ -41,6 +43,10 @@ public class PlaneToGridMap : MonoBehaviour
     void GenerateGrid()
     {
         tiles = new GameObject[rows, cols];
+    
+        LeftSideTile = new GameObject[1, cols];
+        RightSideTile = new GameObject[1, cols];
+        MiddleTile = new GameObject[rows - 2, cols];
 
         for (int x = 0; x < rows; x++)
         {
@@ -60,17 +66,17 @@ public class PlaneToGridMap : MonoBehaviour
 
                 if (x == 0)
                 {
-                    leftSideTile.Add(tile);
-                    Instantiate(sidePrefab, tile.transform.position, Quaternion.identity);
+                    LeftSideTile[0, z] = tile;
+                    //Instantiate(sidePrefab, tile.transform.position, Quaternion.identity);
                 }
                 else if (x == rows - 1)
                 {
-                    rightSideTile.Add(tile);
-                    Instantiate(sidePrefab, tile.transform.position, Quaternion.identity);
+                    RightSideTile[0, z] = tile;
+                    //Instantiate(sidePrefab, tile.transform.position, Quaternion.identity);
                 }
                 else
                 {
-                    middleTile.Add(tile);
+                    MiddleTile[x - 1, z] = tile;
                 }
             }
         }
