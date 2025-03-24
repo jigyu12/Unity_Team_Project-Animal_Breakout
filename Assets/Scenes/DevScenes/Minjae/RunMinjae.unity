@@ -325,11 +325,7 @@ RectTransform:
   m_Father: {fileID: 346278932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-<<<<<<< Updated upstream
-  m_AnchorMax: {x: 0.5925781, y: 0.439375}
-=======
   m_AnchorMax: {x: 0.42989418, y: 0.60634923}
->>>>>>> Stashed changes
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -505,6 +501,7 @@ GameObject:
   - component: {fileID: 620115730}
   - component: {fileID: 620115729}
   - component: {fileID: 620115734}
+  - component: {fileID: 620115735}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -527,7 +524,6 @@ MonoBehaviour:
   moveSpeed: 10
   wayIndex: 1
   jumpHeight: 2
-  jumpDuration: 0.5
   gravity: -20
   way: {fileID: 445219149}
   mapSpawner: {fileID: 1643406228}
@@ -631,8 +627,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 200
-<<<<<<< Updated upstream
-=======
   powerDisplay: {fileID: 0}
 --- !u!114 &620115735
 MonoBehaviour:
@@ -776,7 +770,6 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerActions
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
->>>>>>> Stashed changes
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
