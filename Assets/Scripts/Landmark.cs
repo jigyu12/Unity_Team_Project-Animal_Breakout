@@ -41,54 +41,64 @@ public class Landmark : MonoBehaviour
         WayType wayType = (WayType)Random.Range(0, (int)WayType.Count);
 
         int sideStructureCountSub = sideStructureCount / 3;
-        
+
         float totalDistance = GetParentPlaneLength();
-        
+
         float gapBetweenStructures = totalDistance / sideStructureCount;
-        
+
         Vector3 midPoint = (leftLaneStartPos.transform.position + rightLaneStartPos.transform.position) * 0.5f;
-        
+
         switch (wayType)
         {
             case WayType.Straight:
-            {
-                CreateLaneStructures(leftLaneStartPos.transform, gapBetweenStructures);
-                CreateLaneStructures(rightLaneStartPos.transform, gapBetweenStructures);
-            }
-                break;
+                {
+                    CreateLaneStructures(leftLaneStartPos.transform, gapBetweenStructures);
+                    CreateLaneStructures(rightLaneStartPos.transform, gapBetweenStructures);
+                    break;
+                }
             case WayType.Left:
-            {
-                CreateLaneStructures(leftLaneStartPos.transform, gapBetweenStructures , sideStructureCountSub);
-                CreateLaneStructures(rightLaneStartPos.transform, gapBetweenStructures);
-                
-                Vector3 wallPos = midPoint + (transform.forward * totalDistance);
-                Instantiate(wall, wallPos, Quaternion.identity, transform);
+                {
+                    CreateLaneStructures(leftLaneStartPos.transform, gapBetweenStructures, sideStructureCountSub);
+                    CreateLaneStructures(rightLaneStartPos.transform, gapBetweenStructures);
 
-                Vector3 swipeAreaPos = wallPos - transform.forward * (gapBetweenStructures * 0.5f);
-                Instantiate(swipeArea, swipeAreaPos, Quaternion.identity, transform);
-            }
-                break;
+                    Vector3 wallPos = midPoint + (transform.forward * totalDistance);
+                    Instantiate(wall, wallPos, Quaternion.identity, transform);
+
+                    Vector3 swipeAreaPos = wallPos - transform.forward * (gapBetweenStructures * 0.5f);
+                    GameObject swipe = Instantiate(swipeArea, swipeAreaPos, Quaternion.identity, transform);
+
+                    SwipeTurnTrigger trigger = swipe.GetComponent<SwipeTurnTrigger>();
+                    if (trigger != null)
+                        trigger.allowedDirection = TurnDirection.Left;
+
+                    break;
+                }
             case WayType.Right:
-            {
-                CreateLaneStructures(leftLaneStartPos.transform, gapBetweenStructures);
-                CreateLaneStructures(rightLaneStartPos.transform, gapBetweenStructures , sideStructureCountSub);
-                
-                Vector3 wallPos = midPoint + (transform.forward * totalDistance);
-                Instantiate(wall, wallPos, Quaternion.identity, transform);
+                {
+                    CreateLaneStructures(leftLaneStartPos.transform, gapBetweenStructures);
+                    CreateLaneStructures(rightLaneStartPos.transform, gapBetweenStructures, sideStructureCountSub);
 
-                Vector3 swipeAreaPos = wallPos - transform.forward * (gapBetweenStructures * 0.5f);
-                Instantiate(swipeArea, swipeAreaPos, Quaternion.identity, transform);
-            }
-                break;
+                    Vector3 wallPos = midPoint + (transform.forward * totalDistance);
+                    Instantiate(wall, wallPos, Quaternion.identity, transform);
+
+                    Vector3 swipeAreaPos = wallPos - transform.forward * (gapBetweenStructures * 0.5f);
+                    GameObject swipe = Instantiate(swipeArea, swipeAreaPos, Quaternion.identity, transform);
+
+                    SwipeTurnTrigger trigger = swipe.GetComponent<SwipeTurnTrigger>();
+                    if (trigger != null)
+                        trigger.allowedDirection = TurnDirection.Right;
+
+                    break;
+                }
             case WayType.UnavoidableWall:
-            {
-                CreateLaneStructures(leftLaneStartPos.transform, gapBetweenStructures);
-                CreateLaneStructures(rightLaneStartPos.transform, gapBetweenStructures);
-                
-                Vector3 wallPos = midPoint + (transform.forward * totalDistance);
-                Instantiate(wall, wallPos, Quaternion.identity, transform);
-            }
-                break;
+                {
+                    CreateLaneStructures(leftLaneStartPos.transform, gapBetweenStructures);
+                    CreateLaneStructures(rightLaneStartPos.transform, gapBetweenStructures);
+
+                    Vector3 wallPos = midPoint + (transform.forward * totalDistance);
+                    Instantiate(wall, wallPos, Quaternion.identity, transform);
+                    break;
+                }
         }
     }
 

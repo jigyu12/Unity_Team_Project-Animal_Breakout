@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class MapSpawn : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class MapSpawn : MonoBehaviour
     public GameObject leftTurnPrefab;
     public GameObject rightTurnPrefab;
     public int maxSegments = 5;
+    private bool isRotating = false;
 
     private List<GameObject> activeSegments = new List<GameObject>();
 
@@ -16,7 +19,6 @@ public class MapSpawn : MonoBehaviour
         {
             SpawnNextSegment();
         }
-
     }
 
     public void SpawnNextSegment()
@@ -56,7 +58,7 @@ public class MapSpawn : MonoBehaviour
             spawnRotation = Quaternion.identity;
         }
 
-        GameObject newSegment = Instantiate(prefabToSpawn, spawnPosition, spawnRotation);
+        GameObject newSegment = Instantiate(prefabToSpawn, spawnPosition, spawnRotation, transform); // 👈 MapSpawn 자식으로 생성
         activeSegments.Add(newSegment);
 
         MapSegment segmentComponent = newSegment.GetComponent<MapSegment>();
@@ -78,6 +80,39 @@ public class MapSpawn : MonoBehaviour
             Destroy(activeSegments[0]);
             activeSegments.RemoveAt(0);
         }
+    }
+
+    public void Rotate(float angle)
+    {
+        if (!isRotating)
+            StartCoroutine(RotateRoutine(angle));
+    }
+
+    private IEnumerator RotateRoutine(float angle)
+    {
+        isRotating = true;
+
+        Scroll scroll = GetComponent<Scroll>();
+        if (scroll != null) scroll.enabled = false;
+
+        Quaternion startRot = transform.rotation;
+        Quaternion endRot = startRot * Quaternion.Euler(0, angle, 0);
+
+        float duration = 0.4f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            transform.rotation = Quaternion.Slerp(startRot, endRot, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.rotation = endRot;
+
+        if (scroll != null) scroll.enabled = true;
+
+        isRotating = false;
     }
 
 }

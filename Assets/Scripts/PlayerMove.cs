@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+public enum TurnDirection { Left, Right }
 public class PlayerMove : MonoBehaviour
 {
+
+
     public float moveSpeed = 10f;
     public int wayIndex = 1;
     public float jumpHeight = 2f;
@@ -15,6 +17,9 @@ public class PlayerMove : MonoBehaviour
 
     private Vector2 swipeStart;
     private Vector2 currentTouchPosition;
+    public MapSpawn mapSpawner;
+    private bool canTurn = false;
+    private TurnDirection allowedTurn;
 
     void Start()
     {
@@ -113,5 +118,30 @@ public class PlayerMove : MonoBehaviour
     {
         wayIndex = Mathf.Clamp(wayIndex + 1, 0, 2);
         targetPosition = way.WayIndexToPosition(wayIndex);
+    }
+
+    public void OnRotateLeft(InputAction.CallbackContext context)
+    {
+        if (context.performed && canTurn && allowedTurn == TurnDirection.Left)
+        {
+            mapSpawner.Rotate(90f);
+            canTurn = false;
+        }
+    }
+
+    public void OnRotateRight(InputAction.CallbackContext context)
+    {
+        if (context.performed && canTurn && allowedTurn == TurnDirection.Right)
+        {
+            mapSpawner.Rotate(-90f);
+            canTurn = false;
+        }
+    }
+
+
+    public void SetCanTurn(bool value, TurnDirection direction)
+    {
+        canTurn = value;
+        allowedTurn = direction;
     }
 }
