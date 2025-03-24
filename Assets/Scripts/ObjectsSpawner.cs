@@ -5,7 +5,7 @@ public class ObjectsSpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public MapWay way;
-    
+
     public List<GameObject> objects;
 
     public float coolTime;
