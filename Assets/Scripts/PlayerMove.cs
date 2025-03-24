@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     public float jumpHeight = 2f;
     public float gravity = -20f;
     public MapWay way;
+    public MapSpawn mapSpawner;
 
     private Vector3 targetPosition;
     private float verticalVelocity;
@@ -17,13 +18,15 @@ public class PlayerMove : MonoBehaviour
 
     private Vector2 swipeStart;
     private Vector2 currentTouchPosition;
-    public MapSpawn mapSpawner;
 
     private bool canTurn = false;
     private TurnDirection allowedTurn;
 
+    private Animator animator;
+
     void Start()
     {
+        animator = GetComponent<Animator>();
         targetPosition = way.WayIndexToPosition(wayIndex);
         transform.position = targetPosition;
     }
@@ -35,7 +38,7 @@ public class PlayerMove : MonoBehaviour
         Vector3 moveTarget = new Vector3(
             targetPosition.x,
             transform.position.y + verticalVelocity * Time.deltaTime,
-            targetPosition.z
+            transform.position.z
         );
 
         transform.position = Vector3.MoveTowards(transform.position, moveTarget, moveSpeed * Time.deltaTime);
@@ -105,6 +108,10 @@ public class PlayerMove : MonoBehaviour
         {
             isJumping = true;
             verticalVelocity = Mathf.Sqrt(-2f * gravity * jumpHeight);
+            if (animator != null)
+            {
+                animator.SetBool("Jump", true);
+            }
         }
     }
 
@@ -120,7 +127,6 @@ public class PlayerMove : MonoBehaviour
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
 
-    // 회전 입력 처리용
     public void OnRotateLeft(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -164,9 +170,10 @@ public class PlayerMove : MonoBehaviour
             isJumping = false;
             verticalVelocity = 0f;
 
-            Vector3 pos = transform.position;
-            pos.y = 0f;
-            transform.position = pos;
+            if (animator != null)
+            {
+                animator.SetBool("Jump", false);
+            }
         }
     }
 }

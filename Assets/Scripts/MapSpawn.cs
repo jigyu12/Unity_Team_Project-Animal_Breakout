@@ -58,7 +58,7 @@ public class MapSpawn : MonoBehaviour
             spawnRotation = Quaternion.identity;
         }
 
-        GameObject newSegment = Instantiate(prefabToSpawn, spawnPosition, spawnRotation, transform); // 👈 MapSpawn 자식으로 생성
+        GameObject newSegment = Instantiate(prefabToSpawn, spawnPosition, spawnRotation, transform); 
         activeSegments.Add(newSegment);
 
         MapSegment segmentComponent = newSegment.GetComponent<MapSegment>();

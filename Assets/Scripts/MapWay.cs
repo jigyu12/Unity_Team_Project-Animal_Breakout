@@ -27,4 +27,8 @@ public class MapWay : MonoBehaviour
         position.x = index * unit + 0.5f * unit + minX;
         return position;
     }
+    public float WayIndexToX(int index)
+    {
+        return index * unit + 0.5f * unit + minX;
+    }
 }
