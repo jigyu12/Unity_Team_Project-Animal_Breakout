@@ -1,6 +1,6 @@
 public enum WayType
 {
-    Straight = 0, 
+    Straight = 0,
     Left,
     Right,
     UnavoidableWall,
@@ -41,6 +41,8 @@ public enum PenaltyItemType
 
 public enum TrapType
 {
+    None = -1,
+    
     Bomb = 0,
     Hole,
     

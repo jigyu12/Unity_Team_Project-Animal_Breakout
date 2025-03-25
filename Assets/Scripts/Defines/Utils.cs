@@ -2,6 +2,8 @@ using UnityEngine;
 
 public static class Utils
 {
+    public const string PlayerTag = "Player";
+    
     public static void SetChildScaleFitToParent(GameObject child, GameObject parent)
     {
         child.transform.localScale = 

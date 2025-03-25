@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class CreateLandMarkIntoGridMap : MonoBehaviour
@@ -5,42 +7,134 @@ public class CreateLandMarkIntoGridMap : MonoBehaviour
     public PlaneToGridMap GridMap;
     
     private const int NonTrapTileCount = 6;
+    private const int NonSideStructureCount = 5;
+    
+    public Dictionary<int, TrapType> Traps = new();
+    
+    public WayType wayType;
+    
+    public GameObject sidePrefab;
+    public GameObject wallPrefab;
+    public GameObject trapPrefab;
     
     private void Start()
     {
+        wayType = (WayType)Random.Range(1, (int)WayType.Count);
+
+        CreateLandMark();
+    }
+
+    private void CreateLandMark()
+    {
         CreateLeftStructure();
         CreateRightStructure();
-        
-        CreateRandomItemAndTrap();
+        CreateWall();
+        CreateRandomTrap();
+        CreateRandomItem();
     }
     
     private void CreateLeftStructure()
     {
-        foreach (var tile in GridMap.LeftSideTile)
+        if (wayType != WayType.Left)
         {
-            Instantiate(GridMap.sidePrefab, tile.transform.position, Quaternion.identity);
+            foreach (var tile in GridMap.LeftSideTile)
+            {
+                Instantiate(sidePrefab, tile.transform.position, Quaternion.identity);
+            }
+        }
+        else
+        {
+            int rows = GridMap.LeftSideTile.GetLength(0);
+            int cols = GridMap.LeftSideTile.GetLength(1);
+
+            for (int row = 0; row < rows; ++row)
+            {
+                for (int col = 0; col < cols - NonSideStructureCount; ++col)
+                {
+                    var tile = GridMap.LeftSideTile[row, col];
+                    Instantiate(sidePrefab, tile.transform.position, Quaternion.identity);
+                }
+            }
         }
     }
     
     private void CreateRightStructure()
     {
-        foreach (var tile in GridMap.RightSideTile)
+        if (wayType != WayType.Right)
         {
-            Instantiate(GridMap.sidePrefab, tile.transform.position, Quaternion.identity);
+            foreach (var tile in GridMap.RightSideTile)
+            {
+                Instantiate(sidePrefab, tile.transform.position, Quaternion.identity);
+            }
+        }
+        else
+        {
+            int rows = GridMap.RightSideTile.GetLength(0);
+            int cols = GridMap.RightSideTile.GetLength(1);
+
+            for (int row = 0; row < rows; ++row)
+            {
+                for (int col = 0; col < cols - NonSideStructureCount; ++col)
+                {
+                    var tile = GridMap.RightSideTile[row, col];
+                    Instantiate(sidePrefab, tile.transform.position, Quaternion.identity);
+                }
+            }
         }
     }
 
-    private void CreateRandomItemAndTrap()
+    private void CreateWall()
     {
-        CreateRandomTrap();
-        CreateRandomItem();
-    }
+        if (wayType != WayType.Straight)
+        {
+            int rows = GridMap.MiddleTile.GetLength(0);
+            int cols = GridMap.MiddleTile.GetLength(1);
 
+            int middleRowIndex = rows / 2;
+            int lastColIndex = cols - 1;
+            
+            GameObject targetTile = GridMap.MiddleTile[middleRowIndex, lastColIndex];
+
+            Vector3 tilePos = targetTile.transform.position;
+
+            float offsetZ = GridMap.planePrefab.GetComponent<MeshRenderer>().bounds.size.z / GridMap.cols * 0.5f;
+
+            Vector3 wallPosition = tilePos + new Vector3(0f, 0f, offsetZ);
+        
+            Instantiate(wallPrefab, wallPosition, Quaternion.identity);
+        }
+    }
+    
     private void CreateRandomTrap()
     {
+        int rows = GridMap.MiddleTile.GetLength(0);
+        int cols = GridMap.MiddleTile.GetLength(1);
+        
         for (int i = 0 + NonTrapTileCount; i < GridMap.cols - NonTrapTileCount; i += 3)
         {
-            
+            int bombRow = Random.Range(0, rows);
+            var bomb = Instantiate(trapPrefab, GridMap.MiddleTile[bombRow, i].transform.position, Quaternion.identity);
+            bomb.TryGetComponent(out Trap bombTrapComponent);
+            bombTrapComponent.Init(TrapType.Bomb);
+
+            float createHoleChance = Random.value;
+            if (createHoleChance <= 0.3f)
+            {
+                int holeRow = -1;
+                while (true)
+                {
+                    holeRow = Random.Range(0, rows);
+
+                    if (holeRow != bombRow)
+                    {
+                        break;
+                    }
+                }
+                
+                var hole = Instantiate(trapPrefab, GridMap.MiddleTile[holeRow, i].transform.position, Quaternion.identity);
+                hole.TryGetComponent(out Trap holeTrapComponent);
+                holeTrapComponent.Init(TrapType.Hole);
+            }
         }
     }
     
