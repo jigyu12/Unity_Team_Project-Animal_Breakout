@@ -19,5 +19,15 @@ public class Trap : MonoBehaviour
         TrapType = trapType;
         
         collisionBehaviour = CollisionBehaviourFactory.GetBehaviour(trapType);
+        
+        TryGetComponent(out MeshRenderer meshRenderer);
+        if (trapType == TrapType.Bomb)
+        {
+            meshRenderer.material.color = Color.black;
+        }
+        else if (trapType == TrapType.Hole)
+        {
+            meshRenderer.material.color = Color.red;
+        }
     }
 }

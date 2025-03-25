@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class CreateLandMarkIntoGridMap : MonoBehaviour
@@ -14,10 +15,11 @@ public class CreateLandMarkIntoGridMap : MonoBehaviour
     
     public GameObject sidePrefab;
     public GameObject wallPrefab;
+    public GameObject trapPrefab;
     
     private void Start()
     {
-        wayType = (WayType)Random.Range(0, (int)WayType.Count);
+        wayType = (WayType)Random.Range(1, (int)WayType.Count);
 
         CreateLandMark();
     }
@@ -105,9 +107,34 @@ public class CreateLandMarkIntoGridMap : MonoBehaviour
     
     private void CreateRandomTrap()
     {
+        int rows = GridMap.MiddleTile.GetLength(0);
+        int cols = GridMap.MiddleTile.GetLength(1);
+        
         for (int i = 0 + NonTrapTileCount; i < GridMap.cols - NonTrapTileCount; i += 3)
         {
-            
+            int bombRow = Random.Range(0, rows);
+            var bomb = Instantiate(trapPrefab, GridMap.MiddleTile[bombRow, i].transform.position, Quaternion.identity);
+            bomb.TryGetComponent(out Trap bombTrapComponent);
+            bombTrapComponent.Init(TrapType.Bomb);
+
+            float createHoleChance = Random.value;
+            if (createHoleChance <= 0.3f)
+            {
+                int holeRow = -1;
+                while (true)
+                {
+                    holeRow = Random.Range(0, rows);
+
+                    if (holeRow != bombRow)
+                    {
+                        break;
+                    }
+                }
+                
+                var hole = Instantiate(trapPrefab, GridMap.MiddleTile[holeRow, i].transform.position, Quaternion.identity);
+                hole.TryGetComponent(out Trap holeTrapComponent);
+                holeTrapComponent.Init(TrapType.Hole);
+            }
         }
     }
     
