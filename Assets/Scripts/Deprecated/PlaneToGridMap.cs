@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaneToGridMap : MonoBehaviour
@@ -11,14 +10,10 @@ public class PlaneToGridMap : MonoBehaviour
     public GameObject[,] LeftSideTile;
     public GameObject[,] RightSideTile;
     public GameObject[,] MiddleTile;
-    
-    public Dictionary<int, TrapType> Traps = new();
 
     private GameObject[,] tiles;
     private float tileSizeX, tileSizeZ;
     private Vector3 planeOrigin;
-    
-    public GameObject sidePrefab;
 
     void Awake()
     {
@@ -67,12 +62,10 @@ public class PlaneToGridMap : MonoBehaviour
                 if (x == 0)
                 {
                     LeftSideTile[0, z] = tile;
-                    //Instantiate(sidePrefab, tile.transform.position, Quaternion.identity);
                 }
                 else if (x == rows - 1)
                 {
                     RightSideTile[0, z] = tile;
-                    //Instantiate(sidePrefab, tile.transform.position, Quaternion.identity);
                 }
                 else
                 {

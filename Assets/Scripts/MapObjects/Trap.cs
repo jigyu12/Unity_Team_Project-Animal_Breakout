@@ -1,9 +1,23 @@
 using UnityEngine;
 
-public class Trap : MonoBehaviour, ICollisionable
+public class Trap : MonoBehaviour
 {
-    public void OnCollision(Collider other)
+    private ICollisionBehaviour collisionBehaviour;
+
+    public TrapType TrapType { get; private set; } = TrapType.None;
+
+    private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag(Utils.PlayerTag))
+        {
+            collisionBehaviour.OnCollision(gameObject, other);
+        }
+    }
+
+    public void Init(TrapType trapType)
+    {
+        TrapType = trapType;
         
+        collisionBehaviour = CollisionBehaviourFactory.GetBehaviour(trapType);
     }
 }

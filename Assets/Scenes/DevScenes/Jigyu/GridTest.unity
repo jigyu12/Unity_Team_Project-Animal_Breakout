@@ -169,7 +169,6 @@ MonoBehaviour:
   planePrefab: {fileID: 1622985115}
   rows: 5
   cols: 48
-  sidePrefab: {fileID: 4668393991012105986, guid: 210d7e5927ee6154e8baa498aa9c6d8e, type: 3}
 --- !u!1 &1253428135
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,6 +470,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridMap: {fileID: 870775957}
+  wayType: 0
+  sidePrefab: {fileID: 4668393991012105986, guid: 210d7e5927ee6154e8baa498aa9c6d8e, type: 3}
+  wallPrefab: {fileID: 6230562256027410542, guid: b5fe4fae61523844bad3db8e16b65599, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
