@@ -18,6 +18,8 @@ public class TileMapSpawner : MonoBehaviour
     [SerializeField]
     private PlayerMove player;
 
+    private MapRotator mapRotator;
+
     public int maxAvoidChance;
     private int avoidCount;
 
@@ -29,8 +31,9 @@ public class TileMapSpawner : MonoBehaviour
         leftTurnUnitPool = ObjectPoolManager.Instance.CreateObjectPool(leftTurnUnit, () => CreateMapUnit(leftTurnUnit), OnGetMapUnit, OnReleaseMapUnit);
         rightTurnUnitPool = ObjectPoolManager.Instance.CreateObjectPool(rightTurnUnit, () => CreateMapUnit(rightTurnUnit), OnGetMapUnit, OnReleaseMapUnit);
 
-        var information = new TileChuckInformation(null, 10, true, false, 8);
+        var information = new TileChuckInformation(null, 10, true, false, 3);
 
+        mapRotator=GetComponent<MapRotator>();
         CreateTileChuck(information);
     }
 
@@ -75,12 +78,13 @@ public class TileMapSpawner : MonoBehaviour
 
     private void OnGetMapUnit(GameObject mapUnit)
     {
+        mapUnit.GetComponent<MapUnit>().Reset();
+        mapUnit.transform.rotation = Quaternion.identity;
         mapUnit.gameObject.SetActive(true);
     }
     private void OnReleaseMapUnit(GameObject mapUnit)
     {
         mapUnit.gameObject.SetActive(false);
-        mapUnit.GetComponent<MapUnit>().Reset();
     }
 
     public void SpawnNextTileChuck(MapUnit lastUnit)
@@ -112,11 +116,13 @@ public class TileMapSpawner : MonoBehaviour
     {
         var currUnit = verticalUnitPool.Get().GetComponent<MapUnit>();
         currUnit.transform.position = information.previousTileUnit?.NextPosition ?? Vector3.zero;
+        currUnit.transform.localRotation= Quaternion.Euler(0, -mapRotator.currentYRotation, 0);
         activeMapUnits.Add(currUnit);
         for (int i = 1; i < information.unitLength; i++)
         {
             var nextUnit = verticalUnitPool.Get().GetComponent<MapUnit>();
             nextUnit.transform.position = currUnit.NextPosition;
+            nextUnit.transform.transform.localRotation = Quaternion.Euler(0, -mapRotator.currentYRotation, 0);
             activeMapUnits.Add(nextUnit);
             if (i == information.turnIndex)
             {
@@ -125,7 +131,7 @@ public class TileMapSpawner : MonoBehaviour
                     var leftUnit = leftTurnUnitPool.Get().GetComponent<MapUnit>();
                     activeMapUnits.Add(leftUnit);
                     leftUnit.transform.position = currUnit.NextLeftPosition;
-
+                    leftUnit.transform.transform.localRotation = Quaternion.Euler(0, -mapRotator.currentYRotation, 0);
                     leftUnit.SetNextUnitSpawnTriggerOn();
                 }
 
@@ -134,7 +140,7 @@ public class TileMapSpawner : MonoBehaviour
                     var rightUnit = rightTurnUnitPool.Get().GetComponent<MapUnit>();
                     activeMapUnits.Add(rightUnit);
                     rightUnit.transform.position = currUnit.NextRightPosition;
-
+                    rightUnit.transform.transform.localRotation = Quaternion.Euler(0, -mapRotator.currentYRotation, 0);
                     rightUnit.SetNextUnitSpawnTriggerOn();
                 }
             }
