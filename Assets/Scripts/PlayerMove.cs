@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,12 @@ public class PlayerMove : MonoBehaviour
 
     private Vector2 swipeStart;
     private Vector2 currentTouchPosition;
+
+    public MapSpawn mapSpawner;
+    public GameObject turnPivot;
+
+    public Action<Vector3, float> onRotate;
+
 
     private bool canTurn = false;
     private TurnDirection allowedTurn;
@@ -146,7 +153,8 @@ public class PlayerMove : MonoBehaviour
     {
         if (canTurn && allowedTurn == TurnDirection.Left)
         {
-            mapSpawner.Rotate(90f);
+            //mapSpawner.Rotate(90f);
+            onRotate?.Invoke(turnPivot.transform.position, 90f);
             canTurn = false;
         }
     }
@@ -155,15 +163,19 @@ public class PlayerMove : MonoBehaviour
     {
         if (canTurn && allowedTurn == TurnDirection.Right)
         {
-            mapSpawner.Rotate(-90f);
+            //mapSpawner.Rotate(-90f);
+            onRotate?.Invoke(turnPivot.transform.position, -90f);
             canTurn = false;
         }
     }
 
-    public void SetCanTurn(bool value, TurnDirection direction)
+
+    public void SetCanTurn(bool value, GameObject turnPivot, TurnDirection direction)
+
     {
         canTurn = value;
         allowedTurn = direction;
+        this.turnPivot = turnPivot;
     }
 
     void OnTriggerEnter(Collider other)
