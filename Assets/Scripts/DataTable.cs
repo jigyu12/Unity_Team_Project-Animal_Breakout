@@ -54,7 +54,7 @@ public abstract class DataTable
 
     public static string ConvertTSVToJson(string tsv)
     {
-        string[] lines = tsv.Split('\n');
+        string[] lines = tsv.Replace("\r\n", "\n").Split('\n');
         if (lines.Length < 2) return "[]";
 
         string[] headers = lines[0].Split('\t');
@@ -62,7 +62,11 @@ public abstract class DataTable
 
         for (int i = 1; i < lines.Length; i++)
         {
-            if (string.IsNullOrWhiteSpace(lines[i])) continue;
+            if (string.IsNullOrWhiteSpace(lines[i]))
+            {
+                continue;
+            }
+
             string[] values = lines[i].Split('\t');
             Dictionary<string, string> jsonObject = new Dictionary<string, string>();
 
@@ -73,9 +77,19 @@ public abstract class DataTable
 
             jsonList.Add(jsonObject);
         }
-
         return JsonConvert.SerializeObject(jsonList, Formatting.Indented);
     }
+
+    //public static string ConvertGoogleSheetURLToTSVURL(string sheetURL)
+    //{
+
+    //    string googleSheet = "https://docs.google.com/spreadsheets/d/";
+    //    string sheetTSVFormat = "{0}/export?format=tsv&gid={1}";
+
+    //    int lastIndex = sheetURL.IndexOf('/', googleSheet.Length);
+    //    string id = sheetURL.Substring(googleSheet.Length, lastIndex);
+    //    x
+    //}
 
     public static IEnumerator LoadGoogleSheet<T>(List<T> list, string sheetURL)//, DataTable table)
     {
@@ -88,11 +102,9 @@ public abstract class DataTable
         }
         else
         {
-
             string tsv = www.downloadHandler.text;
             string json = ConvertTSVToJson(tsv);
-            //두번째 행이 안들어옴
-             list = JsonConvert.DeserializeObject<List<T>>(json);
+            list = JsonConvert.DeserializeObject<List<T>>(json);
             Debug.Log("Success");
         }
     }

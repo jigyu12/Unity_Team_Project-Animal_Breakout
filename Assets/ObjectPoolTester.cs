@@ -17,6 +17,7 @@ public class ObjectPoolTester : MonoBehaviour
     {
         public string Direction;
         public string NextDirection;
+        public int JustNumber;
     }
 
     private void Awake()
@@ -31,11 +32,6 @@ public class ObjectPoolTester : MonoBehaviour
 
     private void Update()
     {
-        if(Input.anyKey)
-        {
-            //"https://spreadsheets.google.com/feeds/list/<ID>/od6/public/values?alt=json"
-            //DataTable.ReadGoogleSheetLine("https://spreadsheets.google.com/feeds/list/1bHt6tEBq-L0aLtSUJqeuI5z9PeB6IwvNqxtvN6g46RI/od6/public/values?alt=json");
-            //DataTable.ReadGoogleSheetLine("https://docs.google.com/spreadsheets/d/1bHt6tEBq-L0aLtSUJqeuI5z9PeB6IwvNqxtvN6g46RI/export?format=tsv&gid=0");
-        }
+        int k = 0;
     }
 }

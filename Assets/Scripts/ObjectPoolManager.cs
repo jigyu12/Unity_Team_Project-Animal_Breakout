@@ -10,17 +10,17 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 {
     private Dictionary<GameObject, ObjectPool<GameObject>> pools = new();
 
-    public ObjectPool<GameObject> CreateObjectPool(GameObject pooledObject, Func<GameObject> createFunc = null, Action<GameObject> actionOnGet = null)
+    public ObjectPool<GameObject> CreateObjectPool(GameObject pooledObject, Func<GameObject> createFunc = null, Action<GameObject> onGet = null, Action<GameObject> onRelease=null)
     {
         ObjectPool<GameObject> pool = new
             (
                 createFunc: createFunc ??= () => Instantiate(pooledObject), //null이면 기본
-                actionOnGet: actionOnGet,
-                //actionOnRelease: e =>,
+                actionOnGet: onGet,
+                actionOnRelease:onRelease,
                 //actionOnDestroy: obj => obj.Dispose(),
                 //collectionCheck: false,
                 defaultCapacity: 100,
-                maxSize: 100
+                maxSize: 500
             );
 
         pools.Add(pooledObject, pool);
