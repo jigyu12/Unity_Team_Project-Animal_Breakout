@@ -61,6 +61,9 @@ public class PlayerMove : MonoBehaviour
     public void OnMoveRight(InputAction.CallbackContext context)
     {
         if (context.performed) MoveRight();
+
+
+
     }
 
     public void OnJump(InputAction.CallbackContext context)
