@@ -20,7 +20,6 @@ public class PlayerMove : MonoBehaviour
     private Vector2 swipeStart;
     private Vector2 currentTouchPosition;
 
-    public MapSpawn mapSpawner;
     public GameObject turnPivot;
 
     public Action<Vector3, float> onRotate;
