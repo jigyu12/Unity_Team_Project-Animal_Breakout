@@ -5,8 +5,8 @@ public class PlaneToGridMap : MonoBehaviour
 {
     public GameObject planePrefab;
 
-    public int rows = 5;
-    public int cols = 24;
+    public int rows;
+    public int cols;
 
     public GameObject[,] LeftSideTile;
     public GameObject[,] RightSideTile;
