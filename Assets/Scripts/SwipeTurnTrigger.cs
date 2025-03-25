@@ -14,7 +14,7 @@ public class SwipeTurnTrigger : MonoBehaviour
             PlayerMove player = other.GetComponent<PlayerMove>();
             if (player != null)
             {
-                player.SetCanTurn(true, allowedDirection);
+                player.SetCanTurn(true, gameObject, allowedDirection);
             }
         }
     }
@@ -26,7 +26,7 @@ public class SwipeTurnTrigger : MonoBehaviour
             PlayerMove player = other.GetComponent<PlayerMove>();
             if (player != null)
             {
-                player.SetCanTurn(false, allowedDirection);
+                player.SetCanTurn(false, gameObject, allowedDirection);
             }
         }
     }

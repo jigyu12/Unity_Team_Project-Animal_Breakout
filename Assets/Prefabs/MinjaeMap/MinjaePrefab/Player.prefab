@@ -72,6 +72,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5646980167253558584}
     m_Modifications:
+    - target: {fileID: 3326781497290907520, guid: ac16983f506041947b81a28e5cca8743, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3326781497290907522, guid: ac16983f506041947b81a28e5cca8743, type: 3}
       propertyPath: m_Name
       value: Sheep
@@ -136,6 +140,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3326781497290907522, guid: ac16983f506041947b81a28e5cca8743, type: 3}
       insertIndex: -1
       addedObject: {fileID: 44758226763129783}
+    - targetCorrespondingSourceObject: {fileID: 3326781497290907522, guid: ac16983f506041947b81a28e5cca8743, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6787268078615113051}
   m_SourcePrefab: {fileID: 100100000, guid: ac16983f506041947b81a28e5cca8743, type: 3}
 --- !u!1 &8648275318540156200 stripped
 GameObject:
@@ -323,12 +330,26 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8648275318540156200}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8f9d185a41f87d4191c8638970a11bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverText: {fileID: 0}
+--- !u!114 &6787268078615113051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648275318540156200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4b3797e23a24b519d01e65ca9aa42a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animalDB: {fileID: 11400000, guid: 1985badb855444a6f9795bdf36cf762a, type: 2}
+  currentAnimalID: 100101
 --- !u!4 &8648275318540156201 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3326781497290907523, guid: ac16983f506041947b81a28e5cca8743, type: 3}
