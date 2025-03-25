@@ -1,0 +1,87 @@
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+
+public class AnimalDatabaseLoader : MonoBehaviour
+{
+    public TextAsset csvFile;
+    public AnimalDatabase database;
+
+    void Start()
+    {
+        LoadDataFromCSV();
+    }
+
+    void LoadDataFromCSV()
+    {
+        if (csvFile == null)
+        {
+            return;
+        }
+
+        string[] lines = csvFile.text.Split('\n');
+
+        if (lines.Length <= 1)
+        {
+            return;
+        }
+
+        database.Animals.Clear();
+
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string line = lines[i].Trim();
+
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
+
+            string[] values = line.Split(',');
+
+            if (values.Length < 8)
+            {
+                continue;
+            }
+
+            try
+            {
+                int id = TryParseInt(values[1]);
+                string name = values[0];
+                string stringID = values[2];
+                int grade = TryParseInt(values[3]);
+                float attack = TryParseFloat(values[4]);
+                float hp = TryParseFloat(values[5]);
+                float speed = TryParseFloat(values[6]);
+                float jump = TryParseFloat(values[7]);
+
+                GameObject prefab = null;
+
+                AnimalStatus newAnimal = new AnimalStatus(id, name, stringID, grade, attack, hp, speed, jump, prefab);
+                database.Animals.Add(newAnimal);
+            }
+            catch (System.Exception)
+            {
+                continue;
+            }
+        }
+    }
+
+    int TryParseInt(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return 0;
+        if (int.TryParse(value, out int result))
+            return result;
+        return 0;
+    }
+
+    float TryParseFloat(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return 0f;
+        if (float.TryParse(value, out float result))
+            return result;
+        return 0f;
+    }
+}

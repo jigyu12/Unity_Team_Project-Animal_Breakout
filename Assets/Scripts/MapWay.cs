@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MapWay : MonoBehaviour
 {
-    public int minX;
-    public int maxX;
-    private int unit;
+    public float minX;
+    public float maxX;
+    private float unit;
 
     private void Awake()
     {
