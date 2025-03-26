@@ -12,15 +12,23 @@ public class Bomb : MonoBehaviour, ICollisionable
     {
         Destroy(gameObject);
 
-        other.gameObject.TryGetComponent(out PlayerStatus playerStatus);
-        playerStatus.OnDie();
+        // other.gameObject.TryGetComponent(out PlayerStatus playerStatus);
+        // playerStatus.OnDie();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        // if (other.gameObject.CompareTag("Player"))
+        // {
+        //     OnCollision(other);
+        // }
+        if (other.CompareTag("Player"))
         {
-            OnCollision(other);
+            PlayerStatus1 playerStatus = other.GetComponent<PlayerStatus1>();
+            if (playerStatus != null)
+            {
+                playerStatus.TakeDamage(1);
+            }
         }
     }
 }
