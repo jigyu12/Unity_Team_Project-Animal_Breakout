@@ -68,10 +68,10 @@ public class RoadChunk
             currSegment = nextSegment;
         }
 
-        entrySegment.SetEnterTriggerAction(OnEnterChunck);
+        entrySegment.SetEnterTriggerAction(OnEnterChunk);
     }
 
-    public void OnEnterChunck()
+    public void OnEnterChunk()
     {
         roadManager.ReleasePassedRoadChunks();
         roadManager.currentRoadChunk = this;
