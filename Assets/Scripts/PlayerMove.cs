@@ -1,8 +1,9 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
+
 public enum TurnDirection { Left, Right }
+
 public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 10f;
@@ -10,6 +11,7 @@ public class PlayerMove : MonoBehaviour
     public float jumpHeight = 2f;
     public float gravity = -20f;
     public MapWay way;
+    public MapSpawn mapSpawner;
 
     private Vector3 targetPosition;
     private float verticalVelocity;
@@ -17,16 +19,21 @@ public class PlayerMove : MonoBehaviour
 
     private Vector2 swipeStart;
     private Vector2 currentTouchPosition;
+
     public MapSpawn mapSpawner;
     public GameObject turnPivot;
 
     public Action<Vector3, float> onRotate;
 
+
     private bool canTurn = false;
     private TurnDirection allowedTurn;
 
+    private Animator animator;
+
     void Start()
     {
+        animator = GetComponent<Animator>();
         targetPosition = way.WayIndexToPosition(wayIndex);
         transform.position = targetPosition;
     }
@@ -35,7 +42,12 @@ public class PlayerMove : MonoBehaviour
     {
         UpdateJump();
 
-        Vector3 moveTarget = new Vector3(targetPosition.x, transform.position.y + verticalVelocity * Time.deltaTime, targetPosition.z);
+        Vector3 moveTarget = new Vector3(
+            targetPosition.x,
+            transform.position.y + verticalVelocity * Time.deltaTime,
+            transform.position.z
+        );
+
         transform.position = Vector3.MoveTowards(transform.position, moveTarget, moveSpeed * Time.deltaTime);
     }
 
@@ -56,6 +68,9 @@ public class PlayerMove : MonoBehaviour
     public void OnMoveRight(InputAction.CallbackContext context)
     {
         if (context.performed) MoveRight();
+
+
+
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -82,6 +97,13 @@ public class PlayerMove : MonoBehaviour
             {
                 TryJump();
             }
+            else if (Mathf.Abs(delta.x) > 50f && Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+            {
+                if (delta.x < 0f)
+                    TryRotateLeft();
+                else
+                    TryRotateRight();
+            }
             else if (delta.magnitude < 10f)
             {
                 if (currentTouchPosition.x < Screen.width * 0.5f) MoveLeft();
@@ -96,19 +118,10 @@ public class PlayerMove : MonoBehaviour
         {
             isJumping = true;
             verticalVelocity = Mathf.Sqrt(-2f * gravity * jumpHeight);
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Ground"))
-        {
-            isJumping = false;
-            verticalVelocity = 0f;
-
-            Vector3 pos = transform.position;
-            pos.y = 0f;
-            transform.position = pos;
+            if (animator != null)
+            {
+                animator.SetBool("Jump", true);
+            }
         }
     }
 
@@ -126,7 +139,19 @@ public class PlayerMove : MonoBehaviour
 
     public void OnRotateLeft(InputAction.CallbackContext context)
     {
-        if (context.performed && canTurn && allowedTurn == TurnDirection.Left)
+        if (context.performed)
+            TryRotateLeft();
+    }
+
+    public void OnRotateRight(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            TryRotateRight();
+    }
+
+    void TryRotateLeft()
+    {
+        if (canTurn && allowedTurn == TurnDirection.Left)
         {
             //mapSpawner.Rotate(90f);
             onRotate?.Invoke(turnPivot.transform.position, 90f);
@@ -134,9 +159,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void OnRotateRight(InputAction.CallbackContext context)
+    void TryRotateRight()
     {
-        if (context.performed && canTurn && allowedTurn == TurnDirection.Right)
+        if (canTurn && allowedTurn == TurnDirection.Right)
         {
             //mapSpawner.Rotate(-90f);
             onRotate?.Invoke(turnPivot.transform.position, -90f);
@@ -146,9 +171,24 @@ public class PlayerMove : MonoBehaviour
 
 
     public void SetCanTurn(bool value, GameObject turnPivot, TurnDirection direction)
+
     {
         canTurn = value;
         allowedTurn = direction;
         this.turnPivot = turnPivot;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ground"))
+        {
+            isJumping = false;
+            verticalVelocity = 0f;
+
+            if (animator != null)
+            {
+                animator.SetBool("Jump", false);
+            }
+        }
     }
 }
