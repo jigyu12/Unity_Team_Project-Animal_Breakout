@@ -20,7 +20,6 @@ public class PlayerMove : MonoBehaviour
     private Vector2 swipeStart;
     private Vector2 currentTouchPosition;
 
-    public MapSpawn mapSpawner;
     public GameObject turnPivot;
 
     public Action<Vector3, float> onRotate;
@@ -127,12 +126,14 @@ public class PlayerMove : MonoBehaviour
 
     void MoveLeft()
     {
+        if (isJumping) return;
         wayIndex = Mathf.Clamp(wayIndex - 1, 0, 2);
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
 
     void MoveRight()
     {
+        if (isJumping) return;
         wayIndex = Mathf.Clamp(wayIndex + 1, 0, 2);
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
@@ -184,7 +185,9 @@ public class PlayerMove : MonoBehaviour
         {
             isJumping = false;
             verticalVelocity = 0f;
-
+            Vector3 newPosition = transform.position;
+            newPosition.y = 0f;
+            transform.position = newPosition;
             if (animator != null)
             {
                 animator.SetBool("Jump", false);
