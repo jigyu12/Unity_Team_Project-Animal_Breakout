@@ -19,7 +19,7 @@ public class MapUnit : MonoBehaviour
     [ReadOnly]
     public TileMapSpawner mapSpawner;
     [SerializeField]
-    private NextUnitSpawnTrigger nextUnitSpawnTrigger;
+    private RoadEnterTrigger nextUnitSpawnTrigger;
 
     public Vector3 NextPosition
     {

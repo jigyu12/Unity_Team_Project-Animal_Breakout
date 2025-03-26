@@ -148,5 +148,4 @@ public class TileMapSpawner : MonoBehaviour
         }
         currUnit.SetNextUnitSpawnTriggerOn();
     }
-
 }

@@ -1,14 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NextUnitSpawnTrigger : MonoBehaviour
+public class RoadEnterTrigger : MonoBehaviour
 {
-    [SerializeField]
-    private MapUnit ownerUnit;
+    public Action onRoadEnter;
     private bool triggered;
 
-    void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (triggered)
         {
@@ -21,11 +21,12 @@ public class NextUnitSpawnTrigger : MonoBehaviour
         }
 
         triggered = true;
-        ownerUnit.mapSpawner.SpawnNextTileChuck(ownerUnit);
+        onRoadEnter?.Invoke();
     }
 
-    private void OnDisable()
+    public void Reset()
     {
         triggered = false;
+        onRoadEnter = null;
     }
 }
