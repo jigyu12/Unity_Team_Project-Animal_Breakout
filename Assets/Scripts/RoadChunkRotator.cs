@@ -1,19 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class MapRotator : MonoBehaviour
+public class RoadChunkRotator : MonoBehaviour
 {
-    private bool isRotating = false;
     public float rotateDuration = 5f;
 
-    [ReadOnly]
-    public float currentYRotation;
+    private RoadManager roadManager;
+    private PlayerMove player;
+
+    private bool isRotating = false;
+
+
+    private void Awake()
+    {
+        roadManager = GetComponent<RoadManager>();
+    }
 
     private void Start()
     {
-        currentYRotation = 0;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>().onRotate += Rotate;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
+        player.onRotate += Rotate;
     }
 
     public void Rotate(Vector3 pivot, float angle)
@@ -26,24 +34,29 @@ public class MapRotator : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
     private IEnumerator RotateRoutine(Vector3 pivot, float angle)
     {
         isRotating = true;
 
-        Scroll scroll = GetComponent<Scroll>();
+        Scroll scroll = player.transform.parent.GetComponent<Scroll>();
         if (scroll != null) scroll.enabled = false;
         float elapsed = 0f;
-        currentYRotation += angle;
 
-        float currentAngle = 0f; 
+        float currentAngle = 0f;
         while (elapsed < rotateDuration)
         {
-            float deltaAngle = (angle / rotateDuration) * Time.deltaTime; 
-            transform.RotateAround(pivot, Vector3.up, deltaAngle);
-            currentAngle += deltaAngle; 
+            float deltaAngle = (angle / rotateDuration) * Time.deltaTime;
+
+            roadManager.currentRoadChunk.RotateAround(pivot, deltaAngle);
+            foreach(var next in roadManager.currentRoadChunk.NextRoadChunks)
+            {
+                next.RotateAround(pivot, deltaAngle);
+            }
+
+            currentAngle += deltaAngle;
             elapsed += Time.deltaTime;
             yield return null;
         }
