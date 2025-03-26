@@ -1,14 +1,31 @@
+using System;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStatus1 : MonoBehaviour
 {
+    [SerializeField] private TMP_Text gameOverText;
+
     public AnimalDatabase animalDB;
     public int currentAnimalID;
     private AnimalStatus currentAnimal;
+    private bool isGameOver;
+    private Animator animator;
 
     private void Start()
     {
+        Time.timeScale = 1;
         SetAnimal(currentAnimalID);
+        animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if (isGameOver && Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     public void SetAnimal(int animalID)
@@ -35,12 +52,26 @@ public class PlayerStatus1 : MonoBehaviour
         return currentAnimal?.JumpingPower ?? 0f;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
+        if (isGameOver) return;
+
         currentAnimal.HP -= damage;
+        Debug.Log($"{currentAnimal.Name} took {damage} damage. Current HP: {currentAnimal.HP}");
+
         if (currentAnimal.HP <= 0)
         {
-            Debug.Log($"{currentAnimal.Name}이(가) 죽었습니다!");
+            OnDie();
         }
+    }
+
+    private void OnDie()
+    {
+        if (isGameOver) return;
+
+        isGameOver = true;
+        Time.timeScale = 0;
+        animator?.SetTrigger("Die");
+        GameManager.Instance.GameOver();
     }
 }
