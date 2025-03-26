@@ -10,8 +10,8 @@ public static class Utils
             new Vector3(1f / parent.transform.localScale.x, 1f / parent.transform.localScale.y, 1f / parent.transform.localScale.z);
     }
 
-    public static int GetTileIndex(int x, int y, int rows)
+    public static int GetTileIndex(int row, int col, int cols)
     {
-        return x + y * rows;
+        return col + row * cols;
     }
 }
