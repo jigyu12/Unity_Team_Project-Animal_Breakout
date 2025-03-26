@@ -6,7 +6,7 @@ using UnityEngine;
 public class Attacker : Power
 {
     public PowerDisplay powerDisplay;
-    
+
     public bool Attack(Power defender)
     {
         return defender.power < power;
@@ -18,6 +18,8 @@ public class Attacker : Power
         {
             bool result = Attack(defender);
             Debug.Log($"공격 성공 여부 : {result}");
+
         }
+
     }
 }
