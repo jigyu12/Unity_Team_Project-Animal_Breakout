@@ -28,8 +28,8 @@ public class RoadManager : MonoBehaviour
 
         mapRotator = GetComponent<MapRotator>();
 
-        var roadChunck = new RoadChunk(this);
-        roadChunck.CreateRoadChunk(new RoadChunkInformaion(Vector3.zero, false, true, 5));
+        var roadChunk = new RoadChunk(this);
+        roadChunk.CreateRoadChunk(new RoadChunkInformaion(Vector3.zero, false, true, 5));
     }
 
     public RoadSegment GetRoadSegment(WayType type)
@@ -60,28 +60,28 @@ public class RoadManager : MonoBehaviour
 
     public RoadChunk CreateRoadVerticalChunk(Vector3 startPosition)
     {
-        var roadChunck = new RoadChunk(this);
-        roadChunck.CreateRoadChunk(new RoadChunkInformaion(startPosition, false, true, 8));
-        activeRoadChunks.Add(roadChunck);
-        return roadChunck;
+        var roadChunk = new RoadChunk(this);
+        roadChunk.CreateRoadChunk(new RoadChunkInformaion(startPosition, true, false, 8));
+        activeRoadChunks.Add(roadChunk);
+        return roadChunk;
     }
 
     public RoadChunk CreateRoadLeftChunk(Vector3 startPosition)
     {
-        var roadChunck = new RoadChunk(this);
-        roadChunck.CreateRoadChunk(new RoadChunkInformaion(startPosition, false, false));
-        roadChunck.Rotate(-90f);
-        activeRoadChunks.Add(roadChunck);
-        return roadChunck;
+        var roadChunk = new RoadChunk(this);
+        roadChunk.CreateRoadChunk(new RoadChunkInformaion(startPosition, false, false));
+        roadChunk.Rotate(-90f);
+        activeRoadChunks.Add(roadChunk);
+        return roadChunk;
     }
 
     public RoadChunk CreateRoadRightChunk(Vector3 startPosition)
     {
-        var roadChunck = new RoadChunk(this);
-        roadChunck.CreateRoadChunk(new RoadChunkInformaion(startPosition, false, false));
-        roadChunck.Rotate(90f);
-        activeRoadChunks.Add(roadChunck);
-        return roadChunck;
+        var roadChunk = new RoadChunk(this);
+        roadChunk.CreateRoadChunk(new RoadChunkInformaion(startPosition, false, false));
+        roadChunk.Rotate(90f);
+        activeRoadChunks.Add(roadChunk);
+        return roadChunk;
     }
 
     public void ReleasePassedRoadChunks()
