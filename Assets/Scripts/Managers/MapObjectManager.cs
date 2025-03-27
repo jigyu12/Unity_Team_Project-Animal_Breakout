@@ -21,6 +21,7 @@ public class MapObjectInformationManager : MonoBehaviour
 
     private const float spawnHoleChance = 0.3f;
 
+    private const float spawnRewardCoinChance = 0.75f;
     private List<float> rewardItemSpawnChances = new();
     [SerializeField] [ReadOnly] private float bronzeCoinSpawnChance = 0.5f;
     [SerializeField] [ReadOnly] private float sliverCoinSpawnChance = 0.2f;
@@ -186,6 +187,9 @@ public class MapObjectInformationManager : MonoBehaviour
 
     private bool CanSpawnRewardCoin(ObjectType[,] objectTypes, int row, int col)
     {
+        if (!Utils.IsChanceHit(spawnRewardCoinChance))
+            return false;
+        
         bool canSpawn = true;
 
         int middleIndex = itemGenerateTileCount / 2;
