@@ -177,24 +177,35 @@ public class MapObjectInformationManager : MonoBehaviour
         {
             for (int j = 0; j < cols; ++j)
             {
-                if (CanSpawnRewardCoin(objectTypes, i, j))
+                if (CanSpawnRewardCoin(objectTypes, i, j, out var isMiddleHoleExist))
                 {
-                    createMapObjectActionArray[i, j] = CreateRandomRewardCoin;
+                    if (isMiddleHoleExist)
+                    {
+                        createMapObjectActionArray[i, j] = CreateRandomRewardCoinWithHill;
+                    }
+                    else
+                    {
+                        createMapObjectActionArray[i, j] = CreateRandomRewardCoin;
+                    }
                 }
             }
         }
     }
 
-    private bool CanSpawnRewardCoin(ObjectType[,] objectTypes, int row, int col)
+    private bool CanSpawnRewardCoin(ObjectType[,] objectTypes, int row, int col, out bool isMiddleHoleExist)
     {
         if (!Utils.IsChanceHit(spawnRewardCoinChance))
+        {
+            isMiddleHoleExist = false;
+            
             return false;
+        }
         
         bool canSpawn = true;
 
         int middleIndex = itemGenerateTileCount / 2;
 
-        bool isMiddleHoleExist = false;
+        isMiddleHoleExist = false;
 
         for (int rowOffset = 0; rowOffset < itemGenerateTileCount; ++rowOffset)
         {
@@ -228,20 +239,21 @@ public class MapObjectInformationManager : MonoBehaviour
             }
         }
 
-        for (int rowOffset = 0; rowOffset < itemGenerateTileCount; ++rowOffset)
+        if (canSpawn)
         {
-            var objectType = objectTypes[row + rowOffset, col];
-
-            if (isMiddleHoleExist && rowOffset == middleIndex)
+            for (int rowOffset = 0; rowOffset < itemGenerateTileCount; ++rowOffset)
             {
-                objectType = ObjectType.ItemTrapMixed;
-            }
-            else
-            {
-                objectType = ObjectType.Item;
+                if (isMiddleHoleExist && rowOffset == middleIndex)
+                {
+                    objectTypes[row + rowOffset, col] = ObjectType.ItemTrapMixed;
+                }
+                else
+                {
+                    objectTypes[row + rowOffset, col] = ObjectType.Item;
+                }
             }
         }
-
+        
         return canSpawn;
     }
 
@@ -253,6 +265,26 @@ public class MapObjectInformationManager : MonoBehaviour
         {
             var rewardCoin = Instantiate(itemRewardCoin,
                 Vector3.Lerp(position, lastPosition, (float)i / (itemGroupCount - 1)), Quaternion.identity);
+            rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
+            itemRewardCoinComponent.Init((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
+        }
+    }
+    
+    private void CreateRandomRewardCoinWithHill(Vector3 position)
+    {
+        float maxHeight = 1.5f;
+        int middleIndex = itemGroupCount / 2;
+
+        Vector3 lastPosition = position + Vector3.forward * tileSize * (itemGenerateTileCount - 1);
+
+        for (int i = 0; i < itemGroupCount; ++i)
+        {
+            Vector3 spawnPosition = Vector3.Lerp(position, lastPosition, (float)i / (itemGroupCount - 1));
+            float distanceFromMiddle = Mathf.Abs(i - middleIndex);
+            float heightOffset = maxHeight - (distanceFromMiddle / middleIndex * maxHeight);
+            spawnPosition.y += heightOffset;
+
+            var rewardCoin = Instantiate(itemRewardCoin, spawnPosition, Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Init((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
         }
