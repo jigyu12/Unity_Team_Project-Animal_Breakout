@@ -14,8 +14,15 @@ public class Trap : CollidableMapObject
             Debug.Assert(false, "Invalid TrapType");
             return;
         }
-        
-        ObjectType = ObjectType.Trap;
+
+        if (trapType == TrapType.Bomb)
+        {
+            ObjectType = ObjectType.TrapBomb;
+        }
+        else if (trapType == TrapType.Hole)
+        {
+            ObjectType = ObjectType.TrapHole;
+        }
         
         CollisionBehaviour = CollisionBehaviourFactory.GetTrapBehaviour(trapType);
         

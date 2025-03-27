@@ -13,11 +13,11 @@ public enum ObjectType
     None = -1,
     
     Item = 0,
-    Trap,
-    Items,
+    TrapBomb,
+    TrapHole,
     Wall,
-
-
+    ItemTrapMixed,
+    
     Count
 }
 
