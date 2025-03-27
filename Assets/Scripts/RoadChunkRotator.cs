@@ -17,12 +17,14 @@ public class RoadChunkRotator : MonoBehaviour
     private void Awake()
     {
         roadManager = GetComponent<RoadManager>();
+        enabled = false;
     }
 
-    private void Start()
+    public  void Initialize()
     {
         player = GameObject.FindGameObjectsWithTag("Player").First((gameObject) => gameObject.TryGetComponent<PlayerMove>(out PlayerMove move)).GetComponent<PlayerMove>();
         player.onRotate += Rotate;
+        enabled = true;
     }
 
     public void Rotate(Vector3 pivot, float angle)

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,10 +23,14 @@ public class RoadManager : MonoBehaviour
 
     private MapRotator mapRotator;
 
-    private void Start()
+    private void Awake()
+    {
+        enabled = false;
+    }
+
+    public void Initialize()
     {
         player = GameObject.FindGameObjectsWithTag("Player").First((gameObject) => gameObject.TryGetComponent<PlayerMove>(out PlayerMove move)).GetComponent<PlayerMove>();
-
 
         for (int i = 0; i < roadSegmentPrefabs.Count(); i++)
         {
@@ -40,8 +45,9 @@ public class RoadManager : MonoBehaviour
 
         var roadChunk = new RoadChunk(this);
         roadChunk.CreateRoadChunk(0, new RoadChunkInformaion(Vector3.zero, false, true, 5));
-
         CreateMapObjects(roadChunk);
+
+        enabled = true;
     }
 
     public RoadSegment GetRoadSegment(WayType type)
