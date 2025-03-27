@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,16 @@ using UnityEngine.UIElements;
 
 public class RoadManager : MonoBehaviour
 {
-    public GameObject[] roadSegments;
+    public GameObject[] roadSegmentPrefabs;
     private List<ObjectPool<GameObject>> roadSegmentPools = new();
 
     private PlayerMove player;
+    [SerializeField]
+    private MapObjectInformationManager mapObjectManager;
+
     public RoadChunk currentRoadChunk;
+
+    public List<(int index, Action<Vector3>[,] actions)> mapObjects = new();
     private List<RoadChunk> activeRoadChunks = new();
 
     private MapRotator mapRotator;
@@ -21,16 +27,21 @@ public class RoadManager : MonoBehaviour
         player = GameObject.FindGameObjectsWithTag("Player").First((gameObject) => gameObject.TryGetComponent<PlayerMove>(out PlayerMove move)).GetComponent<PlayerMove>();
 
 
-        for (int i = 0; i < roadSegments.Count(); i++)
+        for (int i = 0; i < roadSegmentPrefabs.Count(); i++)
         {
             var index = i;
-            roadSegmentPools.Add(ObjectPoolManager.Instance.CreateObjectPool(roadSegments[index], () => InstantiateRoadSegment(roadSegments[index]), OnGetRoadSegment, OnReleaseMapUnit));
+            roadSegmentPools.Add(ObjectPoolManager.Instance.CreateObjectPool(roadSegmentPrefabs[index], () => InstantiateRoadSegment(roadSegmentPrefabs[index]), OnGetRoadSegment, OnReleaseMapUnit));
         }
 
         mapRotator = GetComponent<MapRotator>();
 
+        mapObjects.Add((0, mapObjectManager.GenerateMapObjectInformation(60, 3)));
+        mapObjects.Add((60, mapObjectManager.GenerateMapObjectInformation(60, 3)));
+
         var roadChunk = new RoadChunk(this);
-        roadChunk.CreateRoadChunk(new RoadChunkInformaion(Vector3.zero, false, true, 5));
+        roadChunk.CreateRoadChunk(0, new RoadChunkInformaion(Vector3.zero, false, true, 5));
+
+        CreateMapObjects(roadChunk);
     }
 
     public RoadSegment GetRoadSegment(WayType type)
@@ -59,27 +70,30 @@ public class RoadManager : MonoBehaviour
     }
 
 
-    public RoadChunk CreateRoadVerticalChunk(Vector3 startPosition)
+    public RoadChunk CreateRoadVerticalChunk(int startIndex, Vector3 startPosition)
     {
         var roadChunk = new RoadChunk(this);
-        roadChunk.CreateRoadChunk(new RoadChunkInformaion(startPosition, true, false, 8));
+        roadChunk.CreateRoadChunk(startIndex, new RoadChunkInformaion(startPosition, true, false, 8));
         activeRoadChunks.Add(roadChunk);
+
+        CreateMapObjects(roadChunk);
+
         return roadChunk;
     }
 
-    public RoadChunk CreateRoadLeftChunk(Vector3 startPosition)
+    public RoadChunk CreateRoadLeftChunk(int startIndex, Vector3 startPosition)
     {
         var roadChunk = new RoadChunk(this);
-        roadChunk.CreateRoadChunk(new RoadChunkInformaion(startPosition, false, false));
+        roadChunk.CreateRoadChunk(startIndex, new RoadChunkInformaion(startPosition, false, false));
         roadChunk.Rotate(-90f);
         activeRoadChunks.Add(roadChunk);
         return roadChunk;
     }
 
-    public RoadChunk CreateRoadRightChunk(Vector3 startPosition)
+    public RoadChunk CreateRoadRightChunk(int startIndex, Vector3 startPosition)
     {
         var roadChunk = new RoadChunk(this);
-        roadChunk.CreateRoadChunk(new RoadChunkInformaion(startPosition, false, false));
+        roadChunk.CreateRoadChunk(startIndex, new RoadChunkInformaion(startPosition, false, false));
         roadChunk.Rotate(90f);
         activeRoadChunks.Add(roadChunk);
         return roadChunk;
@@ -102,4 +116,38 @@ public class RoadManager : MonoBehaviour
             roadChunk.ReleaseRoadSegments();
         }
     }
+
+    public void CreateMapObjects(RoadChunk roadChunk)
+    {
+        ProcessCreateMapObject(roadChunk, roadChunk.StartIndex, 0);
+    }
+
+    private void ProcessCreateMapObject(RoadChunk roadChunk, int start, int objectIndex)
+    {
+        if (roadChunk.EndIndex> mapObjects[objectIndex+1].index)
+        {
+            for (int i = start; i < mapObjects[objectIndex+1].index; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    mapObjects[objectIndex].actions[i - mapObjects[objectIndex].index, j]?.Invoke(roadChunk.GetRoadSegmentTilePosition(i, j));
+                }
+            }
+
+            mapObjects.Add((mapObjects.Last().index + 60, mapObjectManager.GenerateMapObjectInformation(60, 3)));
+            ProcessCreateMapObject(roadChunk, mapObjects[objectIndex+1].index, objectIndex+1);
+            mapObjects.RemoveAt(0);
+        }
+        else
+        {
+            for (int i = start; i < roadChunk.EndIndex; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    mapObjects[objectIndex].actions[i - mapObjects[objectIndex].index, j]?.Invoke(roadChunk.GetRoadSegmentTilePosition(i, j));
+                }
+            }
+        }
+    }
+
 }

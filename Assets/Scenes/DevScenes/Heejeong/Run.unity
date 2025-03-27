@@ -843,6 +843,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPivot: {fileID: 569762547}
   rotationSpeed: 2
+--- !u!1 &987491946
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 987491948}
+  - component: {fileID: 987491947}
+  m_Layer: 0
+  m_Name: MapObjectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &987491947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987491946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87a055d4eb3375488ad7972aea4cff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wallPrefab: {fileID: 6230562256027410542, guid: b5fe4fae61523844bad3db8e16b65599, type: 3}
+  trapPrefab: {fileID: 3257141615005149829, guid: 04fcf83b38de4da4bb7f49008f81f75f, type: 3}
+--- !u!4 &987491948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987491946}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1002933345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1074,6 +1120,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 596636777274713853, guid: 505857f046945c54f82d855818786aba, type: 3}
+      propertyPath: mapObjectManager
+      value: 
+      objectReference: {fileID: 987491947}
+    - target: {fileID: 596636777274713853, guid: 505857f046945c54f82d855818786aba, type: 3}
+      propertyPath: roadSegmentPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 596636777274713853, guid: 505857f046945c54f82d855818786aba, type: 3}
+      propertyPath: roadSegmentPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 4392002336861150956, guid: a2deb738456a4184081aad9e2c628653, type: 3}
+    - target: {fileID: 596636777274713853, guid: 505857f046945c54f82d855818786aba, type: 3}
+      propertyPath: roadSegmentPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 4392002336861150956, guid: 7b12c1f30495df844abbe5ebc140cba3, type: 3}
+    - target: {fileID: 596636777274713853, guid: 505857f046945c54f82d855818786aba, type: 3}
+      propertyPath: roadSegmentPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 4392002336861150956, guid: 0eb71f579de613f489d6dae4479f7219, type: 3}
     - target: {fileID: 1002950731021501532, guid: 505857f046945c54f82d855818786aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1220,3 +1286,4 @@ SceneRoots:
   - {fileID: 1994967557}
   - {fileID: 190361629495296256}
   - {fileID: 1161090862}
+  - {fileID: 987491948}

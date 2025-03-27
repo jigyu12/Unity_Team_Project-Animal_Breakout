@@ -83,11 +83,19 @@ public class MapObjectInformationManager : MonoBehaviour
 
         return createMapObjectActionArray;
     }
+    private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
+    {
+        int rows = objectTypes.GetLength(0);
+        int cols = objectTypes.GetLength(1);
+
+        int lastRowIndex = rows - 1;
+        int middleColIndex = cols / 2;
 
     private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
     {
         int rows = objectTypes.GetLength(0);
         int cols = objectTypes.GetLength(1);
+
 
         int lastRowIndex = rows - 1;
         int middleColIndex = cols / 2;
