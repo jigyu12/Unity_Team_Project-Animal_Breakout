@@ -7,15 +7,15 @@ public class Hole : MonoBehaviour, ICollisionable
         TryGetComponent(out MeshRenderer meshRenderer);
         meshRenderer.material.color = Color.red;
     }
-    
+
     public void OnCollision(Collider other)
     {
         Destroy(gameObject);
-        
-        other.gameObject.TryGetComponent(out PlayerStatus playerStatus);
-        playerStatus.OnDie();
+
+        other.gameObject.TryGetComponent(out PlayerStatus1 playerStatus);
+        //  playerStatus.OnDie();
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

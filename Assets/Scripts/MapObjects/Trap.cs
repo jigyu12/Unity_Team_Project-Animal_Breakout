@@ -1,33 +1,37 @@
 using UnityEngine;
 
-public class Trap : MonoBehaviour
+public class Trap : CollidableMapObject
 {
-    private ICollisionBehaviour collisionBehaviour;
+    public override ObjectType ObjectType { get; protected set; } = ObjectType.None;
+    protected override ICollisionBehaviour CollisionBehaviour { get; set; }
 
     public TrapType TrapType { get; private set; } = TrapType.None;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag(Utils.PlayerTag))
-        {
-            collisionBehaviour.OnCollision(gameObject, other);
-        }
-    }
-
     public void Init(TrapType trapType)
     {
+        if (trapType == TrapType.None || trapType == TrapType.Count)
+        {
+            Debug.Assert(false, "Invalid TrapType");
+            return;
+        }
+        
+        ObjectType = ObjectType.Trap;
+        
+        CollisionBehaviour = CollisionBehaviourFactory.GetTrapBehaviour(trapType);
+        
         TrapType = trapType;
         
-        collisionBehaviour = CollisionBehaviourFactory.GetBehaviour(trapType);
-        
+        // ToDo : Load Asset
         TryGetComponent(out MeshRenderer meshRenderer);
-        if (trapType == TrapType.Bomb)
+        switch (trapType)
         {
-            meshRenderer.material.color = Color.black;
+            case TrapType.Bomb:
+                meshRenderer.material.color = Color.black;
+                break;
+            case TrapType.Hole:
+                meshRenderer.material.color = Color.red;
+                break;
         }
-        else if (trapType == TrapType.Hole)
-        {
-            meshRenderer.material.color = Color.red;
-        }
+
     }
 }

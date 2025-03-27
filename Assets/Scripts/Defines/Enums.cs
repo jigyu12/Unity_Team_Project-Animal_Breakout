@@ -8,28 +8,56 @@ public enum WayType
     Count
 }
 
-public enum ItemType
+public enum ObjectType
 {
-    RewardItem = 0,
-    PenaltyItem,
+    None = -1,
+    
+    Item = 0,
+    Trap,
+    Items,
     
     Count
 }
 
-public enum RewardItemType
+public enum ItemType
 {
-    BronzeCoin = 0,
-    SilverCoin,
-    GoldCoin,
-    PlatinumCoin,
-    DiamondCoin,
+    None = -1,
+    
+    RewardCoin = 0,
+    PenaltyCoin,
     Human,
     
     Count
 }
 
-public enum PenaltyItemType
+public enum RewardCoinItemType
 {
+    None = -1,
+    
+    BronzeCoin = 0,
+    SilverCoin,
+    GoldCoin,
+    PlatinumCoin,
+    DiamondCoin,
+    
+    Count
+}
+
+public enum HumanItemType
+{
+    None = -1,
+    
+    JuniorResearcher = 0,
+    Researcher,
+    SeniorResearcher,
+    
+    Count
+}
+
+public enum PenaltyCoinItemType
+{
+    None = -1,
+    
     GhostCoin = 0,
     PoisonCoin,
     SkullCoin,
@@ -45,6 +73,15 @@ public enum TrapType
     
     Bomb = 0,
     Hole,
+    
+    Count
+}
+
+public enum MapObjectInformationType
+{
+    Empty = 0,
+    Single,
+    Multiple,
     
     Count
 }
