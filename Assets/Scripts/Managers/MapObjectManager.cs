@@ -247,7 +247,7 @@ public class MapObjectInformationManager : MonoBehaviour
 
         for (int i = 0; i < itemGroupCount; ++i)
         {
-            var rewardCoin = Instantiate(trapPrefab,
+            var rewardCoin = Instantiate(itemRewardCoin,
                 Vector3.Lerp(position, lastPosition, (float)i / (itemGroupCount - 1)), Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Init((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
