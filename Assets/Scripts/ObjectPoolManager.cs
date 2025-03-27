@@ -12,10 +12,9 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 
     public ObjectPool<GameObject> CreateObjectPool(GameObject pooledObject, Func<GameObject> createFunc = null, Action<GameObject> onGet = null, Action<GameObject> onRelease = null)
     {
-
         ObjectPool<GameObject> pool = new
             (
-                createFunc: createFunc ??= () => Instantiate(pooledObject), //nullÀÌ¸é ±âº»
+                createFunc: createFunc ??= () => Instantiate(pooledObject), //nullï¿½Ì¸ï¿½ ï¿½âº»
                 actionOnGet: onGet,
                 actionOnRelease: onRelease,
                 //actionOnDestroy: obj => obj.Dispose(),
