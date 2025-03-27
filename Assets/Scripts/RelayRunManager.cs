@@ -10,6 +10,11 @@ public class RelayRunManager : MonoBehaviour
     private int currentRunnerIndex = 0;
     private PlayerManager playerManager;
 
+    [SerializeField]
+    private RoadManager roadManager;
+    [SerializeField]
+    private RoadChunkRotator roadChunkRotator;
+
     private void Awake()
     {
         if (Instance == null)
@@ -33,6 +38,9 @@ public class RelayRunManager : MonoBehaviour
         {
             status.transform.position = playerManager.transform.position;
             StartCoroutine(ApplyInvincibility(status));
+
+            roadManager.Initialize();
+            roadChunkRotator.Initialize();
         });
     }
 
@@ -50,7 +58,7 @@ public class RelayRunManager : MonoBehaviour
         playerManager.LoadCharacterModel(nextID, (PlayerStatus1 status) =>
         {
             Vector3 spawnPos = playerManager.transform.position - playerManager.transform.forward * 3f;
-            status.transform.position = new Vector3(spawnPos.x, 0, spawnPos.z);
+            status.transform.localPosition= new Vector3(spawnPos.x, 0, 0);
             StartCoroutine(ApplyInvincibility(status));
         });
     }
