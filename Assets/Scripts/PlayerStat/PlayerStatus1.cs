@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class PlayerStatus1 : MonoBehaviour
 {
     public AnimalDatabase animalDB;
@@ -8,7 +8,9 @@ public class PlayerStatus1 : MonoBehaviour
     private AnimalStatus currentAnimal;
     private bool isGameOver;
     private Animator animator;
-
+    private bool isInvincible = false;
+    private float invincibleDuration = 1f;
+    private Renderer[] renderers;
     public void Init(int animalID, AnimalDatabase database)
     {
         animalDB = database;
@@ -53,14 +55,34 @@ public class PlayerStatus1 : MonoBehaviour
             OnDie();
         }
     }
+    [ContextMenu("Damage +1")]
+    public void ForceDie()
+    {
+        TakeDamage(1);
+    }
 
     private void OnDie()
     {
         if (isGameOver) return;
-
         isGameOver = true;
-        Time.timeScale = 0;
+
+        var move = GetComponent<PlayerMove>();
+        if (move != null) move.enabled = false;
+
         animator?.SetTrigger("Die");
-        GameManager.Instance.GameOver();
+        StartCoroutine(DieAndSwitch());
     }
+
+    IEnumerator DieAndSwitch()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        RelayRunManager relayManager = FindObjectOfType<RelayRunManager>();
+        if (relayManager != null)
+        {
+            relayManager.LoadNextRunner();
+        }
+        Destroy(gameObject);
+    }
+
 }
