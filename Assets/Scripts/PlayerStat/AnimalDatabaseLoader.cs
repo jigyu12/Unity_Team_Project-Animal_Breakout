@@ -1,18 +1,19 @@
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class AnimalDatabaseLoader : MonoBehaviour
 {
     public TextAsset csvFile;
     public AnimalDatabase database;
 
-    void Start()
+    private void Start()
     {
         LoadDataFromCSV();
     }
 
-    void LoadDataFromCSV()
+    public void LoadDataFromCSV()
     {
         if (csvFile == null)
         {
@@ -28,21 +29,15 @@ public class AnimalDatabaseLoader : MonoBehaviour
 
         database.Animals.Clear();
 
-        for (int i = 1; i < lines.Length; i++)
+        for (int i = 2; i < lines.Length; i++)
         {
             string line = lines[i].Trim();
-
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                continue;
-            }
+            if (string.IsNullOrWhiteSpace(line)) continue;
 
             string[] values = line.Split(',');
 
-            if (values.Length < 8)
-            {
+            if (values.Length < 9)
                 continue;
-            }
 
             try
             {
@@ -54,10 +49,9 @@ public class AnimalDatabaseLoader : MonoBehaviour
                 float hp = TryParseFloat(values[5]);
                 float speed = TryParseFloat(values[6]);
                 float jump = TryParseFloat(values[7]);
+                string prefabKey = values[8];
 
-                GameObject prefab = null;
-
-                AnimalStatus newAnimal = new AnimalStatus(id, name, stringID, grade, attack, hp, speed, jump, prefab);
+                AnimalStatus newAnimal = new AnimalStatus(id, name, stringID, grade, attack, hp, speed, jump, prefabKey);
                 database.Animals.Add(newAnimal);
             }
             catch (System.Exception)
