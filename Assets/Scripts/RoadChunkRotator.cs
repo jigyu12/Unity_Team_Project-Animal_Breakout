@@ -32,9 +32,13 @@ public class RoadChunkRotator : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void RotateLinkedChunk(RoadChunk roadChunk, Vector3 pivot, float angle)
     {
-
+        roadChunk.RotateAround(pivot, angle);
+        foreach (var next in roadChunk.NextRoadChunks)
+        {
+            next.RotateAround(pivot, angle);
+        }
     }
 
     private IEnumerator RotateRoutine(Vector3 pivot, float angle)
@@ -48,22 +52,18 @@ public class RoadChunkRotator : MonoBehaviour
         float currentAngle = 0f;
         while (elapsed < rotateDuration)
         {
-            float deltaAngle = (angle / rotateDuration) * Time.deltaTime;
+            float deltaAngle = (elapsed / rotateDuration) * angle- currentAngle;
 
-            roadManager.currentRoadChunk.RotateAround(pivot, deltaAngle);
-            foreach(var next in roadManager.currentRoadChunk.NextRoadChunks)
-            {
-                next.RotateAround(pivot, deltaAngle);
-            }
+            RotateLinkedChunk(roadManager.currentRoadChunk, pivot, deltaAngle);
 
             currentAngle += deltaAngle;
             elapsed += Time.deltaTime;
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
 
         // 오차 보정
         float remainingAngle = angle - currentAngle;
-        transform.RotateAround(pivot, Vector3.up, remainingAngle);
+        RotateLinkedChunk(roadManager.currentRoadChunk, pivot, remainingAngle);
 
         if (scroll != null) scroll.enabled = true;
 

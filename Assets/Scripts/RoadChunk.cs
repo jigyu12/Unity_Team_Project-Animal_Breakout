@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,8 @@ public class RoadChunk
     private RoadManager roadManager;
     private RoadSegment entrySegment;
     private List<RoadChunk> nextRoadChunks = new();
+    
+    public Action  onCreateRoadChunk;
     public List<RoadChunk> NextRoadChunks
     {
         get => nextRoadChunks;
@@ -68,10 +71,11 @@ public class RoadChunk
             currSegment = nextSegment;
         }
 
-        entrySegment.SetEnterTriggerAction(OnEnterChunck);
+        entrySegment.SetEnterTriggerAction(OnEnterChunk);
+        onCreateRoadChunk?.Invoke();
     }
 
-    public void OnEnterChunck()
+    public void OnEnterChunk()
     {
         roadManager.ReleasePassedRoadChunks();
         roadManager.currentRoadChunk = this;

@@ -10,8 +10,13 @@ public static class Utils
             new Vector3(1f / parent.transform.localScale.x, 1f / parent.transform.localScale.y, 1f / parent.transform.localScale.z);
     }
 
-    public static int GetTileIndex(int x, int y, int rows)
+    public static bool IsChanceHit(float chance)
     {
-        return x + y * rows;
+        return Random.value <= chance;
+    }
+    
+    public static int GetTileIndex(int row, int col, int cols)
+    {
+        return col + row * cols;
     }
 }

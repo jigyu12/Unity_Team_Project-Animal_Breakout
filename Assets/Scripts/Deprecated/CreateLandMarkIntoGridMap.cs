@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CreateLandMarkIntoGridMap : MonoBehaviour
 {
@@ -8,14 +8,21 @@ public class CreateLandMarkIntoGridMap : MonoBehaviour
     
     private const int NonTrapTileCount = 6;
     private const int NonSideStructureCount = 5;
+    private const int ItemGroupCount = 5;
+    private const int ItemGenerateTileCount = 3;
+    private const int NonItemGenerateTileCount = 3;
     
-    public Dictionary<int, TrapType> Traps = new();
+    public Dictionary<int, CollidableMapObject> MapObjectDictionary = new();
     
     public WayType wayType;
     
     public GameObject sidePrefab;
     public GameObject wallPrefab;
     public GameObject trapPrefab;
+    
+    public GameObject humanPrefab;
+    public GameObject rewardCoinPrefab;
+    public GameObject penaltyCoinPrefab;
     
     private void Start()
     {
@@ -113,14 +120,31 @@ public class CreateLandMarkIntoGridMap : MonoBehaviour
         for (int i = 0 + NonTrapTileCount; i < GridMap.cols - NonTrapTileCount; i += 3)
         {
             int bombRow = Random.Range(0, rows);
-            var bomb = Instantiate(trapPrefab, GridMap.MiddleTile[bombRow, i].transform.position, Quaternion.identity);
+            var bomb = Instantiate(trapPrefab, GridMap.MiddleTile[bombRow, i].transform.position + Vector3.up, Quaternion.identity);
             bomb.TryGetComponent(out Trap bombTrapComponent);
             bombTrapComponent.Init(TrapType.Bomb);
+
+            var bombIndex = Utils.GetTileIndex(bombRow, i, cols);
+            if(MapObjectDictionary.ContainsKey(bombIndex))
+            {
+                Debug.Assert(false, $"Object already exists in the map. Cant place bomb in [{bombRow} , {i}]");
+            }
+            else
+            {
+                if (!bomb.TryGetComponent(out Trap trapComponent))
+                {
+                    Debug.Assert(false, "Invalid Bomb GameObject");
+                }
+                else
+                {
+                    MapObjectDictionary.Add(bombIndex, trapComponent);
+                }
+            }
 
             float createHoleChance = Random.value;
             if (createHoleChance <= 0.3f)
             {
-                int holeRow = -1;
+                int holeRow;
                 while (true)
                 {
                     holeRow = Random.Range(0, rows);
@@ -134,11 +158,45 @@ public class CreateLandMarkIntoGridMap : MonoBehaviour
                 var hole = Instantiate(trapPrefab, GridMap.MiddleTile[holeRow, i].transform.position, Quaternion.identity);
                 hole.TryGetComponent(out Trap holeTrapComponent);
                 holeTrapComponent.Init(TrapType.Hole);
+                
+                var holeIndex = Utils.GetTileIndex(holeRow, i, cols);
+                if(MapObjectDictionary.ContainsKey(holeIndex))
+                {
+                    Debug.Assert(false, $"Object already exists in the map. Cant place hole in [{holeRow} , {i}]");
+                }
+                else
+                {
+                    if (!hole.TryGetComponent(out Trap trapComponent))
+                    {
+                        Debug.Assert(false, "Invalid Hole GameObject");
+                    }
+                    else
+                    {
+                        MapObjectDictionary.Add(holeIndex, trapComponent);
+                    }
+                }
             }
         }
     }
     
     private void CreateRandomItem()
+    {
+        CreateRandomRewardCoin();
+        CreateRandomHuman();
+        CreatePenaltyCoin();
+    }
+
+    private void CreateRandomRewardCoin()
+    {
+        
+    }
+    
+    private void CreateRandomHuman()
+    {
+        
+    }
+    
+    private void CreatePenaltyCoin()
     {
         
     }
