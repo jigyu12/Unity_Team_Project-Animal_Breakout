@@ -21,6 +21,7 @@ public class MapObjectInformationManager : MonoBehaviour
 
     private const float spawnHoleChance = 0.3f;
 
+    private const float spawnRewardCoinChance = 0.75f;
     private List<float> rewardItemSpawnChances = new();
     [SerializeField] [ReadOnly] private float bronzeCoinSpawnChance = 0.5f;
     [SerializeField] [ReadOnly] private float sliverCoinSpawnChance = 0.2f;
@@ -83,19 +84,11 @@ public class MapObjectInformationManager : MonoBehaviour
 
         return createMapObjectActionArray;
     }
-    private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
-    {
-        int rows = objectTypes.GetLength(0);
-        int cols = objectTypes.GetLength(1);
-
-        int lastRowIndex = rows - 1;
-        int middleColIndex = cols / 2;
 
     private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
     {
         int rows = objectTypes.GetLength(0);
         int cols = objectTypes.GetLength(1);
-
 
         int lastRowIndex = rows - 1;
         int middleColIndex = cols / 2;
@@ -194,6 +187,9 @@ public class MapObjectInformationManager : MonoBehaviour
 
     private bool CanSpawnRewardCoin(ObjectType[,] objectTypes, int row, int col)
     {
+        if (!Utils.IsChanceHit(spawnRewardCoinChance))
+            return false;
+        
         bool canSpawn = true;
 
         int middleIndex = itemGenerateTileCount / 2;
@@ -255,7 +251,7 @@ public class MapObjectInformationManager : MonoBehaviour
 
         for (int i = 0; i < itemGroupCount; ++i)
         {
-            var rewardCoin = Instantiate(trapPrefab,
+            var rewardCoin = Instantiate(itemRewardCoin,
                 Vector3.Lerp(position, lastPosition, (float)i / (itemGroupCount - 1)), Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Init((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
