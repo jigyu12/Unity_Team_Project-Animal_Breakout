@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class MapObjectInformationManager : MonoBehaviour
@@ -8,7 +9,7 @@ public class MapObjectInformationManager : MonoBehaviour
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject trapPrefab;
     [SerializeField] private GameObject itemRewardCoin;
-    [SerializeField] private GameObject itemHumanCoin;
+    [SerializeField] private GameObject itemHuman;
     [SerializeField] private GameObject itemPenaltyCoin;
 
     private const int nonObjectTileCount = 6;
@@ -28,6 +29,20 @@ public class MapObjectInformationManager : MonoBehaviour
     [SerializeField] [ReadOnly] private float platinumCoinSpawnChance = 0.1f;
     [SerializeField] [ReadOnly] private float diamondCoinSpawnChance = 0.05f;
 
+    private const float spawnHumanChance = 0.4f;
+    private List<float> humanSpawnChances = new();
+    [SerializeField] [ReadOnly] private float juniorResearcherSpawnChance = 0.6f;
+    [SerializeField] [ReadOnly] private float researcherSpawnChance = 0.3f;
+    [SerializeField] [ReadOnly] private float seniorResearcherSpawnChance = 0.1f;
+    
+    private const float spawnPenaltyCoinChance = 0.3f;
+    private List<float> penaltyCoinSpawnChances = new();
+    [SerializeField] [ReadOnly] private float ghostCoinSpawnChance = 0.5f;
+    [SerializeField] [ReadOnly] private float poisonCoinSpawnChance = 0.2f;
+    [SerializeField] [ReadOnly] private float skullCoinSpawnChance = 0.15f;
+    [SerializeField] [ReadOnly] private float fireCoinSpawnChance = 0.1f;
+    [SerializeField] [ReadOnly] private float blackHoleCoinSpawnChance = 0.05f;
+
     private void Awake()
     {
         rewardItemSpawnChances.Add(bronzeCoinSpawnChance);
@@ -35,6 +50,16 @@ public class MapObjectInformationManager : MonoBehaviour
         rewardItemSpawnChances.Add(goldCoinSpawnChance);
         rewardItemSpawnChances.Add(platinumCoinSpawnChance);
         rewardItemSpawnChances.Add(diamondCoinSpawnChance);
+
+        humanSpawnChances.Add(juniorResearcherSpawnChance);
+        humanSpawnChances.Add(researcherSpawnChance);
+        humanSpawnChances.Add(seniorResearcherSpawnChance);
+        
+        penaltyCoinSpawnChances.Add(ghostCoinSpawnChance);
+        penaltyCoinSpawnChances.Add(poisonCoinSpawnChance);
+        penaltyCoinSpawnChances.Add(skullCoinSpawnChance);
+        penaltyCoinSpawnChances.Add(fireCoinSpawnChance);
+        penaltyCoinSpawnChances.Add(blackHoleCoinSpawnChance);
     }
 
     public Action<Vector3>[,] GenerateMapObjectInformation(int rows, int cols)
@@ -54,8 +79,8 @@ public class MapObjectInformationManager : MonoBehaviour
         SetCreateBombAction(objectTypes, createMapObjectActionArray);
         SetCreateHoleAction(objectTypes, createMapObjectActionArray);
         SetCreateRandomRewardCoinAction(objectTypes, createMapObjectActionArray);
-
-        // Todo..
+        SetCreateRandomHumanAction(objectTypes, createMapObjectActionArray);
+        SetCreateRandomPenaltyCoinAction(objectTypes, createMapObjectActionArray);
 
         return createMapObjectActionArray;
     }
@@ -213,7 +238,7 @@ public class MapObjectInformationManager : MonoBehaviour
                 objectType = ObjectType.Item;
             }
         }
-        
+
         return canSpawn;
     }
 
@@ -228,5 +253,79 @@ public class MapObjectInformationManager : MonoBehaviour
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Init((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
         }
+    }
+
+    private void SetCreateRandomHumanAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
+    {
+        int rows = objectTypes.GetLength(0);
+        int cols = objectTypes.GetLength(1);
+
+        for (int i = 0 + nonObjectTileCount; i < rows - nonObjectTileCount; ++i)
+        {
+            if (!Utils.IsChanceHit(spawnHumanChance))
+                continue;
+
+            List<int> colIndexes = new();
+            for (int j = 0; j < cols; ++j)
+            {
+                if (objectTypes[i, j] != ObjectType.None)
+                    continue;
+
+                colIndexes.Add(j);
+            }
+
+            if (colIndexes.Count == 0)
+            {
+                continue;
+            }
+
+            int randCol = colIndexes[Random.Range(0, colIndexes.Count)];
+            objectTypes[i, randCol] = ObjectType.Item;
+            createMapObjectActionArray[i, randCol] = CreateRandomHuman;
+        }
+    }
+
+    private void CreateRandomHuman(Vector3 position)
+    {
+        var human = Instantiate(itemHuman, position, Quaternion.identity);
+        human.TryGetComponent(out ItemHuman itemHumanComponent);
+        itemHumanComponent.Init((HumanItemType)Utils.GetEnumIndexByChance(humanSpawnChances));
+    }
+
+    private void SetCreateRandomPenaltyCoinAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
+    {
+        int rows = objectTypes.GetLength(0);
+        int cols = objectTypes.GetLength(1);
+
+        for (int i = 0 + nonObjectTileCount; i < rows - nonObjectTileCount; ++i)
+        {
+            if (!Utils.IsChanceHit(spawnPenaltyCoinChance))
+                continue;
+
+            List<int> colIndexes = new();
+            for (int j = 0; j < cols; ++j)
+            {
+                if (objectTypes[i, j] != ObjectType.None)
+                    continue;
+
+                colIndexes.Add(j);
+            }
+
+            if (colIndexes.Count == 0)
+            {
+                continue;
+            }
+
+            int randCol = colIndexes[Random.Range(0, colIndexes.Count)];
+            objectTypes[i, randCol] = ObjectType.Item;
+            createMapObjectActionArray[i, randCol] = CreateRandomPenaltyCoin;
+        }
+    }
+
+    private void CreateRandomPenaltyCoin(Vector3 position)
+    {
+        var paneltyCoin = Instantiate(itemPenaltyCoin, position, Quaternion.identity);
+        paneltyCoin.TryGetComponent(out ItemPenaltyCoin itemPenaltyCoinComponent);
+        itemPenaltyCoinComponent.Init((PenaltyCoinItemType)Utils.GetEnumIndexByChance(penaltyCoinSpawnChances));
     }
 }
