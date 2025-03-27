@@ -10,13 +10,17 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 {
     private Dictionary<GameObject, ObjectPool<GameObject>> pools = new();
 
-    public ObjectPool<GameObject> CreateObjectPool(GameObject pooledObject, Func<GameObject> createFunc = null, Action<GameObject> onGet = null, Action<GameObject> onRelease=null)
+    public ObjectPool<GameObject> CreateObjectPool(GameObject pooledObject, Func<GameObject> createFunc = null, Action<GameObject> onGet = null, Action<GameObject> onRelease = null)
     {
+        if (pools.ContainsKey(pooledObject))
+        {
+            return GetObjectPool(pooledObject);
+        }
         ObjectPool<GameObject> pool = new
             (
-                createFunc: createFunc ??= () => Instantiate(pooledObject), //nullÀÌ¸é ±âº»
+                createFunc: createFunc ??= () => Instantiate(pooledObject), //nullï¿½Ì¸ï¿½ ï¿½âº»
                 actionOnGet: onGet,
-                actionOnRelease:onRelease,
+                actionOnRelease: onRelease,
                 //actionOnDestroy: obj => obj.Dispose(),
                 //collectionCheck: false,
                 defaultCapacity: 100,
