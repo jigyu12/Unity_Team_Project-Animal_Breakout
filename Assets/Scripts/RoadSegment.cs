@@ -13,6 +13,8 @@ public class RoadSegment : MonoBehaviour
     [SerializeField]
     private CheckerTile tiles;
 
+    public RoadDecoration decoration;
+
     private void Awake()
     {
         tileVerticalCount = tiles.GetTileVerticalCount();

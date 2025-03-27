@@ -49,4 +49,8 @@ public class DecorationTile : MonoBehaviour
         return tileSize;
     }
 
+    public void SetActiveDecorationTile(int index, bool value)
+    {
+        tileMeshFilters[index].gameObject.SetActive(value);
+    }
 }

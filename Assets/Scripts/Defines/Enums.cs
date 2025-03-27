@@ -14,6 +14,7 @@ public enum ObjectType
     
     Item = 0,
     Trap,
+    Wall,
     Items,
     
     Count

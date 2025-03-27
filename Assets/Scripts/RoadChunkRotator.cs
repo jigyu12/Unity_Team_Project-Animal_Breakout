@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,7 +21,7 @@ public class RoadChunkRotator : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
+        player = GameObject.FindGameObjectsWithTag("Player").First((gameObject) => gameObject.TryGetComponent<PlayerMove>(out PlayerMove move)).GetComponent<PlayerMove>();
         player.onRotate += Rotate;
     }
 
@@ -52,7 +53,7 @@ public class RoadChunkRotator : MonoBehaviour
         float currentAngle = 0f;
         while (elapsed < rotateDuration)
         {
-            float deltaAngle = (elapsed / rotateDuration) * angle- currentAngle;
+            float deltaAngle = (elapsed / rotateDuration) * angle - currentAngle;
 
             RotateLinkedChunk(roadManager.currentRoadChunk, pivot, deltaAngle);
 
