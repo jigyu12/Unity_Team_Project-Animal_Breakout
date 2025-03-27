@@ -1,31 +1,19 @@
-using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerStatus1 : MonoBehaviour
 {
-    [SerializeField] private TMP_Text gameOverText;
-
     public AnimalDatabase animalDB;
     public int currentAnimalID;
+
     private AnimalStatus currentAnimal;
     private bool isGameOver;
     private Animator animator;
 
-    private void Start()
+    public void Init(int animalID, AnimalDatabase database)
     {
-        Time.timeScale = 1;
-        SetAnimal(currentAnimalID);
-        animator = GetComponent<Animator>();
-    }
-
-    private void Update()
-    {
-        if (isGameOver && Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+        animalDB = database;
+        animator = GetComponentInChildren<Animator>();
+        SetAnimal(animalID);
     }
 
     public void SetAnimal(int animalID)
@@ -35,6 +23,7 @@ public class PlayerStatus1 : MonoBehaviour
         if (currentAnimal != null)
         {
             Debug.Log($"선택한 캐릭터: {currentAnimal.Name} | 공격력: {currentAnimal.AttackPower} | HP: {currentAnimal.HP}");
+            currentAnimalID = animalID;
         }
         else
         {

@@ -6,7 +6,10 @@ using UnityEngine;
 public class Attacker : Power
 {
     public PowerDisplay powerDisplay;
-
+    void Start()
+    {
+        powerDisplay.Init(this);
+    }
     public bool Attack(Power defender)
     {
         return defender.power < power;

@@ -12,9 +12,18 @@ public class PowerDisplay : MonoBehaviour
     {
         text = GetComponent<TextMeshPro>();
     }
-    private void Start()
+    public void Init(Power newTarget)
     {
-        text.text = target.power.ToString();
+        target = newTarget;
+
+        if (text != null && target != null)
+        {
+            text.text = target.power.ToString();
+        }
     }
+    // private void Start()
+    // {
+    //     text.text = target.power.ToString();
+    // }
 
 }

@@ -31,12 +31,24 @@ public class PlayerMove : MonoBehaviour
 
     private Animator animator;
 
-    void Start()
+    public void Init(MapWay way, MapSpawn mapSpawner)
     {
-        animator = GetComponent<Animator>();
+        this.way = way;
+        this.mapSpawner = mapSpawner;
+
         targetPosition = way.WayIndexToPosition(wayIndex);
         transform.position = targetPosition;
+
+        animator = GetComponent<Animator>();
     }
+
+
+    // void Start()
+    // {
+    //     animator = GetComponent<Animator>();
+    //     targetPosition = way.WayIndexToPosition(wayIndex);
+    //     transform.position = targetPosition;
+    // }
 
     void Update()
     {
@@ -112,7 +124,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void TryJump()
+    private void TryJump()
     {
         if (!isJumping && transform.position.y <= 0.01f)
         {
@@ -125,14 +137,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void MoveLeft()
+    private void MoveLeft()
     {
         if (isJumping) return;
         wayIndex = Mathf.Clamp(wayIndex - 1, 0, 2);
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
 
-    void MoveRight()
+    private void MoveRight()
     {
         if (isJumping) return;
         wayIndex = Mathf.Clamp(wayIndex + 1, 0, 2);
@@ -151,7 +163,7 @@ public class PlayerMove : MonoBehaviour
             TryRotateRight();
     }
 
-    void TryRotateLeft()
+    private void TryRotateLeft()
     {
         if (canTurn && allowedTurn == TurnDirection.Left)
         {
@@ -161,7 +173,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void TryRotateRight()
+    private void TryRotateRight()
     {
         if (canTurn && allowedTurn == TurnDirection.Right)
         {
@@ -180,7 +192,7 @@ public class PlayerMove : MonoBehaviour
         this.turnPivot = turnPivot;
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Ground"))
         {
