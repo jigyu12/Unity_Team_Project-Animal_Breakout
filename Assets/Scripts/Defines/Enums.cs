@@ -14,7 +14,7 @@ public enum ObjectType
     
     Item = 0,
     Trap,
-    ItemTrapMixed,
+    Items,
     
     Count
 }
@@ -73,6 +73,15 @@ public enum TrapType
     
     Bomb = 0,
     Hole,
+    
+    Count
+}
+
+public enum MapObjectInformationType
+{
+    Empty = 0,
+    Single,
+    Multiple,
     
     Count
 }
