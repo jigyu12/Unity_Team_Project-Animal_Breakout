@@ -58,7 +58,7 @@ public class RelayRunManager : MonoBehaviour
         playerManager.LoadCharacterModel(nextID, (PlayerStatus1 status) =>
         {
             Vector3 spawnPos = playerManager.transform.position - playerManager.transform.forward * 3f;
-            status.transform.localPosition= new Vector3(spawnPos.x, 0, 0);
+            status.transform.localPosition = new Vector3(spawnPos.x, 0, 0);
             StartCoroutine(ApplyInvincibility(status));
         });
     }

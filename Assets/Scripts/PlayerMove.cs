@@ -35,7 +35,7 @@ public class PlayerMove : MonoBehaviour
         this.way = way;
 
         targetPosition = way.WayIndexToPosition(wayIndex);
-        transform.position = targetPosition;
+        transform.localPosition = targetPosition;
 
         animator = GetComponent<Animator>();
     }
@@ -54,11 +54,11 @@ public class PlayerMove : MonoBehaviour
 
         Vector3 moveTarget = new Vector3(
             targetPosition.x,
-            transform.position.y + verticalVelocity * Time.deltaTime,
-            transform.position.z
+            transform.localPosition.y + verticalVelocity * Time.deltaTime,
+            transform.localPosition.z
         );
 
-        transform.position = Vector3.MoveTowards(transform.position, moveTarget, moveSpeed * Time.deltaTime);
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, moveTarget, moveSpeed * Time.deltaTime);
     }
 
     void UpdateJump()
@@ -66,7 +66,7 @@ public class PlayerMove : MonoBehaviour
         if (isJumping)
         {
             verticalVelocity += gravity * Time.deltaTime;
-            transform.position += new Vector3(0, verticalVelocity * Time.deltaTime, 0);
+            transform.localPosition += new Vector3(0, verticalVelocity * Time.deltaTime, 0);
         }
     }
 
@@ -196,9 +196,9 @@ public class PlayerMove : MonoBehaviour
         {
             isJumping = false;
             verticalVelocity = 0f;
-            Vector3 newPosition = transform.position;
+            Vector3 newPosition = transform.localPosition;
             newPosition.y = 0f;
-            transform.position = newPosition;
+            transform.localPosition = newPosition;
             if (animator != null)
             {
                 animator.SetBool("Jump", false);
