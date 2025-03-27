@@ -18,7 +18,8 @@ public class RoadManager : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
+        player = GameObject.FindGameObjectsWithTag("Player").First((gameObject) => gameObject.TryGetComponent<PlayerMove>(out PlayerMove move)).GetComponent<PlayerMove>();
+
 
         for (int i = 0; i < roadSegments.Count(); i++)
         {
