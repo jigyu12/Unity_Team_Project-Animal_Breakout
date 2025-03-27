@@ -323,8 +323,8 @@ public class MapObjectInformationManager : MonoBehaviour
 
     private void CreateRandomPenaltyCoin(Vector3 position)
     {
-        var paneltyCoin = Instantiate(itemPenaltyCoin, position, Quaternion.identity);
-        paneltyCoin.TryGetComponent(out ItemPenaltyCoin itemPenaltyCoinComponent);
+        var penaltyCoin = Instantiate(itemPenaltyCoin, position, Quaternion.identity);
+        penaltyCoin.TryGetComponent(out ItemPenaltyCoin itemPenaltyCoinComponent);
         itemPenaltyCoinComponent.Init((PenaltyCoinItemType)Utils.GetEnumIndexByChance(penaltyCoinSpawnChances));
     }
 }
