@@ -44,6 +44,7 @@ public class RoadChunk
         var currSegment = roadManager.GetRoadSegment(WayType.Straight);
         entrySegment = currSegment;
         currSegment.transform.position = information.startPosition;
+        currSegment.decoration?.UpdateDecoraionTiles(false, false, true);
         roadSegments.Add(new RoadSegment[] { null, currSegment, null });
         for (int i = 1; i < chunkSize.y; i++)
         {
@@ -53,21 +54,24 @@ public class RoadChunk
             {
                 if (information.isLeftWayExist)
                 {
-                    var leftSegment = roadManager.GetRoadSegment(WayType.Left);                  
-                    leftSegment.transform.position = currSegment.NextLeftPosition;    
+                    var leftSegment = roadManager.GetRoadSegment(WayType.Left);
+                    leftSegment.transform.position = nextSegment.NextLeftPosition;
                     roadSegments.Add(new RoadSegment[] { leftSegment, nextSegment, null });
                 }
                 else if (information.isRightWayExist)
                 {
                     var rightSegment = roadManager.GetRoadSegment(WayType.Right);
-                    rightSegment.transform.position = currSegment.NextRightPosition;
+                    rightSegment.transform.position = nextSegment.NextRightPosition;
                     roadSegments.Add(new RoadSegment[] { null, nextSegment, rightSegment });
                 }
+                nextSegment.decoration?.UpdateDecoraionTiles(information.isLeftWayExist, information.isRightWayExist, true);
             }
             else
             {
                 roadSegments.Add(new RoadSegment[] { null, nextSegment, null });
+                nextSegment.decoration?.UpdateDecoraionTiles(false, false, true);
             }
+
             currSegment = nextSegment;
         }
 
@@ -81,9 +85,9 @@ public class RoadChunk
         roadManager.currentRoadChunk = this;
         nextRoadChunks.Add(roadManager.CreateRoadVerticalChunk(roadSegments[9][1].NextPosition));
 
-        for(int i=0; i<roadSegments.Count; i++)
+        for (int i = 0; i < roadSegments.Count; i++)
         {
-            if (roadSegments[i][0]!=null)
+            if (roadSegments[i][0] != null)
             {
                 nextRoadChunks.Add(roadManager.CreateRoadLeftChunk(roadSegments[i][0].NextPosition));
             }
