@@ -22,13 +22,22 @@ public struct RoadChunkInformaion
 public class RoadChunk
 {
     public Vector2Int chunkSize = new(3, 10);
-    public List<RoadSegment[]> roadSegments = new List<RoadSegment[]>();
+
+    public List<RoadSegment[]> roadSegments = new();
 
     private RoadManager roadManager;
     private RoadSegment entrySegment;
+
+
+
+    private int startIndex;
+    private int endIndex;
+    public int StartIndex => startIndex;
+    public int EndIndex => endIndex;
+
     private List<RoadChunk> nextRoadChunks = new();
-    
-    public Action  onCreateRoadChunk;
+
+    public Action onCreateRoadChunk;
     public List<RoadChunk> NextRoadChunks
     {
         get => nextRoadChunks;
@@ -39,17 +48,21 @@ public class RoadChunk
         this.roadManager = roadManager;
     }
 
-    public void CreateRoadChunk(RoadChunkInformaion information)
+    public void CreateRoadChunk(int startIndex, RoadChunkInformaion information)
     {
+        this.startIndex = startIndex;
+
         var currSegment = roadManager.GetRoadSegment(WayType.Straight);
         entrySegment = currSegment;
         currSegment.transform.position = information.startPosition;
         currSegment.decoration?.UpdateDecoraionTiles(false, false, true);
+        startIndex += currSegment.tileVerticalCount;
         roadSegments.Add(new RoadSegment[] { null, currSegment, null });
         for (int i = 1; i < chunkSize.y; i++)
         {
             var nextSegment = roadManager.GetRoadSegment(WayType.Straight);
             nextSegment.transform.position = currSegment.NextPosition;
+            startIndex += nextSegment.tileVerticalCount;
             if (i == information.turnIndex)
             {
                 if (information.isLeftWayExist)
@@ -74,6 +87,7 @@ public class RoadChunk
 
             currSegment = nextSegment;
         }
+        endIndex = startIndex;
 
         entrySegment.SetEnterTriggerAction(OnEnterChunk);
         onCreateRoadChunk?.Invoke();
@@ -83,20 +97,34 @@ public class RoadChunk
     {
         roadManager.ReleasePassedRoadChunks();
         roadManager.currentRoadChunk = this;
-        nextRoadChunks.Add(roadManager.CreateRoadVerticalChunk(roadSegments[9][1].NextPosition));
+        nextRoadChunks.Add(roadManager.CreateRoadVerticalChunk(endIndex, roadSegments[9][1].NextPosition));
 
         for (int i = 0; i < roadSegments.Count; i++)
         {
             if (roadSegments[i][0] != null)
             {
-                nextRoadChunks.Add(roadManager.CreateRoadLeftChunk(roadSegments[i][0].NextPosition));
+                nextRoadChunks.Add(roadManager.CreateRoadLeftChunk(endIndex, roadSegments[i][0].NextPosition));
             }
 
             if (roadSegments[i][2] != null)
             {
-                nextRoadChunks.Add(roadManager.CreateRoadRightChunk(roadSegments[i][2].NextPosition));
+                nextRoadChunks.Add(roadManager.CreateRoadRightChunk(endIndex, roadSegments[i][2].NextPosition));
             }
         }
+    }
+
+    public Vector3 GetRoadSegmentTilePosition(int row, int col)
+    {
+        int remainRow = row - startIndex;
+        for (int i = 0; i < roadSegments.Count; i++)
+        {
+            if (remainRow < roadSegments[i][1].tileVerticalCount)
+            {
+                return roadSegments[i][1].GetTilePosition(remainRow, col);
+            }
+            remainRow -= roadSegments[i][1].tileVerticalCount;
+        }
+        return Vector3.zero;
     }
 
     public void ReleaseRoadSegments()
