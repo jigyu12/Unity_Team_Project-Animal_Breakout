@@ -12,16 +12,17 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        LoadCharacterModel(currentAnimalID);
+        //  LoadCharacterModel(currentAnimalID);
     }
 
-    public void LoadCharacterModel(int animalID)
+    public void LoadCharacterModel(int animalID, System.Action<PlayerStatus1> onLoaded = null)
     {
         AnimalStatus character = database.GetAnimalByID(animalID);
         if (character == null) return;
 
-        currentAnimalID = animalID; // 재시작을 위한 아이디 저장 
+        currentAnimalID = animalID;
         PlayerPrefs.SetInt("SelectedAnimalID", currentAnimalID);
+
         if (currentModel != null)
         {
             Addressables.ReleaseInstance(currentModel);
@@ -37,6 +38,7 @@ public class PlayerManager : MonoBehaviour
             if (status != null)
             {
                 status.Init(animalID, database);
+                onLoaded?.Invoke(status);
             }
 
             var move = currentModel.GetComponent<PlayerMove>();
@@ -59,4 +61,5 @@ public class PlayerManager : MonoBehaviour
                 GetComponent<Animator>().runtimeAnimatorController = animator.runtimeAnimatorController;
         };
     }
+
 }

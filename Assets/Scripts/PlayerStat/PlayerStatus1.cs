@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerStatus1 : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class PlayerStatus1 : MonoBehaviour
 
     private AnimalStatus currentAnimal;
     private bool isGameOver;
+    private bool isInvincible = false;
     private Animator animator;
 
     public void Init(int animalID, AnimalDatabase database)
@@ -19,11 +21,11 @@ public class PlayerStatus1 : MonoBehaviour
     public void SetAnimal(int animalID)
     {
         currentAnimal = animalDB.GetAnimalByID(animalID);
+        currentAnimalID = animalID;
 
         if (currentAnimal != null)
         {
             Debug.Log($"선택한 캐릭터: {currentAnimal.Name} | 공격력: {currentAnimal.AttackPower} | HP: {currentAnimal.HP}");
-            currentAnimalID = animalID;
         }
         else
         {
@@ -31,36 +33,59 @@ public class PlayerStatus1 : MonoBehaviour
         }
     }
 
-    public float GetMoveSpeed()
+    public void SetInvincible(bool value)
     {
-        return currentAnimal?.MoveSpeed ?? 0f;
+        isInvincible = value;
     }
 
-    public float GetJumpPower()
-    {
-        return currentAnimal?.JumpingPower ?? 0f;
-    }
+    public float GetMoveSpeed() => currentAnimal?.MoveSpeed ?? 0f;
+    public float GetJumpPower() => currentAnimal?.JumpingPower ?? 0f;
 
     public void TakeDamage(int damage)
     {
-        if (isGameOver) return;
+        if (isGameOver || isInvincible) return;
 
         currentAnimal.HP -= damage;
         Debug.Log($"{currentAnimal.Name} took {damage} damage. Current HP: {currentAnimal.HP}");
 
-        if (currentAnimal.HP <= 0)
-        {
-            OnDie();
-        }
+        if (currentAnimal.HP <= 0) OnDie();
     }
+
+    [ContextMenu("Damage +1")]
+    public void ForceDie() => TakeDamage(1);
 
     private void OnDie()
     {
         if (isGameOver) return;
 
         isGameOver = true;
-        Time.timeScale = 0;
+
+        var move = GetComponent<PlayerMove>();
+        if (move != null) move.enabled = false;
+
         animator?.SetTrigger("Die");
-        GameManager.Instance.GameOver();
+        StartCoroutine(DieAndSwitch());
     }
+    IEnumerator DieAndSwitch()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        var relayManager = RelayRunManager.Instance;
+
+        if (relayManager != null)
+        {
+            if (relayManager.HasNextRunner())
+            {
+                RelayContinueUI.Instance.Show();
+            }
+            else
+            {
+                GameManager.Instance.GameOver();
+            }
+        }
+
+        Destroy(gameObject);
+    }
+
+
 }
