@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+
 [System.Serializable]
 public class AnimalStatus
 {
@@ -12,9 +14,9 @@ public class AnimalStatus
     public float HP;
     public float MoveSpeed;
     public float JumpingPower;
-    public GameObject Prefab;
+    public string PrefabKey;
 
-    public AnimalStatus(int id, string name, string stringID, int grade, float attack, float hp, float speed, float jump, GameObject prefab)
+    public AnimalStatus(int id, string name, string stringID, int grade, float attack, float hp, float speed, float jump, string prefabKey)
     {
         AnimalID = id;
         Name = name;
@@ -24,6 +26,6 @@ public class AnimalStatus
         HP = hp;
         MoveSpeed = speed;
         JumpingPower = jump;
-        Prefab = prefab;
+        PrefabKey = prefabKey;
     }
 }

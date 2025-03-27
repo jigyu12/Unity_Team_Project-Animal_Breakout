@@ -25,15 +25,37 @@ public class MapObjectInformationManager : MonoBehaviour
         
         Action<Vector3>[,] createMapObjectActionArray = new Action<Vector3>[rows, cols];
 
-        CreateBombs(objectTypes, createMapObjectActionArray);
-        CreateHoles(objectTypes, createMapObjectActionArray);
+        SetCreateWallAction(objectTypes, createMapObjectActionArray);
+        SetCreateBombAction(objectTypes, createMapObjectActionArray);
+        SetCreateHoleAction(objectTypes, createMapObjectActionArray);
         
         // Todo..
         
         return createMapObjectActionArray;
     }
 
-    private void CreateBombs(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
+    private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
+    {
+        int rows = objectTypes.GetLength(0);
+        int cols = objectTypes.GetLength(1);
+        
+        int lastRowIndex = rows - 1;
+        int middleColIndex = cols / 2;
+
+        for(int i = 0; i < cols; ++i)
+        {
+            objectTypes[lastRowIndex, i] = ObjectType.Wall;
+        }
+        
+        createMapObjectActionArray[lastRowIndex, middleColIndex] = CreateWall;
+    }
+    
+    private void CreateWall(Vector3 position)
+    {
+        Instantiate(wallPrefab, position, Quaternion.identity);
+    }
+
+    private void SetCreateBombAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
     {
         int rows = objectTypes.GetLength(0);
         int cols = objectTypes.GetLength(1);
@@ -60,7 +82,7 @@ public class MapObjectInformationManager : MonoBehaviour
         bombTrapComponent.Init(TrapType.Bomb);
     }
 
-    private void CreateHoles(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
+    private void SetCreateHoleAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
     {
         int rows = objectTypes.GetLength(0);
         int cols = objectTypes.GetLength(1);
