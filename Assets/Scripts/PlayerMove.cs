@@ -11,7 +11,6 @@ public class PlayerMove : MonoBehaviour
     public float jumpHeight = 2f;
     public float gravity = -20f;
     public MapWay way;
-    public MapSpawn mapSpawner;
 
     private Vector3 targetPosition;
     private float verticalVelocity;
@@ -31,10 +30,9 @@ public class PlayerMove : MonoBehaviour
 
     private Animator animator;
 
-    public void Init(MapWay way, MapSpawn mapSpawner)
+    public void Initialize(MapWay way)
     {
         this.way = way;
-        this.mapSpawner = mapSpawner;
 
         targetPosition = way.WayIndexToPosition(wayIndex);
         transform.position = targetPosition;

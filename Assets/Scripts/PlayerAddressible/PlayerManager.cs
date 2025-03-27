@@ -8,7 +8,8 @@ public class PlayerManager : MonoBehaviour
     public AnimalDatabase database;
     public int currentAnimalID;
 
-    private GameObject currentModel;
+    public GameObject playerParent;
+   private GameObject currentModel;
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class PlayerManager : MonoBehaviour
             if (handle.Status != AsyncOperationStatus.Succeeded) return;
 
             currentModel = handle.Result;
+            currentModel.transform.SetParent(playerParent.transform, true);
 
             var status = currentModel.GetComponent<PlayerStatus1>();
             if (status != null)
@@ -44,9 +46,8 @@ public class PlayerManager : MonoBehaviour
             var move = currentModel.GetComponent<PlayerMove>();
             if (move != null)
             {
-                move.Init(
-                    FindObjectOfType<MapWay>(),
-                    FindObjectOfType<MapSpawn>()
+                move.Initialize(
+                    FindObjectOfType<MapWay>()
                 );
             }
 
