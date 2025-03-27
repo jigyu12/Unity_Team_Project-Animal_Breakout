@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 
 public class RelayRunManager : MonoBehaviour
 {
@@ -10,10 +11,8 @@ public class RelayRunManager : MonoBehaviour
     private int currentRunnerIndex = 0;
     private PlayerManager playerManager;
 
-    [SerializeField]
-    private RoadManager roadManager;
-    [SerializeField]
-    private RoadChunkRotator roadChunkRotator;
+    public Action<PlayerStatus1> onLoadPlayer;
+    public Action<PlayerStatus1> onDiePlayer;
 
     private void Awake()
     {
@@ -39,8 +38,8 @@ public class RelayRunManager : MonoBehaviour
             status.transform.position = playerManager.transform.position;
             StartCoroutine(ApplyInvincibility(status));
 
-            roadManager.Initialize();
-            roadChunkRotator.Initialize();
+            onLoadPlayer?.Invoke(status);
+            status.onDie = onDiePlayer;
         });
     }
 
@@ -60,6 +59,9 @@ public class RelayRunManager : MonoBehaviour
             Vector3 spawnPos = playerManager.transform.position - playerManager.transform.forward * 3f;
             status.transform.localPosition = new Vector3(spawnPos.x, 0, 0);
             StartCoroutine(ApplyInvincibility(status));
+
+            onLoadPlayer?.Invoke(status);
+            status.onDie = onDiePlayer;
         });
     }
 
