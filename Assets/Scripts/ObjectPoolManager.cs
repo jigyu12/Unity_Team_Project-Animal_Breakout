@@ -12,10 +12,6 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 
     public ObjectPool<GameObject> CreateObjectPool(GameObject pooledObject, Func<GameObject> createFunc = null, Action<GameObject> onGet = null, Action<GameObject> onRelease = null)
     {
-        if (pools.ContainsKey(pooledObject))
-        {
-            return GetObjectPool(pooledObject);
-        }
         ObjectPool<GameObject> pool = new
             (
                 createFunc: createFunc ??= () => Instantiate(pooledObject), //null�̸� �⺻
@@ -27,7 +23,14 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
                 maxSize: 500
             );
 
-        pools.Add(pooledObject, pool);
+        if (pools.ContainsKey(pooledObject))
+        {
+            pools[pooledObject] = pool;
+        }
+        else
+        {
+            pools.Add(pooledObject, pool);
+        }
         return pool;
     }
 

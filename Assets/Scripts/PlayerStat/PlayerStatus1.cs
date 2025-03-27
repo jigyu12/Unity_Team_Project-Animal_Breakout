@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerStatus1 : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerStatus1 : MonoBehaviour
     private bool isGameOver;
     private bool isInvincible = false;
     private Animator animator;
+
+    public Action<PlayerStatus1> onDie;
 
     public void Init(int animalID, AnimalDatabase database)
     {
@@ -65,6 +68,8 @@ public class PlayerStatus1 : MonoBehaviour
 
         animator?.SetTrigger("Die");
         StartCoroutine(DieAndSwitch());
+
+        onDie?.Invoke(this);
     }
     IEnumerator DieAndSwitch()
     {

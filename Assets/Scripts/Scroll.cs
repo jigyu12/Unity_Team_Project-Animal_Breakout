@@ -13,6 +13,15 @@ public class Scroll : MonoBehaviour
         direction.Normalize();
     }
 
+    private void Start()
+    {
+        enabled = false;
+        var relayRunManager = GameObject.FindObjectOfType<RelayRunManager>();
+
+        relayRunManager.onLoadPlayer += (playerStatus) => enabled = true;
+        relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
+    }
+
     private void Update()
     {
         var nextPosition = transform.position + direction * Time.deltaTime * speed;
