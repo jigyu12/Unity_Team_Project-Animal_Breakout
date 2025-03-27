@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour
     public int currentAnimalID;
 
     public GameObject playerParent;
-   private GameObject currentModel;
+    private GameObject currentModel;
 
     private void Start()
     {
@@ -35,7 +35,6 @@ public class PlayerManager : MonoBehaviour
 
             currentModel = handle.Result;
             currentModel.transform.SetParent(playerParent.transform, true);
-
             var status = currentModel.GetComponent<PlayerStatus1>();
             if (status != null)
             {
