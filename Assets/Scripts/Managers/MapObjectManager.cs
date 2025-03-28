@@ -19,9 +19,9 @@ public class MapObjectInformationManager : MonoBehaviour
 
     private const float tileSize = 1f;
 
-    private const float spawnHoleChance = 0.3f;
+    private const float spawnHoleChance = 0.3f; // 구덩이 스폰 확률
 
-    private const float spawnRewardCoinChance = 0.75f;
+    private const float spawnRewardCoinChance = 0.3f; // 좋은 코인 스폰 확률
     private List<float> rewardItemSpawnChances = new();
     [SerializeField] [ReadOnly] private float bronzeCoinSpawnChance = 0.5f;
     [SerializeField] [ReadOnly] private float sliverCoinSpawnChance = 0.2f;
@@ -29,13 +29,13 @@ public class MapObjectInformationManager : MonoBehaviour
     [SerializeField] [ReadOnly] private float platinumCoinSpawnChance = 0.1f;
     [SerializeField] [ReadOnly] private float diamondCoinSpawnChance = 0.05f;
 
-    private const float spawnHumanChance = 0.4f;
+    private const float spawnHumanChance = 0.4f; // 인간 아이템 스폰 확률
     private List<float> humanSpawnChances = new();
     [SerializeField] [ReadOnly] private float juniorResearcherSpawnChance = 0.6f;
     [SerializeField] [ReadOnly] private float researcherSpawnChance = 0.3f;
     [SerializeField] [ReadOnly] private float seniorResearcherSpawnChance = 0.1f;
-    
-    private const float spawnPenaltyCoinChance = 0.3f;
+
+    private const float spawnPenaltyCoinChance = 0.3f; // 안좋은 코인 스폰 확률
     private List<float> penaltyCoinSpawnChances = new();
     [SerializeField] [ReadOnly] private float ghostCoinSpawnChance = 0.5f;
     [SerializeField] [ReadOnly] private float poisonCoinSpawnChance = 0.2f;
