@@ -6,7 +6,7 @@ public class BombCollisionBehaviour : BaseCollisionBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerStatus1 playerStatus = other.GetComponent<PlayerStatus1>();
+            PlayerStatus playerStatus = other.GetComponent<PlayerStatus>();
             if (playerStatus != null)
             {
                 playerStatus.TakeDamage(1);
@@ -21,7 +21,7 @@ public class HoleCollisionBehaviour : BaseCollisionBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerStatus1 playerStatus = other.GetComponent<PlayerStatus1>();
+            PlayerStatus playerStatus = other.GetComponent<PlayerStatus>();
             if (playerStatus != null)
             {
                 playerStatus.TakeDamage(1);
