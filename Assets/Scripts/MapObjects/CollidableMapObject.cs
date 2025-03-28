@@ -16,12 +16,11 @@ public abstract class CollidableMapObject : MonoBehaviour
 
         relayRunManager.onLoadPlayer += (playerStatus) => player = playerStatus.gameObject;
         relayRunManager.onDiePlayer += (playerStatus) => player = null;
-
     }
 
     public void Update()
     {
-        if (player != null && transform.position.z < player.transform.position.z - 2f)
+        if (player != null && transform.position.z < player.transform.position.z - 20f)
         {
             Destroy(gameObject);
         }
