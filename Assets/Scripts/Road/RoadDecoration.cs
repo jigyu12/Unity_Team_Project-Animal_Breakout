@@ -10,7 +10,7 @@ public class RoadDecoration : MonoBehaviour
     private DecorationTile[] decorationTiles;
 
 
-    public void UpdateDecoraionTiles(bool left, bool right, bool updateMesh)
+    public void UpdateDecoraionTiles(bool leftWayExist, bool rightWayExist, bool updateMesh)
     {
 
         for (int i = 0; i < 10; i++)
@@ -22,7 +22,7 @@ public class RoadDecoration : MonoBehaviour
             decorationTiles[1].SetActiveDecorationTile(i, true);
         }
 
-        if (left)
+        if (leftWayExist)
         {
 
             groundTiles[0].SetActiveDecorationTile(7, false);
@@ -34,7 +34,7 @@ public class RoadDecoration : MonoBehaviour
             decorationTiles[0].SetActiveDecorationTile(9, false);
         }
 
-        if (right)
+        if (rightWayExist)
         {
             groundTiles[1].SetActiveDecorationTile(7, false);
             groundTiles[1].SetActiveDecorationTile(8, false);

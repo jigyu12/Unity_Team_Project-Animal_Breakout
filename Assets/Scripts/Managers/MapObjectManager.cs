@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class MapObjectInformationManager : MonoBehaviour
+public class MapObjectManager : MonoBehaviour
 {
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject trapPrefab;
@@ -23,25 +23,25 @@ public class MapObjectInformationManager : MonoBehaviour
 
     private const float spawnRewardCoinChance = 0.3f; // 좋은 코인 스폰 확률
     private List<float> rewardItemSpawnChances = new();
-    [SerializeField] [ReadOnly] private float bronzeCoinSpawnChance = 0.5f;
-    [SerializeField] [ReadOnly] private float sliverCoinSpawnChance = 0.2f;
-    [SerializeField] [ReadOnly] private float goldCoinSpawnChance = 0.15f;
-    [SerializeField] [ReadOnly] private float platinumCoinSpawnChance = 0.1f;
-    [SerializeField] [ReadOnly] private float diamondCoinSpawnChance = 0.05f;
+    [SerializeField][ReadOnly] private float bronzeCoinSpawnChance = 0.5f;
+    [SerializeField][ReadOnly] private float sliverCoinSpawnChance = 0.2f;
+    [SerializeField][ReadOnly] private float goldCoinSpawnChance = 0.15f;
+    [SerializeField][ReadOnly] private float platinumCoinSpawnChance = 0.1f;
+    [SerializeField][ReadOnly] private float diamondCoinSpawnChance = 0.05f;
 
     private const float spawnHumanChance = 0.4f; // 인간 아이템 스폰 확률
     private List<float> humanSpawnChances = new();
-    [SerializeField] [ReadOnly] private float juniorResearcherSpawnChance = 0.6f;
-    [SerializeField] [ReadOnly] private float researcherSpawnChance = 0.3f;
-    [SerializeField] [ReadOnly] private float seniorResearcherSpawnChance = 0.1f;
+    [SerializeField][ReadOnly] private float juniorResearcherSpawnChance = 0.6f;
+    [SerializeField][ReadOnly] private float researcherSpawnChance = 0.3f;
+    [SerializeField][ReadOnly] private float seniorResearcherSpawnChance = 0.1f;
 
     private const float spawnPenaltyCoinChance = 0.3f; // 안좋은 코인 스폰 확률
     private List<float> penaltyCoinSpawnChances = new();
-    [SerializeField] [ReadOnly] private float ghostCoinSpawnChance = 0.5f;
-    [SerializeField] [ReadOnly] private float poisonCoinSpawnChance = 0.2f;
-    [SerializeField] [ReadOnly] private float skullCoinSpawnChance = 0.15f;
-    [SerializeField] [ReadOnly] private float fireCoinSpawnChance = 0.1f;
-    [SerializeField] [ReadOnly] private float blackHoleCoinSpawnChance = 0.05f;
+    [SerializeField][ReadOnly] private float ghostCoinSpawnChance = 0.5f;
+    [SerializeField][ReadOnly] private float poisonCoinSpawnChance = 0.2f;
+    [SerializeField][ReadOnly] private float skullCoinSpawnChance = 0.15f;
+    [SerializeField][ReadOnly] private float fireCoinSpawnChance = 0.1f;
+    [SerializeField][ReadOnly] private float blackHoleCoinSpawnChance = 0.05f;
 
     private void Awake()
     {
@@ -54,7 +54,7 @@ public class MapObjectInformationManager : MonoBehaviour
         humanSpawnChances.Add(juniorResearcherSpawnChance);
         humanSpawnChances.Add(researcherSpawnChance);
         humanSpawnChances.Add(seniorResearcherSpawnChance);
-        
+
         penaltyCoinSpawnChances.Add(ghostCoinSpawnChance);
         penaltyCoinSpawnChances.Add(poisonCoinSpawnChance);
         penaltyCoinSpawnChances.Add(skullCoinSpawnChance);
@@ -62,27 +62,35 @@ public class MapObjectInformationManager : MonoBehaviour
         penaltyCoinSpawnChances.Add(blackHoleCoinSpawnChance);
     }
 
-    public Action<Vector3>[,] GenerateMapObjectInformation(int rows, int cols)
+    public struct MapObjectsBlueprint
     {
-        ObjectType[,] objectTypes = new ObjectType[rows, cols];
+        public ObjectType[,] objectsTypes;
+        public Action<Vector3>[,] objectsConstructors;
+    }
+
+    public MapObjectsBlueprint GenerateMapObjectInformation(int rows, int cols)
+    {
+        MapObjectsBlueprint mapObjectsBlueprint = new MapObjectsBlueprint();
+        mapObjectsBlueprint.objectsTypes = new ObjectType[rows, cols];
+
         for (int i = 0; i < rows; ++i)
         {
             for (int j = 0; j < cols; j++)
             {
-                objectTypes[i, j] = ObjectType.None;
+                mapObjectsBlueprint.objectsTypes[i, j] = ObjectType.None;
             }
         }
 
-        Action<Vector3>[,] createMapObjectActionArray = new Action<Vector3>[rows, cols];
+        mapObjectsBlueprint.objectsConstructors= new Action<Vector3>[rows, cols];
 
-        SetCreateWallAction(objectTypes, createMapObjectActionArray);
-        SetCreateBombAction(objectTypes, createMapObjectActionArray);
-        SetCreateHoleAction(objectTypes, createMapObjectActionArray);
-        SetCreateRandomRewardCoinAction(objectTypes, createMapObjectActionArray);
-        SetCreateRandomHumanAction(objectTypes, createMapObjectActionArray);
-        SetCreateRandomPenaltyCoinAction(objectTypes, createMapObjectActionArray);
+        SetCreateWallAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
+        SetCreateBombAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
+        SetCreateHoleAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
+        SetCreateRandomRewardCoinAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
+        SetCreateRandomHumanAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
+        SetCreateRandomPenaltyCoinAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
 
-        return createMapObjectActionArray;
+        return mapObjectsBlueprint;
     }
 
     private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
@@ -197,10 +205,10 @@ public class MapObjectInformationManager : MonoBehaviour
         if (!Utils.IsChanceHit(spawnRewardCoinChance))
         {
             isMiddleHoleExist = false;
-            
+
             return false;
         }
-        
+
         bool canSpawn = true;
 
         int middleIndex = itemGenerateTileCount / 2;
@@ -253,7 +261,7 @@ public class MapObjectInformationManager : MonoBehaviour
                 }
             }
         }
-        
+
         return canSpawn;
     }
 
@@ -269,7 +277,7 @@ public class MapObjectInformationManager : MonoBehaviour
             itemRewardCoinComponent.Init((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
         }
     }
-    
+
     private void CreateRandomRewardCoinWithHill(Vector3 position)
     {
         float maxHeight = 1.5f;
