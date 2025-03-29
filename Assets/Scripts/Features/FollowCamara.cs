@@ -7,12 +7,6 @@ public class FollowCamara : MonoBehaviour
     public Transform targetPivot;
     public float rotationSpeed = 5f;
 
-    private Camera followCamera;
-
-    private void Awake()
-    {
-        followCamera = GetComponent<Camera>();
-    }
 
     private void LateUpdate()
     {
