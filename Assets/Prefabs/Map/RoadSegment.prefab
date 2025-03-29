@@ -127,7 +127,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3405417494184322904}
-  - component: {fileID: 8339452156338563620}
+  - component: {fileID: 4050118735957365509}
   m_Layer: 0
   m_Name: RoadSegment
   m_TagString: Untagged
@@ -154,7 +154,7 @@ Transform:
   - {fileID: 3435255488111789975}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8339452156338563620
+--- !u!114 &4050118735957365509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,7 +170,6 @@ MonoBehaviour:
   tileVerticalCount: 0
   tiles: {fileID: 5057456059984592581}
   decoration: {fileID: 589949673504813040}
-  mapSpawner: {fileID: 0}
   enterTrigger: {fileID: 6963726916383930243}
 --- !u!1 &5803887873092670517
 GameObject:
