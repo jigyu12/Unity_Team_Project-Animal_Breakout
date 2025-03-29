@@ -39,6 +39,5 @@ public class Trap : CollidableMapObject
                 meshRenderer.material.color = Color.red;
                 break;
         }
-
     }
 }

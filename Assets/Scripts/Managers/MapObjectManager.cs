@@ -1,15 +1,24 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 using Random = UnityEngine.Random;
 
 public class MapObjectManager : MonoBehaviour
 {
     [SerializeField] private GameObject wallPrefab;
-    [SerializeField] private GameObject trapPrefab;
-    [SerializeField] private GameObject itemRewardCoin;
-    [SerializeField] private GameObject itemHuman;
-    [SerializeField] private GameObject itemPenaltyCoin;
+    [SerializeField] private GameObject trapBombPrefab;
+    [SerializeField] private GameObject trapHolePrefab;
+    [SerializeField] private GameObject itemRewardCoinPrefab;
+    [SerializeField] private GameObject itemHumanPrefab;
+    [SerializeField] private GameObject itemPenaltyCoinPrefab;
+    
+    private ObjectPool<GameObject> wallPool;
+    private ObjectPool<GameObject> trapBombPool;
+    private ObjectPool<GameObject> trapHolePool;
+    private ObjectPool<GameObject> itemRewardCoinPool;
+    private ObjectPool<GameObject> itemHumanPool;
+    private ObjectPool<GameObject> itemPenaltyCoinPool;
 
     private const int nonObjectTileCount = 6;
     private const int itemGroupCount = 5;
@@ -60,12 +69,44 @@ public class MapObjectManager : MonoBehaviour
         penaltyCoinSpawnChances.Add(skullCoinSpawnChance);
         penaltyCoinSpawnChances.Add(fireCoinSpawnChance);
         penaltyCoinSpawnChances.Add(blackHoleCoinSpawnChance);
+        
+        wallPool = ObjectPoolManager.Instance.CreateObjectPool(wallPrefab,
+            () => Instantiate(wallPrefab),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+
+        trapBombPool = ObjectPoolManager.Instance.CreateObjectPool(trapBombPrefab,
+            () => Instantiate(trapBombPrefab),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+        
+        trapHolePool = ObjectPoolManager.Instance.CreateObjectPool(trapHolePrefab,
+            () => Instantiate(trapHolePrefab),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+
+        itemRewardCoinPool = ObjectPoolManager.Instance.CreateObjectPool(itemRewardCoinPrefab,
+            () => Instantiate(itemRewardCoinPrefab),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+
+        itemHumanPool = ObjectPoolManager.Instance.CreateObjectPool(itemHumanPrefab,
+            () => Instantiate(itemHumanPrefab),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+
+        itemPenaltyCoinPool = ObjectPoolManager.Instance.CreateObjectPool(itemPenaltyCoinPrefab,
+            () => Instantiate(itemPenaltyCoinPrefab),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
     }
 
     public struct MapObjectsBlueprint
     {
         public ObjectType[,] objectsTypes;
         public Action<Vector3>[,] objectsConstructors;
+
+        public int wallIndex;
     }
 
     public MapObjectsBlueprint GenerateMapObjectInformation(int rows, int cols)
@@ -80,6 +121,8 @@ public class MapObjectManager : MonoBehaviour
                 mapObjectsBlueprint.objectsTypes[i, j] = ObjectType.None;
             }
         }
+
+        mapObjectsBlueprint.wallIndex = rows - 1;
 
         mapObjectsBlueprint.objectsConstructors= new Action<Vector3>[rows, cols];
 
@@ -106,12 +149,16 @@ public class MapObjectManager : MonoBehaviour
             objectTypes[lastRowIndex, i] = ObjectType.Wall;
         }
 
-        createMapObjectActionArray[lastRowIndex, middleColIndex] = CreateWall;
+        createMapObjectActionArray[lastRowIndex, middleColIndex] = CreateNormalWall;
     }
 
-    private void CreateWall(Vector3 position)
+    private void CreateNormalWall(Vector3 position)
     {
-        Instantiate(wallPrefab, position, Quaternion.identity);
+        var wall = wallPool.Get();
+        wall.transform.SetPositionAndRotation(position, Quaternion.identity);
+        wall.TryGetComponent(out Wall wallComponent);
+        wallComponent.Init(WallType.NormalWall);
+        wallComponent.SetPool(wallPool);
     }
 
     private void SetCreateBombAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
@@ -133,9 +180,11 @@ public class MapObjectManager : MonoBehaviour
 
     private void CreateBomb(Vector3 position)
     {
-        var bomb = Instantiate(trapPrefab, position, Quaternion.identity);
+        var bomb = trapBombPool.Get();
+        bomb.transform.SetPositionAndRotation(position, Quaternion.identity);
         bomb.TryGetComponent(out Trap trapComponent);
         trapComponent.Init(TrapType.Bomb);
+        trapComponent.SetPool(trapBombPool);
     }
 
     private void SetCreateHoleAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
@@ -170,9 +219,11 @@ public class MapObjectManager : MonoBehaviour
 
     private void CreateHole(Vector3 position)
     {
-        var hole = Instantiate(trapPrefab, position, Quaternion.identity);
+        var hole = trapHolePool.Get();
+        hole.transform.SetPositionAndRotation(position, Quaternion.identity);
         hole.TryGetComponent(out Trap trapComponent);
         trapComponent.Init(TrapType.Hole);
+        trapComponent.SetPool(trapHolePool);
     }
 
     private void SetCreateRandomRewardCoinAction(ObjectType[,] objectTypes,
@@ -271,10 +322,11 @@ public class MapObjectManager : MonoBehaviour
 
         for (int i = 0; i < itemGroupCount; ++i)
         {
-            var rewardCoin = Instantiate(itemRewardCoin,
-                Vector3.Lerp(position, lastPosition, (float)i / (itemGroupCount - 1)), Quaternion.identity);
+            var rewardCoin = itemRewardCoinPool.Get();
+            rewardCoin.transform.SetPositionAndRotation(Vector3.Lerp(position, lastPosition, (float)i / (itemGroupCount - 1)), Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Init((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
+            itemRewardCoinComponent.SetPool(itemRewardCoinPool);
         }
     }
 
@@ -291,10 +343,12 @@ public class MapObjectManager : MonoBehaviour
             float distanceFromMiddle = Mathf.Abs(i - middleIndex);
             float heightOffset = maxHeight - (distanceFromMiddle / middleIndex * maxHeight);
             spawnPosition.y += heightOffset;
-
-            var rewardCoin = Instantiate(itemRewardCoin, spawnPosition, Quaternion.identity);
+            
+            var rewardCoin = itemRewardCoinPool.Get();
+            rewardCoin.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Init((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
+            itemRewardCoinComponent.SetPool(itemRewardCoinPool);
         }
     }
 
@@ -330,9 +384,11 @@ public class MapObjectManager : MonoBehaviour
 
     private void CreateRandomHuman(Vector3 position)
     {
-        var human = Instantiate(itemHuman, position, Quaternion.identity);
+        var human = itemHumanPool.Get();
+        human.transform.SetPositionAndRotation(position, Quaternion.identity);
         human.TryGetComponent(out ItemHuman itemHumanComponent);
         itemHumanComponent.Init((HumanItemType)Utils.GetEnumIndexByChance(humanSpawnChances));
+        itemHumanComponent.SetPool(itemHumanPool);
     }
 
     private void SetCreateRandomPenaltyCoinAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
@@ -367,8 +423,10 @@ public class MapObjectManager : MonoBehaviour
 
     private void CreateRandomPenaltyCoin(Vector3 position)
     {
-        var penaltyCoin = Instantiate(itemPenaltyCoin, position, Quaternion.identity);
+        var penaltyCoin = itemPenaltyCoinPool.Get();
+        penaltyCoin.transform.SetPositionAndRotation(position, Quaternion.identity);
         penaltyCoin.TryGetComponent(out ItemPenaltyCoin itemPenaltyCoinComponent);
         itemPenaltyCoinComponent.Init((PenaltyCoinItemType)Utils.GetEnumIndexByChance(penaltyCoinSpawnChances));
+        itemPenaltyCoinComponent.SetPool(itemPenaltyCoinPool);
     }
 }
