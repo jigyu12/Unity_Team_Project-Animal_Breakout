@@ -1,27 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public struct RoadChunkInformaion
 {
-    public RoadChunkInformaion(Vector3 startPosition, bool left, bool right, int turnIndex = -1)
+    public RoadChunkInformaion(Vector3 startPosition, int left = -1, int right = -1)
     {
         this.startPosition = startPosition;
-        this.isLeftWayExist = left;
-        this.isRightWayExist = right;
-        this.turnIndex = (left || right ? (turnIndex == -1 ? turnIndex = 10 - 1 : turnIndex) : -1);
+        leftWayIndex = left;
+        rightWayIndex = right;
     }
 
     public Vector3 startPosition;
-    public int turnIndex;
-    public bool isLeftWayExist;
-    public bool isRightWayExist;
+    public int leftWayIndex;
+    public int rightWayIndex;
 }
 
 public class RoadChunk
 {
-    public Vector2Int chunkSize = new(3, 10);
+    public Vector2Int chunkSize = new(3, 60);
 
     public List<RoadSegment[]> roadSegments = new();
 
@@ -58,33 +57,28 @@ public class RoadChunk
         currSegment.decoration?.UpdateDecoraionTiles(false, false, true);
         startIndex += currSegment.tileVerticalCount;
         roadSegments.Add(new RoadSegment[] { null, currSegment, null });
+        
         for (int i = 1; i < chunkSize.y; i++)
         {
             var nextSegment = roadManager.GetRoadSegment(WayType.Straight);
             nextSegment.transform.position = currSegment.NextPosition;
             startIndex += nextSegment.tileVerticalCount;
-            if (i == information.turnIndex)
+            roadSegments.Add(new RoadSegment[] { null, nextSegment, null });
+
+            if (i == information.leftWayIndex)
             {
-                if (information.isLeftWayExist)
-                {
-                    var leftSegment = roadManager.GetRoadSegment(WayType.Left);
-                    leftSegment.transform.position = nextSegment.NextLeftPosition;
-                    roadSegments.Add(new RoadSegment[] { leftSegment, nextSegment, null });
-                }
-                else if (information.isRightWayExist)
-                {
-                    var rightSegment = roadManager.GetRoadSegment(WayType.Right);
-                    rightSegment.transform.position = nextSegment.NextRightPosition;
-                    roadSegments.Add(new RoadSegment[] { null, nextSegment, rightSegment });
-                }
-                nextSegment.decoration?.UpdateDecoraionTiles(information.isLeftWayExist, information.isRightWayExist, true);
+                var leftSegment = roadManager.GetRoadSegment(WayType.Left);
+                leftSegment.transform.position = nextSegment.NextLeftPosition;
+                roadSegments.Last()[0] = leftSegment;
             }
-            else
+            else if (i == information.rightWayIndex)
             {
-                roadSegments.Add(new RoadSegment[] { null, nextSegment, null });
-                nextSegment.decoration?.UpdateDecoraionTiles(false, false, true);
+                var rightSegment = roadManager.GetRoadSegment(WayType.Right);
+                rightSegment.transform.position = nextSegment.NextRightPosition;
+                roadSegments.Last()[2] = rightSegment;
             }
 
+            nextSegment.decoration?.UpdateDecoraionTiles(information.leftWayIndex !=i, information.rightWayIndex !=i, true);
             currSegment = nextSegment;
         }
         endIndex = startIndex;
