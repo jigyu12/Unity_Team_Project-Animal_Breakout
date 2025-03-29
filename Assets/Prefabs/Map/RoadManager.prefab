@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1002950731021501532}
   - component: {fileID: 596636777274713853}
   - component: {fileID: 3875611926903960002}
+  - component: {fileID: 5475774335596289907}
   m_Layer: 0
   m_Name: RoadManager
   m_TagString: Untagged
@@ -49,7 +50,6 @@ MonoBehaviour:
   - {fileID: 4392002336861150956, guid: a2deb738456a4184081aad9e2c628653, type: 3}
   - {fileID: 4392002336861150956, guid: 7b12c1f30495df844abbe5ebc140cba3, type: 3}
   - {fileID: 4392002336861150956, guid: 0eb71f579de613f489d6dae4479f7219, type: 3}
-
   mapObjectManager: {fileID: 0}
 --- !u!114 &3875611926903960002
 MonoBehaviour:
@@ -78,4 +78,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateDuration: 0.2
-
