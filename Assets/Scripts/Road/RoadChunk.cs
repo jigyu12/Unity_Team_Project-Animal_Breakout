@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static MapObjectManager;
 
 public struct RoadChunkInformaion
 {
@@ -57,7 +58,7 @@ public class RoadChunk
         currSegment.decoration?.UpdateDecoraionTiles(false, false, true);
         startIndex += currSegment.tileVerticalCount;
         roadSegments.Add(new RoadSegment[] { null, currSegment, null });
-        
+
         for (int i = 1; i < chunkSize.y; i++)
         {
             var nextSegment = roadManager.GetRoadSegment(WayType.Straight);
@@ -78,7 +79,7 @@ public class RoadChunk
                 roadSegments.Last()[2] = rightSegment;
             }
 
-            nextSegment.decoration?.UpdateDecoraionTiles(information.leftWayIndex ==i, information.rightWayIndex ==i, true);
+            nextSegment.decoration?.UpdateDecoraionTiles(information.leftWayIndex == i, information.rightWayIndex == i, true);
             currSegment = nextSegment;
         }
         endIndex = startIndex;
@@ -91,18 +92,19 @@ public class RoadChunk
     {
         roadManager.ReleasePassedRoadChunks();
         roadManager.currentRoadChunk = this;
-        nextRoadChunks.Add(roadManager.CreateNextRoadChunk(endIndex, roadSegments[chunkSize.y-1][1].NextPosition));
+        var nextRoadChunk = roadManager.CreateNextRoadChunk(endIndex, roadSegments[chunkSize.y - 1][1].NextPosition,  out MapObjectsBlueprint mapObjectsBlueprint);
+        nextRoadChunks.Add(nextRoadChunk);
 
         for (int i = 0; i < roadSegments.Count; i++)
         {
             if (roadSegments[i][0] != null)
             {
-                nextRoadChunks.Add(roadManager.CreateRoadLeftChunk(endIndex, roadSegments[i][0].NextPosition));
+                nextRoadChunks.Add(roadManager.CreateRoadLeftChunk(endIndex, roadSegments[i][0].NextPosition, mapObjectsBlueprint));
             }
 
             if (roadSegments[i][2] != null)
             {
-                nextRoadChunks.Add(roadManager.CreateRoadRightChunk(endIndex, roadSegments[i][2].NextPosition));
+                nextRoadChunks.Add(roadManager.CreateRoadRightChunk(endIndex, roadSegments[i][2].NextPosition, mapObjectsBlueprint));
             }
         }
     }

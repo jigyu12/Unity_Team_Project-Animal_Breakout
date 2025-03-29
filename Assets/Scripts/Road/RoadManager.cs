@@ -105,26 +105,26 @@ public class RoadManager : MonoBehaviour
 
     }
 
-    public RoadChunk CreateNextRoadChunk(int startIndex, Vector3 startPosition)
+    public RoadChunk CreateNextRoadChunk(int startIndex, Vector3 startPosition, out MapObjectsBlueprint mapObjectsBlueprint)
     {
-        var mapObjectsBlueprint = mapObjectManager.GenerateMapObjectInformation(60, 3);
+        mapObjectsBlueprint = mapObjectManager.GenerateMapObjectInformation(60, 3);
         var roadChunk = CreateRoadChunk(startIndex, startPosition, mapObjectsBlueprint);
         CreateMapObjects(roadChunk, mapObjectsBlueprint);
         activeRoadChunks.Add(roadChunk);
         return roadChunk;
     }
 
-    public RoadChunk CreateRoadLeftChunk(int startIndex, Vector3 startPosition)
+    public RoadChunk CreateRoadLeftChunk(int startIndex, Vector3 startPosition, MapObjectsBlueprint mapObjectsBlueprint)
     {
-        var roadChunk = CreateRoadChunk(startIndex, startPosition);
+        var roadChunk = CreateRoadChunk(startIndex, startPosition, mapObjectsBlueprint);
         roadChunk.Rotate(-90f);
         activeRoadChunks.Add(roadChunk);
         return roadChunk;
     }
 
-    public RoadChunk CreateRoadRightChunk(int startIndex, Vector3 startPosition)
+    public RoadChunk CreateRoadRightChunk(int startIndex, Vector3 startPosition, MapObjectsBlueprint mapObjectsBlueprint)
     {
-        var roadChunk = CreateRoadChunk(startIndex, startPosition);
+        var roadChunk = CreateRoadChunk(startIndex, startPosition, mapObjectsBlueprint);
         roadChunk.Rotate(90f);
         activeRoadChunks.Add(roadChunk);
         return roadChunk;
