@@ -88,7 +88,6 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -20
   way: {fileID: 0}
-  mapSpawner: {fileID: 0}
   turnPivot: {fileID: 0}
 --- !u!114 &729711599015949635
 MonoBehaviour:
@@ -265,10 +264,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.2826115
+  m_Height: 0.97874
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.0056206584, y: 0.43451488, z: 0}
 --- !u!54 &4469259923926935937
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -402,7 +401,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5804225472236421382, guid: ebd64130366f5134291b085bc32bf4b4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

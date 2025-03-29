@@ -28,7 +28,8 @@ public enum ItemType
     RewardCoin = 0,
     PenaltyCoin,
     Human,
-    
+
+
     Count
 }
 
