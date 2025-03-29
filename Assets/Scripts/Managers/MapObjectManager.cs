@@ -66,6 +66,8 @@ public class MapObjectManager : MonoBehaviour
     {
         public ObjectType[,] objectsTypes;
         public Action<Vector3>[,] objectsConstructors;
+
+        public int wallIndex;
     }
 
     public MapObjectsBlueprint GenerateMapObjectInformation(int rows, int cols)
@@ -80,6 +82,8 @@ public class MapObjectManager : MonoBehaviour
                 mapObjectsBlueprint.objectsTypes[i, j] = ObjectType.None;
             }
         }
+
+        mapObjectsBlueprint.wallIndex = rows - 1;
 
         mapObjectsBlueprint.objectsConstructors= new Action<Vector3>[rows, cols];
 

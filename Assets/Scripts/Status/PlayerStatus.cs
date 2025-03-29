@@ -71,6 +71,7 @@ public class PlayerStatus : MonoBehaviour
 
         onDie?.Invoke(this);
     }
+
     IEnumerator DieAndSwitch()
     {
         yield return new WaitForSeconds(1.5f);

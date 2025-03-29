@@ -20,7 +20,7 @@ public struct RoadChunkInformaion
 
 public class RoadChunk
 {
-    public Vector2Int chunkSize = new(3, 60);
+    public Vector2Int chunkSize = new(3, 6);
 
     public List<RoadSegment[]> roadSegments = new();
 
@@ -91,7 +91,7 @@ public class RoadChunk
     {
         roadManager.ReleasePassedRoadChunks();
         roadManager.currentRoadChunk = this;
-        nextRoadChunks.Add(roadManager.CreateRoadVerticalChunk(endIndex, roadSegments[9][1].NextPosition));
+        nextRoadChunks.Add(roadManager.CreateNextRoadChunk(endIndex, roadSegments[chunkSize.y-1][1].NextPosition));
 
         for (int i = 0; i < roadSegments.Count; i++)
         {
@@ -109,7 +109,7 @@ public class RoadChunk
 
     public Vector3 GetRoadSegmentTilePosition(int row, int col)
     {
-        int remainRow = row - startIndex;
+        int remainRow = row;
         for (int i = 0; i < roadSegments.Count; i++)
         {
             if (remainRow < roadSegments[i][1].tileVerticalCount)
