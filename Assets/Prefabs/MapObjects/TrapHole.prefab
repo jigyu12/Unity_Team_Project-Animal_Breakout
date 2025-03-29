@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6165106855828854900}
   - component: {fileID: 8253872977110688521}
   m_Layer: 0
-  m_Name: Trap
+  m_Name: TrapHole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,9 +105,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 8.108805
+  m_Height: 1.0336136
   m_Direction: 1
-  m_Center: {x: 0, y: 3.5544024, z: 0}
+  m_Center: {x: 0, y: 0.01680587, z: 0}
 --- !u!114 &8253872977110688521
 MonoBehaviour:
   m_ObjectHideFlags: 0
