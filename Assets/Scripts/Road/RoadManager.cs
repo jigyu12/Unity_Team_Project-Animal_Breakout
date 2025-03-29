@@ -160,7 +160,7 @@ public class RoadManager : MonoBehaviour
 
     public void CreateMapObjects(RoadChunk roadChunk)
     {
-        //ProcessCreateMapObject(roadChunk, roadChunk.StartIndex, 0);
+        ProcessCreateMapObject(roadChunk, roadChunk.StartIndex, 0);
     }
 
     private void ProcessCreateMapObject(RoadChunk roadChunk, int start, int objectIndex)
