@@ -78,7 +78,7 @@ public class RoadChunk
                 roadSegments.Last()[2] = rightSegment;
             }
 
-            nextSegment.decoration?.UpdateDecoraionTiles(information.leftWayIndex !=i, information.rightWayIndex !=i, true);
+            nextSegment.decoration?.UpdateDecoraionTiles(information.leftWayIndex ==i, information.rightWayIndex ==i, true);
             currSegment = nextSegment;
         }
         endIndex = startIndex;

@@ -1264,22 +1264,6 @@ PrefabInstance:
       propertyPath: mapObjectManager
       value: 
       objectReference: {fileID: 987491947}
-    - target: {fileID: 596636777274713853, guid: 505857f046945c54f82d855818786aba, type: 3}
-      propertyPath: roadSegmentPrefabs.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 596636777274713853, guid: 505857f046945c54f82d855818786aba, type: 3}
-      propertyPath: roadSegmentPrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 4392002336861150956, guid: a2deb738456a4184081aad9e2c628653, type: 3}
-    - target: {fileID: 596636777274713853, guid: 505857f046945c54f82d855818786aba, type: 3}
-      propertyPath: roadSegmentPrefabs.Array.data[1]
-      value: 
-      objectReference: {fileID: 4392002336861150956, guid: 7b12c1f30495df844abbe5ebc140cba3, type: 3}
-    - target: {fileID: 596636777274713853, guid: 505857f046945c54f82d855818786aba, type: 3}
-      propertyPath: roadSegmentPrefabs.Array.data[2]
-      value: 
-      objectReference: {fileID: 4392002336861150956, guid: 0eb71f579de613f489d6dae4479f7219, type: 3}
     - target: {fileID: 1002950731021501532, guid: 505857f046945c54f82d855818786aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1323,10 +1307,6 @@ PrefabInstance:
     - target: {fileID: 4160796323777910873, guid: 505857f046945c54f82d855818786aba, type: 3}
       propertyPath: m_Name
       value: RoadManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 5475774335596289907, guid: 505857f046945c54f82d855818786aba, type: 3}
-      propertyPath: rotateDuration
-      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

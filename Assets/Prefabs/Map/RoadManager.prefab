@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 596636777274713853}
   - component: {fileID: 3875611926903960002}
   - component: {fileID: 5475774335596289907}
-  - component: {fileID: 72428249758270186}
   m_Layer: 0
   m_Name: RoadManager
   m_TagString: Untagged
@@ -79,16 +78,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateDuration: 0.2
---- !u!114 &72428249758270186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4160796323777910873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8be3a5c991f1b14987278c36f993d98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotateDuration: 5
