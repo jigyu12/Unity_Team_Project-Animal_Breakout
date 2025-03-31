@@ -21,7 +21,7 @@ public struct RoadChunkInformaion
 
 public class RoadChunk : MonoBehaviour
 {
-    private Vector2Int chunkSize = new(3, 6);
+    private Vector2Int chunkSize = new(3, 20);
 
     public Vector2Int ChunkSize => chunkSize;
 
