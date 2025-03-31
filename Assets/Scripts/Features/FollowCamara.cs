@@ -15,7 +15,7 @@ public class FollowCamara : MonoBehaviour
         RaycastHit[] hits = Physics.RaycastAll(transform.position, target.transform.position, rayLength, ignoreLayers.value);
         foreach(var ignoreObj in hits)
         {
-            ignoreObj.collider.gameObject.SetActive(false);
+            //ignoreObj.collider.gameObject.SetActive(false);
         }
 
     }
