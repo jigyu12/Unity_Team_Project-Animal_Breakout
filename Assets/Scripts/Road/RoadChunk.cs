@@ -141,23 +141,4 @@ public class RoadChunk : MonoBehaviour
             }
         }
     }
-
-    public void Rotate(float angle)
-    {
-        RotateAround(entrySegment.transform.position, angle);
-    }
-
-    public void RotateAround(Vector3 pivot, float angle)
-    {
-        foreach (var segmentsList in roadSegments)
-        {
-            foreach (var segment in segmentsList)
-            {
-                if (segment != null)
-                {
-                    segment.transform.RotateAround(pivot, Vector3.up, angle);
-                }
-            }
-        }
-    }
 }
