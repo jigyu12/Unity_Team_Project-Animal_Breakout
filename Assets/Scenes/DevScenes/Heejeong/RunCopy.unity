@@ -898,6 +898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 818943374}
   - component: {fileID: 818943373}
+  - component: {fileID: 818943375}
   m_Layer: 0
   m_Name: PlayerFollowCamera
   m_TagString: Untagged
@@ -960,6 +961,23 @@ Transform:
   - {fileID: 1871238976}
   m_Father: {fileID: 260333618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &818943375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818943372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de6e52b23a945643ad2df4327965812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1161090861}
+  rayLength: 5
+  ignoreLayers:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &827127365
 GameObject:
   m_ObjectHideFlags: 3

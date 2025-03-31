@@ -111,7 +111,7 @@ public class RoadManager : MonoBehaviour
 
     public RoadChunk CreateNextRoadChunk(int startIndex, Vector3 startPosition, out MapObjectsBlueprint mapObjectsBlueprint)
     {
-        mapObjectsBlueprint = mapObjectManager.GenerateMapObjectInformation(60, 3);
+        mapObjectsBlueprint = mapObjectManager.GenerateMapObjectInformation(10 * 20, 3);
         var roadChunk = CreateRoadChunk(startIndex, startPosition, mapObjectsBlueprint);
         CreateMapObjects(roadChunk, mapObjectsBlueprint);
         activeRoadChunks.Add(roadChunk);
