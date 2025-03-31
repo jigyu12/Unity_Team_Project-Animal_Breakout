@@ -19,16 +19,17 @@ public struct RoadChunkInformaion
     public int rightWayIndex;
 }
 
-public class RoadChunk
+public class RoadChunk : MonoBehaviour
 {
-    public Vector2Int chunkSize = new(3, 6);
+    private Vector2Int chunkSize = new(3, 6);
 
+    public Vector2Int ChunkSize => chunkSize;
+
+    [ReadOnly]
     public List<RoadSegment[]> roadSegments = new();
 
     private RoadManager roadManager;
     private RoadSegment entrySegment;
-
-
 
     private int startIndex;
     private int endIndex;
@@ -43,7 +44,7 @@ public class RoadChunk
         get => nextRoadChunks;
     }
 
-    public RoadChunk(RoadManager roadManager)
+    public void SetRoadManager(RoadManager roadManager)
     {
         this.roadManager = roadManager;
     }
@@ -54,15 +55,17 @@ public class RoadChunk
 
         var currSegment = roadManager.GetRoadSegment(WayType.Straight);
         entrySegment = currSegment;
+        currSegment.transform.SetParent(transform);
         currSegment.transform.position = information.startPosition;
         currSegment.decoration?.UpdateDecoraionTiles(false, false, true);
         startIndex += currSegment.tileVerticalCount;
         roadSegments.Add(new RoadSegment[] { null, currSegment, null });
 
-        for (int i = 1; i < chunkSize.y; i++)
+        for (int i = 1; i < ChunkSize.y; i++)
         {
             var nextSegment = roadManager.GetRoadSegment(WayType.Straight);
             nextSegment.transform.position = currSegment.NextPosition;
+            nextSegment.transform.SetParent(transform);
             startIndex += nextSegment.tileVerticalCount;
             roadSegments.Add(new RoadSegment[] { null, nextSegment, null });
 
@@ -70,12 +73,14 @@ public class RoadChunk
             {
                 var leftSegment = roadManager.GetRoadSegment(WayType.Left);
                 leftSegment.transform.position = nextSegment.NextLeftPosition;
+                leftSegment.transform.SetParent(transform);
                 roadSegments.Last()[0] = leftSegment;
             }
             else if (i == information.rightWayIndex)
             {
                 var rightSegment = roadManager.GetRoadSegment(WayType.Right);
                 rightSegment.transform.position = nextSegment.NextRightPosition;
+                rightSegment.transform.SetParent(transform);
                 roadSegments.Last()[2] = rightSegment;
             }
 
@@ -92,7 +97,7 @@ public class RoadChunk
     {
         roadManager.ReleasePassedRoadChunks();
         roadManager.currentRoadChunk = this;
-        var nextRoadChunk = roadManager.CreateNextRoadChunk(endIndex, roadSegments[chunkSize.y - 1][1].NextPosition,  out MapObjectsBlueprint mapObjectsBlueprint);
+        var nextRoadChunk = roadManager.CreateNextRoadChunk(endIndex, roadSegments[ChunkSize.y - 1][1].NextPosition, out MapObjectsBlueprint mapObjectsBlueprint);
         nextRoadChunks.Add(nextRoadChunk);
 
         for (int i = 0; i < roadSegments.Count; i++)

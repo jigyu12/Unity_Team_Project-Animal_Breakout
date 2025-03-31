@@ -18,6 +18,8 @@ public class RoadManager : MonoBehaviour
     [SerializeField]
     private MapObjectManager mapObjectManager;
 
+    public RoadChunk roadChunkPrefab;
+    [ReadOnly]
     public RoadChunk currentRoadChunk;
 
     private List<RoadChunk> activeRoadChunks = new();
@@ -74,16 +76,18 @@ public class RoadManager : MonoBehaviour
 
     public RoadChunk CreateRoadChunk(int startIndex, Vector3 startPosition, MapObjectsBlueprint mapBlueprint)
     {
-        var roadChunk = new RoadChunk(this);
+        var roadChunk = Instantiate(roadChunkPrefab, startPosition, Quaternion.identity, transform);
+        roadChunk.SetRoadManager(this);
         bool isLeft = (UnityEngine.Random.Range(0, 100) % 2 == 0);
-        var roadChunkInoformation = isLeft ? new RoadChunkInformaion(startPosition, left: mapBlueprint.wallIndex / 10 ) : new RoadChunkInformaion(startPosition, right: mapBlueprint.wallIndex / 10);
+        var roadChunkInoformation = isLeft ? new RoadChunkInformaion(startPosition, left: mapBlueprint.wallIndex / 10) : new RoadChunkInformaion(startPosition, right: mapBlueprint.wallIndex / 10);
         roadChunk.CreateRoadChunk(startIndex, roadChunkInoformation);
         return roadChunk;
     }
 
     public RoadChunk CreateRoadChunk(int startIndex, Vector3 startPosition)
     {
-        var roadChunk = new RoadChunk(this);
+        var roadChunk = Instantiate(roadChunkPrefab, startPosition, Quaternion.identity, transform);
+        roadChunk.SetRoadManager(this);
         var roadChunkInoformation = new RoadChunkInformaion(startPosition);
         roadChunk.CreateRoadChunk(startIndex, roadChunkInoformation);
         return roadChunk;
@@ -117,7 +121,7 @@ public class RoadManager : MonoBehaviour
     public RoadChunk CreateRoadLeftChunk(int startIndex, Vector3 startPosition, MapObjectsBlueprint mapObjectsBlueprint)
     {
         var roadChunk = CreateRoadChunk(startIndex, startPosition, mapObjectsBlueprint);
-        roadChunk.Rotate(-90f);
+        roadChunk.transform.Rotate(new Vector3(0, -90f, 0));
         activeRoadChunks.Add(roadChunk);
         return roadChunk;
     }
@@ -125,7 +129,7 @@ public class RoadManager : MonoBehaviour
     public RoadChunk CreateRoadRightChunk(int startIndex, Vector3 startPosition, MapObjectsBlueprint mapObjectsBlueprint)
     {
         var roadChunk = CreateRoadChunk(startIndex, startPosition, mapObjectsBlueprint);
-        roadChunk.Rotate(90f);
+        roadChunk.transform.Rotate(new Vector3(0, 90f, 0));
         activeRoadChunks.Add(roadChunk);
         return roadChunk;
     }
@@ -135,7 +139,7 @@ public class RoadManager : MonoBehaviour
         var releaseList = new List<RoadChunk>();
         foreach (var roadChunk in activeRoadChunks)
         {
-            if (roadChunk.roadSegments[roadChunk.chunkSize.y-1][1].transform.position.z + 50f < player.transform.position.z)
+            if (roadChunk.roadSegments[roadChunk.ChunkSize.y - 1][1].transform.position.z + 50f < player.transform.position.z)
             {
                 releaseList.Add(roadChunk);
             }
@@ -145,6 +149,7 @@ public class RoadManager : MonoBehaviour
         {
             activeRoadChunks.Remove(roadChunk);
             roadChunk.ReleaseRoadSegments();
+            Destroy(roadChunk);
         }
     }
 }
