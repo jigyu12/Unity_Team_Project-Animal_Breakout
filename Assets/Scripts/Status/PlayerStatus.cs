@@ -13,12 +13,16 @@ public class PlayerStatus : MonoBehaviour
     private Animator animator;
 
     public Action<PlayerStatus> onDie;
+    private int defaultLayer;
+    private int invincibleLayer;
 
     public void Init(int animalID, AnimalDatabase database)
     {
         animalDB = database;
         animator = GetComponentInChildren<Animator>();
         SetAnimal(animalID);
+        defaultLayer = LayerMask.NameToLayer("Player");
+        invincibleLayer = LayerMask.NameToLayer("InvinciblePlayer");
     }
 
     public void SetAnimal(int animalID)
@@ -39,10 +43,19 @@ public class PlayerStatus : MonoBehaviour
     public void SetInvincible(bool value)
     {
         isInvincible = value;
+        gameObject.layer = isInvincible ? invincibleLayer : defaultLayer;
+        Debug.Log($"무적 상태: {(isInvincible ? "ON" : "OFF")}");
+    }
+
+    [ContextMenu("Toggle Invincible")]
+    public void ToggleInvincible()
+    {
+        SetInvincible(!isInvincible);
     }
 
     public float GetMoveSpeed() => currentAnimal?.MoveSpeed ?? 0f;
     public float GetJumpPower() => currentAnimal?.JumpingPower ?? 0f;
+    [ContextMenu("Damage +1")]
 
     public void TakeDamage(int damage)
     {
@@ -54,7 +67,6 @@ public class PlayerStatus : MonoBehaviour
         if (currentAnimal.HP <= 0) OnDie();
     }
 
-    [ContextMenu("Damage +1")]
     public void ForceDie() => TakeDamage(1);
 
     private void OnDie()
@@ -71,6 +83,7 @@ public class PlayerStatus : MonoBehaviour
 
         onDie?.Invoke(this);
     }
+
     IEnumerator DieAndSwitch()
     {
         yield return new WaitForSeconds(1.5f);

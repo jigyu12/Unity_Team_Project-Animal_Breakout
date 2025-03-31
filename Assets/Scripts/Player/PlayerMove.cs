@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviour
     [ReadOnly]
     public GameObject turnPivot;
 
-    public Action<Vector3, float> onRotate;
+    public Action<Vector3,float> onRotate;
 
 
     private bool canTurn = false;

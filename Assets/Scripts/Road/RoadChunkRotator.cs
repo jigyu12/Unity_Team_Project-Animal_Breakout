@@ -26,7 +26,6 @@ public class RoadChunkRotator : MonoBehaviour
 
         relayRunManager.onLoadPlayer += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
         relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
-
     }
 
     public void GetPlayer(PlayerMove player)
@@ -46,17 +45,19 @@ public class RoadChunkRotator : MonoBehaviour
 
     private void RotateLinkedChunk(RoadChunk roadChunk, Vector3 pivot, float angle)
     {
-        roadChunk.RotateAround(pivot, angle);
+        //roadChunk.RotateAround(pivot, angle);
+        roadChunk.transform.RotateAround(pivot, Vector3.up, angle);
         foreach (var next in roadChunk.NextRoadChunks)
         {
-            next.RotateAround(pivot, angle);
+            //next.RotateAround(pivot, angle);
+            next.transform.RotateAround(pivot, Vector3.up, angle);
         }
     }
 
     private IEnumerator RotateRoutine(Vector3 pivot, float angle)
     {
         isRotating = true;
-
+        player.enabled = false;
         MoveFoward scroll = player.transform.parent.GetComponent<MoveFoward>();
         if (scroll != null) scroll.enabled = false;
         float elapsed = 0f;
@@ -80,6 +81,8 @@ public class RoadChunkRotator : MonoBehaviour
         if (scroll != null) scroll.enabled = true;
 
         isRotating = false;
+        player.enabled = true;
+
     }
 
 }

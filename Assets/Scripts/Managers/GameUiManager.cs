@@ -37,7 +37,8 @@ public class GameUIManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManagerEx.Instance.LoadCurrentScene();
     }
 
 
