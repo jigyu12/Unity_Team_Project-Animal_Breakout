@@ -20,7 +20,7 @@ public abstract class CollidableMapObject : MonoBehaviour
     // Temporary Code //
     
     public abstract ObjectType ObjectType { get; protected set; }
-    protected abstract ICollisionBehaviour CollisionBehaviour { get; set; }
+    protected abstract BaseCollisionBehaviour CollisionBehaviour { get; set; }
     
     private ObjectPool<GameObject> pool;
 
