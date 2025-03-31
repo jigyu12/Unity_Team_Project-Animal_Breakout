@@ -4,6 +4,13 @@ using UnityEngine;
 
 public static class CollisionBehaviourFactory
 {
+    private static readonly Dictionary<WallType, Func<ICollisionBehaviour>> WallBehaviours =
+        new()
+        {
+            { WallType.NormalWall, () => new NormalWallCollisionBehaviour() },
+            { WallType.ReinforcedWall, () => new ReinforcedWallCollisionBehaviour() },
+        };
+    
     private static readonly Dictionary<TrapType, Func<ICollisionBehaviour>> TrapBehaviours =
         new()
         {
@@ -83,6 +90,18 @@ public static class CollisionBehaviourFactory
         }
 
         Debug.Assert(false, $"Cant find ItemRewardCoinBehaviour in RewardCoinType: {rewardCoinType}");
+        
+        return null;
+    }
+    
+    public static ICollisionBehaviour GetWallBehaviour(WallType wallType)
+    {
+        if (WallBehaviours.TryGetValue(wallType, out var behaviour))
+        {
+            return behaviour();
+        }
+
+        Debug.Assert(false, $"Cant find wallBehaviour in WallType: {wallType}");
         
         return null;
     }

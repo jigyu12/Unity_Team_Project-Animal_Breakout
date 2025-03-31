@@ -28,8 +28,7 @@ public enum ItemType
     RewardCoin = 0,
     PenaltyCoin,
     Human,
-
-
+    
     Count
 }
 
@@ -80,11 +79,12 @@ public enum TrapType
     Count
 }
 
-public enum MapObjectInformationType
+public enum WallType
 {
-    Empty = 0,
-    Single,
-    Multiple,
+    None = -1,
+    
+    NormalWall = 0,
+    ReinforcedWall,
     
     Count
 }
