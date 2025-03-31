@@ -4,7 +4,7 @@ public class GhostCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with GhostCoin");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }
 
@@ -12,7 +12,7 @@ public class PoisonCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with PoisonCoin");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }
 
@@ -20,7 +20,7 @@ public class SkullCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with SkullCoin");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }
 
@@ -28,7 +28,7 @@ public class FireCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with FireCoin");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }
 
@@ -36,6 +36,6 @@ public class BlackHoleCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with BlackHoleCoin");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }

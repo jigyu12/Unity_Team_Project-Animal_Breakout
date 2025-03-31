@@ -4,7 +4,7 @@ public class NormalWallCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with Normal Wall");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }
 
@@ -12,6 +12,6 @@ public class ReinforcedWallCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with Reinforced Wall");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }
