@@ -9,7 +9,7 @@ public class BombCollisionBehaviour : BaseCollisionBehaviour
             PlayerStatus playerStatus = other.GetComponent<PlayerStatus>();
             if (playerStatus != null)
             {
-               // playerStatus.TakeDamage(1);
+               playerStatus.TakeDamage(1);
             }
         }
     }
@@ -24,7 +24,7 @@ public class HoleCollisionBehaviour : BaseCollisionBehaviour
             PlayerStatus playerStatus = other.GetComponent<PlayerStatus>();
             if (playerStatus != null)
             {
-                //playerStatus.TakeDamage(1);
+                playerStatus.TakeDamage(1);
             }
         }
     }
