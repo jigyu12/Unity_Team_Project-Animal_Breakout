@@ -1,34 +1,28 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public abstract class CollidableMapObject : MonoBehaviour
 {
     // Temporary Code //
     public GameObject player;
-    public void Awake()
+    public void Start()
     {
-        player = GameObject.FindGameObjectWithTag(Utils.PlayerTag);
+        player = GameObject.Find(Utils.PlayerRootName);
     }
 
-    private void Start()
+    private void Update()
     {
-        enabled = false;
-        var relayRunManager = GameObject.FindObjectOfType<RelayRunManager>();
-
-        relayRunManager.onLoadPlayer += (playerStatus) => player = playerStatus.gameObject;
-        relayRunManager.onDiePlayer += (playerStatus) => player = null;
-    }
-
-    public void Update()
-    {
-        if (player != null && transform.position.z < player.transform.position.z - 20f)
+        if (player != null && transform.position.z < player.transform.position.z - 2f)
         {
-            Destroy(gameObject);
+            pool.Release(gameObject);
         }
     }
     // Temporary Code //
-
+    
     public abstract ObjectType ObjectType { get; protected set; }
     protected abstract ICollisionBehaviour CollisionBehaviour { get; set; }
+    
+    private ObjectPool<GameObject> pool;
 
     protected virtual void OnTriggerEnter(Collider other)
     {
@@ -36,5 +30,10 @@ public abstract class CollidableMapObject : MonoBehaviour
         {
             CollisionBehaviour.OnCollision(gameObject, other);
         }
+    }
+
+    public void SetPool(ObjectPool<GameObject> pool)
+    {
+        this.pool = pool;
     }
 }

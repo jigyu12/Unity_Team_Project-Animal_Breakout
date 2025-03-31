@@ -4,6 +4,7 @@ using UnityEngine;
 public static class Utils
 {
     public const string PlayerTag = "Player";
+    public const string PlayerRootName = "PlayerRoot";
     
     public static void SetChildScaleFitToParent(GameObject child, GameObject parent)
     {
