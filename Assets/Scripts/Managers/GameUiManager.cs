@@ -11,6 +11,7 @@ public class GameUIManager : MonoBehaviour
 
     public GameObject gameOverPanel;
 
+    public Button mainTitleButton;
 
     private void Awake()
     {
@@ -27,6 +28,12 @@ public class GameUIManager : MonoBehaviour
         {
             gameManager.onGameOver += ShowGameOverPanel;
         }
+
+        GameManager.Instance.onGameOver += ShowGameOverPanel;
+        
+        mainTitleButton.onClick.RemoveAllListeners();
+        mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
+
     }
 
     private void OnDestroy()
@@ -46,8 +53,12 @@ public class GameUIManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManagerEx.Instance.LoadCurrentScene();
     }
 
-
+    private void OnMainTitleButtonClicked()
+    {
+        SceneManagerEx.Instance.LoadScene("MainTitleSceneTest");
+    }
 }

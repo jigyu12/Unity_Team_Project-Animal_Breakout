@@ -157,7 +157,7 @@ public class MapObjectManager : MonoBehaviour
         var wall = wallPool.Get();
         wall.transform.SetPositionAndRotation(position, Quaternion.identity);
         wall.TryGetComponent(out Wall wallComponent);
-        wallComponent.Init(WallType.NormalWall);
+        wallComponent.Initialize(WallType.NormalWall);
         wallComponent.SetPool(wallPool);
     }
 
@@ -183,7 +183,7 @@ public class MapObjectManager : MonoBehaviour
         var bomb = trapBombPool.Get();
         bomb.transform.SetPositionAndRotation(position, Quaternion.identity);
         bomb.TryGetComponent(out Trap trapComponent);
-        trapComponent.Init(TrapType.Bomb);
+        trapComponent.Initialize(TrapType.Bomb);
         trapComponent.SetPool(trapBombPool);
     }
 
@@ -222,7 +222,7 @@ public class MapObjectManager : MonoBehaviour
         var hole = trapHolePool.Get();
         hole.transform.SetPositionAndRotation(position, Quaternion.identity);
         hole.TryGetComponent(out Trap trapComponent);
-        trapComponent.Init(TrapType.Hole);
+        trapComponent.Initialize(TrapType.Hole);
         trapComponent.SetPool(trapHolePool);
     }
 
@@ -325,7 +325,7 @@ public class MapObjectManager : MonoBehaviour
             var rewardCoin = itemRewardCoinPool.Get();
             rewardCoin.transform.SetPositionAndRotation(Vector3.Lerp(position, lastPosition, (float)i / (itemGroupCount - 1)), Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
-            itemRewardCoinComponent.Init((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
+            itemRewardCoinComponent.Initialize((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
             itemRewardCoinComponent.SetPool(itemRewardCoinPool);
         }
     }
@@ -347,7 +347,7 @@ public class MapObjectManager : MonoBehaviour
             var rewardCoin = itemRewardCoinPool.Get();
             rewardCoin.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
-            itemRewardCoinComponent.Init((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
+            itemRewardCoinComponent.Initialize((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
             itemRewardCoinComponent.SetPool(itemRewardCoinPool);
         }
     }
@@ -387,7 +387,7 @@ public class MapObjectManager : MonoBehaviour
         var human = itemHumanPool.Get();
         human.transform.SetPositionAndRotation(position, Quaternion.identity);
         human.TryGetComponent(out ItemHuman itemHumanComponent);
-        itemHumanComponent.Init((HumanItemType)Utils.GetEnumIndexByChance(humanSpawnChances));
+        itemHumanComponent.Initialize((HumanItemType)Utils.GetEnumIndexByChance(humanSpawnChances));
         itemHumanComponent.SetPool(itemHumanPool);
     }
 
@@ -426,7 +426,7 @@ public class MapObjectManager : MonoBehaviour
         var penaltyCoin = itemPenaltyCoinPool.Get();
         penaltyCoin.transform.SetPositionAndRotation(position, Quaternion.identity);
         penaltyCoin.TryGetComponent(out ItemPenaltyCoin itemPenaltyCoinComponent);
-        itemPenaltyCoinComponent.Init((PenaltyCoinItemType)Utils.GetEnumIndexByChance(penaltyCoinSpawnChances));
+        itemPenaltyCoinComponent.Initialize((PenaltyCoinItemType)Utils.GetEnumIndexByChance(penaltyCoinSpawnChances));
         itemPenaltyCoinComponent.SetPool(itemPenaltyCoinPool);
     }
 }

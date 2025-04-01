@@ -36,7 +36,7 @@ public abstract class DataTable
 
     public static void SaveCSV<T>(List<T> list, string path)
     {
-        using (var writer = new StreamWriter(path + ".csv"))
+        using (var writer = new StreamWriter(path))
         using (var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
         {
             csvWriter.WriteRecords(list);

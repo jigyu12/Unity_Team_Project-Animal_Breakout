@@ -4,7 +4,7 @@ public class BronzeCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with BronzeCoin");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }
 
@@ -12,7 +12,7 @@ public class SilverCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with SilverCoin");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }
 
@@ -20,7 +20,7 @@ public class GoldCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with GoldCoin");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }
 
@@ -28,7 +28,7 @@ public class PlatinumCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with PlatinumCoin");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }
 
@@ -36,6 +36,6 @@ public class DiamondCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        Debug.Log("Collision with DiamondCoin");
+        OnScoreChanged?.Invoke(scoreToAdd);
     }
 }

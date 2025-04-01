@@ -4,17 +4,29 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 
 
-public class ObjectPoolManager : Singleton<ObjectPoolManager>
+public class ObjectPoolManager : Singleton<ObjectPoolManager>, IManager
 {
     private Dictionary<GameObject, ObjectPool<GameObject>> pools = new();
 
+    public void Start()
+    {
+        SceneManagerEx.Instance.onLoadScene += Initialize;
+        SceneManagerEx.Instance.onReleaseScene += Clear;
+    }
+
     public ObjectPool<GameObject> CreateObjectPool(GameObject pooledObject, Func<GameObject> createFunc = null, Action<GameObject> onGet = null, Action<GameObject> onRelease = null)
     {
+        if (pools.ContainsKey(pooledObject))
+        {
+            return GetObjectPool(pooledObject);
+        }
+
         ObjectPool<GameObject> pool = new
             (
-                createFunc: createFunc ??= () => Instantiate(pooledObject), //null�̸� �⺻
+                createFunc: createFunc ??= () => Instantiate(pooledObject), //null이면 기본 Instaiate
                 actionOnGet: onGet,
                 actionOnRelease: onRelease,
                 //actionOnDestroy: obj => obj.Dispose(),
@@ -23,14 +35,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
                 maxSize: 500
             );
 
-        if (pools.ContainsKey(pooledObject))
-        {
-            pools[pooledObject] = pool;
-        }
-        else
-        {
-            pools.Add(pooledObject, pool);
-        }
+        pools.Add(pooledObject, pool);
         return pool;
     }
 
@@ -45,4 +50,15 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             throw new KeyNotFoundException($"No pool found for type {gameObject.name}.");
         }
     }
+
+    public void Initialize()
+    {
+       
+    }
+
+    public void Clear()
+    {
+        pools.Clear();
+    }
+
 }
