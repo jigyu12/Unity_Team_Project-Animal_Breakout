@@ -28,11 +28,23 @@ public class RoadManager : MonoBehaviour
     private void Start()
     {
         enabled = false;
-        var relayRunManager = GameObject.FindObjectOfType<RelayRunManager>();
+        var gameManager = GameObject.FindObjectOfType<GameManager>();
 
-        relayRunManager.onLoadPlayer += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
-        relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
+        gameManager.onPlayerSpawned += (playerStatus) =>
+        {
+            GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
+            enabled = true;
+        };
 
+        gameManager.onPlayerDied += (playerStatus) =>
+        {
+            enabled = false;
+        };
+
+        gameManager.onGameOver += () =>
+        {
+            enabled = false;
+        };
         for (int i = 0; i < roadSegmentPrefabs.Count(); i++)
         {
             var index = i;

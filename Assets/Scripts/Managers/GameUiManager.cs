@@ -7,6 +7,8 @@ public class GameUIManager : MonoBehaviour
 {
     public static GameUIManager Instance { get; private set; }
 
+    private GameManager gameManager;
+
     public GameObject gameOverPanel;
 
 
@@ -20,12 +22,19 @@ public class GameUIManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.onGameOver += ShowGameOverPanel;
+        gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null)
+        {
+            gameManager.onGameOver += ShowGameOverPanel;
+        }
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.onGameOver -= ShowGameOverPanel;
+        if (gameManager != null)
+        {
+            gameManager.onGameOver -= ShowGameOverPanel;
+        }
     }
 
     private void ShowGameOverPanel()
