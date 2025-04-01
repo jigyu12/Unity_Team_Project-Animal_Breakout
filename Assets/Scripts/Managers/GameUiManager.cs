@@ -29,7 +29,7 @@ public class GameUIManager : MonoBehaviour
             gameManager.onGameOver += ShowGameOverPanel;
         }
 
-        GameManager.Instance.onGameOver += ShowGameOverPanel;
+        gameManager.onGameOver += ShowGameOverPanel;
         
         mainTitleButton.onClick.RemoveAllListeners();
         mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
