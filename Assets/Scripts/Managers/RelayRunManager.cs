@@ -1,84 +1,159 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
-using System;
+using System.Collections.Generic;
 
 public class RelayRunManager : MonoBehaviour
 {
-    public static RelayRunManager Instance { get; private set; }
 
     [SerializeField] private List<int> runnerIDs;
     private int currentRunnerIndex = 0;
-    private PlayerManager playerManager;
-
-    public Action<PlayerStatus> onLoadPlayer;
-    public Action<PlayerStatus> onDiePlayer;
+    private GameManager gameManager;
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
-    }
+        gameManager = FindObjectOfType<GameManager>();
 
-    void Start()
-    {
-        playerManager = FindObjectOfType<PlayerManager>();
-        LoadFirstRunner();
-    }
-
-    public void LoadFirstRunner()
-    {
-        int nextID = runnerIDs[currentRunnerIndex];
-        currentRunnerIndex++;
-
-        playerManager.LoadCharacterModel(nextID, (PlayerStatus status) =>
+        // 미리 모든 캐릭터 로드
+        LoadManager.Instance.PreloadCharacterModels(runnerIDs, () =>
         {
-            status.transform.position = playerManager.transform.position;
-            StartCoroutine(ApplyInvincibility(status));
-
-            onLoadPlayer?.Invoke(status);
-            status.onDie = onDiePlayer;
+            Debug.Log("All Runners Preloaded.");
+            gameManager.LoadFirstRunner();
         });
     }
 
-    public void LoadNextRunner()
+    public int GetNextRunnerID()
     {
         if (currentRunnerIndex >= runnerIDs.Count)
+            return -1;
+
+        int nextID = runnerIDs[currentRunnerIndex];
+        currentRunnerIndex++;
+        return nextID;
+    }
+    public void LoadNextRunner()
+    {
+        int nextID = GetNextRunnerID();
+        if (nextID == -1)
         {
-            GameManager.Instance.GameOver();
+            gameManager.GameOver();
             return;
         }
 
-        int nextID = runnerIDs[currentRunnerIndex];
-        currentRunnerIndex++;
 
-        playerManager.LoadCharacterModel(nextID, (PlayerStatus status) =>
+        LoadManager.Instance.ActivateCharacter(nextID);
+        PlayerStatus nextPlayerStatus = LoadManager.Instance.GetPlayerStatus(nextID);
+
+
+        if (nextPlayerStatus != null)
         {
-            Vector3 spawnPos = playerManager.transform.position - playerManager.transform.forward * 3f;
-            status.transform.localPosition = new Vector3(spawnPos.x, 0, 0);
-            StartCoroutine(ApplyInvincibility(status));
+            nextPlayerStatus.SetInvincible(true);
+            Debug.Log($"다음 주자 {nextID} 무적 상태 활성화");
 
-            onLoadPlayer?.Invoke(status);
-            status.onDie = onDiePlayer;
-        });
+            StartCoroutine(RemoveInvincibilityAfterDelay(nextPlayerStatus, 1f));
+        }
+
+        gameManager.OnPlayerLoaded(nextPlayerStatus);
     }
 
-    IEnumerator ApplyInvincibility(PlayerStatus status)
+    private IEnumerator RemoveInvincibilityAfterDelay(PlayerStatus playerStatus, float delay)
     {
-        status.SetInvincible(true);
-        yield return new WaitForSeconds(1f);
-        status.SetInvincible(false);
+        yield return new WaitForSeconds(delay);
+        if (playerStatus != null)
+        {
+            playerStatus.SetInvincible(false);
+            Debug.Log("무적 상태 해제됨");
+        }
     }
+
+
     public bool HasNextRunner()
     {
         return currentRunnerIndex < runnerIDs.Count;
     }
-
-    public bool IsLastChance()
-    {
-        return currentRunnerIndex + 1 == runnerIDs.Count;
-    }
-
 }
+
+
+// using UnityEngine;
+// using System.Collections.Generic;
+// using System.Collections;
+// using System;
+
+// public class RelayRunManager : MonoBehaviour
+// {
+//     public static RelayRunManager Instance { get; private set; }
+
+//     [SerializeField] private List<int> runnerIDs;
+//     private int currentRunnerIndex = 0;
+//     private LoadManager loadManager;
+
+//     public Action<PlayerStatus> onLoadPlayer;
+//     public Action<PlayerStatus> onDiePlayer;
+
+//     private void Awake()
+//     {
+//         if (Instance == null)
+//             Instance = this;
+//         else
+//             Destroy(gameObject);
+//     }
+
+//     void Start()
+//     {
+//         loadManager = FindObjectOfType<LoadManager>();
+//         LoadFirstRunner();
+//     }
+
+//     public void LoadFirstRunner()
+//     {
+//         int nextID = runnerIDs[currentRunnerIndex];
+//         currentRunnerIndex++;
+
+//         loadManager.LoadCharacterModel(nextID, (PlayerStatus status) =>
+//         {
+//             status.transform.position = loadManager.transform.position;
+//             StartCoroutine(ApplyInvincibility(status));
+
+//             onLoadPlayer?.Invoke(status);
+//             status.onDie = onDiePlayer;
+//         });
+//     }
+
+//     public void LoadNextRunner()
+//     {
+//         if (currentRunnerIndex >= runnerIDs.Count)
+//         {
+//             GameManager.Instance.GameOver();
+//             return;
+//         }
+
+//         int nextID = runnerIDs[currentRunnerIndex];
+//         currentRunnerIndex++;
+
+//         loadManager.LoadCharacterModel(nextID, (PlayerStatus status) =>
+//         {
+//             Vector3 spawnPos = loadManager.transform.position - loadManager.transform.forward * 3f;
+//             status.transform.localPosition = new Vector3(spawnPos.x, 0, 0);
+//             StartCoroutine(ApplyInvincibility(status));
+
+//             onLoadPlayer?.Invoke(status);
+//             status.onDie = onDiePlayer;
+//         });
+//     }
+
+//     IEnumerator ApplyInvincibility(PlayerStatus status)
+//     {
+//         status.SetInvincible(true);
+//         yield return new WaitForSeconds(1f);
+//         status.SetInvincible(false);
+//     }
+//     public bool HasNextRunner()
+//     {
+//         return currentRunnerIndex < runnerIDs.Count;
+//     }
+
+//     public bool IsLastChance()
+//     {
+//         return currentRunnerIndex + 1 == runnerIDs.Count;
+//     }
+
+// }
