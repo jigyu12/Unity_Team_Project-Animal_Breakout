@@ -6,6 +6,8 @@ public static class Utils
     public const string PlayerTag = "Player";
     public const string PlayerRootName = "PlayerRoot";
     
+    public const string MapObjectsTableName = "MapObjects_Table";
+    
     public static void SetChildScaleFitToParent(GameObject child, GameObject parent)
     {
         child.transform.localScale = 

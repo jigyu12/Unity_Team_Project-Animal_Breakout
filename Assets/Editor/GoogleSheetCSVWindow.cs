@@ -37,7 +37,7 @@ public class GoogleSheetCSVWindow : EditorWindow
 
             if (!string.IsNullOrEmpty(path))
             {
-                GoogleSheetManager.Load<Test>(sheetURL, path);
+                GoogleSheetManager.Load<MapObjectsData>(sheetURL, path);
             }
         }
         GUILayout.EndHorizontal();
