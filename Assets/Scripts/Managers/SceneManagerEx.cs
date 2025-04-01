@@ -17,6 +17,14 @@ public class SceneManagerEx : Singleton<SceneManagerEx>, IManager
         onLoadScene?.Invoke();
     }
 
+    //public void LoadSceneAfterLoading(string sceneName)
+    //{
+    //    onReleaseScene?.Invoke();
+
+    //    SceneManager.LoadScene(sceneName);
+    //    onLoadScene?.Invoke();
+    //}
+
     public void LoadCurrentScene()
     {
         LoadScene(SceneManager.GetActiveScene().name);
