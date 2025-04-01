@@ -111,11 +111,13 @@ public class RoadManager : MonoBehaviour
 
     public RoadChunk CreateNextRoadChunk(int startIndex, Vector3 startPosition, out MapObjectsBlueprint mapObjectsBlueprint)
     {
-        mapObjectsBlueprint = mapObjectManager.GenerateMapObjectInformation(10 * 20, 3);
-        var roadChunk = CreateRoadChunk(startIndex, startPosition, mapObjectsBlueprint);
-        CreateMapObjects(roadChunk, mapObjectsBlueprint);
-        activeRoadChunks.Add(roadChunk);
-        return roadChunk;
+        // mapObjectsBlueprint = mapObjectManager.GenerateMapObjectInformation(10 * 20, 3);
+        // var roadChunk = CreateRoadChunk(startIndex, startPosition, mapObjectsBlueprint);
+        // CreateMapObjects(roadChunk, mapObjectsBlueprint);
+        // activeRoadChunks.Add(roadChunk);
+        // return roadChunk;
+        
+        throw new NotImplementedException();
     }
 
     public RoadChunk CreateRoadLeftChunk(int startIndex, Vector3 startPosition, MapObjectsBlueprint mapObjectsBlueprint)

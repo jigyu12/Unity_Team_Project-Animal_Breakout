@@ -10,8 +10,12 @@ public static class DataTableManager
 
     static DataTableManager()
     {
-       
+       var mapObjectsDataTable = new MapObjectsDataTable();
+       mapObjectsDataTable.Load(Utils.MapObjectsTableName);
+       tables.Add(Utils.MapObjectsTableName, mapObjectsDataTable);
     }
+    
+    public static MapObjectsDataTable mapObjectsDataTable => Get<MapObjectsDataTable>(Utils.MapObjectsTableName);
 
 
     public static T Get<T>(string id) where T : DataTable
