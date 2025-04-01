@@ -7,6 +7,7 @@ public static class Utils
     public const string PlayerRootName = "PlayerRoot";
     
     public const string MapObjectsTableName = "MapObjects_Table";
+    public const string RewardItemsTableName = "RewardItems_Table";
     
     public static void SetChildScaleFitToParent(GameObject child, GameObject parent)
     {

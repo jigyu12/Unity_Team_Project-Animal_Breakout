@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class MapObjectsDataTable : DataTable
+public class RewardItemsDataTable : DataTable
 {
-    private static readonly Dictionary<int, List<MapObjectData>> table = new();
-
+    private static readonly Dictionary<int, List<RewardItemData>> table = new();
+    
     public override void Load(string filename)
     {
         var path = string.Format(FormatPath, filename);
         var textAsset = Resources.Load<TextAsset>(path);
-        var list = LoadCSV<MapObjectCSVData>(textAsset.text);
+        var list = LoadCSV<RewardItemCSVData>(textAsset.text);
         table.Clear();
         foreach (var csvData in list)
         {
-            MapObjectData data = new MapObjectData();
+            RewardItemData data = new RewardItemData();
             data.CSVDataToData(csvData);
             int id = data.PrefabID;
             
             if (!table.ContainsKey(id))
             {
-                List<MapObjectData> newList = new ();
+                List<RewardItemData> newList = new ();
                 newList.Add(data);
                 
                 table.Add(id, newList);
@@ -32,15 +32,15 @@ public class MapObjectsDataTable : DataTable
             }
         }
     }
-
-    public List<MapObjectData> Get(int prefabID)
+    
+    public List<RewardItemData> Get(int prefabID)
     {
         if (!table.ContainsKey(prefabID))
             return null;
         return table[prefabID];
     }
     
-    public IEnumerable<KeyValuePair<int, List<MapObjectData>>> GetTableEntries()
+    public IEnumerable<KeyValuePair<int, List<RewardItemData>>> GetTableEntries()
     {
         foreach (var entry in table)
         {

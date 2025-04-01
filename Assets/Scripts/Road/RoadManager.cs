@@ -129,6 +129,11 @@ public class RoadManager : MonoBehaviour
         // activeRoadChunks.Add(roadChunk);
         // return roadChunk;
         
+        
+        // Use these codes!!!! Fighting!!!
+        // mapObjectManager.GenerateMapObjectInformation(10 * 20, 3);
+         mapObjectManager.GenerateRewardItemInformation();
+        
         throw new NotImplementedException();
     }
 

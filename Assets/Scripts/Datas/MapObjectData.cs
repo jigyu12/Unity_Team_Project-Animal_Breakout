@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class MapObjectsCSVData
+public class MapObjectCSVData
 {
     public int PrefabID { get; set; }
     public int Obj_Type { get; set; }
@@ -15,14 +15,14 @@ public class MapObjectsCSVData
 }
 
 [Serializable]
-public class MapObjectsData
+public class MapObjectData
 {
     public int PrefabID { get; set; }
     public MapObjectCSVType Obj_Type { get; set; }
     public int Coor1 { get; set; }
     public int Coor2 { get; set; }
 
-    public void CSVDataToData(MapObjectsCSVData csvData)
+    public void CSVDataToData(MapObjectCSVData csvData)
     {
         PrefabID = csvData.PrefabID;
         Obj_Type = (MapObjectCSVType)csvData.Obj_Type;
