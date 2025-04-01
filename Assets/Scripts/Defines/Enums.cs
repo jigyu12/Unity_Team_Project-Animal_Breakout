@@ -6,6 +6,12 @@ public enum MapObjectCSVType
     PenaltyCoin,
 }
 
+public enum RewardCoinPatternCSVType
+{
+    Straight = 1,
+    Hill,
+}
+
 public enum WayType
 {
     Straight = 0,

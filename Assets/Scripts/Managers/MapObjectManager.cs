@@ -118,7 +118,7 @@ public class MapObjectManager : MonoBehaviour
             mapObjectsBlueprint.objectsTypes = new ObjectType[rows, cols];
             
             int prefabID = entry.Key;
-            List<MapObjectsData> dataList = entry.Value;
+            List<MapObjectData> dataList = entry.Value;
 
             
             for (int i = 0; i < rows; ++i)
