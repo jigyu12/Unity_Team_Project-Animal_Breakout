@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-using Random = UnityEngine.Random;
 
 public class MapObjectManager : MonoBehaviour
 {
@@ -100,19 +99,7 @@ public class MapObjectManager : MonoBehaviour
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
     }
-
-    private void Start()
-    {
-        foreach(var entry in DataTableManager.mapObjectsDataTable.GetTableEntries())
-        {
-            int prefabID = entry.Key;
-            List<MapObjectsData> dataList = entry.Value;
-
-            Debug.Log($"PrefabID: {prefabID}, Entries Count: {dataList.Count}");
-        }
-
-    }
-
+    
     public struct MapObjectsBlueprint
     {
         public ObjectType[,] objectsTypes;
