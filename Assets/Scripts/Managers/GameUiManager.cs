@@ -5,7 +5,6 @@ using System.Collections;
 
 public class GameUIManager : MonoBehaviour
 {
-    public static GameUIManager Instance { get; private set; }
 
     private GameManager gameManager;
 
@@ -15,10 +14,6 @@ public class GameUIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
     }
 
     private void Start()
@@ -29,8 +24,6 @@ public class GameUIManager : MonoBehaviour
             gameManager.onGameOver += ShowGameOverPanel;
         }
 
-        GameManager.Instance.onGameOver += ShowGameOverPanel;
-        
         mainTitleButton.onClick.RemoveAllListeners();
         mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
 

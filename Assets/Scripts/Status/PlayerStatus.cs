@@ -9,12 +9,14 @@ public class PlayerStatus : MonoBehaviour
 
     private AnimalStatus currentAnimal;
     private bool isGameOver;
-    private bool isInvincible = false;
     private Animator animator;
 
     public Action<PlayerStatus> onDie;
+    private bool isInvincible = false;
     private int defaultLayer;
     private int invincibleLayer;
+    public bool IsInvincible => isInvincible;
+
 
     public void Init(int animalID, AnimalDatabase database)
     {
@@ -44,7 +46,6 @@ public class PlayerStatus : MonoBehaviour
     {
         isInvincible = value;
         gameObject.layer = isInvincible ? invincibleLayer : defaultLayer;
-        Debug.Log($"무적 상태: {(isInvincible ? "ON" : "OFF")}");
     }
 
     [ContextMenu("Toggle Invincible")]
@@ -81,8 +82,8 @@ public class PlayerStatus : MonoBehaviour
 
         var move = GetComponent<PlayerMove>();
 
-            move.DisableInput();  
-       
+        move.DisableInput();
+
 
         if (animator != null)
         {

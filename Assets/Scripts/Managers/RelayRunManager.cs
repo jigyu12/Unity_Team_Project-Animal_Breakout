@@ -60,7 +60,7 @@ public class RelayRunManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         if (playerStatus != null)
         {
-            playerStatus.SetInvincible(false);
+            playerStatus.SetInvincible(false);  // 무적 상태 OFF
             Debug.Log("무적 상태 해제됨");
         }
     }
