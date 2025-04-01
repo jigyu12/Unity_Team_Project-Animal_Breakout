@@ -8,9 +8,10 @@ using UnityEngine;
 [Serializable]
 public class Test
 {
-    public string Direction { get; set; }
-    public string NextDirection { get; set; }
-    public int JustNumber { get; set; }
+    public int PrefabID { get; set; }
+    public int Obj_Type { get; set; }
+    public int Coor1 { get; set; }
+    public int Coor2 { get; set; }
 }
 
 public class GoogleSheetCSVWindow : EditorWindow
@@ -27,7 +28,6 @@ public class GoogleSheetCSVWindow : EditorWindow
     void OnGUI()
     {
         GUILayout.BeginHorizontal();
-
         GUILayout.Label("GoogleSheet URL");
         sheetURL = GUILayout.TextField(sheetURL);
 
