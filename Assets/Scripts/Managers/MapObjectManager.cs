@@ -171,6 +171,13 @@ public class MapObjectManager : MonoBehaviour
                             data.Coor2, data.Coor1);
                     }
                         break;
+                    case MapObjectCSVType.PenaltyCoin:
+                    {
+                        SetCreateRandomPenaltyCoinAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors,
+                            data.Coor2, data.Coor1);
+
+                    }
+                        break;
                 }
             }
             
@@ -178,7 +185,6 @@ public class MapObjectManager : MonoBehaviour
         }
         
         // SetCreateRandomRewardCoinAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
-        // SetCreateRandomPenaltyCoinAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
 
         return generateMapObjectInformationDictionary;
     }
@@ -469,34 +475,44 @@ public class MapObjectManager : MonoBehaviour
         itemHumanComponent.SetPool(itemHumanPool);
     }
 
-    private void SetCreateRandomPenaltyCoinAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
+    private void SetCreateRandomPenaltyCoinAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray, int row, int col)
     {
-        int rows = objectTypes.GetLength(0);
-        int cols = objectTypes.GetLength(1);
-
-        for (int i = 0 + nonObjectTileCount; i < rows - nonObjectTileCount; ++i)
+        // int rows = objectTypes.GetLength(0);
+        // int cols = objectTypes.GetLength(1);
+        //
+        // for (int i = 0 + nonObjectTileCount; i < rows - nonObjectTileCount; ++i)
+        // {
+        //     if (!Utils.IsChanceHit(spawnPenaltyCoinChance))
+        //         continue;
+        //
+        //     List<int> colIndexes = new();
+        //     for (int j = 0; j < cols; ++j)
+        //     {
+        //         if (objectTypes[i, j] != ObjectType.None)
+        //             continue;
+        //
+        //         colIndexes.Add(j);
+        //     }
+        //
+        //     if (colIndexes.Count == 0)
+        //     {
+        //         continue;
+        //     }
+        //
+        //     int randCol = colIndexes[Random.Range(0, colIndexes.Count)];
+        //     objectTypes[i, randCol] = ObjectType.Item;
+        //     createMapObjectActionArray[i, randCol] = CreateRandomPenaltyCoin;
+        // }
+        
+        if (objectTypes[row, col] != ObjectType.None)
         {
-            if (!Utils.IsChanceHit(spawnPenaltyCoinChance))
-                continue;
-
-            List<int> colIndexes = new();
-            for (int j = 0; j < cols; ++j)
-            {
-                if (objectTypes[i, j] != ObjectType.None)
-                    continue;
-
-                colIndexes.Add(j);
-            }
-
-            if (colIndexes.Count == 0)
-            {
-                continue;
-            }
-
-            int randCol = colIndexes[Random.Range(0, colIndexes.Count)];
-            objectTypes[i, randCol] = ObjectType.Item;
-            createMapObjectActionArray[i, randCol] = CreateRandomPenaltyCoin;
+            Debug.Assert(false, $"Object {objectTypes[row, col].ToString()} is Already Exist in : [{row}, {col}]");
+        
+            return;
         }
+        
+        objectTypes[row, col] = ObjectType.Item;
+        createMapObjectActionArray[row, col] = CreateRandomPenaltyCoin;
     }
 
     private void CreateRandomPenaltyCoin(Vector3 position)

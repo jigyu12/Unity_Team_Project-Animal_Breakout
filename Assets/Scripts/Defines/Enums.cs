@@ -3,6 +3,7 @@ public enum MapObjectCSVType
     Bomb = 1,
     Hole,
     Human,
+    PenaltyCoin,
 }
 
 public enum WayType
