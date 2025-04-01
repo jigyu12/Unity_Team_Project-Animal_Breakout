@@ -56,7 +56,10 @@ public class PlayerStatus : MonoBehaviour
     public float GetMoveSpeed() => currentAnimal?.MoveSpeed ?? 0f;
     public float GetJumpPower() => currentAnimal?.JumpingPower ?? 0f;
     [ContextMenu("Damage +1")]
-
+    public void ForceTakeDamage()
+    {
+        TakeDamage(1);
+    }
     public void TakeDamage(int damage)
     {
         if (isGameOver || isInvincible) return;
@@ -67,7 +70,8 @@ public class PlayerStatus : MonoBehaviour
         if (currentAnimal.HP <= 0) OnDie();
     }
 
-    public void ForceDie() => TakeDamage(1);
+
+
 
     private void OnDie()
     {
@@ -76,34 +80,52 @@ public class PlayerStatus : MonoBehaviour
         isGameOver = true;
 
         var move = GetComponent<PlayerMove>();
-        if (move != null) move.enabled = false;
 
-        animator?.SetTrigger("Die");
+            move.DisableInput();  
+       
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
+
+        Debug.Log($"Player Died: {currentAnimal.Name}");
         StartCoroutine(DieAndSwitch());
 
-        onDie?.Invoke(this);
     }
 
     IEnumerator DieAndSwitch()
     {
+        var gameManager = FindObjectOfType<GameManager>();
+
+        if (gameManager != null)
+        {
+            gameManager.StopAllMovements();
+        }
+
         yield return new WaitForSeconds(1.5f);
 
-        var relayManager = RelayRunManager.Instance;
+        var relayManager = FindObjectOfType<RelayRunManager>();
 
         if (relayManager != null)
         {
-            if (relayManager.HasNextRunner())
+            if (gameManager != null)
             {
-                RelayContinueUI.Instance.Show();
+                gameManager.OnPlayerDied(this);
             }
             else
             {
-                GameManager.Instance.GameOver();
+                Debug.LogError("GameManager를 찾을 수 없습니다!");
             }
+        }
+        else
+        {
+            Debug.LogError("RelayRunManager를 찾을 수 없습니다!");
         }
 
         Destroy(gameObject);
     }
+
 
 
 }

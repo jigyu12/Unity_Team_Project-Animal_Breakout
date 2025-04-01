@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class RelayContinueUI : MonoBehaviour
 {
-    public static RelayContinueUI Instance { get; private set; }
+    private RelayRunManager relayRunManager;
+    private GameManager gameManager;
 
     public GameObject panel;
     public Slider slider;
@@ -13,10 +14,18 @@ public class RelayContinueUI : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        relayRunManager = FindObjectOfType<RelayRunManager>();
+        gameManager = FindObjectOfType<GameManager>();
+
+        if (relayRunManager == null)
+        {
+            Debug.LogError("RelayRunManager를 찾을 수 없습니다!");
+        }
+
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManager를 찾을 수 없습니다!");
+        }
     }
 
     public void Show()
@@ -36,8 +45,16 @@ public class RelayContinueUI : MonoBehaviour
         if (countdown != null)
             StopCoroutine(countdown);
 
-        RelayRunManager.Instance.LoadNextRunner();
+        if (relayRunManager != null && relayRunManager.HasNextRunner())
+        {
+            relayRunManager.LoadNextRunner();
+        }
+        else
+        {
+            gameManager.GameOver();
+        }
     }
+
 
     IEnumerator Countdown()
     {
@@ -55,6 +72,13 @@ public class RelayContinueUI : MonoBehaviour
         }
 
         panel.SetActive(false);
-        GameManager.Instance.GameOver();
+        if (gameManager != null)
+        {
+            gameManager.GameOver();
+        }
+        else
+        {
+            Debug.LogError("GameManager가 존재하지 않습니다!");
+        }
     }
 }

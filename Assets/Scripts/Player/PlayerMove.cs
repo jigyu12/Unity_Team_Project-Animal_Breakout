@@ -15,15 +15,11 @@ public class PlayerMove : MonoBehaviour
     private Vector3 targetPosition;
     private float verticalVelocity;
     private bool isJumping;
-
-    private Vector2 swipeStart;
-    private Vector2 currentTouchPosition;
-
+    private bool canMove = true;
     [ReadOnly]
     public GameObject turnPivot;
 
-    public Action<Vector3,float> onRotate;
-
+    public Action<Vector3, float> onRotate;
 
     private bool canTurn = false;
     private TurnDirection allowedTurn;
@@ -33,35 +29,29 @@ public class PlayerMove : MonoBehaviour
     public void Initialize(Lane way)
     {
         this.way = way;
-
         targetPosition = way.WayIndexToPosition(wayIndex);
         transform.localPosition = targetPosition;
-
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
+        Debug.Log("PlayerMove Initialized: WayIndex = " + wayIndex);
     }
 
-
-    // void Start()
-    // {
-    //     animator = GetComponent<Animator>();
-    //     targetPosition = way.WayIndexToPosition(wayIndex);
-    //     transform.position = targetPosition;
-    // }
-
-    void Update()
+    private void Update()
     {
         UpdateJump();
+        MoveTowardsTarget();
+    }
 
+    private void MoveTowardsTarget()
+    {
         Vector3 moveTarget = new Vector3(
             targetPosition.x,
             transform.localPosition.y + verticalVelocity * Time.deltaTime,
             transform.localPosition.z
         );
-
         transform.localPosition = Vector3.MoveTowards(transform.localPosition, moveTarget, moveSpeed * Time.deltaTime);
     }
 
-    void UpdateJump()
+    private void UpdateJump()
     {
         if (isJumping)
         {
@@ -70,55 +60,34 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+
     public void OnMoveLeft(InputAction.CallbackContext context)
     {
+        if (!canMove) return;
         if (context.performed) MoveLeft();
     }
 
     public void OnMoveRight(InputAction.CallbackContext context)
     {
+        if (!canMove) return;
         if (context.performed) MoveRight();
-
-
-
     }
+
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (!canMove) return;
         if (context.performed) TryJump();
     }
 
-    public void OnTouchPosition(InputAction.CallbackContext context)
+    public void OnRotate(InputAction.CallbackContext context)
     {
-        currentTouchPosition = context.ReadValue<Vector2>();
-    }
-
-    public void OnTouchPress(InputAction.CallbackContext context)
-    {
-        if (context.started)
+        if (!canMove) return;
+        if (context.performed)
         {
-            swipeStart = currentTouchPosition;
-        }
-        else if (context.canceled)
-        {
-            Vector2 delta = currentTouchPosition - swipeStart;
-
-            if (Mathf.Abs(delta.y) > 50f && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
-            {
-                TryJump();
-            }
-            else if (Mathf.Abs(delta.x) > 50f && Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
-            {
-                if (delta.x < 0f)
-                    TryRotateLeft();
-                else
-                    TryRotateRight();
-            }
-            else if (delta.magnitude < 10f)
-            {
-                if (currentTouchPosition.x < Screen.width * 0.5f) MoveLeft();
-                else MoveRight();
-            }
+            float direction = context.ReadValue<float>();
+            if (direction < 0) TryRotateLeft();
+            else if (direction > 0) TryRotateRight();
         }
     }
 
@@ -128,10 +97,7 @@ public class PlayerMove : MonoBehaviour
         {
             isJumping = true;
             verticalVelocity = Mathf.Sqrt(-2f * gravity * jumpHeight);
-            if (animator != null)
-            {
-                animator.SetBool("Jump", true);
-            }
+            animator?.SetBool("Jump", true);
         }
     }
 
@@ -149,23 +115,10 @@ public class PlayerMove : MonoBehaviour
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
 
-    public void OnRotateLeft(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-            TryRotateLeft();
-    }
-
-    public void OnRotateRight(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-            TryRotateRight();
-    }
-
     private void TryRotateLeft()
     {
         if (canTurn && allowedTurn == TurnDirection.Left)
         {
-            //mapSpawner.Rotate(90f);
             onRotate?.Invoke(turnPivot.transform.position, 90f);
             canTurn = false;
         }
@@ -175,21 +128,27 @@ public class PlayerMove : MonoBehaviour
     {
         if (canTurn && allowedTurn == TurnDirection.Right)
         {
-            //mapSpawner.Rotate(-90f);
             onRotate?.Invoke(turnPivot.transform.position, -90f);
             canTurn = false;
         }
     }
 
-
     public void SetCanTurn(bool value, GameObject turnPivot, TurnDirection direction)
-
     {
         canTurn = value;
         allowedTurn = direction;
         this.turnPivot = turnPivot;
     }
 
+    public void DisableInput()
+    {
+        canMove = false;
+    }
+
+    public void EnableInput()
+    {
+        canMove = true;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Ground"))
@@ -199,10 +158,7 @@ public class PlayerMove : MonoBehaviour
             Vector3 newPosition = transform.localPosition;
             newPosition.y = 0f;
             transform.localPosition = newPosition;
-            if (animator != null)
-            {
-                animator.SetBool("Jump", false);
-            }
+            animator?.SetBool("Jump", false);
         }
     }
 }
