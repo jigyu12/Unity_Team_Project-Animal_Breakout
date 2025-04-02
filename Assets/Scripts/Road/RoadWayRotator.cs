@@ -1,22 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class RoadChunkRotator : MonoBehaviour
+public class RoadWayRotator : MonoBehaviour
 {
     public float rotateDuration = 5f;
 
-    private ArrowARowStyleRoadMaker roadManager;
-    private PlayerMove player;
+    private TempleRunStyleRoadMaker roadManager;
+    private PlayerMove playerMove;
 
     private bool isRotating = false;
 
-
     private void Awake()
     {
-        roadManager = GetComponent<ArrowARowStyleRoadMaker>();
+        roadManager = GetComponent<TempleRunStyleRoadMaker>();
     }
 
     private void Start()
@@ -28,10 +25,10 @@ public class RoadChunkRotator : MonoBehaviour
         relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
     }
 
-    public void GetPlayer(PlayerMove player)
+    public void GetPlayer(PlayerMove playerMove)
     {
-        this.player = player;
-        player.onRotate += Rotate;
+        this.playerMove = playerMove;
+        playerMove.onRotate += Rotate;
         enabled = true;
     }
 
@@ -43,22 +40,22 @@ public class RoadChunkRotator : MonoBehaviour
         }
     }
 
-    private void RotateLinkedChunk(RoadChunk roadChunk, Vector3 pivot, float angle)
-    {
-        //roadChunk.RotateAround(pivot, angle);
-        roadChunk.transform.RotateAround(pivot, Vector3.up, angle);
-        foreach (var next in roadChunk.NextRoadChunks)
-        {
-            //next.RotateAround(pivot, angle);
-            next.transform.RotateAround(pivot, Vector3.up, angle);
-        }
-    }
+    //private void RotateLinkedChunk(RoadWay roadChunk, Vector3 pivot, float angle)
+    //{
+    //    //roadChunk.RotateAround(pivot, angle);
+    //    roadChunk.transform.RotateAround(pivot, Vector3.up, angle);
+    //    foreach (var next in roadChunk.NextRoadChunks)
+    //    {
+    //        //next.RotateAround(pivot, angle);
+    //        next.transform.RotateAround(pivot, Vector3.up, angle);
+    //    }
+    //}
 
     private IEnumerator RotateRoutine(Vector3 pivot, float angle)
     {
         isRotating = true;
-        player.enabled = false;
-        MoveFoward scroll = player.transform.parent.GetComponent<MoveFoward>();
+        playerMove.enabled = false;
+        MoveFoward scroll = playerMove.transform.parent.GetComponent<MoveFoward>();
         if (scroll != null) scroll.enabled = false;
         float elapsed = 0f;
 
@@ -67,22 +64,22 @@ public class RoadChunkRotator : MonoBehaviour
         {
             float deltaAngle = (elapsed / rotateDuration) * angle - currentAngle;
 
-            RotateLinkedChunk(roadManager.currentRoadChunk, pivot, deltaAngle);
+            roadManager.transform.RotateAround(pivot, Vector3.up, deltaAngle);
+            //RotateLinkedChunk(roadManager.currentRoadChunk, pivot, deltaAngle);
 
             currentAngle += deltaAngle;
             elapsed += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
 
-        // ���� ����
+        
         float remainingAngle = angle - currentAngle;
-        RotateLinkedChunk(roadManager.currentRoadChunk, pivot, remainingAngle);
-
+       // RotateLinkedChunk(roadManager.currentRoadChunk, pivot, remainingAngle);
+        roadManager.transform.RotateAround(pivot, Vector3.up, remainingAngle);
         if (scroll != null) scroll.enabled = true;
 
         isRotating = false;
-        player.enabled = true;
+        playerMove.enabled = true;
 
     }
-
 }

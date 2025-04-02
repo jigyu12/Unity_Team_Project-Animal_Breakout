@@ -28,7 +28,7 @@ public class RoadChunk : MonoBehaviour
     [ReadOnly]
     public List<RoadSegment[]> roadSegments = new();
 
-    private RoadManager roadManager;
+    private ArrowARowStyleRoadMaker roadManager;
     private RoadSegment entrySegment;
 
     private int startIndex;
@@ -44,7 +44,7 @@ public class RoadChunk : MonoBehaviour
         get => nextRoadChunks;
     }
 
-    public void SetRoadManager(RoadManager roadManager)
+    public void SetRoadManager(ArrowARowStyleRoadMaker roadManager)
     {
         this.roadManager = roadManager;
     }
