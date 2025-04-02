@@ -6,9 +6,9 @@ public class GameDataManager : Singleton<GameDataManager>
 {
     private long maxScore;
     private long currentCoins;
-    
+
     private long inGameScore;
-    
+
     private OutGameUIManager outGameUIManager;
     private GameManager gameManager;
 
@@ -23,19 +23,19 @@ public class GameDataManager : Singleton<GameDataManager>
         BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
         SceneManager.sceneLoaded += OnChangeSceneHandler;
     }
-    
+
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
     }
-    
+
     public void Initialize()
     {
         TryFindOutGameUIManager();
-        
+
         outGameUIManager.SetMaxScoreText(maxScore);
         outGameUIManager.SetTotalCoinText(currentCoins);
-        
+
         ClearInGameData();
     }
 
@@ -59,43 +59,50 @@ public class GameDataManager : Singleton<GameDataManager>
     private void AddScoreInGame(long scoreToAdd)
     {
         inGameScore += scoreToAdd;
-        
+
         if (inGameScore <= 0)
         {
             inGameScore = 0;
-            
+
             gameManager.GameOver();
         }
+        UpdateScoreUI();
     }
-
+    private void UpdateScoreUI()
+    {
+        if (GameObject.FindGameObjectWithTag("ScoreUI")?.TryGetComponent(out ScoreUI scoreUI) == true)
+        {
+            scoreUI.UpdateScore(inGameScore);
+        }
+    }
     private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
     {
         if (maxScore < inGameScore)
         {
             maxScore = inGameScore;
         }
-        
-        Debug.Log( $"InGameScore : {inGameScore}");
-        Debug.Log( $"MaxScore : {maxScore}");
-            
+
+        Debug.Log($"InGameScore : {inGameScore}");
+        Debug.Log($"MaxScore : {maxScore}");
+
         currentCoins += inGameScore / 100;
-        
-        Debug.Log( $"CurrentCoins To Add : {currentCoins}");
-        
+
+        Debug.Log($"CurrentCoins To Add : {currentCoins}");
+
         if (SceneManager.GetActiveScene().name == "MainTitleSceneTest")
         {
             TryFindOutGameUIManager();
             outGameUIManager.SetMaxScoreText(maxScore);
             outGameUIManager.SetTotalCoinText(currentCoins);
-            
+
         }
         else if (SceneManager.GetActiveScene().name == "RunCopy")
         {
             TryFindOutGameManager();
         }
-        
+
         ClearInGameData();
-            
+
         Time.timeScale = 1;
     }
 }

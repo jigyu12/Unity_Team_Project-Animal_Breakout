@@ -12,10 +12,10 @@ public class OutGameUIManager : MonoBehaviour
     {
         gameStartButton.onClick.RemoveAllListeners();
         gameStartButton.onClick.AddListener(OnGameStartButtonClicked);
-        
+
         GameDataManager.Instance.Initialize();
     }
-    
+
     public void SetTotalCoinText(long coin)
     {
         totalCoinText.text = $"Total Coins : {coin.ToString()}";
@@ -28,6 +28,6 @@ public class OutGameUIManager : MonoBehaviour
 
     private void OnGameStartButtonClicked()
     {
-        SceneManagerEx.Instance.LoadScene("RunCopy");
+        SceneManagerEx.Instance.LoadScene("RunCopyMinjae");
     }
 }
