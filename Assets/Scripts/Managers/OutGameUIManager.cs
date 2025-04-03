@@ -1,9 +1,31 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class OutGameUIManager : MonoBehaviour
 {
-    private void OnGameStartButtonClicked()
+    [SerializeField] private List<DefaultCanvas> switchableCanvasList;
+    
+    [SerializeField] private ShopCanvas shopCanvas;
+    [SerializeField] private LobbyCanvas lobbyCanvas;
+    [SerializeField] private AnimalCanvas animalCanvas;
+    
+    [SerializeField] private MenuCanvas menuCanvas;
+
+    private void OnEnable()
     {
-        SceneManagerEx.Instance.LoadScene("RunCopy");
+        MenuPanel.OnBottomButtonClicked += MenuCanvasBottomButtonClickedHandler;
+    }
+
+    private void OnDisable()
+    {
+        MenuPanel.OnBottomButtonClicked -= MenuCanvasBottomButtonClickedHandler;
+    }
+
+    private void MenuCanvasBottomButtonClickedHandler(DefaultCanvasType type)
+    {
+        for(int i = 0; i < switchableCanvasList.Count; ++i)
+        {
+            switchableCanvasList[i].gameObject.SetActive(i == (int)type);
+        }
     }
 }

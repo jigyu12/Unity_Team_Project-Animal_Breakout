@@ -102,3 +102,12 @@ public enum WallType
     
     Count
 }
+
+public enum DefaultCanvasType
+{
+    Shop = 0,
+    Lobby,
+    Animal,
+    
+    Menu,
+}
