@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Pool;
+using static RoadWay;
 using static UnityEditor.Progress;
 
 
@@ -35,10 +36,7 @@ public class TempleRunStyleRoadMaker : RoadManager
     private MapObjectManager mapObjectManager;
 
     public int roadChunkSize = 10;
-    public int precreateRoadWayCount=3;
-
-    private Dictionary<int, MapObjectManager.MapObjectsBlueprint> item;
-    private Dictionary<int, List<MapObjectManager.RewardItemBlueprint>> reward;
+    public int precreateRoadWayCount = 3;
 
     private void Start()
     {
@@ -59,13 +57,9 @@ public class TempleRunStyleRoadMaker : RoadManager
             OnRelease));
         }
 
-        item= mapObjectManager.GenerateMapObjectInformation(10 * 20, 3);
-        reward = mapObjectManager.GenerateRewardItemInformation();
-
-
         int randomIndex = UnityEngine.Random.Range(0, roadWayPrefabs.Count());
         var roadWay = CreateRoadWay(0, randomIndex);
-        CreateNextRoadWay(roadWay);
+        CreateNextRoadWay(roadWay, false);
     }
 
     public void GetPlayer(PlayerMove player)
@@ -107,24 +101,24 @@ public class TempleRunStyleRoadMaker : RoadManager
         ReleasePassedRoadWay();
     }
 
-    public void CreateNextRoadWay(RoadWay previousRoadWay)
+    public void CreateNextRoadWay(RoadWay previousRoadWay, bool createMapObject = true)
     {
-        var startPoints = previousRoadWay.GetNextRoadWayPoints();   
+        var startPoints = previousRoadWay.GetNextRoadWayPoints();
         int randomIndex = UnityEngine.Random.Range(0, roadWayPrefabs.Count());
- 
+
         foreach (var trs in startPoints)
-        { 
+        {
             var roadWay = CreateRoadWay(previousRoadWay.index + 1, randomIndex);
             roadWay.transform.position = trs.position;
             roadWay.transform.rotation = Quaternion.Euler(0, trs.angle, 0);
-            //roadWay.entrySegment
 
-            for (int i = 0; i < item[1].objectsConstructors.GetLength(0); i++)
+            if (createMapObject)
             {
-                for (int j = 0; j < item[1].objectsConstructors.GetLength(1); j++)
-                {
-                    item[1].objectsConstructors[i, j]?.Invoke(roadWay.entrySegment.GetTilePosition(i, j));
-                }
+                roadWay.SetMapObjects(RoadSegmentType.Entry, mapObjectManager.GetMapObjectsBlueprint(1));
+                roadWay.SetRewardItemObjects(RoadSegmentType.Entry, mapObjectManager.GetRewardItemBlueprint(1));
+
+                roadWay.SetMapObjects(RoadSegmentType.None, mapObjectManager.GetMapObjectsBlueprint(2));
+                roadWay.SetRewardItemObjects(RoadSegmentType.None, mapObjectManager.GetRewardItemBlueprint(2));
             }
 
             previousRoadWay.AddNextRoadWay(roadWay);
@@ -158,7 +152,7 @@ public class TempleRunStyleRoadMaker : RoadManager
         while (activeRoadWays.Count != 0)
         {
             var nowRoadWay = activeRoadWays[0];
-            if (nowRoadWay.index+1 < currentRoad.index)
+            if (nowRoadWay.index + 1 < currentRoad.index)
             {
                 activeRoadWays.RemoveAt(0);
                 nowRoadWay.Release();
@@ -186,7 +180,7 @@ public class TempleRunStyleRoadMaker : RoadManager
 
     private void CreateNextRoadWay(int next, RoadWay targetRoadWay)
     {
-        if(targetRoadWay.NextRoadWays.Count==0)
+        if (targetRoadWay.NextRoadWays.Count == 0)
         {
             CreateNextRoadWay(targetRoadWay);
         }

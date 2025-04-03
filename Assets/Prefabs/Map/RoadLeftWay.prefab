@@ -54,6 +54,8 @@ MonoBehaviour:
     roadSegment: {fileID: 4795439278864172752}
   - roadSegmentType: 2
     roadSegment: {fileID: 1356788795809777079}
+  entrySegment: {fileID: 0}
+  index: 0
 --- !u!1001 &3089647124004755122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -193,6 +195,10 @@ PrefabInstance:
     - target: {fileID: 4392002336861150956, guid: 7b12c1f30495df844abbe5ebc140cba3, type: 3}
       propertyPath: m_Name
       value: RoadSegmentLeftTurn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6937601464906645682, guid: 7b12c1f30495df844abbe5ebc140cba3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

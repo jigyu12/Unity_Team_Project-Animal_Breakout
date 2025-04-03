@@ -54,6 +54,8 @@ MonoBehaviour:
     roadSegment: {fileID: 8221020632320171984}
   - roadSegmentType: 2
     roadSegment: {fileID: 1356788795809777079}
+  entrySegment: {fileID: 0}
+  index: 0
 --- !u!1001 &120824474176402932
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62,6 +64,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8714317161665136642}
     m_Modifications:
+    - target: {fileID: 1572143400153738268, guid: 0eb71f579de613f489d6dae4479f7219, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3405417494184322904, guid: 0eb71f579de613f489d6dae4479f7219, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2

@@ -25,7 +25,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
     [SerializeField]
     private EntryExitType[] roadSegments;
 
-    public  RoadSegment entrySegment;
+    public RoadSegment entrySegment;
 
     public int index;
 
@@ -49,7 +49,6 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
     public List<RoadWay> NextRoadWays => nextRoadways;
 
 
-
     public void Awake()
     {
         for (int i = 0; i < roadSegments.Count(); i++)
@@ -58,6 +57,40 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
             {
                 entrySegment = roadSegments[i].roadSegment;
                 break;
+            }
+        }
+    }
+
+    public void SetMapObjects(RoadSegmentType type, MapObjectManager.MapObjectsBlueprint blueprint)
+    {
+        foreach (var roadSegmentWithType in roadSegments)
+        {
+            if (roadSegmentWithType.roadSegmentType == type)
+            {
+                for (int i = 0; i < blueprint.objectsConstructors.GetLength(0); i++)
+                {
+                    for (int j = 0; j < blueprint.objectsConstructors.GetLength(1); j++)
+                    {
+                        blueprint.objectsConstructors[i, j]?.Invoke(roadSegmentWithType.roadSegment.GetTilePosition(i, j));
+                    }
+                }
+            }
+        }
+    }
+
+    public void SetRewardItemObjects(RoadSegmentType type, List<MapObjectManager.RewardItemBlueprint> blueprints)
+    {
+        foreach (var roadSegmentWithType in roadSegments)
+        {
+            if (roadSegmentWithType.roadSegmentType == type)
+            {
+                foreach (var unit in blueprints)
+                {
+                    var startPosition = roadSegmentWithType.roadSegment.GetTilePosition(unit.startEndCoordinate[0].Item1, unit.startEndCoordinate[0].Item2);
+                    var endPosition = roadSegmentWithType.roadSegment.GetTilePosition(unit.startEndCoordinate[1].Item1, unit.startEndCoordinate[1].Item2);
+
+                    unit.rewardItemConstructors?.Invoke(startPosition, endPosition, unit.itemGroupCount);
+                }
             }
         }
     }

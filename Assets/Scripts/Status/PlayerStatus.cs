@@ -60,6 +60,7 @@ public class PlayerStatus : MonoBehaviour
     {
         TakeDamage(1);
     }
+
     public void TakeDamage(int damage)
     {
         if (isGameOver || isInvincible) return;

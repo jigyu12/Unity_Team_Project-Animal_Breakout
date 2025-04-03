@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class RoadWayRotator : MonoBehaviour
@@ -10,6 +11,7 @@ public class RoadWayRotator : MonoBehaviour
     private PlayerMove playerMove;
 
     private bool isRotating = false;
+    private Vector3 pivot;
 
     private void Awake()
     {
@@ -37,6 +39,7 @@ public class RoadWayRotator : MonoBehaviour
     {
         if (!isRotating)
         {
+            this.pivot = pivot;
             StartCoroutine(RotateRoutine(pivot, angle));
         }
     }
@@ -81,6 +84,16 @@ public class RoadWayRotator : MonoBehaviour
 
         isRotating = false;
         playerMove.enabled = true;
+    }
 
+    private void OnDrawGizmos()
+    {
+        if(isRotating)
+        {
+            Gizmos.color = Color.red;
+            var to = pivot;
+            to.y = 5f;
+            Gizmos.DrawLine(pivot, to);
+        }
     }
 }
