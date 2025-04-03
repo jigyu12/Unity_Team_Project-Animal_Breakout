@@ -20,12 +20,8 @@ public class GameUIManager : MonoBehaviour
 
     private void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
-        if (gameManager != null)
-        {
-            gameManager.onGameOver += ShowGameOverPanel;
-        }
-
+        gameManager.onGameOver += ShowGameOverPanel;
+        
         mainTitleButton.onClick.RemoveAllListeners();
         mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
         pauseButton.onClick.RemoveAllListeners();
