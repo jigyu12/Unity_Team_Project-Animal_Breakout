@@ -29,6 +29,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
 
     public int index;
 
+
     public struct StartPoint
     {
         public StartPoint(Vector3 position, float angle)
@@ -42,6 +43,12 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
     }
 
     private List<StartPoint> nextPoints = new();
+    public List<StartPoint> NextPoints => nextPoints;
+
+    private List<RoadWay> nextRoadways = new();
+    public List<RoadWay> NextRoadWays => nextRoadways;
+
+
 
     public void Awake()
     {
@@ -60,7 +67,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
         entrySegment.SetEnterTriggerAction(action);
     }
 
-    public List<StartPoint> GetNextRoadWayPoints()
+    private void SetNextRoadWayPoints()
     {
         nextPoints.Clear();
         for (int i = 0; i < roadSegments.Count(); i++)
@@ -70,15 +77,22 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                 nextPoints.Add(new StartPoint(roadSegments[i].roadSegment.NextPosition, roadSegments[i].roadSegment.GetTileRotation()));
             }
         }
-        return nextPoints;
+    }
+
+    public void AddNextRoadWay(RoadWay next)
+    {
+        nextRoadways.Add(next);
     }
 
     public Action release;
 
     public void OnGet()
     {
+        SetNextRoadWayPoints();
+        nextRoadways.Clear();
+
         transform.rotation = Quaternion.identity;
-        foreach(var roadSegment in roadSegments)
+        foreach (var roadSegment in roadSegments)
         {
             roadSegment.roadSegment.Reset();
         }
