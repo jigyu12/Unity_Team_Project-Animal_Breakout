@@ -1,3 +1,17 @@
+public enum MapObjectCSVType
+{
+    Bomb = 1,
+    Hole,
+    Human,
+    PenaltyCoin,
+}
+
+public enum RewardCoinPatternCSVType
+{
+    Straight = 1,
+    Hill,
+}
+
 public enum WayType
 {
     Straight = 0,
