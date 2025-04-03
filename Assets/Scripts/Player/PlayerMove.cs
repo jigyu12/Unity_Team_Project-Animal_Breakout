@@ -163,17 +163,7 @@ public class PlayerMove : MonoBehaviour
         wayIndex = Mathf.Clamp(wayIndex + 1, 0, 2);
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
-    public void OnRotateLeft(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-            TryRotateLeft();
-    }
-
-    public void OnRotateRight(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-            TryRotateRight();
-    }
+   
     private void TryRotateLeft()
     {
         if (canTurn && (allowedTurn == TurnDirection.Left || allowedTurn == TurnDirection.Both))

@@ -11,6 +11,7 @@ public class DeathZoneTrigger : MonoBehaviour
             PlayerStatus player = other.GetComponent<PlayerStatus>();
             if (player != null)
             {
+                Debug.Log("DeathZone");
                 player.TakeDamage(1);
             }
         }

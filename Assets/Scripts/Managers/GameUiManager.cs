@@ -51,7 +51,7 @@ public class GameUIManager : MonoBehaviour
 
     private void OnMainTitleButtonClicked()
     {
-        SceneManagerEx.Instance.LoadScene("MainTitleSceneTestMinjae");
+        SceneManagerEx.Instance.LoadScene("MainTitleScene");
     }
     private void OnPauseButtonClicked()
     {

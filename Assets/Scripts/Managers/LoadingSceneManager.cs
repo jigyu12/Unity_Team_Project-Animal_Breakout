@@ -12,7 +12,7 @@ public class LoadingSceneManager : MonoBehaviour
 
     private void Start()
     {
-        StartLoading("RunCopyMinjae");
+        StartLoading("Run");
     }
 
     public void StartLoading(string sceneName)
@@ -58,9 +58,9 @@ public class LoadingSceneManager : MonoBehaviour
             yield return null;
         }
 
-        if (SceneManager.GetSceneByName("MainTitleSceneTestMinjae").isLoaded)
+        if (SceneManager.GetSceneByName("MainTitleScene").isLoaded)
         {
-            SceneManager.UnloadSceneAsync("MainTitleSceneTestMinjae");
+            SceneManager.UnloadSceneAsync("MainTitleScene");
         }
         SceneManager.UnloadSceneAsync("LoadingScene");
     }
