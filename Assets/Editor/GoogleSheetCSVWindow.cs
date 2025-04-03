@@ -30,6 +30,7 @@ public class GoogleSheetCSVWindow : EditorWindow
         GUILayout.BeginHorizontal();
         GUILayout.Label("GoogleSheet URL");
         sheetURL = GUILayout.TextField(sheetURL);
+        GUILayout.EndHorizontal();
 
         if (GUILayout.Button("Load"))
         {
@@ -37,10 +38,10 @@ public class GoogleSheetCSVWindow : EditorWindow
 
             if (!string.IsNullOrEmpty(path))
             {
-                GoogleSheetManager.Load<Test>(sheetURL, path);
+                GoogleSheetManager.Load(sheetURL, path);
+                AssetDatabase.Refresh();
             }
         }
-        GUILayout.EndHorizontal();
     }
 }
 

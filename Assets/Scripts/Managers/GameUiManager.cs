@@ -5,34 +5,26 @@ using System.Collections;
 
 public class GameUIManager : MonoBehaviour
 {
-    public static GameUIManager Instance { get; private set; }
 
     private GameManager gameManager;
-
     public GameObject gameOverPanel;
-
+    public GameObject pausePanel;
     public Button mainTitleButton;
+    public Button pauseButton;
+
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
     }
 
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        if (gameManager != null)
-        {
-            gameManager.onGameOver += ShowGameOverPanel;
-        }
-
         gameManager.onGameOver += ShowGameOverPanel;
-        
         mainTitleButton.onClick.RemoveAllListeners();
         mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
+        pauseButton.onClick.RemoveAllListeners();
+        pauseButton.onClick.AddListener(OnPauseButtonClicked);
 
     }
 
@@ -54,11 +46,16 @@ public class GameUIManager : MonoBehaviour
     {
         Time.timeScale = 1;
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        SceneManagerEx.Instance.LoadCurrentScene();
+        OnMainTitleButtonClicked();
     }
 
     private void OnMainTitleButtonClicked()
     {
-        SceneManagerEx.Instance.LoadScene("MainTitleSceneTest");
+        SceneManagerEx.Instance.LoadScene("MainTitleScene");
+    }
+    private void OnPauseButtonClicked()
+    {
+        pausePanel.SetActive(true);
+        Time.timeScale = 0;
     }
 }
