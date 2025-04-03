@@ -7,7 +7,6 @@ public class GameUIManager : MonoBehaviour
 {
 
     private GameManager gameManager;
-
     public GameObject gameOverPanel;
     public GameObject pausePanel;
     public Button mainTitleButton;
@@ -20,8 +19,8 @@ public class GameUIManager : MonoBehaviour
 
     private void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
         gameManager.onGameOver += ShowGameOverPanel;
-        
         mainTitleButton.onClick.RemoveAllListeners();
         mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
         pauseButton.onClick.RemoveAllListeners();
@@ -52,7 +51,7 @@ public class GameUIManager : MonoBehaviour
 
     private void OnMainTitleButtonClicked()
     {
-        SceneManagerEx.Instance.LoadScene("MainTitleSceneTest");
+        SceneManagerEx.Instance.LoadScene("MainTitleSceneTestMinjae");
     }
     private void OnPauseButtonClicked()
     {
