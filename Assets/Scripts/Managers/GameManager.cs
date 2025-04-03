@@ -96,7 +96,8 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Player Died: {status.name}");
         onPlayerDied?.Invoke(status);
         DeactivatePlayer(status);
-        if (relayRunManager.HasNextRunner())
+        var b = relayRunManager.HasNextRunner();
+        if (b)
         {
             RelayContinueUI relayContinueUI = FindObjectOfType<RelayContinueUI>();
             if (relayContinueUI != null)
