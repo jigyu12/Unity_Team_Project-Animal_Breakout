@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -49,6 +51,25 @@ public class PlayerMove : MonoBehaviour
             transform.localPosition.z
         );
         transform.localPosition = Vector3.MoveTowards(transform.localPosition, moveTarget, moveSpeed * Time.deltaTime);
+    }
+
+    public IEnumerator MoveTo(Vector3 destination)
+    {
+        var direction = (destination - transform.position).normalized;
+        while (true)
+        {
+            Vector3 deltaMove = direction * moveSpeed * Time.deltaTime;
+            if (deltaMove.sqrMagnitude > Vector3.Distance(transform.position, destination))
+            {
+                transform.position = destination;
+                yield break;
+            }
+            else
+            {
+                transform.position = transform.position + deltaMove;
+                yield return new WaitForEndOfFrame();
+            }
+        }
     }
 
     private void UpdateJump()
@@ -128,7 +149,7 @@ public class PlayerMove : MonoBehaviour
 
     private void TryRotateLeft()
     {
-        if (canTurn && (allowedTurn == TurnDirection.Left|| allowedTurn == TurnDirection.Both))
+        if (canTurn && (allowedTurn == TurnDirection.Left || allowedTurn == TurnDirection.Both))
         {
             onRotate?.Invoke(turnPivot.transform.position, 90f);
             canTurn = false;

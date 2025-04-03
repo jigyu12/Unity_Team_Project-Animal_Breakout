@@ -60,19 +60,17 @@ public class RoadWayRotator : MonoBehaviour
         isRotating = true;
         playerMove.enabled = false;
         MoveForward scroll = playerMove.transform.parent.GetComponent<MoveForward>();
-
-        //while (pivot.z-scroll.transform.position.z>1f)
-        //{
-        //    yield return new WaitForEndOfFrame();
-        //}
-
         scroll.enabled = false;
+
+        //StartCoroutine(playerMove.MoveTo(pivot));
+
         float elapsed = 0f;
         float currentAngle = 0f;
         while (elapsed < rotateDuration)
         {
             float deltaAngle = (elapsed / rotateDuration) * angle - currentAngle;
 
+            //roadManager.transform.RotateAround(playerMove.transform.position, Vector3.up, deltaAngle);
             roadManager.transform.RotateAround(pivot, Vector3.up, deltaAngle);
             //RotateLinkedChunk(roadManager.currentRoadChunk, pivot, deltaAngle);
 
@@ -85,6 +83,7 @@ public class RoadWayRotator : MonoBehaviour
         float remainingAngle = angle - currentAngle;
         // RotateLinkedChunk(roadManager.currentRoadChunk, pivot, remainingAngle);
         roadManager.transform.RotateAround(pivot, Vector3.up, remainingAngle);
+        //roadManager.transform.RotateAround(playerMove.transform.position, Vector3.up, remainingAngle);
         if (scroll != null) scroll.enabled = true;
 
         isRotating = false;
