@@ -1,11 +1,12 @@
 
+#if UNITY_EDITOR
+
 using System.Collections;
 using Unity.EditorCoroutines.Editor;
 using UnityEngine;
 using UnityEngine.Networking;
 
 [ExecuteInEditMode]
-#if UNITY_EDITOR
 public static class GoogleSheetManager
 {
 
