@@ -19,10 +19,11 @@ public class RoadWayRotator : MonoBehaviour
     private void Start()
     {
         enabled = false;
-        var relayRunManager = GameObject.FindObjectOfType<RelayRunManager>();
 
-        relayRunManager.onLoadPlayer += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
-        relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
+        var gameManager = GameObject.FindObjectOfType<GameManager>();
+
+        gameManager.onPlayerSpawned += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
+        gameManager.onPlayerDied += (playerStatus) => enabled = false;
     }
 
     public void GetPlayer(PlayerMove playerMove)
@@ -55,7 +56,7 @@ public class RoadWayRotator : MonoBehaviour
     {
         isRotating = true;
         playerMove.enabled = false;
-        MoveFoward scroll = playerMove.transform.parent.GetComponent<MoveFoward>();
+        MoveForward scroll = playerMove.transform.parent.GetComponent<MoveForward>();
         if (scroll != null) scroll.enabled = false;
         float elapsed = 0f;
 

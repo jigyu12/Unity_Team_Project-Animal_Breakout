@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Pool;
+using static UnityEditor.Progress;
 
 
 //템플런식 길 생성
@@ -35,14 +37,17 @@ public class TempleRunStyleRoadMaker : RoadManager
     public int roadChunkSize = 10;
     public int precreateRoadWayCount=3;
 
+    private Dictionary<int, MapObjectManager.MapObjectsBlueprint> item;
+    private Dictionary<int, List<MapObjectManager.RewardItemBlueprint>> reward;
+
     private void Start()
     {
         enabled = false;
-        var relayRunManager = GameObject.FindObjectOfType<RelayRunManager>();
+        var gameManager = GameObject.FindObjectOfType<GameManager>();
         mapObjectManager = GameObject.FindObjectOfType<MapObjectManager>();
 
-        relayRunManager.onLoadPlayer += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
-        relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
+        gameManager.onPlayerSpawned += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
+        gameManager.onPlayerDied += (playerStatus) => enabled = false;
 
         for (int i = 0; i < roadWayPrefabs.Count(); i++)
         {
@@ -51,8 +56,12 @@ public class TempleRunStyleRoadMaker : RoadManager
                 ObjectPoolManager.Instance.CreateObjectPool(roadWayPrefabs[prefabIndex],
                () => Instantiate(roadWayPrefabs[prefabIndex], transform),
                 OnGetRoadWay,
-                OnRelease));
+            OnRelease));
         }
+
+        item= mapObjectManager.GenerateMapObjectInformation(10 * 20, 3);
+        reward = mapObjectManager.GenerateRewardItemInformation();
+
 
         int randomIndex = UnityEngine.Random.Range(0, roadWayPrefabs.Count());
         var roadWay = CreateRoadWay(0, randomIndex);
@@ -84,6 +93,7 @@ public class TempleRunStyleRoadMaker : RoadManager
         roadWay.SetEntryTriggerAction(() => SetCurrentRoadWay(roadWay));
         roadWay.index = index;
         activeRoadWays.Add(roadWay);
+
         return roadWay;
     }
 
@@ -99,18 +109,23 @@ public class TempleRunStyleRoadMaker : RoadManager
 
     public void CreateNextRoadWay(RoadWay previousRoadWay)
     {
-        var startPoints = previousRoadWay.NextPoints;
-   
+        var startPoints = previousRoadWay.GetNextRoadWayPoints();   
         int randomIndex = UnityEngine.Random.Range(0, roadWayPrefabs.Count());
-  
-        
-
+ 
         foreach (var trs in startPoints)
-        {
-           
+        { 
             var roadWay = CreateRoadWay(previousRoadWay.index + 1, randomIndex);
             roadWay.transform.position = trs.position;
             roadWay.transform.rotation = Quaternion.Euler(0, trs.angle, 0);
+            //roadWay.entrySegment
+
+            for (int i = 0; i < item[1].objectsConstructors.GetLength(0); i++)
+            {
+                for (int j = 0; j < item[1].objectsConstructors.GetLength(1); j++)
+                {
+                    item[1].objectsConstructors[i, j]?.Invoke(roadWay.entrySegment.GetTilePosition(i, j));
+                }
+            }
 
             previousRoadWay.AddNextRoadWay(roadWay);
         }

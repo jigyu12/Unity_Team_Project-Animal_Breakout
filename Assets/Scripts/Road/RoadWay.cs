@@ -25,7 +25,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
     [SerializeField]
     private EntryExitType[] roadSegments;
 
-    private RoadSegment entrySegment;
+    public  RoadSegment entrySegment;
 
     public int index;
 
@@ -67,7 +67,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
         entrySegment.SetEnterTriggerAction(action);
     }
 
-    private void SetNextRoadWayPoints()
+    public List<StartPoint> GetNextRoadWayPoints()
     {
         nextPoints.Clear();
         for (int i = 0; i < roadSegments.Count(); i++)
@@ -77,6 +77,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                 nextPoints.Add(new StartPoint(roadSegments[i].roadSegment.NextPosition, roadSegments[i].roadSegment.GetTileRotation()));
             }
         }
+        return nextPoints;
     }
 
     public void AddNextRoadWay(RoadWay next)
@@ -88,9 +89,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
 
     public void OnGet()
     {
-        SetNextRoadWayPoints();
         nextRoadways.Clear();
-
         transform.rotation = Quaternion.identity;
         foreach (var roadSegment in roadSegments)
         {

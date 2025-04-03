@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum TurnDirection { Left, Right }
+public enum TurnDirection { Left, Right, Both }
 
 public class PlayerMove : MonoBehaviour
 {
@@ -90,6 +90,17 @@ public class PlayerMove : MonoBehaviour
             else if (direction > 0) TryRotateRight();
         }
     }
+    public void OnRotateLeft(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            TryRotateLeft();
+    }
+
+    public void OnRotateRight(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            TryRotateRight();
+    }
 
     private void TryJump()
     {
@@ -117,7 +128,7 @@ public class PlayerMove : MonoBehaviour
 
     private void TryRotateLeft()
     {
-        if (canTurn && allowedTurn == TurnDirection.Left)
+        if (canTurn && (allowedTurn == TurnDirection.Left|| allowedTurn == TurnDirection.Both))
         {
             onRotate?.Invoke(turnPivot.transform.position, 90f);
             canTurn = false;
@@ -126,7 +137,7 @@ public class PlayerMove : MonoBehaviour
 
     private void TryRotateRight()
     {
-        if (canTurn && allowedTurn == TurnDirection.Right)
+        if (canTurn && (allowedTurn == TurnDirection.Right || allowedTurn == TurnDirection.Both))
         {
             onRotate?.Invoke(turnPivot.transform.position, -90f);
             canTurn = false;
