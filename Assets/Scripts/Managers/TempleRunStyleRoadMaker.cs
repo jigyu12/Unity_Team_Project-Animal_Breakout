@@ -1,16 +1,13 @@
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.Pool;
 using static RoadWay;
-using static UnityEditor.Progress;
 
 
-//ÅÛÇÃ·±½Ä ±æ »ý¼º
+
+//ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 public class TempleRunStyleRoadMaker : RoadManager
 {
     public enum RoadMakeMode
