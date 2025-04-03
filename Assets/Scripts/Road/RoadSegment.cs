@@ -31,6 +31,7 @@ public class RoadSegment : MonoBehaviour
     {
         get => GetTilePosition(tileVerticalCount - 2, 3);
     }
+
     public Vector3 NextRightPosition
     {
         get => GetTilePosition(tileVerticalCount - 2, -1);
@@ -51,6 +52,11 @@ public class RoadSegment : MonoBehaviour
 
         Vector3 position = transform.position + (rowIndex * forward) + ((colIndex - 1) * right);
         return tiles.transform.rotation* (position- tiles.transform.position) + tiles.transform.position;
+    }
+
+    public float GetTileRotation()
+    {
+        return tiles.transform.eulerAngles.y;
     }
 
     public void SetEnterTriggerAction(Action action)
