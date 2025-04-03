@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4802636773282824836}
   - component: {fileID: 7211046204336612890}
-  - component: {fileID: 6745227689191629197}
+  - component: {fileID: 521039690435338927}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -45,10 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c63a48c9f2c044feb8c5997ad571b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modelContainer: {fileID: 0}
-  database: {fileID: 11400000, guid: 1985badb855444a6f9795bdf36cf762a, type: 2}
-  currentAnimalID: 100301
---- !u!114 &6745227689191629197
+--- !u!114 &521039690435338927
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,7 +54,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5409089082699518360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39add21b0fb604941a95a80f3a5d80f0, type: 3}
+  m_Script: {fileID: 11500000, guid: b01e5a018b8f443d99528b2803f834aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runnerIDs: cd8701000a8701006d870100

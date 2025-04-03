@@ -6,15 +6,31 @@ public class PlayerStatus : MonoBehaviour
 {
     public AnimalDatabase animalDB;
     public int currentAnimalID;
-
     private AnimalStatus currentAnimal;
     private bool isGameOver;
-    private bool isInvincible = false;
     private Animator animator;
 
     public Action<PlayerStatus> onDie;
+    private bool isInvincible = false;
     private int defaultLayer;
     private int invincibleLayer;
+    public bool IsInvincible => isInvincible;
+
+    private void Start()
+    {
+        if (animalDB == null)
+        {
+            animalDB = FindObjectOfType<AnimalDatabase>();
+            if (animalDB == null)
+            {
+                Debug.LogError("AnimalDatabase를 찾을 수 없습니다.");
+                return;
+            }
+        }
+
+        Init(currentAnimalID, animalDB);
+    }
+
 
     public void Init(int animalID, AnimalDatabase database)
     {
@@ -44,7 +60,6 @@ public class PlayerStatus : MonoBehaviour
     {
         isInvincible = value;
         gameObject.layer = isInvincible ? invincibleLayer : defaultLayer;
-        Debug.Log($"무적 상태: {(isInvincible ? "ON" : "OFF")}");
     }
 
     [ContextMenu("Toggle Invincible")]
@@ -70,19 +85,12 @@ public class PlayerStatus : MonoBehaviour
         if (currentAnimal.HP <= 0) OnDie();
     }
 
-
-
-
     private void OnDie()
     {
         if (isGameOver) return;
-
         isGameOver = true;
-
         var move = GetComponent<PlayerMove>();
-
-            move.DisableInput();  
-       
+        move.DisableInput();
 
         if (animator != null)
         {

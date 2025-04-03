@@ -16,6 +16,8 @@ public class PlayerMove : MonoBehaviour
     private float verticalVelocity;
     private bool isJumping;
     private bool canMove = true;
+    private Vector2 swipeStart;
+    private Vector2 currentTouchPosition;
     [ReadOnly]
     public GameObject turnPivot;
 
@@ -25,15 +27,30 @@ public class PlayerMove : MonoBehaviour
     private TurnDirection allowedTurn;
 
     private Animator animator;
-
-    public void Initialize(Lane way)
+    private void Start()
     {
-        this.way = way;
-        targetPosition = way.WayIndexToPosition(wayIndex);
-        transform.localPosition = targetPosition;
-        animator = GetComponentInChildren<Animator>();
-        Debug.Log("PlayerMove Initialized: WayIndex = " + wayIndex);
+        way = FindObjectOfType<Lane>();
+        if (way != null)
+        {
+            targetPosition = way.WayIndexToPosition(wayIndex);
+            transform.localPosition = targetPosition;
+            animator = GetComponentInChildren<Animator>();
+            Debug.Log("PlayerMove Initialized in Start: WayIndex = " + wayIndex);
+        }
+        else
+        {
+            Debug.LogError("Lane not found!");
+        }
     }
+
+    // public void Initialize(Lane way)
+    // {
+    //     this.way = way;
+    //     targetPosition = way.WayIndexToPosition(wayIndex);
+    //     transform.localPosition = targetPosition;
+    //     animator = GetComponentInChildren<Animator>();
+    //     Debug.Log("PlayerMove Initialized: WayIndex = " + wayIndex);
+    // }
 
     private void Update()
     {
@@ -114,7 +131,17 @@ public class PlayerMove : MonoBehaviour
         wayIndex = Mathf.Clamp(wayIndex + 1, 0, 2);
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
+    public void OnRotateLeft(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            TryRotateLeft();
+    }
 
+    public void OnRotateRight(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            TryRotateRight();
+    }
     private void TryRotateLeft()
     {
         if (canTurn && allowedTurn == TurnDirection.Left)
@@ -139,7 +166,38 @@ public class PlayerMove : MonoBehaviour
         allowedTurn = direction;
         this.turnPivot = turnPivot;
     }
+    public void OnTouchPosition(InputAction.CallbackContext context)
+    {
+        currentTouchPosition = context.ReadValue<Vector2>();
+    }
+    public void OnTouchPress(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            swipeStart = currentTouchPosition;
+        }
+        else if (context.canceled)
+        {
+            Vector2 delta = currentTouchPosition - swipeStart;
 
+            if (Mathf.Abs(delta.y) > 50f && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
+            {
+                TryJump();
+            }
+            else if (Mathf.Abs(delta.x) > 50f && Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+            {
+                if (delta.x < 0f)
+                    TryRotateLeft();
+                else
+                    TryRotateRight();
+            }
+            else if (delta.magnitude < 10f)
+            {
+                if (currentTouchPosition.x < Screen.width * 0.5f) MoveLeft();
+                else MoveRight();
+            }
+        }
+    }
     public void DisableInput()
     {
         canMove = false;
