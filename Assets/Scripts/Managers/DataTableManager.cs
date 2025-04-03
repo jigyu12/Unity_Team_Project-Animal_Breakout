@@ -10,8 +10,17 @@ public static class DataTableManager
 
     static DataTableManager()
     {
+       var mapObjectsDataTable = new MapObjectsDataTable();
+       mapObjectsDataTable.Load(Utils.MapObjectsTableName);
+       tables.Add(Utils.MapObjectsTableName, mapObjectsDataTable);
        
+       var rewardItemsDataTable = new RewardItemsDataTable();
+       rewardItemsDataTable.Load(Utils.RewardItemsTableName);
+       tables.Add(Utils.RewardItemsTableName, rewardItemsDataTable);
     }
+    
+    public static MapObjectsDataTable mapObjectsDataTable => Get<MapObjectsDataTable>(Utils.MapObjectsTableName);
+    public static RewardItemsDataTable rewardItemsDataTable => Get<RewardItemsDataTable>(Utils.RewardItemsTableName);
 
 
     public static T Get<T>(string id) where T : DataTable

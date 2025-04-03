@@ -22,10 +22,13 @@ public class RoadChunkRotator : MonoBehaviour
     private void Start()
     {
         enabled = false;
-        var relayRunManager = GameObject.FindObjectOfType<RelayRunManager>();
+        // var relayRunManager = GameObject.FindObjectOfType<RelayRunManager>();
 
-        relayRunManager.onLoadPlayer += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
-        relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
+        // relayRunManager.onLoadPlayer += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
+        // relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
+        var gameManager = GameObject.FindObjectOfType<GameManager>();
+        gameManager.onPlayerSpawned += (playerStatus) => enabled = true;
+        gameManager.onPlayerDied += (playerStatus) => enabled = false;
     }
 
     public void GetPlayer(PlayerMove player)
@@ -58,7 +61,7 @@ public class RoadChunkRotator : MonoBehaviour
     {
         isRotating = true;
         player.enabled = false;
-        MoveFoward scroll = player.transform.parent.GetComponent<MoveFoward>();
+        MoveForward scroll = player.transform.parent.GetComponent<MoveForward>();
         if (scroll != null) scroll.enabled = false;
         float elapsed = 0f;
 
