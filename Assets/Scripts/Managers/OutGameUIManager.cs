@@ -1,58 +1,32 @@
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+
 public class OutGameUIManager : MonoBehaviour
 {
-    public TMP_Text totalCoinText;
-    public TMP_Text maxScoreText;
-    public Button gameStartButton;
-    private LoadingSceneManager loadingManager;
+    [SerializeField] private List<DefaultCanvas> switchableCanvasList;
+    
+    [SerializeField] private ShopCanvas shopCanvas;
+    [SerializeField] private LobbyCanvas lobbyCanvas;
+    [SerializeField] private AnimalCanvas animalCanvas;
+    
+    [SerializeField] private MenuCanvas menuCanvas;
 
-    private void Start()
+    private void OnEnable()
     {
-        gameStartButton.onClick.RemoveAllListeners();
-        gameStartButton.onClick.AddListener(OnGameStartButtonClicked);
-        GameDataManager.Instance.Initialize();
+        MenuPanel.OnBottomButtonClicked += MenuCanvasBottomButtonClickedHandler;
     }
 
-    public void SetTotalCoinText(long coin)
+    private void OnDisable()
     {
-        totalCoinText.text = $"Total Coins : {coin.ToString()}";
+        MenuPanel.OnBottomButtonClicked -= MenuCanvasBottomButtonClickedHandler;
     }
 
-    public void SetMaxScoreText(long score)
+    private void MenuCanvasBottomButtonClickedHandler(DefaultCanvasType type)
     {
-        maxScoreText.text = $"Max Score : {score.ToString()}";
-    }
-
-    private void OnGameStartButtonClicked()
-    {
-        AnimalDatabaseLoader loader = FindObjectOfType<AnimalDatabaseLoader>();
-        if (loader != null)
+        for(int i = 0; i < switchableCanvasList.Count; ++i)
         {
-            loader.LoadDataFromCSV();
+            switchableCanvasList[i].gameObject.SetActive(i == (int)type);
         }
-
-        AnimalDatabase database = GameDataManager.Instance.GetAnimalDatabase();
-        if (database == null)
-        {
-            Debug.LogError("AnimalDatabase를 찾을 수 없습니다!");
-            return;
-        }
-        List<int> runnerIDs = new List<int>();
-        foreach (AnimalStatus animal in database.Animals)
-        {
-            runnerIDs.Add(animal.AnimalID); // Id없어서 AnimalId로 햇음
-        }
-        GameDataManager.Instance.SetRunnerIDs(runnerIDs);
-
-        SceneManager.LoadScene("LoadingScene", LoadSceneMode.Additive);
     }
-
-
 }
-
 

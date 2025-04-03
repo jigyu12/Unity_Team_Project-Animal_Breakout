@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -96,9 +95,9 @@ public class GameDataManager : Singleton<GameDataManager>
         if (SceneManager.GetActiveScene().name == "MainTitleSceneTest")
         {
             TryFindOutGameUIManager();
+            
             outGameUIManager.SetMaxScoreText(maxScore);
             outGameUIManager.SetTotalCoinText(currentCoins);
-
         }
         else if (SceneManager.GetActiveScene().name == "RunCopy")
         {
