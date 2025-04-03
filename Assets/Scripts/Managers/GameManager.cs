@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public UnityAction<PlayerStatus> onPlayerSpawned;
@@ -10,14 +10,10 @@ public class GameManager : MonoBehaviour
     public UnityAction onGameOver;
     private RelayRunManager relayRunManager;
 
-    private void Awake()
-    {
-        relayRunManager = FindObjectOfType<RelayRunManager>();
-    }
-
     private void Start()
     {
-        // LoadFirstRunner();
+        relayRunManager = FindObjectOfType<RelayRunManager>();
+        LoadFirstRunner();
     }
 
     public void LoadFirstRunner()
@@ -25,25 +21,81 @@ public class GameManager : MonoBehaviour
         int nextID = relayRunManager.GetNextRunnerID();
         if (nextID == -1)
         {
-            GameOver();
             return;
         }
 
-        LoadManager.Instance.ActivateCharacter(nextID);  // SetActive로 활성화
-        OnPlayerLoaded(LoadManager.Instance.GetPlayerStatus(nextID));
+        Transform playerParent = GameObject.FindGameObjectWithTag("PlayerParent").transform;
+        GameObject prefab = LoadManager.Instance.GetCharacterPrefab(nextID);
+        if (prefab != null)
+        {
+            GameObject character = Instantiate(prefab, playerParent);
+            character.SetActive(true);
+
+            PlayerStatus playerStatus = character.GetComponent<PlayerStatus>();
+            if (playerStatus != null)
+            {
+                OnPlayerLoaded(playerStatus);
+                ActivatePlayer(playerStatus);
+            }
+            else
+            {
+                Debug.LogError("PlayerStatus component not found on instantiated character.");
+            }
+
+        }
+;
+    }
+
+    private void InitPlayerStatus(PlayerStatus playerStatus, int animalID)
+    {
+        var animalDatabase = FindObjectOfType<AnimalDatabase>();
+        if (animalDatabase != null)
+        {
+            playerStatus.Init(animalID, animalDatabase);
+            Debug.Log($"PlayerStatus initialized for: {playerStatus.name} with ID: {animalID}");
+        }
+        else
+        {
+            Debug.LogError("AnimalDatabase not found during player initialization.");
+        }
     }
 
     public void OnPlayerLoaded(PlayerStatus status)
     {
+
         Debug.Log($"Player Spawned: {status.name}");
         onPlayerSpawned?.Invoke(status);
+    }
+
+    public void ActivatePlayer(PlayerStatus playerStatus)
+    {
+        MoveForward moveComponent = playerStatus.GetComponentInParent<MoveForward>();
+        if (moveComponent != null)
+        {
+            moveComponent.enabled = true;
+            Debug.Log($"MoveForward enabled for: {playerStatus.name}");
+        }
+
+    }
+
+
+
+
+    private void DeactivatePlayer(PlayerStatus playerStatus)
+    {
+        MoveForward moveComponent = playerStatus.GetComponent<MoveForward>();
+        if (moveComponent != null)
+        {
+            moveComponent.enabled = false;
+            Debug.Log($"MoveForward disabled for: {playerStatus.name}");
+        }
     }
 
     public void OnPlayerDied(PlayerStatus status)
     {
         Debug.Log($"Player Died: {status.name}");
         onPlayerDied?.Invoke(status);
-
+        DeactivatePlayer(status);
         if (relayRunManager.HasNextRunner())
         {
             RelayContinueUI relayContinueUI = FindObjectOfType<RelayContinueUI>();

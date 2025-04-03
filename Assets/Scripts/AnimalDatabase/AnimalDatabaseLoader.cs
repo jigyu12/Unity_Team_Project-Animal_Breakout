@@ -11,6 +11,7 @@ public class AnimalDatabaseLoader : MonoBehaviour
     private void Start()
     {
         LoadDataFromCSV();
+        GameDataManager.Instance.SetAnimalDatabase(database);
     }
 
     public void LoadDataFromCSV()

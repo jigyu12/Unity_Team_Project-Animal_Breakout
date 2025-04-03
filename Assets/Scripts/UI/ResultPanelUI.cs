@@ -26,7 +26,7 @@ public class ResultPanelUI : MonoBehaviour
     {
         GameObject gameManagerObject = GameObject.Find("GmManager");
         GameManager gameManager = gameManagerObject.GetComponent<GameManager>();
-        gameManager.LoadScene("MainTitleSceneTest");
+        gameManager.LoadScene("MainTitleSceneTestMinjae");
         GameResultPanel.SetActive(false);
     }
 }

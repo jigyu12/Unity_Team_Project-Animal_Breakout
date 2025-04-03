@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class GameDataManager : Singleton<GameDataManager>
@@ -11,6 +12,9 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private OutGameUIManager outGameUIManager;
     private GameManager gameManager;
+
+    public List<int> runnerIDs = new List<int>();
+    private AnimalDatabase animalDatabase;
 
     private void Awake()
     {
@@ -104,5 +108,24 @@ public class GameDataManager : Singleton<GameDataManager>
         ClearInGameData();
 
         Time.timeScale = 1;
+    }
+    public void SetRunnerIDs(List<int> ids)
+    {
+        runnerIDs = new List<int>(ids);
+    }
+
+    public List<int> GetRunnerIDs()
+    {
+        return new List<int>(runnerIDs);
+    }
+
+    public void SetAnimalDatabase(AnimalDatabase db)
+    {
+        animalDatabase = db;
+    }
+
+    public AnimalDatabase GetAnimalDatabase()
+    {
+        return animalDatabase;
     }
 }

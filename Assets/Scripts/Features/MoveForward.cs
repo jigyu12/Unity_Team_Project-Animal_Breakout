@@ -15,14 +15,22 @@ public class MoveForward : MonoBehaviour
 
     private void Start()
     {
-        enabled = false;
-        // var relayRunManager = GameObject.FindObjectOfType<RelayRunManager>();
-
-        // relayRunManager.onLoadPlayer += (playerStatus) => enabled = true;
-        // relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
-        var gameManager = GameObject.FindObjectOfType<GameManager>();
-        gameManager.onPlayerSpawned += (playerStatus) => enabled = true;
-        gameManager.onPlayerDied += (playerStatus) => enabled = false;
+        // enabled = false;
+        // var gameManager = GameObject.FindObjectOfType<GameManager>();
+        // gameManager.onPlayerSpawned += (playerStatus) =>
+        // {
+        //     if (playerStatus.gameObject == gameObject)
+        //     {
+        //         enabled = true;
+        //     }
+        // };
+        // gameManager.onPlayerDied += (playerStatus) =>
+        // {
+        //     if (playerStatus.gameObject == gameObject)
+        //     {
+        //         enabled = false;
+        //     }
+        // };
     }
 
     private void Update()

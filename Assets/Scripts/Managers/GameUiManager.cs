@@ -51,7 +51,7 @@ public class GameUIManager : MonoBehaviour
     {
         Time.timeScale = 1;
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        SceneManagerEx.Instance.LoadCurrentScene();
+        OnMainTitleButtonClicked();
     }
 
     private void OnMainTitleButtonClicked()
