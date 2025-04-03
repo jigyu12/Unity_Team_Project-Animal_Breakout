@@ -35,10 +35,7 @@ public class GameDataManager : Singleton<GameDataManager>
     public void Initialize()
     {
         TryFindOutGameUIManager();
-
-        outGameUIManager.SetMaxScoreText(maxScore);
-        outGameUIManager.SetTotalCoinText(currentCoins);
-
+        
         ClearInGameData();
     }
 
@@ -95,9 +92,6 @@ public class GameDataManager : Singleton<GameDataManager>
         if (SceneManager.GetActiveScene().name == "MainTitleSceneTest")
         {
             TryFindOutGameUIManager();
-            
-            outGameUIManager.SetMaxScoreText(maxScore);
-            outGameUIManager.SetTotalCoinText(currentCoins);
         }
         else if (SceneManager.GetActiveScene().name == "RunCopy")
         {
