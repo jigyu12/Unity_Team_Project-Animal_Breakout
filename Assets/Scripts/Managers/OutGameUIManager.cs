@@ -49,8 +49,7 @@ public class OutGameUIManager : MonoBehaviour
         }
         GameDataManager.Instance.SetRunnerIDs(runnerIDs);
 
-        // ✅ 로딩씬으로 전환
-        SceneManager.LoadScene("LoadingScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("LoadingScene", LoadSceneMode.Additive);
     }
 
 

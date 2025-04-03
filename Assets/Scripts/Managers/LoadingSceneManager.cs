@@ -43,14 +43,29 @@ public class LoadingSceneManager : MonoBehaviour
 
     private IEnumerator LoadGameScene(string sceneName)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        asyncLoad.allowSceneActivation = false;
+
         while (!asyncLoad.isDone)
         {
             float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
             UpdateLoadingProgress(progress);
+
+            if (asyncLoad.progress >= 0.9f)
+            {
+                asyncLoad.allowSceneActivation = true;
+            }
             yield return null;
         }
+
+        if (SceneManager.GetSceneByName("MainTitleSceneTestMinjae").isLoaded)
+        {
+            SceneManager.UnloadSceneAsync("MainTitleSceneTestMinjae");
+        }
+        SceneManager.UnloadSceneAsync("LoadingScene");
     }
+
+
 
     private void UpdateLoadingProgress(float progress)
     {
