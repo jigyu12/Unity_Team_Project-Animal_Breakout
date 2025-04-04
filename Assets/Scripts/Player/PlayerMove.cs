@@ -130,14 +130,18 @@ public class PlayerMove : MonoBehaviour
     }
     public void OnRotateLeft(InputAction.CallbackContext context)
     {
+
         if (context.performed)
-            TryRotateLeft();
+            Debug.Log("회전");
+        TryRotateLeft();
     }
 
     public void OnRotateRight(InputAction.CallbackContext context)
     {
+
         if (context.performed)
-            TryRotateRight();
+            Debug.Log("회전");
+        TryRotateRight();
     }
 
     private void TryJump()
@@ -163,7 +167,7 @@ public class PlayerMove : MonoBehaviour
         wayIndex = Mathf.Clamp(wayIndex + 1, 0, 2);
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
-   
+
     private void TryRotateLeft()
     {
         if (canTurn && (allowedTurn == TurnDirection.Left || allowedTurn == TurnDirection.Both))
