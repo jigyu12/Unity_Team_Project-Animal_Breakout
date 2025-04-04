@@ -1,18 +1,19 @@
-using Newtonsoft.Json;
+
+#if UNITY_EDITOR
+
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Unity.EditorCoroutines.Editor;
 using UnityEngine;
 using UnityEngine.Networking;
 
 [ExecuteInEditMode]
-
 public static class GoogleSheetManager
 {
+
     public static readonly string googleSheetURLFront = "https://docs.google.com/spreadsheets/d/";
     public static readonly string sheetCSVFormat = googleSheetURLFront + "{0}/export?format=csv&gid={1}";
     public static readonly string gidKey = "#gid=";
+
 
     public static void Load<T>(string sheetURL, string path)
     {
@@ -31,7 +32,7 @@ public static class GoogleSheetManager
         int idLastIndex = sheetURL.IndexOf('/', googleSheetURLFront.Length);
         string id = sheetURL.Substring(googleSheetURLFront.Length, idLastIndex - googleSheetURLFront.Length);
         int gidLastIndex = sheetURL.LastIndexOf(gidKey);
-        string gid = sheetURL.Substring(gidLastIndex+ gidKey.Length);
+        string gid = sheetURL.Substring(gidLastIndex + gidKey.Length);
 
         return string.Format(sheetCSVFormat, id, gid);
     }
@@ -68,3 +69,4 @@ public static class GoogleSheetManager
         }
     }
 }
+#endif
