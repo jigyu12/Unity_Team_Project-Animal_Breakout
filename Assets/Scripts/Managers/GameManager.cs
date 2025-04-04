@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         relayRunManager = FindObjectOfType<RelayRunManager>();
-        LoadFirstRunner();
+        // LoadFirstRunner();
     }
 
     public void LoadFirstRunner()

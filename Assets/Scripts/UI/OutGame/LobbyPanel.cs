@@ -29,12 +29,10 @@ public class LobbyPanel : MonoBehaviour
         List<int> runnerIDs = new List<int>();
         foreach (AnimalStatus animal in database.Animals)
         {
-            runnerIDs.Add(animal.AnimalID); // Id없어서 AnimalId로 햇음
+            runnerIDs.Add(animal.AnimalID);
         }
         GameDataManager.Instance.SetRunnerIDs(runnerIDs);
-
-        // ✅ 로딩씬으로 전환
-        SceneManager.LoadScene("LoadingScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("RunMinjae");
     }
 
 }

@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AnimalDatabaseLoader : MonoBehaviour
+public class AnimalDatabaseLoader : Singleton<AnimalDatabaseLoader>
 {
     public TextAsset csvFile;
     public AnimalDatabase database;
 
+    // public void Awake()
+    // {
+    //     LoadDataFromCSV();
+    //     GameDataManager.Instance.SetAnimalDatabase(database);
+    // }
     private void Start()
     {
-        LoadDataFromCSV();
-        GameDataManager.Instance.SetAnimalDatabase(database);
+
     }
 
     public void LoadDataFromCSV()
