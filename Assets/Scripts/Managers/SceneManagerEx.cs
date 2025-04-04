@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneManagerEx : Singleton<SceneManagerEx>, IManager
+public class SceneManagerEx : Singleton<SceneManagerEx>
 {
     public Action onReleaseScene;
     public Action onLoadScene;

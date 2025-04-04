@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Pool;
 
-public class MapObjectManager : MonoBehaviour
+public class MapObjectManager : InGameManager
 {
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject trapBombPrefab;
@@ -59,7 +59,20 @@ public class MapObjectManager : MonoBehaviour
     [SerializeField]
     private GameObject roadTransformRoot;
 
-    private void Awake()
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        InitializeMapObjectObjectPools();
+    }
+
+    private void Start()
+    {
+        GenerateMapObjectInformation(20, 3);
+        GenerateRewardItemInformation();
+    }
+
+    private void InitializeMapObjectObjectPools()
     {
         rewardItemSpawnChances.Add(bronzeCoinSpawnChance);
         rewardItemSpawnChances.Add(sliverCoinSpawnChance);
@@ -77,41 +90,35 @@ public class MapObjectManager : MonoBehaviour
         penaltyCoinSpawnChances.Add(fireCoinSpawnChance);
         penaltyCoinSpawnChances.Add(blackHoleCoinSpawnChance);
 
-        wallPool = ObjectPoolManager.Instance.CreateObjectPool(wallPrefab,
+        wallPool = GameManager.ObjectPoolManager.CreateObjectPool(wallPrefab,
             () => Instantiate(wallPrefab, roadTransformRoot.transform),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        trapBombPool = ObjectPoolManager.Instance.CreateObjectPool(trapBombPrefab,
+        trapBombPool = GameManager.ObjectPoolManager.CreateObjectPool(trapBombPrefab,
             () => Instantiate(trapBombPrefab, roadTransformRoot.transform),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        trapHolePool = ObjectPoolManager.Instance.CreateObjectPool(trapHolePrefab,
+        trapHolePool = GameManager.ObjectPoolManager.CreateObjectPool(trapHolePrefab,
             () => Instantiate(trapHolePrefab, roadTransformRoot.transform),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        itemRewardCoinPool = ObjectPoolManager.Instance.CreateObjectPool(itemRewardCoinPrefab,
+        itemRewardCoinPool = GameManager.ObjectPoolManager.CreateObjectPool(itemRewardCoinPrefab,
             () => Instantiate(itemRewardCoinPrefab, roadTransformRoot.transform),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        itemHumanPool = ObjectPoolManager.Instance.CreateObjectPool(itemHumanPrefab,
+        itemHumanPool = GameManager.ObjectPoolManager.CreateObjectPool(itemHumanPrefab,
             () => Instantiate(itemHumanPrefab, roadTransformRoot.transform),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        itemPenaltyCoinPool = ObjectPoolManager.Instance.CreateObjectPool(itemPenaltyCoinPrefab,
+        itemPenaltyCoinPool = GameManager.ObjectPoolManager.CreateObjectPool(itemPenaltyCoinPrefab,
             () => Instantiate(itemPenaltyCoinPrefab, roadTransformRoot.transform),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
-    }
-
-    private void Start()
-    {
-        GenerateMapObjectInformation(20, 3);
-        GenerateRewardItemInformation();
     }
 
     public struct MapObjectsBlueprint

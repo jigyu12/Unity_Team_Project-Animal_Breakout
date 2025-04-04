@@ -7,17 +7,11 @@ using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
 
 
-public class ObjectPoolManager : Singleton<ObjectPoolManager>, IManager
+public class ObjectPoolManager : InGameManager
 {
     private Dictionary<GameObject, ObjectPool<GameObject>> pools = new();
 
-    public void Start()
-    {
-        SceneManagerEx.Instance.onLoadScene += Initialize;
-        SceneManagerEx.Instance.onReleaseScene += Clear;
-    }
-
-    public ObjectPool<GameObject> CreateObjectPool(GameObject pooledObject, Func<GameObject> createFunc = null, Action<GameObject> onGet = null, Action<GameObject> onRelease = null)
+    public ObjectPool<GameObject> CreateObjectPool(GameObject pooledObject, Func<GameObject> createFunc, Action<GameObject> onGet = null, Action<GameObject> onRelease = null)
     {
         if (pools.ContainsKey(pooledObject))
         {
@@ -26,7 +20,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>, IManager
 
         ObjectPool<GameObject> pool = new
             (
-                createFunc: createFunc ??= () => Instantiate(pooledObject), //null이면 기본 Instaiate
+                createFunc: createFunc, 
                 actionOnGet: onGet,
                 actionOnRelease: onRelease,
                 //actionOnDestroy: obj => obj.Dispose(),
@@ -47,16 +41,11 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>, IManager
         }
         else
         {
-            throw new KeyNotFoundException($"No pool found for type {gameObject.name}.");
+            throw new KeyNotFoundException($"No pool found for type {pooledObject.name}.");
         }
     }
 
-    public void Initialize()
-    {
-       
-    }
-
-    public void Clear()
+    public override void Clear()
     {
         pools.Clear();
     }
