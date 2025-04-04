@@ -15,7 +15,8 @@ public class AnimalDatabaseLoader : Singleton<AnimalDatabaseLoader>
     // }
     private void Start()
     {
-
+        LoadDataFromCSV();
+        GameDataManager.Instance.SetAnimalDatabase(database);
     }
 
     public void LoadDataFromCSV()
