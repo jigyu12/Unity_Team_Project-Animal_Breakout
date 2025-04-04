@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class OutGameUIManager : MonoBehaviour
 {
-    [SerializeField] private List<DefaultCanvas> switchableCanvasList;
-    private readonly List<CanvasGroup> switchableCanvasGroupComponentList = new();
-    
     [SerializeField] private ShopCanvas shopCanvas;
     [SerializeField] private LobbyCanvas lobbyCanvas;
     [SerializeField] private AnimalCanvas animalCanvas;
-    
     [SerializeField] private MenuCanvas menuCanvas;
+    
+    [SerializeField] private List<DefaultCanvas> switchableCanvasList;
+    private readonly List<CanvasGroup> switchableCanvasGroupComponentList = new();
     
     [SerializeField] private List<LayoutGroupController> layoutGroupControllerList;
 
