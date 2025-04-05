@@ -8,13 +8,60 @@ public class LayoutGroupController : MonoBehaviour
     private VerticalLayoutGroup verticalLayoutGroup;
     private HorizontalLayoutGroup horizontalLayoutGroup;
 
-    [SerializeField] private List<LayoutElement> layoutElementList;
+    private readonly List<LayoutElement> layoutElementList = new();
+
+    private void Awake()
+    {
+        OutGameUIManager.onSwitchActiveLayoutGroupControllers += SwitchActiveLayoutGroupControllerHandler;
+    }
+
+    private void OnDestroy()
+    {
+        OutGameUIManager.onSwitchActiveLayoutGroupControllers -= SwitchActiveLayoutGroupControllerHandler;
+    }
 
     private void Start()
     {
         TryGetComponent(out gridLayoutGroup);
         TryGetComponent(out verticalLayoutGroup);
         TryGetComponent(out horizontalLayoutGroup);
+        
+        InitializeLayoutElementList();
+    }
+
+    private void SwitchActiveLayoutGroupControllerHandler(bool isActive)
+    {
+        if (isActive)
+        {
+            EnableAllLayoutComponents();
+        }
+        else
+        {
+            DisableAllLayoutComponents();
+        }
+    }
+    
+    public void EnableAllLayoutComponents()
+    {
+        if (gridLayoutGroup is not null)
+        {
+            gridLayoutGroup.enabled = true;
+        }
+
+        if (verticalLayoutGroup is not null)
+        {
+            verticalLayoutGroup.enabled = true;
+        }
+
+        if (horizontalLayoutGroup is not null)
+        {
+            horizontalLayoutGroup.enabled = true;
+        }
+
+        foreach (var layoutElement in layoutElementList)
+        {
+            layoutElement.enabled = true;
+        }
     }
     
     public void DisableAllLayoutComponents()
@@ -40,26 +87,16 @@ public class LayoutGroupController : MonoBehaviour
         }
     }
 
-    public void EnableAllLayoutComponents()
+    private void InitializeLayoutElementList()
     {
-        if (gridLayoutGroup is not null)
-        {
-            gridLayoutGroup.enabled = true;
-        }
+        layoutElementList.Clear();
 
-        if (verticalLayoutGroup is not null)
+        foreach (Transform child in transform)
         {
-            verticalLayoutGroup.enabled = true;
-        }
-
-        if (horizontalLayoutGroup is not null)
-        {
-            horizontalLayoutGroup.enabled = true;
-        }
-
-        foreach (var layoutElement in layoutElementList)
-        {
-            layoutElement.enabled = true;
+            if (child.TryGetComponent(out LayoutElement layoutElement))
+            {
+                layoutElementList.Add(layoutElement);
+            }
         }
     }
 }

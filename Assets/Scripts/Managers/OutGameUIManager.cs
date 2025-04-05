@@ -1,133 +1,69 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class OutGameUIManager : MonoBehaviour
 {
-    [SerializeField] private ShopCanvas shopCanvas;
-    [SerializeField] private LobbyCanvas lobbyCanvas;
-    [SerializeField] private AnimalCanvas animalCanvas;
-    [SerializeField] private MenuCanvas menuCanvas;
-    
-    [SerializeField] private List<DefaultCanvas> switchableCanvasList;
-    private readonly List<CanvasGroup> switchableCanvasGroupComponentList = new();
-    
-    [SerializeField] private List<LayoutGroupController> layoutGroupControllerList;
+    public static Action<bool> onSwitchActiveLayoutGroupControllers;
+    public static Action<bool> onSwitchActiveDefaultCanvases;
+    public static Action<SwitchableCanvasType> onSwitchActiveSwitchableCanvas;
+    public static Action<SwitchableCanvasType, bool, bool> onSwitchVisualizeSwitchableCanvas;
 
     private void Start()
     {
-        GetSwitchableCanvasGroupComponent();
-        
-        StartCoroutine(DisableAfterFrameAllLayoutGroup(DefaultCanvasType.Lobby));
+        StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
     }
     
-    private void OnEnable()
+    public void EnableAllLayoutGroup(SwitchableCanvasType showCanvasType)
     {
-        MenuPanel.OnBottomButtonClicked += MenuCanvasBottomButtonClickedHandler;
-    }
-
-    private void OnDisable()
-    {
-        MenuPanel.OnBottomButtonClicked -= MenuCanvasBottomButtonClickedHandler;
-    }
-
-    private void MenuCanvasBottomButtonClickedHandler(DefaultCanvasType type)
-    {
-        for(int i = 0; i < switchableCanvasList.Count; ++i)
-        {
-            switchableCanvasList[i].gameObject.SetActive(i == (int)type);
-        }
-    }
-
-    public void EnableAllLayoutGroup(DefaultCanvasType showCanvasType)
-    {
-        SwitchActiveSwitchableCanvas(true);
+        SwitchActiveDefaultCanvas(true);
         
         SwitchActiveLayoutGroupController(true);
         
-        MenuCanvasBottomButtonClickedHandler(showCanvasType);
+        SwitchActiveSwitchableCanvas(showCanvasType);
     }
     
-    public void DisableAllLayoutGroup(DefaultCanvasType showCanvasType)
+    public void DisableAllLayoutGroup(SwitchableCanvasType showCanvasType)
     {
-        SwitchActiveSwitchableCanvas(true);
+        SwitchActiveDefaultCanvas(true);
         
         SwitchActiveLayoutGroupController(false);
         
-        MenuCanvasBottomButtonClickedHandler(showCanvasType);
+        SwitchActiveSwitchableCanvas(showCanvasType);
     }
     
-    public IEnumerator DisableAfterFrameAllLayoutGroup(DefaultCanvasType showCanvasType)
+    public IEnumerator DisableAfterFrameAllLayoutGroup(SwitchableCanvasType showCanvasType)
     {
-        SwitchActiveSwitchableCanvas(true);
+        SwitchActiveDefaultCanvas(true);
         
-        SwitchVisualizeCanvas(showCanvasType, false);
+        SwitchVisualizeSwitchableCanvas(showCanvasType, false);
         
         yield return null;
 
         SwitchActiveLayoutGroupController(false);
 
-        SwitchVisualizeCanvas(showCanvasType, true);
+        SwitchVisualizeSwitchableCanvas(showCanvasType, true);
         
-        MenuCanvasBottomButtonClickedHandler(showCanvasType);
+        SwitchActiveSwitchableCanvas(showCanvasType);
     }
 
-    private void SwitchVisualizeCanvas(DefaultCanvasType showCanvasType, bool isVisibleOtherCanvas)
+    private void SwitchVisualizeSwitchableCanvas(SwitchableCanvasType showCanvasType, bool isVisibleOtherCanvas, bool isVisibleShowCanvasType = true)
     {
-        for (int i = 0; i < switchableCanvasList.Count; ++i)
-        {
-            var switchableCanvas = switchableCanvasList[i];
-            
-            if (switchableCanvas.canvasType != showCanvasType)
-            {
-                var switchableCanvasGroup = switchableCanvasGroupComponentList[i];
-
-                if (isVisibleOtherCanvas)
-                {
-                    switchableCanvasGroup.alpha = 1f;
-                }
-                else
-                {
-                    switchableCanvasGroup.alpha = 0f;
-                }
-                switchableCanvasGroup.interactable = isVisibleOtherCanvas;
-                switchableCanvasGroup.blocksRaycasts = isVisibleOtherCanvas;
-            }
-        }
+        onSwitchVisualizeSwitchableCanvas?.Invoke(showCanvasType, isVisibleOtherCanvas, isVisibleShowCanvasType);
     }
-
-    private void SwitchActiveSwitchableCanvas(bool isActive)
+    
+    private void SwitchActiveSwitchableCanvas(SwitchableCanvasType type)
     {
-        foreach (var switchableCanvas in switchableCanvasList)
-        {
-            switchableCanvas.gameObject.SetActive(isActive);
-        }
+        onSwitchActiveSwitchableCanvas?.Invoke(type);
+    }
+    
+    private void SwitchActiveDefaultCanvas(bool isActive)
+    {
+        onSwitchActiveDefaultCanvases?.Invoke(isActive);
     }
 
     private void SwitchActiveLayoutGroupController(bool isActive)
-    {
-        if (isActive)
-        {
-            foreach (var layoutGroupController in layoutGroupControllerList)
-            {
-                layoutGroupController.EnableAllLayoutComponents();
-            }
-        }
-        else
-        {
-            foreach (var layoutGroupController in layoutGroupControllerList)
-            {
-                layoutGroupController.DisableAllLayoutComponents();
-            }
-        }
-    }
-
-    private void GetSwitchableCanvasGroupComponent()
-    {
-        foreach (var switchableCanvas in switchableCanvasList)
-        {
-            switchableCanvas.TryGetComponent(out CanvasGroup canvasGroup);
-            switchableCanvasGroupComponentList.Add(canvasGroup);
-        }
+    { 
+        onSwitchActiveLayoutGroupControllers?.Invoke(isActive);
     }
 }

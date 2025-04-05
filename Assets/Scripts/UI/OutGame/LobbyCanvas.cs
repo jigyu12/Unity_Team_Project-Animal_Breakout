@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class LobbyCanvas : DefaultCanvas
+public class LobbyCanvas : SwitchableCanvas
 {
-    public override DefaultCanvasType canvasType { get; protected set; } = DefaultCanvasType.Lobby;
-    
-    [SerializeField] private LobbyPanel lobbyPanel;
+    public override DefaultCanvasType defaultCanvasType { get; protected set; } = DefaultCanvasType.Lobby;
+    protected override CanvasGroup canvasGroup { get; set; }
+
+    public override SwitchableCanvasType switchableCanvasType { get; protected set; } = SwitchableCanvasType.Lobby;
 }

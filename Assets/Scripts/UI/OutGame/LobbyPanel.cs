@@ -36,5 +36,4 @@ public class LobbyPanel : MonoBehaviour
         // ✅ 로딩씬으로 전환
         SceneManager.LoadScene("LoadingScene", LoadSceneMode.Single);
     }
-
 }

@@ -111,3 +111,10 @@ public enum DefaultCanvasType
     
     Menu,
 }
+
+public enum SwitchableCanvasType
+{
+    Shop = 0,
+    Lobby,
+    Animal,
+}
