@@ -51,7 +51,7 @@ public class GameUIManager : MonoBehaviour
 
     private void OnMainTitleButtonClicked()
     {
-        SceneManagerEx.Instance.LoadScene("MainTitleScene");
+        SceneManagerEx.Instance.LoadScene("MainTitleSceneCopy");
     }
     private void OnPauseButtonClicked()
     {
