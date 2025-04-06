@@ -6,37 +6,45 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagerEx : Singleton<SceneManagerEx>
 {
-    public Action onReleaseScene;
-    public Action onLoadScene;
+    public Action onLoadComplete;
 
-    public void LoadScene(string sceneName)
+    private void Awake()
     {
-        onReleaseScene?.Invoke();
-
-        SceneManager.LoadScene(sceneName);
-        onLoadScene?.Invoke();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    //public void LoadSceneAfterLoading(string sceneName)
-    //{
-    //    onReleaseScene?.Invoke();
-
-    //    SceneManager.LoadScene(sceneName);
-    //    onLoadScene?.Invoke();
-    //}
-
-    public void LoadCurrentScene()
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        LoadScene(SceneManager.GetActiveScene().name);
+        if (scene.name.Contains("Run") || scene.name.Contains("InGame"))
+        {
+            StartCoroutine(LoadInGameResources());
+        }
     }
 
-    public void Initialize()
+    private IEnumerator LoadInGameResources()
     {
-        
-    }
+        // 로딩창 Additive로 띄우기
+        yield return SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
 
-    public void Clear()
-    {
+        // 로딩 시작
+        bool isLoadingComplete = false;
+        LoadManager.Instance.LoadInGameResource(() =>
+        {
+            isLoadingComplete = true;
+        });
 
+        // 로딩 완료 대기
+        while (!isLoadingComplete)
+        {
+            yield return null;
+        }
+
+        Debug.Log("Game Resources Loaded!");
+
+        // 로딩 완료 후 로딩창 제거
+        yield return SceneManager.UnloadSceneAsync("LoadingScene");
+
+        // 로딩 완료
+        onLoadComplete?.Invoke();
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Events;
 using System.Collections.Generic;
 
-public class PlayerLoadManager : MonoBehaviour
+public class PlayerLoadManager
 {
     private Dictionary<int, GameObject> loadedCharacters = new Dictionary<int, GameObject>();
 
@@ -30,21 +30,21 @@ public class PlayerLoadManager : MonoBehaviour
     // 캐릭터 모델 로드
     public void LoadCharacterModel(int animalID, UnityAction<PlayerStatus> onLoaded = null)
     {
-        AnimalDatabase database = GameDataManager.Instance.GetAnimalDatabase();
-        if (database == null)
-        {
-            Debug.LogError("AnimalDatabase not found.");
-            return;
-        }
+        //AnimalDatabase database = GameDataManager.Instance.GetAnimalDatabase();
+        //if (database == null)
+        //{
+        //    Debug.LogError("AnimalDatabase not found.");
+        //    return;
+        //}
 
-        AnimalStatus character = database.GetAnimalByID(animalID);
-        if (character == null)
-        {
-            Debug.LogError($"Character data not found for ID {animalID}");
-            return;
-        }
+        //AnimalStatus character = database.GetAnimalByID(animalID);
+        //if (character == null)
+        //{
+        //    Debug.LogError($"Character data not found for ID {animalID}");
+        //    return;
+        //}
 
-        Addressables.LoadAssetAsync<GameObject>(character.PrefabKey).Completed += (handle) =>
+        Addressables.LoadAssetAsync<GameObject>(animalID.ToString()).Completed += (handle) =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
@@ -55,7 +55,7 @@ public class PlayerLoadManager : MonoBehaviour
                 if (status == null)
                 {
                     status = characterPrefab.AddComponent<PlayerStatus>();
-                    status.Init(animalID, database);
+                    status.Initialize(animalID);
                 }
 
                 onLoaded?.Invoke(status);

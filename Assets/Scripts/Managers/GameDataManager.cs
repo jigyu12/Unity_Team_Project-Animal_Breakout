@@ -10,7 +10,8 @@ public class GameDataManager : Singleton<GameDataManager>
     private long inGameScore;
 
     private OutGameUIManager outGameUIManager;
-    private GameManager gameManager;
+    //private GameManager gameManager;
+    private GameManager_new gameManager;
 
     public List<int> runnerIDs = new List<int>();
     private AnimalDatabase animalDatabase;
@@ -64,7 +65,7 @@ public class GameDataManager : Singleton<GameDataManager>
         {
             inGameScore = 0;
 
-            gameManager.GameOver();
+            //gameManager.GameOver();
         }
         UpdateScoreUI();
     }
@@ -102,23 +103,24 @@ public class GameDataManager : Singleton<GameDataManager>
 
         Time.timeScale = 1;
     }
-    public void SetRunnerIDs(List<int> ids)
-    {
-        runnerIDs = new List<int>(ids);
-    }
 
-    public List<int> GetRunnerIDs()
-    {
-        return new List<int>(runnerIDs);
-    }
+    //public void SetRunnerIDs(List<int> ids)
+    //{
+    //    runnerIDs = new List<int>(ids);
+    //}
 
-    public void SetAnimalDatabase(AnimalDatabase db)
-    {
-        animalDatabase = db;
-    }
+    //public List<int> GetRunnerIDs()
+    //{
+    //    return new List<int>(runnerIDs);
+    //}
 
-    public AnimalDatabase GetAnimalDatabase()
-    {
-        return animalDatabase;
-    }
+    //public void SetAnimalDatabase(AnimalDatabase db)
+    //{
+    //    animalDatabase = db;
+    //}
+
+    //public AnimalDatabase GetAnimalDatabase()
+    //{
+    //    return animalDatabase;
+    //}
 }

@@ -13,48 +13,53 @@ public class LoadManager : Singleton<LoadManager>
 
     private void InitializePlayerLoadManager()
     {
+        //if (playerLoadManager == null)
+        //{
+        //    playerLoadManager = FindObjectOfType<PlayerLoadManager>();
+        //    if (playerLoadManager == null)
+        //    {
+        //        GameObject obj = new GameObject("PlayerLoadManager");
+        //        playerLoadManager = obj.AddComponent<PlayerLoadManager>();
+        //        DontDestroyOnLoad(obj);
+        //    }
+        //}
+
         if (playerLoadManager == null)
         {
-            playerLoadManager = FindObjectOfType<PlayerLoadManager>();
-            if (playerLoadManager == null)
-            {
-                GameObject obj = new GameObject("PlayerLoadManager");
-                playerLoadManager = obj.AddComponent<PlayerLoadManager>();
-                DontDestroyOnLoad(obj);
-            }
+            playerLoadManager = new PlayerLoadManager();
         }
     }
 
     // 게임 데이터 전체 로드
     public void LoadGameData(UnityAction onAllLoaded)
     {
-        InitializePlayerLoadManager();
-        Debug.Log("Loading game data...");
-        List<int> runnerIDs = new List<int>();
+        //InitializePlayerLoadManager();
+        //Debug.Log("Loading game data...");
+        //List<int> runnerIDs = new List<int>();
 
-        // 데이터 로드
-        AnimalDatabaseLoader loader = FindObjectOfType<AnimalDatabaseLoader>();
-        if (loader != null)
-        {
-            loader.LoadDataFromCSV();
-        }
+        //// 데이터 로드
+        //AnimalDatabaseLoader loader = FindObjectOfType<AnimalDatabaseLoader>();
+        //if (loader != null)
+        //{
+        //    loader.LoadDataFromCSV();
+        //}
 
-        AnimalDatabase database = GameDataManager.Instance.GetAnimalDatabase();
-        if (database == null)
-        {
-            Debug.LogError("AnimalDatabase를 찾을 수 없습니다!");
-            onAllLoaded?.Invoke();
-            return;
-        }
+        //AnimalDatabase database = GameDataManager.Instance.GetAnimalDatabase();
+        //if (database == null)
+        //{
+        //    Debug.LogError("AnimalDatabase를 찾을 수 없습니다!");
+        //    onAllLoaded?.Invoke();
+        //    return;
+        //}
 
-        foreach (AnimalStatus animal in database.Animals)
-        {
-            runnerIDs.Add(animal.AnimalID);
-        }
-        GameDataManager.Instance.SetRunnerIDs(runnerIDs);
+        //foreach (AnimalStatus animal in database.Animals)
+        //{
+        //    runnerIDs.Add(animal.AnimalID);
+        //}
+        //GameDataManager.Instance.SetRunnerIDs(runnerIDs);
 
-        // 캐릭터 프리로드 요청
-        PreloadCharacters(runnerIDs, onAllLoaded);
+        //// 캐릭터 프리로드 요청
+        //PreloadCharacters(runnerIDs, onAllLoaded);
     }
 
     // 캐릭터 프리로드 요청
@@ -76,6 +81,17 @@ public class LoadManager : Singleton<LoadManager>
     public void InitializeGame(UnityAction onInitialized)
     {
         Debug.Log("Initializing Game...");
-        LoadGameData(onInitialized);
+        //LoadGameData(onInitialized);
+    }
+
+    public void LoadInGameResource(UnityAction onInitialized)
+    {
+        Debug.Log("Load InGame Resource...");
+
+        InitializePlayerLoadManager();
+        Debug.Log("Loading game data...");
+       
+        // 캐릭터 프리로드 요청
+        PreloadCharacters(DataTableManager.animalDataTable.GetAnimalIDs(), onInitialized);
     }
 }

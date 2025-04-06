@@ -3,38 +3,43 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
-public class GameUIManager : MonoBehaviour
+public class GameUIManager : InGameManager
 {
 
-    private GameManager gameManager;
+    //private GameManager gameManager;
     public GameObject gameOverPanel;
     public GameObject pausePanel;
     public Button mainTitleButton;
     public Button pauseButton;
 
-
     private void Awake()
     {
     }
 
+    public override void Initialize()
+    {
+        base.Initialize();
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, ShowGameOverPanel);
+    }
+
     private void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
-        gameManager.onGameOver += ShowGameOverPanel;
+        //gameManager = FindObjectOfType<GameManager>();
+        //gameManager.onGameOver += ShowGameOverPanel;
+
         mainTitleButton.onClick.RemoveAllListeners();
         mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
         pauseButton.onClick.RemoveAllListeners();
         pauseButton.onClick.AddListener(OnPauseButtonClicked);
-
     }
 
-    private void OnDestroy()
-    {
-        if (gameManager != null)
-        {
-            gameManager.onGameOver -= ShowGameOverPanel;
-        }
-    }
+    //private void OnDestroy()
+    //{
+    //    //if (gameManager != null)
+    //    //{
+    //    //    gameManager.onGameOver -= ShowGameOverPanel;
+    //    //}
+    //}
 
     private void ShowGameOverPanel()
     {
@@ -51,7 +56,7 @@ public class GameUIManager : MonoBehaviour
 
     private void OnMainTitleButtonClicked()
     {
-        SceneManagerEx.Instance.LoadScene("MainTitleScene");
+        SceneManager.LoadScene("MainTitleScene");
     }
     private void OnPauseButtonClicked()
     {

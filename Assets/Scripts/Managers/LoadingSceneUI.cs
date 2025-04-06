@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadingSceneManager : MonoBehaviour
+public class LoadingSceneUI : MonoBehaviour
 {
     public Slider progressBar;
     public TMP_Text progressText;

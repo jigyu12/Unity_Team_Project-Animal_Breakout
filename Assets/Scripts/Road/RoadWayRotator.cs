@@ -18,15 +18,15 @@ public class RoadWayRotator : MonoBehaviour
         roadManager = GetComponent<TempleRunStyleRoadMaker>();
     }
 
-    private void Start()
-    {
-        enabled = false;
+    //private void Start()
+    //{
+    //    enabled = false;
 
-        var gameManager = GameObject.FindObjectOfType<GameManager>();
+    //    var gameManager = GameObject.FindObjectOfType<GameManager>();
 
-        gameManager.onPlayerSpawned += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
-        gameManager.onPlayerDied += (playerStatus) => enabled = false;
-    }
+    //    gameManager.onPlayerSpawned += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
+    //    gameManager.onPlayerDied += (playerStatus) => enabled = false;
+    //}
 
     public void GetPlayer(PlayerMove playerMove)
     {

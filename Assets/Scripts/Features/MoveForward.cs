@@ -7,7 +7,6 @@ public class MoveForward : MonoBehaviour
     public Vector3 direction;
     public float speed;
 
-
     private void Awake()
     {
         direction.Normalize();

@@ -7,7 +7,7 @@ using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
 
 
-public class ObjectPoolManager : InGameManager
+public class ObjectPoolManager : IManager
 {
     private Dictionary<GameObject, ObjectPool<GameObject>> pools = new();
 
@@ -45,9 +45,13 @@ public class ObjectPoolManager : InGameManager
         }
     }
 
-    public override void Clear()
+    public void Clear()
     {
         pools.Clear();
     }
 
+    public void Initialize()
+    {
+       
+    }
 }

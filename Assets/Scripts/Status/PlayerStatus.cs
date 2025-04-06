@@ -4,10 +4,17 @@ using System;
 
 public class PlayerStatus : MonoBehaviour
 {
-    public AnimalDatabase animalDB;
-    public int currentAnimalID;
-    private AnimalStatus currentAnimal;
-    private bool isGameOver;
+    //1.데이터 테이블에서 바로 읽어오는 방식
+    //2.스크립터블 오브젝트 채로 프리펩화 하는 방식
+    //지금은 1번입니다. 2번으로 추후 변경토록 하세요
+    //기존 방식인 애니멀데이터 전체를 스크립터블 오브젝트화하는 것은 일반적이지 않습니다
+    //각 AnimalData를 스크립터블 오브젝트화 하여 런타임전에 미리 장착하는 방법을 추천합니다.
+    public AnimalDataTable.AnimalData animalData;
+
+    //public AnimalDatabase animalDB;
+    //public int currentAnimalID;
+    //private bool isGameOver;
+    //private AnimalStatus currentAnimal;
     private Animator animator;
 
     public Action<PlayerStatus> onDie;
@@ -18,43 +25,43 @@ public class PlayerStatus : MonoBehaviour
 
     private void Start()
     {
-        if (animalDB == null)
-        {
-            animalDB = FindObjectOfType<AnimalDatabase>();
-            if (animalDB == null)
-            {
-                Debug.LogError("AnimalDatabase를 찾을 수 없습니다.");
-                return;
-            }
-        }
+        //if (animalDB == null)
+        //{
+        //    animalDB = FindObjectOfType<AnimalDatabase>();
+        //    if (animalDB == null)
+        //    {
+        //        Debug.LogError("AnimalDatabase를 찾을 수 없습니다.");
+        //        return;
+        //    }
+        //}
 
-        Init(currentAnimalID, animalDB);
+        //Init(currentAnimalID, animalDB);
     }
-
-
-    public void Init(int animalID, AnimalDatabase database)
+    public void Initialize(int animalID)
     {
-        animalDB = database;
-        animator = GetComponentInChildren<Animator>();
-        SetAnimal(animalID);
+        animalData = DataTableManager.animalDataTable.Get(animalID);
+
+        //animalDB = database;
+        //animator = GetComponentInChildren<Animator>();
+        //SetAnimal(animalID);
         defaultLayer = LayerMask.NameToLayer("Player");
         invincibleLayer = LayerMask.NameToLayer("InvinciblePlayer");
     }
 
-    public void SetAnimal(int animalID)
-    {
-        currentAnimal = animalDB.GetAnimalByID(animalID);
-        currentAnimalID = animalID;
+    //public void SetAnimal(int animalID)
+    //{
+    //    currentAnimal = animalDB.GetAnimalByID(animalID);
+    //    currentAnimalID = animalID;
 
-        if (currentAnimal != null)
-        {
-            Debug.Log($"선택한 캐릭터: {currentAnimal.Name} | 공격력: {currentAnimal.AttackPower} | HP: {currentAnimal.HP}");
-        }
-        else
-        {
-            Debug.LogError("해당 ID의 캐릭터를 찾을 수 없음!");
-        }
-    }
+    //    if (currentAnimal != null)
+    //    {
+    //        Debug.Log($"선택한 캐릭터: {currentAnimal.Name} | 공격력: {currentAnimal.AttackPower} | HP: {currentAnimal.HP}");
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("해당 ID의 캐릭터를 찾을 수 없음!");
+    //    }
+    //}
 
     public void SetInvincible(bool value)
     {
@@ -68,8 +75,10 @@ public class PlayerStatus : MonoBehaviour
         SetInvincible(!isInvincible);
     }
 
-    public float GetMoveSpeed() => currentAnimal?.MoveSpeed ?? 0f;
-    public float GetJumpPower() => currentAnimal?.JumpingPower ?? 0f;
+    //임시로 고쳐놓은 것이라 수정이 필요합니다.
+    public float GetMoveSpeed() => animalData?.StartSpeed ?? 0f;
+    public float GetJumpPower() => animalData?.Jump ?? 0f;
+
     [ContextMenu("Damage +1")]
     public void ForceTakeDamage()
     {
@@ -78,63 +87,63 @@ public class PlayerStatus : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (isGameOver || isInvincible) return;
+        //currentAnimal.HP -= damage;
+        //Debug.Log($"{currentAnimal.Name} took {damage} damage. Current HP: {currentAnimal.HP}");
 
-        currentAnimal.HP -= damage;
-        Debug.Log($"{currentAnimal.Name} took {damage} damage. Current HP: {currentAnimal.HP}");
-
-        if (currentAnimal.HP <= 0) OnDie();
+        //if (currentAnimal.HP <= 0) OnDie();
+        
+        if (isInvincible) return;
+        OnDie();
     }
 
     private void OnDie()
     {
-        if (isGameOver) return;
-        isGameOver = true;
-        var move = GetComponent<PlayerMove>();
-        move.DisableInput();
+        //if (isGameOver) return;
+        //isGameOver = true;
+        //var move = GetComponent<PlayerMove>();
+        //move.DisableInput();
 
         if (animator != null)
         {
             animator.SetTrigger("Die");
         }
 
-        Debug.Log($"Player Died: {currentAnimal.Name}");
-        StartCoroutine(DieAndSwitch());
+        onDie?.Invoke(this);
 
+        Debug.Log($"Player Died");
+       //StartCoroutine(DieAndSwitch());
     }
 
-    IEnumerator DieAndSwitch()
-    {
-        var gameManager = FindObjectOfType<GameManager>();
+    //IEnumerator DieAndSwitch()
+    //{
+    //    var gameManager = FindObjectOfType<GameManager>();
 
-        if (gameManager != null)
-        {
-            gameManager.StopAllMovements();
-        }
+    //    if (gameManager != null)
+    //    {
+    //        gameManager.StopAllMovements();
+    //    }
 
-        yield return new WaitForSeconds(1.5f);
+    //    yield return new WaitForSeconds(1.5f);
 
-        var relayManager = FindObjectOfType<RelayRunManager>();
+    //    var relayManager = FindObjectOfType<RelayRunManager>();
 
-        if (relayManager != null)
-        {
-            if (gameManager != null)
-            {
-                gameManager.OnPlayerDied(this);
-            }
-            else
-            {
-                Debug.LogError("GameManager를 찾을 수 없습니다!");
-            }
-        }
-        else
-        {
-            Debug.LogError("RelayRunManager를 찾을 수 없습니다!");
-        }
+    //    if (relayManager != null)
+    //    {
+    //        if (gameManager != null)
+    //        {
+    //            gameManager.OnPlayerDied(this);
+    //        }
+    //        else
+    //        {
+    //            Debug.LogError("GameManager를 찾을 수 없습니다!");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("RelayRunManager를 찾을 수 없습니다!");
+    //    }
 
-        Destroy(gameObject);
-    }
-
-
+    //    Destroy(gameObject);
+    //}
 
 }

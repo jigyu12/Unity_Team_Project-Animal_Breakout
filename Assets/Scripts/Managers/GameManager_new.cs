@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager_new : MonoBehaviour
@@ -9,47 +11,53 @@ public class GameManager_new : MonoBehaviour
     {
         WaitLoading,
         GameReady,
-        GameStart,
         GamePlay,
         GameStop,
+        GameReStart,
         GameOver,
         GameClear,
         Max,
     }
 
-    private List<Action> gameStateEnterAction;
-    private List<Action> gameStateExitAction;
+    private Action[] gameStateEnterAction;
+    private Action[] gameStateExitAction;
 
     private GameState currentState;
 
     #region manager
     private List<IManager> managers = new();
 
-    public ObjectPoolManager ObjectPoolManager
-    {
-        get; private set;
-    }
+    private ObjectPoolManager objectPoolManager;
+    public ObjectPoolManager ObjectPoolManager => objectPoolManager;
+
+    private GameUIManager gameUIManager;
+    public GameUIManager UIManager => gameUIManager;
 
     private TempleRunStyleRoadMaker roadMaker;
+    public TempleRunStyleRoadMaker RoadMaker => roadMaker;
+
     private MapObjectManager mapObjectManager;
+    public MapObjectManager MapObjectManager => mapObjectManager;
+
+    private PlayerManager playerManager;
 
     #endregion
 
+    public int restartChanceCount = 1;
+    private int restartCount = 0;
+
     private void Awake()
     {
+        SceneManagerEx.Instance.onLoadComplete += OnPlayerReady;
+
         InitializeStateEnterExitActions();
-
         SetGameState(GameState.WaitLoading);
-
-
-        ObjectPoolManager = new ObjectPoolManager();
-        managers.Add(ObjectPoolManager);
     }
 
     private void InitializeStateEnterExitActions()
     {
-        gameStateEnterAction = new List<Action>((int)GameState.Max);
-        gameStateExitAction = new List<Action>((int)GameState.Max);
+        gameStateEnterAction = new Action[(int)GameState.Max];
+        gameStateExitAction = new Action[(int)GameState.Max];
     }
 
     public void AddGameStateEnterAction(GameState state, Action action)
@@ -74,27 +82,34 @@ public class GameManager_new : MonoBehaviour
 
     private void Start()
     {
-        ObjectPoolManager.SetGameManager(this);
+        InitializeManagers();
+    }
 
-        roadMaker = GameObject.FindObjectOfType<TempleRunStyleRoadMaker>();
+    private void InitializeManagers()
+    {
+        objectPoolManager = new ObjectPoolManager();
+        managers.Add(ObjectPoolManager);
+
+        var findManagers = GameObject.FindGameObjectsWithTag("Manager").ToList();
+        findManagers.Find((manager) => manager.TryGetComponent<GameUIManager>(out gameUIManager));
+        gameUIManager.SetGameManager(this);
+        managers.Add(gameUIManager);
+
+        findManagers.Find((manager) => manager.TryGetComponent<TempleRunStyleRoadMaker>(out roadMaker));
         roadMaker.SetGameManager(this);
         managers.Add(roadMaker);
 
-        mapObjectManager =GameObject.FindObjectOfType<MapObjectManager>();
+        findManagers.Find((manager) => manager.TryGetComponent<MapObjectManager>(out mapObjectManager));
         mapObjectManager.SetGameManager(this);
         managers.Add(mapObjectManager);
+
+        findManagers.Find((manager) => manager.TryGetComponent<PlayerManager>(out playerManager));
+        playerManager.SetGameManager(this);
+        managers.Add(playerManager);
 
         foreach (var manager in managers)
         {
             manager.Initialize();
-        }
-    }
-
-    private void OnDestroy()
-    {
-        foreach (var manager in managers)
-        {
-            manager.Clear();
         }
     }
 
@@ -103,6 +118,19 @@ public class GameManager_new : MonoBehaviour
         gameStateExitAction[(int)currentState]?.Invoke();
         currentState = gameState;
         gameStateEnterAction[(int)currentState]?.Invoke();
+    }
+
+    private void OnPlayerReady()
+    {
+        playerManager.SetPlayer();
+        SetGameState(GameState.GameReady);
+
+        SceneManagerEx.Instance.onLoadComplete -= OnPlayerReady;
+    }
+
+    public void SetTimeScale(float scale)
+    {
+        Time.timeScale = scale;
     }
 
 }
