@@ -8,8 +8,11 @@ public class PlayerManager : InGameManager
 
     [ReadOnly]
     public PlayerStatus currentPlayerStatus;
+    [ReadOnly]
+    public PlayerMove currentPlayerMove;
+
     [SerializeField]
-    private int animalID= 100301;
+    private int animalID = 100301;
 
     public void SetPlayer()
     {
@@ -30,6 +33,12 @@ public class PlayerManager : InGameManager
             {
                 Debug.LogError("PlayerStatus component not found on instantiated character.");
             }
+
+            PlayerMove playerMove = character.GetComponent<PlayerMove>();
+            if (playerMove != null)
+            {
+                currentPlayerMove = playerMove;
+            }
         }
         else
         {
@@ -46,5 +55,5 @@ public class PlayerManager : InGameManager
         }
     }
 
-    
+
 }

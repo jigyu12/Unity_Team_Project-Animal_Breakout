@@ -7,7 +7,6 @@ using UnityEngine.Pool;
 
 public class TempleRunStyleRoadMaker : InGameManager
 {
-  
     public enum RoadMakeMode
     {
         RandomWay,
@@ -22,20 +21,22 @@ public class TempleRunStyleRoadMaker : InGameManager
     private GameObject player;
 
     private List<RoadWay> activeRoadWays = new();
-
     private RoadWay currentRoad;
 
     public Action<RoadWay> onCurrentLinkChanged;
 
     public RoadSegment initialRoadSegment;
 
+    [SerializeField]
+    private RoadWayRotator roadWayRotator;
+
     public int roadChunkSize = 10;
     public int precreateRoadWayCount = 3;
-
 
     public override void Initialize()
     {
         base.Initialize();
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => roadWayRotator.SetPlayerMove(GameManager.PlayerManager));
 
         for (int i = 0; i < roadWayPrefabs.Count(); i++)
         {
@@ -157,6 +158,11 @@ public class TempleRunStyleRoadMaker : InGameManager
 
     //    NEst(next - 1, targetRoadWay);
     //}
+
+    private void CreateNNextRoadWay(int next, RoadWay previous, bool createMapObject = true)
+    {
+
+    }
 
 }
 

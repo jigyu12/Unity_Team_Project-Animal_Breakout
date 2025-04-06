@@ -40,6 +40,7 @@ public class GameManager_new : MonoBehaviour
     public MapObjectManager MapObjectManager => mapObjectManager;
 
     private PlayerManager playerManager;
+    public PlayerManager PlayerManager => playerManager;
 
     #endregion
 
