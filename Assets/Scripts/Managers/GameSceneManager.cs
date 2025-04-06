@@ -3,25 +3,16 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameSceneManager : MonoBehaviour
+public class GameSceneManager : Singleton<GameSceneManager>
 {
-    public static GameSceneManager Instance;
 
     private GameManager gameManager;
     private RelayRunManager relayRunManager;
 
+
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     // 씬 로드될 때마다 호출

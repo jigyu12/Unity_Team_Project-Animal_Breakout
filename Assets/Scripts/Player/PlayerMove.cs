@@ -13,7 +13,6 @@ public class PlayerMove : MonoBehaviour
     public float jumpHeight = 2f;
     public float gravity = -20f;
     public Lane way;
-
     private Vector3 targetPosition;
     private float verticalVelocity;
     private bool isJumping;
@@ -206,7 +205,7 @@ public class PlayerMove : MonoBehaviour
         {
             Vector2 delta = currentTouchPosition - swipeStart;
 
-            if (Mathf.Abs(delta.y) > 50f && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
+            if (Mathf.Abs(delta.y) > 30f && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
             {
                 TryJump();
             }
@@ -217,7 +216,7 @@ public class PlayerMove : MonoBehaviour
                 else
                     TryRotateRight();
             }
-            else if (delta.magnitude < 10f)
+            else if (delta.magnitude < 20f)
             {
                 if (currentTouchPosition.x < Screen.width * 0.5f) MoveLeft();
                 else MoveRight();
