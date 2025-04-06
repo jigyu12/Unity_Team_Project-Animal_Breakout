@@ -1,69 +1,74 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
-using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public UnityAction<PlayerStatus> onPlayerSpawned;
     public UnityAction<PlayerStatus> onPlayerDied;
     public UnityAction onGameOver;
-    private RelayRunManager relayRunManager;
-
+    [SerializeField] private RelayRunManager relayRunManager;
+    [SerializeField] private RelayContinueUI relayContinueUI;
+    [SerializeField] private List<MoveForward> moveForwardComponents = new List<MoveForward>();
     private void Start()
     {
-        relayRunManager = FindObjectOfType<RelayRunManager>();
-        LoadFirstRunner();
+        // LoadFirstRunner();
     }
 
-    public void LoadFirstRunner()
-    {
-        int nextID = relayRunManager.GetNextRunnerID();
-        if (nextID == -1)
-        {
-            return;
-        }
+    //     public void LoadFirstRunner()
+    //     {
+    //         int nextID = relayRunManager.GetNextRunnerID();
+    //         if (nextID == -1)
+    //         {
+    //             return;
+    //         }
 
-        Transform playerParent = GameObject.FindGameObjectWithTag("PlayerParent").transform;
-        GameObject prefab = LoadManager.Instance.GetCharacterPrefab(nextID);
-        if (prefab != null)
-        {
-            GameObject character = Instantiate(prefab, playerParent);
-            character.SetActive(true);
+    //         Transform playerParent = GameObject.FindGameObjectWithTag("PlayerParent").transform;
+    //         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(nextID);
+    //         if (prefab != null)
+    //         {
+    //             GameObject character = Instantiate(prefab, playerParent);
+    //             character.SetActive(true);
 
-            PlayerStatus playerStatus = character.GetComponent<PlayerStatus>();
-            if (playerStatus != null)
-            {
-                OnPlayerLoaded(playerStatus);
-                ActivatePlayer(playerStatus);
-            }
-            else
-            {
-                Debug.LogError("PlayerStatus component not found on instantiated character.");
-            }
+    //             PlayerStatus playerStatus = character.GetComponent<PlayerStatus>();
+    //             if (playerStatus != null)
+    //             {
+    //                 OnPlayerLoaded(playerStatus);
+    //                 ActivatePlayer(playerStatus);
+    //             }
+    //             else
+    //             {
+    //                 Debug.LogError("PlayerStatus component not found on instantiated character.");
+    //             }
 
-        }
-;
-    }
+    //         }
+    // ;
+    //     }
 
-    private void InitPlayerStatus(PlayerStatus playerStatus, int animalID)
-    {
-        var animalDatabase = FindObjectOfType<AnimalDatabase>();
-        if (animalDatabase != null)
-        {
-            playerStatus.Init(animalID, animalDatabase);
-            Debug.Log($"PlayerStatus initialized for: {playerStatus.name} with ID: {animalID}");
-        }
-        else
-        {
-            Debug.LogError("AnimalDatabase not found during player initialization.");
-        }
-    }
+    // private void InitPlayerStatus(PlayerStatus playerStatus, int animalID)
+    // {
+    //     var animalDatabase = FindObjectOfType<AnimalDatabase>();
+    //     if (animalDatabase != null)
+    //     {
+    //         playerStatus.Init(animalID, animalDatabase);
+    //         Debug.Log($"PlayerStatus initialized for: {playerStatus.name} with ID: {animalID}");
+    //     }
+    //     else
+    //     {
+    //         Debug.LogError("AnimalDatabase not found during player initialization.");
+    //     }
+    // }
 
     public void OnPlayerLoaded(PlayerStatus status)
     {
 
-        Debug.Log($"Player Spawned: {status.name}");
+        MoveForward moveComponent = status.GetComponentInParent<MoveForward>();
+        if (moveComponent != null && !moveForwardComponents.Contains(moveComponent))
+        {
+            moveForwardComponents.Add(moveComponent);
+            Debug.Log($"Added MoveForward component for: {status.name}");
+        }
         onPlayerSpawned?.Invoke(status);
     }
 
@@ -77,10 +82,6 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
-
-
-
     private void DeactivatePlayer(PlayerStatus playerStatus)
     {
         MoveForward moveComponent = playerStatus.GetComponent<MoveForward>();
@@ -99,7 +100,6 @@ public class GameManager : MonoBehaviour
         var b = relayRunManager.HasNextRunner();
         if (b)
         {
-            RelayContinueUI relayContinueUI = FindObjectOfType<RelayContinueUI>();
             if (relayContinueUI != null)
             {
                 relayContinueUI.Show();
@@ -116,9 +116,8 @@ public class GameManager : MonoBehaviour
     }
     public void StopAllMovements()
     {
-        MoveForward[] movingObjects = FindObjectsOfType<MoveForward>();
 
-        foreach (var move in movingObjects)
+        foreach (var move in moveForwardComponents)
         {
             move.enabled = false;
         }

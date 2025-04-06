@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class AnimalDatabaseLoader : MonoBehaviour
+public class AnimalDatabaseLoader : Singleton<AnimalDatabaseLoader>
 {
     public TextAsset csvFile;
     public AnimalDatabase database;
 
-    private void Start()
+    public void Awake()
     {
         LoadDataFromCSV();
         GameDataManager.Instance.SetAnimalDatabase(database);
+        List<int> runnerIDs = new List<int>();
+        foreach (AnimalStatus animal in database.Animals)
+        {
+            runnerIDs.Add(animal.AnimalID);
+        }
+        GameDataManager.Instance.SetRunnerIDs(runnerIDs);
     }
+    // private void Start()
+    // {
+    //     LoadDataFromCSV();
+    //     GameDataManager.Instance.SetAnimalDatabase(database);
+    // }
 
     public void LoadDataFromCSV()
     {

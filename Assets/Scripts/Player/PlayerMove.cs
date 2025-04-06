@@ -13,7 +13,6 @@ public class PlayerMove : MonoBehaviour
     public float jumpHeight = 2f;
     public float gravity = -20f;
     public Lane way;
-
     private Vector3 targetPosition;
     private float verticalVelocity;
     private bool isJumping;
@@ -130,14 +129,18 @@ public class PlayerMove : MonoBehaviour
     }
     public void OnRotateLeft(InputAction.CallbackContext context)
     {
+
         if (context.performed)
-            TryRotateLeft();
+            Debug.Log("회전");
+        TryRotateLeft();
     }
 
     public void OnRotateRight(InputAction.CallbackContext context)
     {
+
         if (context.performed)
-            TryRotateRight();
+            Debug.Log("회전");
+        TryRotateRight();
     }
 
     private void TryJump()
@@ -163,7 +166,7 @@ public class PlayerMove : MonoBehaviour
         wayIndex = Mathf.Clamp(wayIndex + 1, 0, 2);
         targetPosition = way.WayIndexToPosition(wayIndex);
     }
-   
+
     private void TryRotateLeft()
     {
         if (canTurn && (allowedTurn == TurnDirection.Left || allowedTurn == TurnDirection.Both))
@@ -202,7 +205,7 @@ public class PlayerMove : MonoBehaviour
         {
             Vector2 delta = currentTouchPosition - swipeStart;
 
-            if (Mathf.Abs(delta.y) > 50f && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
+            if (Mathf.Abs(delta.y) > 30f && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
             {
                 TryJump();
             }
@@ -213,7 +216,7 @@ public class PlayerMove : MonoBehaviour
                 else
                     TryRotateRight();
             }
-            else if (delta.magnitude < 10f)
+            else if (delta.magnitude < 20f)
             {
                 if (currentTouchPosition.x < Screen.width * 0.5f) MoveLeft();
                 else MoveRight();
