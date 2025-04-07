@@ -3,11 +3,11 @@ using UnityEngine;
 public class Trap : CollidableMapObject
 {
     public override ObjectType ObjectType { get; protected set; } = ObjectType.None;
-    protected override ICollisionBehaviour CollisionBehaviour { get; set; }
+    protected override BaseCollisionBehaviour CollisionBehaviour { get; set; }
 
     public TrapType TrapType { get; private set; } = TrapType.None;
 
-    public void Init(TrapType trapType)
+    public void Initialize(TrapType trapType)
     {
         if (trapType == TrapType.None || trapType == TrapType.Count)
         {

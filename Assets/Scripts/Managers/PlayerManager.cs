@@ -1,65 +1,59 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : InGameManager
 {
-    public Transform modelContainer;
-    public AnimalDatabase database;
-    public int currentAnimalID;
+    public GameObject playerRoot;
 
-    public GameObject playerParent;
-    private GameObject currentModel;
+    [ReadOnly]
+    public PlayerStatus currentPlayerStatus;
+    [ReadOnly]
+    public PlayerMove currentPlayerMove;
 
-    private void Start()
+    [SerializeField]
+    private int animalID = 100301;
+
+    public void SetPlayer()
     {
-        //  LoadCharacterModel(currentAnimalID);
-    }
-
-    public void LoadCharacterModel(int animalID, System.Action<PlayerStatus> onLoaded = null)
-    {
-        AnimalStatus character = database.GetAnimalByID(animalID);
-        if (character == null) return;
-
-        currentAnimalID = animalID;
-        PlayerPrefs.SetInt("SelectedAnimalID", currentAnimalID);
-
-        if (currentModel != null)
+        GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
+        if (prefab != null)
         {
-            Addressables.ReleaseInstance(currentModel);
+            GameObject character = Instantiate(prefab, playerRoot.transform);
+            character.SetActive(true);
+
+            PlayerStatus playerStatus = character.GetComponent<PlayerStatus>();
+            if (playerStatus != null)
+            {
+                currentPlayerStatus = playerStatus;
+                ActivatePlayer(playerStatus);
+                Debug.Log($"Player {animalID} spawned successfully.");
+            }
+            else
+            {
+                Debug.LogError("PlayerStatus component not found on instantiated character.");
+            }
+
+            PlayerMove playerMove = character.GetComponent<PlayerMove>();
+            if (playerMove != null)
+            {
+                currentPlayerMove = playerMove;
+            }
         }
-
-        Addressables.InstantiateAsync(character.PrefabKey).Completed += (handle) =>
+        else
         {
-            if (handle.Status != AsyncOperationStatus.Succeeded) return;
-
-            currentModel = handle.Result;
-            currentModel.transform.SetParent(playerParent.transform, true);
-            var status = currentModel.GetComponent<PlayerStatus>();
-            if (status != null)
-            {
-                status.Init(animalID, database);
-                onLoaded?.Invoke(status);
-            }
-
-            var move = currentModel.GetComponent<PlayerMove>();
-            if (move != null)
-            {
-                move.Initialize(
-                    FindObjectOfType<Lane>()
-                );
-            }
-
-            var attacker = currentModel.GetComponent<Attacker>();
-            if (attacker != null && attacker.powerDisplay != null)
-            {
-                attacker.powerDisplay.Init(attacker);
-            }
-
-            var animator = currentModel.GetComponent<Animator>();
-            if (animator != null)
-                GetComponent<Animator>().runtimeAnimatorController = animator.runtimeAnimatorController;
-        };
+            Debug.LogError($"Character prefab not found for ID {animalID}.");
+        }
     }
+    public void ActivatePlayer(PlayerStatus playerStatus)
+    {
+        MoveForward moveComponent = playerStatus.GetComponentInParent<MoveForward>();
+        if (moveComponent != null)
+        {
+            moveComponent.enabled = true;
+            Debug.Log($"MoveForward enabled for: {playerStatus.name}");
+        }
+    }
+
 
 }

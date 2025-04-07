@@ -4,21 +4,21 @@ using UnityEngine;
 
 public static class CollisionBehaviourFactory
 {
-    private static readonly Dictionary<WallType, Func<ICollisionBehaviour>> WallBehaviours =
+    private static readonly Dictionary<WallType, Func<BaseCollisionBehaviour>> WallBehaviours =
         new()
         {
             { WallType.NormalWall, () => new NormalWallCollisionBehaviour() },
             { WallType.ReinforcedWall, () => new ReinforcedWallCollisionBehaviour() },
         };
     
-    private static readonly Dictionary<TrapType, Func<ICollisionBehaviour>> TrapBehaviours =
+    private static readonly Dictionary<TrapType, Func<BaseCollisionBehaviour>> TrapBehaviours =
         new()
         {
             { TrapType.Bomb, () => new BombCollisionBehaviour() },
             { TrapType.Hole, () => new HoleCollisionBehaviour() },
         };
     
-    private static readonly Dictionary<HumanItemType, Func<ICollisionBehaviour>> ItemHumanBehaviours =
+    private static readonly Dictionary<HumanItemType, Func<BaseCollisionBehaviour>> ItemHumanBehaviours =
         new()
         {
             { HumanItemType.JuniorResearcher, () => new JuniorResearcherCollisionBehaviour() },
@@ -26,7 +26,7 @@ public static class CollisionBehaviourFactory
             { HumanItemType.SeniorResearcher, () => new SeniorResearcherCollisionBehaviour() },
         };
     
-    private static readonly Dictionary<PenaltyCoinItemType, Func<ICollisionBehaviour>> ItemPenaltyCoinBehaviours =
+    private static readonly Dictionary<PenaltyCoinItemType, Func<BaseCollisionBehaviour>> ItemPenaltyCoinBehaviours =
         new()
         {
             { PenaltyCoinItemType.GhostCoin, () => new GhostCoinCollisionBehaviour() },
@@ -36,7 +36,7 @@ public static class CollisionBehaviourFactory
             { PenaltyCoinItemType.BlackHoleCoin, () => new BlackHoleCoinCollisionBehaviour() },
         };
     
-    private static readonly Dictionary<RewardCoinItemType, Func<ICollisionBehaviour>> ItemRewardCoinBehaviours =
+    private static readonly Dictionary<RewardCoinItemType, Func<BaseCollisionBehaviour>> ItemRewardCoinBehaviours =
         new()
         {
             { RewardCoinItemType.BronzeCoin, () => new BronzeCoinCollisionBehaviour() },
@@ -46,7 +46,7 @@ public static class CollisionBehaviourFactory
             { RewardCoinItemType.DiamondCoin, () => new DiamondCoinCollisionBehaviour() },
         };
 
-    public static ICollisionBehaviour GetTrapBehaviour(TrapType trapType)
+    public static BaseCollisionBehaviour GetTrapBehaviour(TrapType trapType)
     {
         if (TrapBehaviours.TryGetValue(trapType, out var behaviour))
         {
@@ -58,7 +58,7 @@ public static class CollisionBehaviourFactory
         return null;
     }
     
-    public static ICollisionBehaviour GetHumanBehaviour(HumanItemType humanItemType)
+    public static BaseCollisionBehaviour GetHumanBehaviour(HumanItemType humanItemType)
     {
         if (ItemHumanBehaviours.TryGetValue(humanItemType, out var behaviour))
         {
@@ -70,7 +70,7 @@ public static class CollisionBehaviourFactory
         return null;
     }
     
-    public static ICollisionBehaviour GetPenaltyCoinBehaviour(PenaltyCoinItemType penaltyCoinType)
+    public static BaseCollisionBehaviour GetPenaltyCoinBehaviour(PenaltyCoinItemType penaltyCoinType)
     {
         if (ItemPenaltyCoinBehaviours.TryGetValue(penaltyCoinType, out var behaviour))
         {
@@ -82,7 +82,7 @@ public static class CollisionBehaviourFactory
         return null;
     }
     
-    public static ICollisionBehaviour GetRewardCoinBehaviour(RewardCoinItemType rewardCoinType)
+    public static BaseCollisionBehaviour GetRewardCoinBehaviour(RewardCoinItemType rewardCoinType)
     {
         if (ItemRewardCoinBehaviours.TryGetValue(rewardCoinType, out var behaviour))
         {
@@ -94,7 +94,7 @@ public static class CollisionBehaviourFactory
         return null;
     }
     
-    public static ICollisionBehaviour GetWallBehaviour(WallType wallType)
+    public static BaseCollisionBehaviour GetWallBehaviour(WallType wallType)
     {
         if (WallBehaviours.TryGetValue(wallType, out var behaviour))
         {

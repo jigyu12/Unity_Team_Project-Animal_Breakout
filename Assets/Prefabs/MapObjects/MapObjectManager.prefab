@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1612362942065241673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3648270879298841218}
+  - component: {fileID: 1831342740007593670}
+  m_Layer: 0
+  m_Name: MapObjectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3648270879298841218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612362942065241673}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1831342740007593670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612362942065241673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87a055d4eb3375488ad7972aea4cff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wallPrefab: {fileID: 6230562256027410542, guid: b5fe4fae61523844bad3db8e16b65599, type: 3}
+  trapBombPrefab: {fileID: 3257141615005149829, guid: 04fcf83b38de4da4bb7f49008f81f75f, type: 3}
+  trapHolePrefab: {fileID: 3257141615005149829, guid: c243be8708c2eed488c5b14095176997, type: 3}
+  itemRewardCoinPrefab: {fileID: 3961301754911664516, guid: e6809b804b627024a837e2a89fdb01b3, type: 3}
+  itemHumanPrefab: {fileID: 8025557611546743047, guid: 6dccb2d0a3c09554e8972964aac7d605, type: 3}
+  itemPenaltyCoinPrefab: {fileID: 5665397222343229641, guid: a5a627f58046c4b46a775b98c8af1901, type: 3}
+  bronzeCoinSpawnChance: 0.5
+  sliverCoinSpawnChance: 0.2
+  goldCoinSpawnChance: 0.15
+  platinumCoinSpawnChance: 0.1
+  diamondCoinSpawnChance: 0.05
+  juniorResearcherSpawnChance: 0.6
+  researcherSpawnChance: 0.3
+  seniorResearcherSpawnChance: 0.1
+  ghostCoinSpawnChance: 0.5
+  poisonCoinSpawnChance: 0.2
+  skullCoinSpawnChance: 0.15
+  fireCoinSpawnChance: 0.1
+  blackHoleCoinSpawnChance: 0.05
+  roadTransformRoot: {fileID: 0}

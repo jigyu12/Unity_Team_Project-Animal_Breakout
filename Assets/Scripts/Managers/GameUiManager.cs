@@ -3,30 +3,43 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
-public class GameUIManager : MonoBehaviour
+public class GameUIManager : InGameManager
 {
-    public static GameUIManager Instance { get; private set; }
 
+    //private GameManager gameManager;
     public GameObject gameOverPanel;
-
+    public GameObject pausePanel;
+    public Button mainTitleButton;
+    public Button pauseButton;
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, ShowGameOverPanel);
     }
 
     private void Start()
     {
-        GameManager.Instance.onGameOver += ShowGameOverPanel;
+        //gameManager = FindObjectOfType<GameManager>();
+        //gameManager.onGameOver += ShowGameOverPanel;
+
+        mainTitleButton.onClick.RemoveAllListeners();
+        mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
+        pauseButton.onClick.RemoveAllListeners();
+        pauseButton.onClick.AddListener(OnPauseButtonClicked);
     }
 
-    private void OnDestroy()
-    {
-        GameManager.Instance.onGameOver -= ShowGameOverPanel;
-    }
+    //private void OnDestroy()
+    //{
+    //    //if (gameManager != null)
+    //    //{
+    //    //    gameManager.onGameOver -= ShowGameOverPanel;
+    //    //}
+    //}
 
     private void ShowGameOverPanel()
     {
@@ -37,8 +50,17 @@ public class GameUIManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        OnMainTitleButtonClicked();
     }
 
-
+    private void OnMainTitleButtonClicked()
+    {
+        SceneManagerEx.Instance.LoadScene("MainTitleSceneCopy");
+    }
+    private void OnPauseButtonClicked()
+    {
+        pausePanel.SetActive(true);
+        Time.timeScale = 0;
+    }
 }

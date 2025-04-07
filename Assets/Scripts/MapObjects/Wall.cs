@@ -3,11 +3,14 @@ using UnityEngine;
 public class Wall : CollidableMapObject
 {
     public override ObjectType ObjectType { get; protected set; }
-    protected override ICollisionBehaviour CollisionBehaviour { get; set; }
+    protected override BaseCollisionBehaviour CollisionBehaviour { get; set; }
     
     public WallType WallType { get; private set; } = WallType.None;
+    
+    private const long ScoreToAddNormalWall = 1000;
+    private const long ScoreToAddReinforcedWall = 1000;
 
-    public void Init(WallType wallType)
+    public void Initialize(WallType wallType)
     {
         if (wallType == WallType.None || wallType == WallType.Count)
         {
@@ -21,15 +24,21 @@ public class Wall : CollidableMapObject
         
         WallType = wallType;
         
-        // ToDo : Load Asset
+        // ToDo : Load Asset & Table
         TryGetComponent(out MeshRenderer meshRenderer);
         switch (wallType)
         {
             case WallType.NormalWall:
+            {
                 meshRenderer.material.color = Color.white;
+                CollisionBehaviour.SetScoreToAdd(ScoreToAddNormalWall);
+            }
                 break;
             case WallType.ReinforcedWall:
+            {
                 meshRenderer.material.color = Color.gray;
+                CollisionBehaviour.SetScoreToAdd(ScoreToAddReinforcedWall);
+            }
                 break;
         }
     }

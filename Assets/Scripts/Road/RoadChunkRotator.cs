@@ -1,85 +1,91 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.UIElements;
+//using System.Collections;
+//using System.Collections.Generic;
+//using System.Linq;
+//using UnityEngine;
+//using UnityEngine.UIElements;
 
-public class RoadChunkRotator : MonoBehaviour
-{
-    public float rotateDuration = 5f;
+//public class RoadChunkRotator : MonoBehaviour
+//{
+//    public float rotateDuration = 5f;
 
-    private RoadManager roadManager;
-    private PlayerMove player;
+//    private ArrowARowStyleRoadMaker roadManager;
+//    private PlayerMove player;
 
-    private bool isRotating = false;
+//    private bool isRotating = false;
 
 
-    private void Awake()
-    {
-        roadManager = GetComponent<RoadManager>();
-    }
+//    private void Awake()
+//    {
+//        roadManager = GetComponent<ArrowARowStyleRoadMaker>();
+//    }
 
-    private void Start()
-    {
-        enabled = false;
-        var relayRunManager = GameObject.FindObjectOfType<RelayRunManager>();
+//    private void Start()
+//    {
+//        enabled = false;
+//        // var relayRunManager = GameObject.FindObjectOfType<RelayRunManager>();
 
-        relayRunManager.onLoadPlayer += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
-        relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
+//        // relayRunManager.onLoadPlayer += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
+//        // relayRunManager.onDiePlayer += (playerStatus) => enabled = false;
+//        var gameManager = GameObject.FindObjectOfType<GameManager>();
+//        gameManager.onPlayerSpawned += (playerStatus) => enabled = true;
+//        gameManager.onPlayerDied += (playerStatus) => enabled = false;
+//    }
 
-    }
+//    public void GetPlayer(PlayerMove player)
+//    {
+//        this.player = player;
+//        player.onRotate += Rotate;
+//        enabled = true;
+//    }
 
-    public void GetPlayer(PlayerMove player)
-    {
-        this.player = player;
-        player.onRotate += Rotate;
-        enabled = true;
-    }
+//    public void Rotate(Vector3 pivot, float angle)
+//    {
+//        if (!isRotating)
+//        {
+//            StartCoroutine(RotateRoutine(pivot, angle));
+//        }
+//    }
 
-    public void Rotate(Vector3 pivot, float angle)
-    {
-        if (!isRotating)
-        {
-            StartCoroutine(RotateRoutine(pivot, angle));
-        }
-    }
+//    private void RotateLinkedChunk(RoadChunk roadChunk, Vector3 pivot, float angle)
+//    {
+//        //roadChunk.RotateAround(pivot, angle);
+//        roadChunk.transform.RotateAround(pivot, Vector3.up, angle);
+//        foreach (var next in roadChunk.NextRoadChunks)
+//        {
+//            //next.RotateAround(pivot, angle);
+//            next.transform.RotateAround(pivot, Vector3.up, angle);
+//        }
+//    }
 
-    private void RotateLinkedChunk(RoadChunk roadChunk, Vector3 pivot, float angle)
-    {
-        roadChunk.RotateAround(pivot, angle);
-        foreach (var next in roadChunk.NextRoadChunks)
-        {
-            next.RotateAround(pivot, angle);
-        }
-    }
+//    private IEnumerator RotateRoutine(Vector3 pivot, float angle)
+//    {
+//        isRotating = true;
+//        player.enabled = false;
+//        MoveForward scroll = player.transform.parent.GetComponent<MoveForward>();
+//        if (scroll != null) scroll.enabled = false;
+//        float elapsed = 0f;
 
-    private IEnumerator RotateRoutine(Vector3 pivot, float angle)
-    {
-        isRotating = true;
+//        float currentAngle = 0f;
+//        while (elapsed < rotateDuration)
+//        {
+//            float deltaAngle = (elapsed / rotateDuration) * angle - currentAngle;
 
-        MoveFoward scroll = player.transform.parent.GetComponent<MoveFoward>();
-        if (scroll != null) scroll.enabled = false;
-        float elapsed = 0f;
+//            RotateLinkedChunk(roadManager.currentRoadChunk, pivot, deltaAngle);
 
-        float currentAngle = 0f;
-        while (elapsed < rotateDuration)
-        {
-            float deltaAngle = (elapsed / rotateDuration) * angle - currentAngle;
+//            currentAngle += deltaAngle;
+//            elapsed += Time.deltaTime;
+//            yield return new WaitForEndOfFrame();
+//        }
 
-            RotateLinkedChunk(roadManager.currentRoadChunk, pivot, deltaAngle);
+//        //// ���� ����
+//        float remainingAngle = angle - currentAngle;
+//        RotateLinkedChunk(roadManager.currentRoadChunk, pivot, remainingAngle);
 
-            currentAngle += deltaAngle;
-            elapsed += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
+//        if (scroll != null) scroll.enabled = true;
 
-        // ���� ����
-        float remainingAngle = angle - currentAngle;
-        RotateLinkedChunk(roadManager.currentRoadChunk, pivot, remainingAngle);
+//        isRotating = false;
+//        player.enabled = true;
 
-        if (scroll != null) scroll.enabled = true;
+//    }
 
-        isRotating = false;
-    }
-
-}
+//}

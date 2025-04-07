@@ -34,78 +34,29 @@ public abstract class DataTable
         }
     }
 
-    public static void SaveCSV<T>(List<T> list, string path)
+    public static void SaveCSV<T>(List<T> list, string path, bool addcsv=false)
     {
-        using (var writer = new StreamWriter(path + ".csv"))
+        if(addcsv)
+        {
+            path += ".csv";
+        }
+
+        using (var writer = new StreamWriter(path))
         using (var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture))
         {
             csvWriter.WriteRecords(list);
         }
     }
 
-    //public static List<T> LoadGoogleSheet(string sheetURL)
-    //{
-    //    using (UnityWebRequest url = UnityWebRequest.Get(sheetURL))
-    //    {
-
-    //    }
-    //}
-
-    public static string ConvertTSVToJson(string tsv)
+    public static void SaveCSV(string text, string path, bool addcsv = false)
     {
-        string[] lines = tsv.Replace("\r\n", "\n").Split('\n');
-        if (lines.Length < 2) return "[]";
-
-        string[] headers = lines[0].Split('\t');
-        List<Dictionary<string, string>> jsonList = new List<Dictionary<string, string>>();
-
-        for (int i = 1; i < lines.Length; i++)
+        if (addcsv)
         {
-            if (string.IsNullOrWhiteSpace(lines[i]))
-            {
-                continue;
-            }
-
-            string[] values = lines[i].Split('\t');
-            Dictionary<string, string> jsonObject = new Dictionary<string, string>();
-
-            for (int j = 0; j < headers.Length && j < values.Length; j++)
-            {
-                jsonObject[headers[j]] = values[j];
-            }
-
-            jsonList.Add(jsonObject);
+            path += ".csv";
         }
-        return JsonConvert.SerializeObject(jsonList, Formatting.Indented);
+
+        File.WriteAllText(path, text);
     }
 
-    //public static string ConvertGoogleSheetURLToTSVURL(string sheetURL)
-    //{
-
-    //    string googleSheet = "https://docs.google.com/spreadsheets/d/";
-    //    string sheetTSVFormat = "{0}/export?format=tsv&gid={1}";
-
-    //    int lastIndex = sheetURL.IndexOf('/', googleSheet.Length);
-    //    string id = sheetURL.Substring(googleSheet.Length, lastIndex);
-    //    x
-    //}
-
-    public static IEnumerator LoadGoogleSheet<T>(List<T> list, string sheetURL)//, DataTable table)
-    {
-        UnityWebRequest www = UnityWebRequest.Get(sheetURL);
-        yield return www.SendWebRequest();
-
-        if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
-        {
-            Debug.Log("Err" + www.error);
-        }
-        else
-        {
-            string tsv = www.downloadHandler.text;
-            string json = ConvertTSVToJson(tsv);
-            list = JsonConvert.DeserializeObject<List<T>>(json);
-            Debug.Log("Success");
-        }
-    }
 
 }
