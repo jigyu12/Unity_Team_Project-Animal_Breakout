@@ -27,6 +27,6 @@ public class LobbyPanel : MonoBehaviour
     {
         yield return waitTime;
         
-        SceneManager.LoadScene("RunMinjae");
+        SceneManager.LoadScene("Run");
     }
 }
