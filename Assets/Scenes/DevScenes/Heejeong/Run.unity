@@ -1184,7 +1184,7 @@ PrefabInstance:
     - target: {fileID: 8036404248579013628, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 945626726}
+      objectReference: {fileID: 0}
     - target: {fileID: 8066071277982589310, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -3083,7 +3083,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 945626726}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RelayContinueUI, Assembly-CSharp
         m_MethodName: OnClickContinue
         m_Mode: 1
@@ -4582,17 +4582,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateDuration: 5
---- !u!114 &945626726 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5725109582612319284, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-  m_PrefabInstance: {fileID: 254480820}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acdd9d53521a94695b817e97988e0044, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1008285926
 GameObject:
   m_ObjectHideFlags: 0
@@ -6745,10 +6734,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1161090861}
-  rayLength: 5
+  rayLength: 10
   ignoreLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
 --- !u!1 &1856651012
 GameObject:
   m_ObjectHideFlags: 0
@@ -7711,6 +7700,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7795362620459781778, guid: 505857f046945c54f82d855818786aba, type: 3}
+      propertyPath: roadWayRotator
+      value: 
+      objectReference: {fileID: 921321391}
     - target: {fileID: 7795362620459781778, guid: 505857f046945c54f82d855818786aba, type: 3}
       propertyPath: initialRoadSegment
       value: 
