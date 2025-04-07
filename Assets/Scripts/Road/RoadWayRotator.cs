@@ -18,21 +18,10 @@ public class RoadWayRotator : MonoBehaviour
         roadManager = GetComponent<TempleRunStyleRoadMaker>();
     }
 
-    private void Start()
+    public void SetPlayerMove(PlayerManager playerManager)
     {
-        enabled = false;
-
-        var gameManager = GameObject.FindObjectOfType<GameManager>();
-
-        gameManager.onPlayerSpawned += (playerStatus) => GetPlayer(playerStatus.gameObject.GetComponent<PlayerMove>());
-        gameManager.onPlayerDied += (playerStatus) => enabled = false;
-    }
-
-    public void GetPlayer(PlayerMove playerMove)
-    {
-        this.playerMove = playerMove;
+        playerMove = playerManager.currentPlayerMove;
         playerMove.onRotate += Rotate;
-        enabled = true;
     }
 
     public void Rotate(Vector3 pivot, float angle)

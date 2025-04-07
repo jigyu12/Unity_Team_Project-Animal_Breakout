@@ -17,12 +17,17 @@ public static class DataTableManager
        var rewardItemsDataTable = new RewardItemsDataTable();
        rewardItemsDataTable.Load(Utils.RewardItemsTableName);
        tables.Add(Utils.RewardItemsTableName, rewardItemsDataTable);
+   
+        var animalDataTable = new AnimalDataTable();
+        animalDataTable.Load(Utils.AnimalTableName);
+        tables.Add(Utils.AnimalTableName, animalDataTable);
     }
     
     public static MapObjectsDataTable mapObjectsDataTable => Get<MapObjectsDataTable>(Utils.MapObjectsTableName);
     public static RewardItemsDataTable rewardItemsDataTable => Get<RewardItemsDataTable>(Utils.RewardItemsTableName);
 
-
+    public static AnimalDataTable animalDataTable => Get<AnimalDataTable>(Utils.AnimalTableName);
+   
     public static T Get<T>(string id) where T : DataTable
     {
         if (!tables.ContainsKey(id))

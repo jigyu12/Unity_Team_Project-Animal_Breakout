@@ -4,13 +4,17 @@ using System.Collections;
 using TMPro;
 public class PausePanulUI : MonoBehaviour
 {
+    //private GameManager gameManager;
+    //게임매니저를 캐싱하지 말고 UI매니저를 통해 게임매니저를 접근하는 방식으로 바꾸세요
+    [SerializeField]
+    private GameManager_new gameManager;
+
     public GameObject pausePanel;
     public GameObject RealGiveUpPanel;
     public TMP_Text countdownText;
     public Button resumeButton;
     public Button GiveUpButton;
     public Button settingsButton;
-    private GameManager gameManager;
 
     private void Start()
     {
@@ -28,18 +32,25 @@ public class PausePanulUI : MonoBehaviour
 
     private void OnResumeButtonClicked()
     {
-        GameObject gameManagerObject = GameObject.Find("GmManager");
-        if (gameManagerObject != null)
+        StartCoroutine(ResumeWithCountdown(countdownText, pausePanel));
+    }
+
+    public IEnumerator ResumeWithCountdown(TMP_Text countdownText, GameObject pausePanel)
+    {
+        gameManager.SetTimeScale(0);
+        pausePanel.SetActive(false);
+        countdownText.gameObject.SetActive(true);
+
+        for (int i = 3; i > 0; i--)
         {
-            gameManager = gameManagerObject.GetComponent<GameManager>();
-            StartCoroutine(gameManager.ResumeWithCountdown(countdownText, pausePanel));
-        }
-        else
-        {
-            Debug.LogError("GameManager 오브젝트를 찾을 수 없습니다.");
+            countdownText.text = i.ToString();
+            yield return new WaitForSecondsRealtime(1);
         }
 
+        countdownText.gameObject.SetActive(false);
+        gameManager.SetTimeScale(1);
     }
+
     private void OnGiveUpButtonClicked()
     {
         RealGiveUpPanel.SetActive(true);

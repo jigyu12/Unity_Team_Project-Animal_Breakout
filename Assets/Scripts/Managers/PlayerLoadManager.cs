@@ -4,10 +4,11 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Events;
 using System.Collections.Generic;
 
-public class PlayerLoadManager : MonoBehaviour
+public class PlayerLoadManager
 {
     private Dictionary<int, GameObject> loadedCharacters = new Dictionary<int, GameObject>();
 
+    // 캐릭터 모델 미리 로드
     public void PreloadCharacterModels(List<int> animalIDs, UnityAction onAllLoaded = null)
     {
         int totalToLoad = animalIDs.Count;
@@ -26,36 +27,37 @@ public class PlayerLoadManager : MonoBehaviour
         }
     }
 
+    // 캐릭터 모델 로드
     public void LoadCharacterModel(int animalID, UnityAction<PlayerStatus> onLoaded = null)
     {
-        AnimalDatabase database = GameDataManager.Instance.GetAnimalDatabase();
-        if (database == null)
-        {
-            Debug.LogError("AnimalDatabase not found.");
-            return;
-        }
+        //AnimalDatabase database = GameDataManager.Instance.GetAnimalDatabase();
+        //if (database == null)
+        //{
+        //    Debug.LogError("AnimalDatabase not found.");
+        //    return;
+        //}
 
-        AnimalStatus character = database.GetAnimalByID(animalID);
-        if (character == null)
-        {
-            Debug.LogError($"Character data not found for ID {animalID}");
-            return;
-        }
+        //AnimalStatus character = database.GetAnimalByID(animalID);
+        //if (character == null)
+        //{
+        //    Debug.LogError($"Character data not found for ID {animalID}");
+        //    return;
+        //}
 
-        Addressables.LoadAssetAsync<GameObject>(character.PrefabKey).Completed += (handle) =>
+        Addressables.LoadAssetAsync<GameObject>(animalID.ToString()).Completed += (handle) =>
         {
             if (handle.Status == AsyncOperationStatus.Succeeded)
             {
                 GameObject characterPrefab = handle.Result;
                 loadedCharacters[animalID] = characterPrefab;
-                //  onLoaded?.Invoke(null);
                 PlayerStatus status = characterPrefab.GetComponent<PlayerStatus>();
 
                 if (status == null)
                 {
                     status = characterPrefab.AddComponent<PlayerStatus>();
-                    status.Init(animalID, database); // Init으로 데이터 세팅
+                    status.Initialize(animalID);
                 }
+
                 onLoaded?.Invoke(status);
                 Debug.Log($"Character model loaded for ID {animalID}");
             }
@@ -66,6 +68,7 @@ public class PlayerLoadManager : MonoBehaviour
         };
     }
 
+    // 캐릭터 프리팹 가져오기
     public GameObject GetLoadedCharacterPrefab(int animalID)
     {
         if (loadedCharacters.TryGetValue(animalID, out GameObject characterPrefab))

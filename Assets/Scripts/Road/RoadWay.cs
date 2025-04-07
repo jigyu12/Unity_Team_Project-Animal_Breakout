@@ -118,6 +118,20 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
         nextRoadways.Add(next);
     }
 
+    private void OnDrawGizmos()
+    {
+        if (nextPoints.Count != 0)
+        {
+            Gizmos.color = Color.blue;
+            foreach (var point in nextPoints)
+            {
+                var temp = point.position;
+                temp.y = 5f;
+                Gizmos.DrawLine(point.position, temp);
+            }
+        }
+    }
+
     public Action release;
 
     public void OnGet()
