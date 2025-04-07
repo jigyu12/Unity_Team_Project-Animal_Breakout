@@ -1,4 +1,9 @@
-public class AnimalCanvas : DefaultCanvas
+using UnityEngine;
+
+public class AnimalCanvas : SwitchableCanvas
 {
-    public override DefaultCanvasType canvasType { get; protected set; } = DefaultCanvasType.Animal;
+    public override DefaultCanvasType defaultCanvasType { get; protected set; } = DefaultCanvasType.Animal;
+    protected override CanvasGroup canvasGroup { get; set; }
+    
+    public override SwitchableCanvasType switchableCanvasType { get; protected set; } = SwitchableCanvasType.Animal;
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class MenuPanel : MonoBehaviour
 {
-    public static Action<DefaultCanvasType> OnBottomButtonClicked;
+    public static Action<SwitchableCanvasType> onMenuBottomButtonClicked;
     
     [SerializeField] private Button shopBottomButton;
     [SerializeField] private Button lobbyBottomButton;
@@ -13,12 +13,12 @@ public class MenuPanel : MonoBehaviour
     private void Start()
     {
         shopBottomButton.onClick.RemoveAllListeners();
-        shopBottomButton.onClick.AddListener(() => OnBottomButtonClicked?.Invoke(DefaultCanvasType.Shop));
+        shopBottomButton.onClick.AddListener(() => onMenuBottomButtonClicked?.Invoke(SwitchableCanvasType.Shop));
         
         lobbyBottomButton.onClick.RemoveAllListeners();
-        lobbyBottomButton.onClick.AddListener(() => OnBottomButtonClicked?.Invoke(DefaultCanvasType.Lobby));
+        lobbyBottomButton.onClick.AddListener(() => onMenuBottomButtonClicked?.Invoke(SwitchableCanvasType.Lobby));
         
         animalBottomButton.onClick.RemoveAllListeners();
-        animalBottomButton.onClick.AddListener(() => OnBottomButtonClicked?.Invoke(DefaultCanvasType.Animal));
+        animalBottomButton.onClick.AddListener(() => onMenuBottomButtonClicked?.Invoke(SwitchableCanvasType.Animal));
     }
 }

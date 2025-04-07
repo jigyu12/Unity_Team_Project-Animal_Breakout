@@ -46,7 +46,7 @@ public class GameDataManager : Singleton<GameDataManager>
         , "Cant find OutGameUIManager");
     }
 
-    private void TryFindOutGameManager()
+    private void TryFindGameManager()
     {
         Debug.Assert(GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager)
         , "Cant find GameManager");
@@ -96,7 +96,7 @@ public class GameDataManager : Singleton<GameDataManager>
         }
         else if (SceneManager.GetActiveScene().name == "RunCopy")
         {
-            TryFindOutGameManager();
+            TryFindGameManager();
         }
 
         ClearInGameData();

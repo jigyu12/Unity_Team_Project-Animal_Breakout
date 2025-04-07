@@ -9,7 +9,7 @@ public class ResultPanelUI : MonoBehaviour
     public Button GoMainButton;
 
     //private GameManager gameManager;
-    //UI¸Å´ÏÀú¸¦ ÅëÇØ °ÔÀÓ¸Å´ÏÀú¸¦ Á¢±ÙÇÏ´Â ¹æ½ÄÀ¸·Î ¹Ù²Ù¼¼¿ä
+    //UIë§¤ë‹ˆì €ë¥¼ í†µí•´ ê²Œì„ë§¤ë‹ˆì €ë¥¼ ì ‘ê·¼í•˜ëŠ” ë°©ì‹ìœ¼ë¡œ ë°”ê¾¸ì„¸ìš”
     [SerializeField]
     private GameManager_new gameManager;
 
@@ -33,11 +33,8 @@ public class ResultPanelUI : MonoBehaviour
     }
     private void OnGoMainButtonClicked()
     {
-        //GameObject gameManagerObject = GameObject.Find("GmManager");
-        //GameManager gameManager = gameManagerObject.GetComponent<GameManager>();
-        //gameManager.LoadScene("MainTitleScene");
-        
-        SceneManager.LoadScene("MainTitleScene");
+        SceneManager.LoadScene("MainTitleSceneCopy");
+
         GameResultPanel.SetActive(false);
     }
 }

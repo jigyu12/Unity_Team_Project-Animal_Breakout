@@ -56,7 +56,7 @@ public class GameUIManager : InGameManager
 
     private void OnMainTitleButtonClicked()
     {
-        SceneManager.LoadScene("MainTitleScene");
+        SceneManagerEx.Instance.LoadScene("MainTitleSceneCopy");
     }
     private void OnPauseButtonClicked()
     {
