@@ -10,8 +10,8 @@ public abstract class BaseCollisionBehaviour : ICollisionBehaviour
     public void OnCollision(GameObject self, Collider other)
     {
         OnCollisionAction(self, other);
-        
-        Object.Destroy(self);
+        //Object.Destroy(self);
+        self.SetActive(false);
     }
 
     public void SetScoreToAdd(long scoreToAdd)

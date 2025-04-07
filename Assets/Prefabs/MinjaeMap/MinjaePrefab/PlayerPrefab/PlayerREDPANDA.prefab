@@ -87,7 +87,6 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -20
   way: {fileID: 0}
-  mapSpawner: {fileID: 0}
   turnPivot: {fileID: 0}
 --- !u!114 &4667231012774411274
 MonoBehaviour:
@@ -498,9 +497,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b4b3797e23a24b519d01e65ca9aa42a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverText: {fileID: 0}
-  animalDB: {fileID: 11400000, guid: 1985badb855444a6f9795bdf36cf762a, type: 2}
-  currentAnimalID: 100109
 --- !u!114 &8540287164757074743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +656,6 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -20
   way: {fileID: 0}
-  mapSpawner: {fileID: 0}
   turnPivot: {fileID: 0}
 --- !u!114 &4076806246090031184
 MonoBehaviour:

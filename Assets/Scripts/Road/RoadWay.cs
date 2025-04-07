@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using static MapObjectManager;
 
 public class RoadWay : MonoBehaviour, IObjectPoolable
 {
@@ -35,6 +36,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
     private List<RoadWay> nextRoadways = new();
     public List<RoadWay> NextRoadWays => nextRoadways;
 
+    private List<CollidableMapObject> mapObjects = new();
 
     public void Awake()
     {
@@ -58,7 +60,10 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                 {
                     for (int j = 0; j < blueprint.objectsConstructors.GetLength(1); j++)
                     {
-                        blueprint.objectsConstructors[i, j]?.Invoke(roadSegmentWithType.roadSegment.GetTilePosition(i, j));
+                        if (blueprint.objectsConstructors[i, j] != null)
+                        {
+                            mapObjects.Add(blueprint.objectsConstructors[i, j].Invoke(roadSegmentWithType.roadSegment.GetTilePosition(i, j)));
+                        }
                     }
                 }
             }
@@ -125,6 +130,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
     {
         nextRoadways.Clear();
         transform.rotation = Quaternion.identity;
+        mapObjects.Clear();
         foreach (var roadSegment in roadSegments)
         {
             roadSegment.roadSegment.Reset();
@@ -139,6 +145,10 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
 
     public void Release()
     {
+        foreach (var item in mapObjects)
+        {
+            item.ReleasePool();
+        }
         release.Invoke();
     }
 }

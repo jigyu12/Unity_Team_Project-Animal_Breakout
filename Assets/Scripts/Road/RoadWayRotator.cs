@@ -51,8 +51,6 @@ public class RoadWayRotator : MonoBehaviour
         MoveForward scroll = playerMove.transform.parent.GetComponent<MoveForward>();
         scroll.enabled = false;
 
-        //StartCoroutine(playerMove.MoveTo(pivot));
-
         float elapsed = 0f;
         float currentAngle = 0f;
         while (elapsed < rotateDuration)

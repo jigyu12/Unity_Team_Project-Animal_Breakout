@@ -124,7 +124,7 @@ public class MapObjectManager : InGameManager
     public struct MapObjectsBlueprint
     {
         public ObjectType[,] objectsTypes;
-        public Action<Vector3>[,] objectsConstructors;
+        public Func<Vector3, CollidableMapObject>[,] objectsConstructors;
     }
 
     private void GenerateMapObjectInformation(int rows, int cols)
@@ -147,7 +147,7 @@ public class MapObjectManager : InGameManager
             }
 
             //mapObjectsBlueprint.wallIndex = rows - 1;
-            mapObjectsBlueprint.objectsConstructors = new Action<Vector3>[rows, cols];
+            mapObjectsBlueprint.objectsConstructors = new Func<Vector3, CollidableMapObject>[rows, cols];
 
             //SetCreateWallAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
             for (int i = 0; i < dataList.Count; ++i)
@@ -283,7 +283,7 @@ public class MapObjectManager : InGameManager
         wallComponent.SetPool(wallPool);
     }
 
-    private void SetCreateBombAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray, int row, int col)
+    private void SetCreateBombAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
         // int rows = objectTypes.GetLength(0);
         // int cols = objectTypes.GetLength(1);
@@ -310,16 +310,18 @@ public class MapObjectManager : InGameManager
         createMapObjectActionArray[row, col] = CreateBomb;
     }
 
-    private void CreateBomb(Vector3 position)
+    private CollidableMapObject CreateBomb(Vector3 position)
     {
         var bomb = trapBombPool.Get();
+        bomb.SetActive(true);
         bomb.transform.SetPositionAndRotation(position, Quaternion.identity);
         bomb.TryGetComponent(out Trap trapComponent);
         trapComponent.Initialize(TrapType.Bomb);
         trapComponent.SetPool(trapBombPool);
+        return trapComponent;
     }
 
-    private void SetCreateHoleAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray, int row, int col)
+    private void SetCreateHoleAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
         // int rows = objectTypes.GetLength(0);
         // int cols = objectTypes.GetLength(1);
@@ -359,13 +361,15 @@ public class MapObjectManager : InGameManager
         createMapObjectActionArray[row, col] = CreateHole;
     }
 
-    private void CreateHole(Vector3 position)
+    private CollidableMapObject CreateHole(Vector3 position)
     {
         var hole = trapHolePool.Get();
+        hole.SetActive(true);
         hole.transform.SetPositionAndRotation(position, Quaternion.identity);
         hole.TryGetComponent(out Trap trapComponent);
         trapComponent.Initialize(TrapType.Hole);
         trapComponent.SetPool(trapHolePool);
+        return trapComponent;
     }
 
     private void SetCreateRandomRewardCoinAction(ObjectType[,] objectTypes,
@@ -490,7 +494,7 @@ public class MapObjectManager : InGameManager
         }
     }
 
-    private void SetCreateRandomHumanAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray, int row, int col)
+    private void SetCreateRandomHumanAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
         // int rows = objectTypes.GetLength(0);
         // int cols = objectTypes.GetLength(1);
@@ -531,16 +535,18 @@ public class MapObjectManager : InGameManager
         createMapObjectActionArray[row, col] = CreateRandomHuman;
     }
 
-    private void CreateRandomHuman(Vector3 position)
+    private CollidableMapObject CreateRandomHuman(Vector3 position)
     {
         var human = itemHumanPool.Get();
+        human.SetActive(true);
         human.transform.SetPositionAndRotation(position, Quaternion.identity);
         human.TryGetComponent(out ItemHuman itemHumanComponent);
         itemHumanComponent.Initialize((HumanItemType)Utils.GetEnumIndexByChance(humanSpawnChances));
         itemHumanComponent.SetPool(itemHumanPool);
+        return itemHumanComponent;
     }
 
-    private void SetCreateRandomPenaltyCoinAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray, int row, int col)
+    private void SetCreateRandomPenaltyCoinAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
         // int rows = objectTypes.GetLength(0);
         // int cols = objectTypes.GetLength(1);
@@ -580,12 +586,14 @@ public class MapObjectManager : InGameManager
         createMapObjectActionArray[row, col] = CreateRandomPenaltyCoin;
     }
 
-    private void CreateRandomPenaltyCoin(Vector3 position)
+    private CollidableMapObject CreateRandomPenaltyCoin(Vector3 position)
     {
         var penaltyCoin = itemPenaltyCoinPool.Get();
+        penaltyCoin.SetActive(true);
         penaltyCoin.transform.SetPositionAndRotation(position, Quaternion.identity);
         penaltyCoin.TryGetComponent(out ItemPenaltyCoin itemPenaltyCoinComponent);
         itemPenaltyCoinComponent.Initialize((PenaltyCoinItemType)Utils.GetEnumIndexByChance(penaltyCoinSpawnChances));
         itemPenaltyCoinComponent.SetPool(itemPenaltyCoinPool);
+        return itemPenaltyCoinComponent;
     }
 }

@@ -29,8 +29,8 @@ public class TempleRunStyleRoadMaker : InGameManager
 
     public RoadSegment initialRoadSegment;
 
-    [SerializeField]
-    private RoadWayRotator roadWayRotator;
+    //[SerializeField]
+    //private RoadWayRotator roadWayRotator;
 
     public int roadChunkSize = 10;
     public int precreateRoadWayCount;
@@ -55,7 +55,7 @@ public class TempleRunStyleRoadMaker : InGameManager
     public override void Initialize()
     {
         base.Initialize();
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => roadWayRotator.SetPlayerMove(GameManager.PlayerManager));
+        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => roadWayRotator.SetPlayerMove(GameManager.PlayerManager));
         //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetRoadMakeMode(RoadMakeMode.RandomWay));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => SetRoadMakeMode(RoadMakeMode.RandomWay));
 
@@ -103,7 +103,7 @@ public class TempleRunStyleRoadMaker : InGameManager
         onCurrentLinkChanged?.Invoke(currentRoad);
 
         CreateNNextRoadWay(precreateRoadWayCount, currentRoad);
-        ReleasePassedRoadWay(previous);
+        ReleasePassedRoadWay();
     }
 
     public void CreateNextRoadWay(RoadWay previousRoadWay, bool createMapObject = true)
@@ -131,11 +131,11 @@ public class TempleRunStyleRoadMaker : InGameManager
 
             if (createMapObject)
             {
-                //roadWay.SetMapObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetMapObjectsBlueprint(1));
-                //roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetRewardItemBlueprint(1));
+                roadWay.SetMapObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetMapObjectsBlueprint(1));
+                roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetRewardItemBlueprint(1));
 
-                //roadWay.SetMapObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetMapObjectsBlueprint(2));
-                //roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetRewardItemBlueprint(2));
+                roadWay.SetMapObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetMapObjectsBlueprint(2));
+                roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetRewardItemBlueprint(2));
             }
 
             previousRoadWay.AddNextRoadWay(roadWay);
@@ -166,17 +166,12 @@ public class TempleRunStyleRoadMaker : InGameManager
 
     private Queue<RoadWay> releaseQueue = new();
 
-    public void ReleasePassedRoadWay(RoadWay previousRoadWay)
+    public void ReleasePassedRoadWay()
     {
         foreach (var nowRoadWay in activeRoadWays)
         {
             if (nowRoadWay.index < currentRoad.index)
             {
-                if (nowRoadWay == previousRoadWay)
-                {
-                    continue;
-                }
-
                 releaseQueue.Enqueue(nowRoadWay);
             }
             else if (nowRoadWay.index == currentRoad.index && nowRoadWay != currentRoad)
