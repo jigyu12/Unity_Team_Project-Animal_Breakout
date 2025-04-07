@@ -6,6 +6,7 @@ public class LobbyPanel : MonoBehaviour
 {
     [SerializeField] private Button gameStartButton;
 
+
     private void Start()
     {
         gameStartButton.onClick.RemoveAllListeners();
@@ -14,7 +15,6 @@ public class LobbyPanel : MonoBehaviour
 
     private void OnGameStartButtonClicked()
     {
-
         SceneManager.LoadScene("RunMinjae");
     }
 
