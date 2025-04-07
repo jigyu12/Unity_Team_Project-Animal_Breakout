@@ -29,21 +29,8 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
 
     public int index;
 
-
-    public struct StartPoint
-    {
-        public StartPoint(Vector3 position, float angle)
-        {
-            this.position = position;
-            this.angle = angle;
-        }
-
-        public Vector3 position;
-        public float angle;
-    }
-
-    private List<StartPoint> nextPoints = new();
-    public List<StartPoint> NextPoints => nextPoints;
+    private List<Transform> nextPoints = new();
+    public List<Transform> NextPoints => nextPoints;
 
     private List<RoadWay> nextRoadways = new();
     public List<RoadWay> NextRoadWays => nextRoadways;
@@ -100,14 +87,14 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
         entrySegment.SetEnterTriggerAction(action);
     }
 
-    public List<StartPoint> GetNextRoadWayPoints()
+    public List<Transform> GetNextRoadWayPoints()
     {
         nextPoints.Clear();
         for (int i = 0; i < roadSegments.Count(); i++)
         {
             if (roadSegments[i].roadSegmentType == RoadSegmentType.Exit)
             {
-                nextPoints.Add(new StartPoint(roadSegments[i].roadSegment.NextPosition, roadSegments[i].roadSegment.GetTileRotation()));
+                nextPoints.Add(roadSegments[i].roadSegment.NextTransform);
             }
         }
         return nextPoints;

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1749871273864726905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8352699062901629411}
+  m_Layer: 0
+  m_Name: NextPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8352699062901629411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749871273864726905}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -20, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3405417494184322904}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &4308381650132627951
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,6 +131,7 @@ Transform:
   - {fileID: 4175523737029445550}
   - {fileID: 8770700901268831261}
   - {fileID: 851454621442456113}
+  - {fileID: 8352699062901629411}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8339452156338563620
@@ -119,6 +151,7 @@ MonoBehaviour:
   tiles: {fileID: 262146458547120467}
   decoration: {fileID: 0}
   enterTrigger: {fileID: 6963726916383930243}
+  nextRoadSegmentTransform: {fileID: 8352699062901629411}
 --- !u!1 &5803887873092670517
 GameObject:
   m_ObjectHideFlags: 0
