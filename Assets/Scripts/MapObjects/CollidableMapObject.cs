@@ -10,13 +10,13 @@ public abstract class CollidableMapObject : MonoBehaviour
         player = GameObject.Find(Utils.PlayerRootName);
     }
 
-    private void Update()
-    {
-        if (player != null && transform.position.z < player.transform.position.z - 2f)
-        {
-            pool.Release(gameObject);
-        }
-    }
+    //private void Update()
+    //{
+    //    if (player != null && transform.position.z < player.transform.position.z - 2f)
+    //    {
+            
+    //    }
+    //}
     // Temporary Code //
     
     public abstract ObjectType ObjectType { get; protected set; }
@@ -35,5 +35,10 @@ public abstract class CollidableMapObject : MonoBehaviour
     public void SetPool(ObjectPool<GameObject> pool)
     {
         this.pool = pool;
+    }
+
+    public void ReleasePool()
+    {
+        pool.Release(gameObject);
     }
 }

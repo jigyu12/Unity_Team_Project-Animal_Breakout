@@ -19,23 +19,14 @@ public class RoadSegment : MonoBehaviour
     {
         tileVerticalCount = tiles.GetTileVerticalCount();
     }
-    
+
     [SerializeField]
     private RoadEnterTrigger enterTrigger;
 
-    public Vector3 NextPosition
-    {
-        get => GetTilePosition(tileVerticalCount, 1);
-    }
-    public Vector3 NextLeftPosition
-    {
-        get => GetTilePosition(tileVerticalCount - 2, 3);
-    }
+    [SerializeField]
+    private Transform nextRoadSegmentTransform;
 
-    public Vector3 NextRightPosition
-    {
-        get => GetTilePosition(tileVerticalCount - 2, -1);
-    }
+    public Transform NextTransform => nextRoadSegmentTransform.transform;
 
 
     public void Reset()
@@ -51,7 +42,7 @@ public class RoadSegment : MonoBehaviour
         right.x = -tiles.TileSize.x;
 
         Vector3 position = transform.position + (rowIndex * forward) + ((colIndex - 1) * right);
-        return tiles.transform.rotation* (position- tiles.transform.position) + tiles.transform.position;
+        return tiles.transform.rotation * (position - tiles.transform.position) + tiles.transform.position;
     }
 
     public float GetTileRotation()

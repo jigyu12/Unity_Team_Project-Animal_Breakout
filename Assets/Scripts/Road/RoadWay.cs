@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using static MapObjectManager;
 
 public class RoadWay : MonoBehaviour, IObjectPoolable
 {
@@ -29,25 +30,13 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
 
     public int index;
 
-
-    public struct StartPoint
-    {
-        public StartPoint(Vector3 position, float angle)
-        {
-            this.position = position;
-            this.angle = angle;
-        }
-
-        public Vector3 position;
-        public float angle;
-    }
-
-    private List<StartPoint> nextPoints = new();
-    public List<StartPoint> NextPoints => nextPoints;
+    private List<Transform> nextPoints = new();
+    public List<Transform> NextPoints => nextPoints;
 
     private List<RoadWay> nextRoadways = new();
     public List<RoadWay> NextRoadWays => nextRoadways;
 
+    private List<CollidableMapObject> mapObjects = new();
 
     public void Awake()
     {
@@ -71,7 +60,10 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                 {
                     for (int j = 0; j < blueprint.objectsConstructors.GetLength(1); j++)
                     {
-                        blueprint.objectsConstructors[i, j]?.Invoke(roadSegmentWithType.roadSegment.GetTilePosition(i, j));
+                        if (blueprint.objectsConstructors[i, j] != null)
+                        {
+                            mapObjects.Add(blueprint.objectsConstructors[i, j].Invoke(roadSegmentWithType.roadSegment.GetTilePosition(i, j)));
+                        }
                     }
                 }
             }
@@ -88,8 +80,11 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                 {
                     var startPosition = roadSegmentWithType.roadSegment.GetTilePosition(unit.startEndCoordinate[0].Item1, unit.startEndCoordinate[0].Item2);
                     var endPosition = roadSegmentWithType.roadSegment.GetTilePosition(unit.startEndCoordinate[1].Item1, unit.startEndCoordinate[1].Item2);
-
-                    unit.rewardItemConstructors?.Invoke(startPosition, endPosition, unit.itemGroupCount);
+                    if (unit.rewardItemConstructors != null)
+                    {
+                        var array = unit.rewardItemConstructors.Invoke(startPosition, endPosition, unit.itemGroupCount);
+                        array.ToList().ForEach((item) => mapObjects.Add(item));
+                    }
                 }
             }
         }
@@ -100,14 +95,14 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
         entrySegment.SetEnterTriggerAction(action);
     }
 
-    public List<StartPoint> GetNextRoadWayPoints()
+    public List<Transform> GetNextRoadWayPoints()
     {
         nextPoints.Clear();
         for (int i = 0; i < roadSegments.Count(); i++)
         {
             if (roadSegments[i].roadSegmentType == RoadSegmentType.Exit)
             {
-                nextPoints.Add(new StartPoint(roadSegments[i].roadSegment.NextPosition, roadSegments[i].roadSegment.GetTileRotation()));
+                nextPoints.Add(roadSegments[i].roadSegment.NextTransform);
             }
         }
         return nextPoints;
@@ -138,6 +133,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
     {
         nextRoadways.Clear();
         transform.rotation = Quaternion.identity;
+        mapObjects.Clear();
         foreach (var roadSegment in roadSegments)
         {
             roadSegment.roadSegment.Reset();
@@ -152,6 +148,10 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
 
     public void Release()
     {
+        foreach (var item in mapObjects)
+        {
+            item.ReleasePool();
+        }
         release.Invoke();
     }
 }
