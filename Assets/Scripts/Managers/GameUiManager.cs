@@ -41,7 +41,7 @@ public class GameUIManager : InGameManager
     //    //}
     //}
 
-    private void ShowGameOverPanel()
+    public void ShowGameOverPanel()
     {
         gameOverPanel.SetActive(true);
         Time.timeScale = 0;

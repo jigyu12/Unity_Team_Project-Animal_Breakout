@@ -63,6 +63,8 @@ public class PlayerManager : InGameManager
             Debug.Log($"MoveForward enabled for: {playerStatus.name}");
         }
     }
-
-
+    public void OnDie()
+    {
+        GameManager.OnGameOver();
+    }
 }

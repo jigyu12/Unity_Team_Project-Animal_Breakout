@@ -23,8 +23,6 @@ public class GameManager_new : MonoBehaviour
 
     private Action[] gameStateEnterAction;
     private Action[] gameStateExitAction;
-    public UnityAction<PlayerStatus> onPlayerDied;
-    public UnityAction onGameOver;
     private GameState currentState;
 
     #region manager
@@ -62,6 +60,7 @@ public class GameManager_new : MonoBehaviour
     {
         gameStateEnterAction = new Action[(int)GameState.Max];
         gameStateExitAction = new Action[(int)GameState.Max];
+        AddGameStateEnterAction(GameState.GameOver, OnGameOver);
     }
 
     public void AddGameStateEnterAction(GameState state, Action action)
@@ -136,10 +135,10 @@ public class GameManager_new : MonoBehaviour
     {
         Time.timeScale = scale;
     }
-
-    public void GameOver()
+    private void OnGameOver()
     {
         Debug.Log("Game Over!");
-        onGameOver?.Invoke();
+        UIManager.ShowGameOverPanel();
+        SetTimeScale(0);
     }
 }
