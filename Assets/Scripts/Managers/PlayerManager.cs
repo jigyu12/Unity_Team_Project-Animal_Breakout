@@ -6,6 +6,8 @@ public class PlayerManager : InGameManager
 {
     public GameObject playerRoot;
 
+    private PlayerRotator playerRotator;
+
     [ReadOnly]
     public PlayerStatus currentPlayerStatus;
     [ReadOnly]
@@ -13,6 +15,11 @@ public class PlayerManager : InGameManager
 
     [SerializeField]
     private int animalID = 100301;
+
+    private void Awake()
+    {
+        playerRotator = GetComponent<PlayerRotator>();
+    }
 
     public void SetPlayer()
     {
@@ -25,6 +32,7 @@ public class PlayerManager : InGameManager
             PlayerStatus playerStatus = character.GetComponent<PlayerStatus>();
             if (playerStatus != null)
             {
+                playerStatus.Initialize();
                 currentPlayerStatus = playerStatus;
                 ActivatePlayer(playerStatus);
                 Debug.Log($"Player {animalID} spawned successfully.");
@@ -38,6 +46,7 @@ public class PlayerManager : InGameManager
             if (playerMove != null)
             {
                 currentPlayerMove = playerMove;
+                playerRotator.SetPlayerMove(currentPlayerMove);
             }
         }
         else

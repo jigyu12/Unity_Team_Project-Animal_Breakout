@@ -171,7 +171,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (canTurn && (allowedTurn == TurnDirection.Left || allowedTurn == TurnDirection.Both))
         {
-            onRotate?.Invoke(turnPivot.transform.position, 90f);
+            onRotate?.Invoke(turnPivot.transform.position, -90f);
             canTurn = false;
         }
     }
@@ -180,7 +180,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (canTurn && (allowedTurn == TurnDirection.Right || allowedTurn == TurnDirection.Both))
         {
-            onRotate?.Invoke(turnPivot.transform.position, -90f);
+            onRotate?.Invoke(turnPivot.transform.position, 90f);
             canTurn = false;
         }
     }

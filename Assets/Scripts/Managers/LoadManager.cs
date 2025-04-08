@@ -6,6 +6,7 @@ public class LoadManager : Singleton<LoadManager>
 {
     private PlayerLoadManager playerLoadManager;
 
+
     private void Awake()
     {
         //InitializePlayerLoadManager();
@@ -90,7 +91,6 @@ public class LoadManager : Singleton<LoadManager>
 
         InitializePlayerLoadManager();
         Debug.Log("Loading game data...");
-       
         // 캐릭터 프리로드 요청
         PreloadCharacters(DataTableManager.animalDataTable.GetAnimalIDs(), onInitialized);
     }

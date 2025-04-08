@@ -1,10 +1,10 @@
-//using UnityEngine;
-//using UnityEngine.Events;
-//using System.Collections;
-//using TMPro;
-//using UnityEngine.SceneManagement;
-//public class GameManager : MonoBehaviour
-//{
+// using UnityEngine;
+// using UnityEngine.Events;
+// using System.Collections;
+// using TMPro;
+// using UnityEngine.SceneManagement;
+// public class GameManager : MonoBehaviour
+// {
 //    public UnityAction<PlayerStatus> onPlayerSpawned;
 //    public UnityAction<PlayerStatus> onPlayerDied;
 //    public UnityAction onGameOver;
@@ -92,4 +92,4 @@
 //        Time.timeScale = 1;
 //    }
 
-//}
+// }

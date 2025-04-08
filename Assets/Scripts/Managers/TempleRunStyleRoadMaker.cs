@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -12,6 +13,7 @@ public class TempleRunStyleRoadMaker : InGameManager
         RandomWay,
         InfinityVertical,
     }
+
 
     public RoadMakeMode currentMode;
 
@@ -27,16 +29,35 @@ public class TempleRunStyleRoadMaker : InGameManager
 
     public RoadSegment initialRoadSegment;
 
-    [SerializeField]
-    private RoadWayRotator roadWayRotator;
+    //[SerializeField]
+    //private RoadWayRotator roadWayRotator;
 
     public int roadChunkSize = 10;
-    public int precreateRoadWayCount = 3;
+    public int precreateRoadWayCount;
+
+    private Queue<int> nextRoadWayType = new();
+
+    public void SetRoadMakeMode(RoadMakeMode mode)
+    {
+        if (currentMode == mode)
+        {
+            return;
+        }
+
+        currentMode = mode;
+    }
+
+    private void Awake()
+    {
+        SetRoadMakeMode(RoadMakeMode.InfinityVertical);
+    }
 
     public override void Initialize()
     {
         base.Initialize();
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => roadWayRotator.SetPlayerMove(GameManager.PlayerManager));
+        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => roadWayRotator.SetPlayerMove(GameManager.PlayerManager));
+        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetRoadMakeMode(RoadMakeMode.RandomWay));
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => SetRoadMakeMode(RoadMakeMode.RandomWay));
 
         for (int i = 0; i < roadWayPrefabs.Count(); i++)
         {
@@ -48,9 +69,8 @@ public class TempleRunStyleRoadMaker : InGameManager
             OnRelease));
         }
 
-        int randomIndex = UnityEngine.Random.Range(0, roadWayPrefabs.Count());
-        var roadWay = CreateRoadWay(0, randomIndex);
-        CreateNextRoadWay(roadWay, false);
+        var roadWay = CreateRoadWay(0, 0);
+        CreateNNextRoadWay(precreateRoadWayCount, roadWay, false);
     }
 
     private void OnGetRoadWay(GameObject roadWay)
@@ -78,24 +98,36 @@ public class TempleRunStyleRoadMaker : InGameManager
 
     public void SetCurrentRoadWay(RoadWay roadWay)
     {
+        var previous = currentRoad;
         currentRoad = roadWay;
         onCurrentLinkChanged?.Invoke(currentRoad);
 
-        //CreateLastRoadWay();
-        CreateNextRoadWay(currentRoad);
+        CreateNNextRoadWay(precreateRoadWayCount, currentRoad);
         ReleasePassedRoadWay();
     }
 
     public void CreateNextRoadWay(RoadWay previousRoadWay, bool createMapObject = true)
     {
+        if (previousRoadWay.NextRoadWays.Count != 0)
+            return;
+
         var startPoints = previousRoadWay.GetNextRoadWayPoints();
-        int randomIndex = UnityEngine.Random.Range(0, roadWayPrefabs.Count());
+        int randomIndex;
+        if (currentMode == RoadMakeMode.InfinityVertical)
+        {
+            randomIndex = 0;    //0번이 직선 길임
+        }
+        else
+        {
+            randomIndex = UnityEngine.Random.Range(1, roadWayPrefabs.Count());
+        }
+
 
         foreach (var trs in startPoints)
         {
             var roadWay = CreateRoadWay(previousRoadWay.index + 1, randomIndex);
+            roadWay.transform.rotation = trs.rotation;
             roadWay.transform.position = trs.position;
-            roadWay.transform.rotation = Quaternion.Euler(0, trs.angle, 0);
 
             if (createMapObject)
             {
@@ -132,37 +164,53 @@ public class TempleRunStyleRoadMaker : InGameManager
         }
     }
 
+    private Queue<RoadWay> releaseQueue = new();
+
     public void ReleasePassedRoadWay()
     {
-        while (activeRoadWays.Count != 0)
+        foreach (var nowRoadWay in activeRoadWays)
         {
-            var nowRoadWay = activeRoadWays[0];
-            if (nowRoadWay.index + 1 < currentRoad.index)
+            if (nowRoadWay.index < currentRoad.index)
             {
-                activeRoadWays.RemoveAt(0);
-                nowRoadWay.Release();
+                releaseQueue.Enqueue(nowRoadWay);
             }
-            else
+            else if (nowRoadWay.index == currentRoad.index && nowRoadWay != currentRoad)
             {
-                break;
+                AddToReleaseQueueLinkedRoadWay(nowRoadWay);
             }
+        }
+
+        while (releaseQueue.Count > 0)
+        {
+            var target = releaseQueue.Dequeue();
+            activeRoadWays.Remove(target);
+            target.Release();
         }
     }
 
-    //private void NEst(int next, RoadWay targetRoadWay)
-    //{
-    //    if (targetRoadWay.NextRoadWays.Count == 0)
-    //    {
-    //        CreateNextRoadWay(targetRoadWay);
-    //    }
-
-    //    NEst(next - 1, targetRoadWay);
-    //}
+    private void AddToReleaseQueueLinkedRoadWay(RoadWay root)
+    {
+        releaseQueue.Enqueue(root);
+        foreach (var next in root.NextRoadWays)
+        {
+            AddToReleaseQueueLinkedRoadWay(next);
+        }
+    }
 
     private void CreateNNextRoadWay(int next, RoadWay previous, bool createMapObject = true)
     {
+        if (next <= 0)
+            return;
 
+        if (previous.NextRoadWays.Count == 0)
+        {
+            CreateNextRoadWay(previous, createMapObject);
+        }
+
+        foreach (var n in previous.NextRoadWays)
+        {
+            CreateNNextRoadWay(next - 1, n, createMapObject);
+        }
     }
 
 }
-
