@@ -116,9 +116,7 @@ public class TempleRunStyleRoadMaker : InGameManager
         foreach (var trs in startPoints)
         {
             var roadWay = CreateRoadWay(previousRoadWay.index + 1, wayTypeIndex);
-            roadWay.transform.rotation = trs.rotation;
-            roadWay.transform.position = trs.position;
-
+            roadWay.transform.SetPositionAndRotation(trs.position, trs.rotation);
             if (createMapObject)
             {
                 int randomIndex1 = UnityEngine.Random.Range(1, 4);

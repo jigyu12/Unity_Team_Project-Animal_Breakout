@@ -36,13 +36,14 @@ public class RoadSegment : MonoBehaviour
 
     public Vector3 GetTilePosition(int rowIndex, int colIndex)
     {
-        Vector3 forward = Vector3.zero;
-        forward.z = tiles.TileSize.z;
-        Vector3 right = Vector3.zero;
-        right.x = -tiles.TileSize.x;
+        //Vector3 forward = Vector3.zero;
+        //forward.z = tiles.TileSize.z;
+        //Vector3 right = Vector3.zero;
+        //right.x = -tiles.TileSize.x;
 
-        Vector3 position = transform.position + (rowIndex * forward) + ((colIndex - 1) * right);
-        return tiles.transform.rotation * (position - tiles.transform.position) + tiles.transform.position;
+        //Vector3 position = transform.position + (rowIndex * forward) + ((colIndex - 1) * right);
+        //return tiles.transform.rotation * (position - tiles.transform.position) + tiles.transform.position;
+        return tiles.GetTileTrasnform(rowIndex, colIndex).position;
     }
 
     public float GetTileRotation()
