@@ -23,6 +23,7 @@ public class GameManager_new : MonoBehaviour
     private Action[] gameStateExitAction;
 
     private GameState currentState;
+ 
 
     #region manager
     private List<IManager> managers = new();
@@ -119,6 +120,11 @@ public class GameManager_new : MonoBehaviour
         gameStateExitAction[(int)currentState]?.Invoke();
         currentState = gameState;
         gameStateEnterAction[(int)currentState]?.Invoke();
+    }
+
+    public GameState GetCurrentGameState()
+    {
+        return currentState;
     }
 
     private void OnPlayerReady()
