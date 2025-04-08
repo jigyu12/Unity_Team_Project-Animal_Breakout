@@ -21,6 +21,12 @@ public class PlayerManager : InGameManager
         playerRotator = GetComponent<PlayerRotator>();
     }
 
+    public override void Initialize()
+    {
+        base.Initialize();
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () => DisablePlayer(currentPlayerStatus));
+
+    }
     public void SetPlayer()
     {
         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
@@ -114,7 +120,7 @@ public class PlayerManager : InGameManager
         yield return new WaitForSeconds(1.5f);
         GameManager.OnGameOver();
         //  Destroy(playerStatus.gameObject);
-        Debug.Log($"Player {playerStatus.name} destroyed.");
+        // Debug.Log($"Player {playerStatus.name} destroyed.");
     }
 
     public override void Initialize()
