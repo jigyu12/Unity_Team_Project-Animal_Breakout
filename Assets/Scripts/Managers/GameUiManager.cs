@@ -41,22 +41,23 @@ public class GameUIManager : InGameManager
     //    //}
     //}
 
-    private void ShowGameOverPanel()
+    public void ShowGameOverPanel()
     {
         gameOverPanel.SetActive(true);
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
     }
 
     public void RestartGame()
     {
         Time.timeScale = 1;
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        OnMainTitleButtonClicked();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // OnMainTitleButtonClicked();
     }
 
     private void OnMainTitleButtonClicked()
     {
         SceneManager.LoadScene("MainTitleSceneCopyMin");
+        Time.timeScale = 1;
     }
     private void OnPauseButtonClicked()
     {
