@@ -33,8 +33,9 @@ public class ResultPanelUI : MonoBehaviour
     }
     private void OnGoMainButtonClicked()
     {
-        SceneManager.LoadScene("MainTitleSceneCopy");
+        SceneManager.LoadScene("MainTitleSceneCopyMin");
 
         GameResultPanel.SetActive(false);
+        Time.timeScale = 1;
     }
 }

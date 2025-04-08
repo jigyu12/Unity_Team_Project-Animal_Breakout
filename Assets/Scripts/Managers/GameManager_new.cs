@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager_new : MonoBehaviour
 {
@@ -21,7 +23,8 @@ public class GameManager_new : MonoBehaviour
 
     private Action[] gameStateEnterAction;
     private Action[] gameStateExitAction;
-
+    public UnityAction<PlayerStatus> onPlayerDied;
+    public UnityAction onGameOver;
     private GameState currentState;
 
     #region manager
@@ -49,8 +52,8 @@ public class GameManager_new : MonoBehaviour
 
     private void Awake()
     {
+        // SceneManager.sceneLoaded += SceneManagerEx.Instance.OnSceneLoaded;
         SceneManagerEx.Instance.onLoadComplete += OnPlayerReady;
-
         InitializeStateEnterExitActions();
         SetGameState(GameState.WaitLoading);
     }
@@ -134,4 +137,9 @@ public class GameManager_new : MonoBehaviour
         Time.timeScale = scale;
     }
 
+    public void GameOver()
+    {
+        Debug.Log("Game Over!");
+        onGameOver?.Invoke();
+    }
 }

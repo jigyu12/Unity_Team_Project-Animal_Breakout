@@ -13,7 +13,7 @@ public class SceneManagerEx : Singleton<SceneManagerEx>
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name.Contains("Run") || scene.name.Contains("InGame"))
         {
@@ -23,17 +23,17 @@ public class SceneManagerEx : Singleton<SceneManagerEx>
 
     private IEnumerator LoadInGameResources()
     {
-        // ·ÎµùÃ¢ Additive·Î ¶ç¿ì±â
+        // ë¡œë”©ì”¬ Additiveë¡œ ë¡œë“œ
         yield return SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
 
-        // ·Îµù ½ÃÀÛ
+        // Addressablesë¥¼ ì‚¬ìš©í•˜ì—¬ ë¹„ë™ê¸° ë¡œë“œ ì‹œì‘
         bool isLoadingComplete = false;
         LoadManager.Instance.LoadInGameResource(() =>
         {
             isLoadingComplete = true;
         });
 
-        // ·Îµù ¿Ï·á ´ë±â
+        // ë¡œë”© ì¤‘ ìƒíƒœ í‘œì‹œ
         while (!isLoadingComplete)
         {
             yield return null;
@@ -41,10 +41,10 @@ public class SceneManagerEx : Singleton<SceneManagerEx>
 
         Debug.Log("Game Resources Loaded!");
 
-        // ·Îµù ¿Ï·á ÈÄ ·ÎµùÃ¢ Á¦°Å
+        // ë¡œë”© ì”¬ ì–¸ë¡œë“œ
         yield return SceneManager.UnloadSceneAsync("LoadingScene");
 
-        // ·Îµù ¿Ï·á
+        // ë¡œë”© ì™„ë£Œ ì´ë²¤íŠ¸ í˜¸ì¶œ
         onLoadComplete?.Invoke();
     }
 }

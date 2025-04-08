@@ -14,6 +14,8 @@ public class PlayerManager : InGameManager
     [SerializeField]
     private int animalID = 100301;
 
+
+
     public void SetPlayer()
     {
         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
@@ -25,6 +27,7 @@ public class PlayerManager : InGameManager
             PlayerStatus playerStatus = character.GetComponent<PlayerStatus>();
             if (playerStatus != null)
             {
+                playerStatus.Initialize();
                 currentPlayerStatus = playerStatus;
                 ActivatePlayer(playerStatus);
                 Debug.Log($"Player {animalID} spawned successfully.");
