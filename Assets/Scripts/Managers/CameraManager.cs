@@ -9,7 +9,8 @@ public class CameraManager : InGameManager
     [SerializeField] private CinemachineBlendListCamera blendListCamera;
     private List<CinemachineVirtualCamera> virtualCameraList = new();
     
-    public CinemachineBrain cinemachineBrain;
+    private CinemachineBrain cinemachineBrain;
+    
     public int virtualCameraCount => virtualCameraList.Count;
 
     private readonly Dictionary<CinemachineVirtualCamera, List<Action<CinemachineVirtualCamera>>> cameraActionsDictionary = new();
