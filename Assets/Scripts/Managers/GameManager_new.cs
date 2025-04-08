@@ -24,7 +24,6 @@ public class GameManager_new : MonoBehaviour
 
     private GameState currentState;
  
-
     #region manager
     private List<IManager> managers = new();
 
