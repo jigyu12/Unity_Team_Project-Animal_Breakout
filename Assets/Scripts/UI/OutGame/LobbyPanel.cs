@@ -1,15 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 public class LobbyPanel : MonoBehaviour
 {
     [SerializeField] private Button gameStartButton;
     
-    private readonly WaitForSeconds waitTime = new(1f);
-
-
+    private readonly WaitForSeconds waitTime = new(Utils.GameStartWaitTime);
+    
     private void Start()
     {
         gameStartButton.onClick.RemoveAllListeners();
