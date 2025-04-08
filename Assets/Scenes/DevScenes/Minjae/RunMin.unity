@@ -5109,6 +5109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1161090862}
   - component: {fileID: 1161090863}
+  - component: {fileID: 1161090864}
   m_Layer: 0
   m_Name: PlayerRoot
   m_TagString: PlayerParent
@@ -5146,6 +5147,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 1}
   speed: 5
+--- !u!114 &1161090864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161090861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b10e5750a9dc2439ecff6793e949f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laneIndexPosition:
+  - {x: -1, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
 --- !u!1 &1274924387
 GameObject:
   m_ObjectHideFlags: 0
@@ -6286,6 +6303,7 @@ GameObject:
   - component: {fileID: 1562376438}
   - component: {fileID: 1562376437}
   - component: {fileID: 1562376439}
+  - component: {fileID: 1562376440}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Manager
@@ -6337,6 +6355,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   csvFileName: Animal_Table
+--- !u!114 &1562376440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562376436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea51c7184548cc4d950b22bf113cd7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateDuration: 5
 --- !u!1 &1595931082
 GameObject:
   m_ObjectHideFlags: 0
@@ -7110,7 +7141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 4
+  m_BindingMode: 1
   m_FollowOffset: {x: 0, y: 3, z: -5}
   m_XDamping: 0
   m_YDamping: 1
