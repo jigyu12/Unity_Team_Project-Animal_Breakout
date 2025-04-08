@@ -12,10 +12,13 @@ public class PlayerRotator : MonoBehaviour
     public Action onRotationEnd;
 
     private bool isRotating = false;
-    public void SetPlayerMove(PlayerMove plauerMove)
+    public void SetPlayerMove(PlayerMove playerMove)
     {
-        this.playerMove = plauerMove;
+        this.playerMove = playerMove;
         this.playerMove.onRotate += Rotate;
+
+        onRotationStart += playerMove.DisableInput;
+        onRotationEnd += playerMove.EnableInput;
     }
 
     public void Rotate(Vector3 pivot, float angle)
@@ -30,7 +33,7 @@ public class PlayerRotator : MonoBehaviour
     {
         isRotating = true;
         onRotationStart?.Invoke();
-        playerMove.enabled = false;
+
         MoveForward moveForward = playerMove.transform.parent.GetComponent<MoveForward>();
         moveForward.enabled = false;
 
@@ -58,11 +61,8 @@ public class PlayerRotator : MonoBehaviour
         if (moveForward != null) moveForward.enabled = true;
 
         isRotating = false;
-        playerMove.enabled = true;
-
-
+   
         moveForward.RotateForwardDirection(angle);
         onRotationEnd?.Invoke();
-
     }
 }
