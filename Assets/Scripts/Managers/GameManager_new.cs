@@ -24,8 +24,7 @@ public class GameManager_new : MonoBehaviour
     private Action[] gameStateEnterAction;
     private Action[] gameStateExitAction;
     private GameState currentState;
-
-
+ 
     #region manager
     private List<IManager> managers = new();
 

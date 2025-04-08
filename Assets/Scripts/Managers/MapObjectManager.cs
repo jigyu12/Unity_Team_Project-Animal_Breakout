@@ -467,6 +467,7 @@ public class MapObjectManager : InGameManager
         for (int i = 0; i < itemCount; ++i)
         {
             var rewardCoin = itemRewardCoinPool.Get();
+            rewardCoin.SetActive(true);
             rewardCoin.transform.SetPositionAndRotation(Vector3.Lerp(startPosition, endPosition, (float)i / (itemCount - 1)), Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Initialize((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
@@ -490,6 +491,7 @@ public class MapObjectManager : InGameManager
             spawnPosition.y += heightOffset;
 
             var rewardCoin = itemRewardCoinPool.Get();
+            rewardCoin.SetActive(true);
             rewardCoin.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Initialize((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
