@@ -14,7 +14,6 @@ public class TempleRunStyleRoadMaker : InGameManager
         InfinityVertical,
     }
 
-
     public RoadMakeMode currentMode;
 
     public GameObject[] roadWayPrefabs;
@@ -57,7 +56,7 @@ public class TempleRunStyleRoadMaker : InGameManager
         base.Initialize();
         //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => roadWayRotator.SetPlayerMove(GameManager.PlayerManager));
         //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetRoadMakeMode(RoadMakeMode.RandomWay));
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => SetRoadMakeMode(RoadMakeMode.RandomWay));
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetRoadMakeMode(RoadMakeMode.RandomWay));
 
         for (int i = 0; i < roadWayPrefabs.Count(); i++)
         {
