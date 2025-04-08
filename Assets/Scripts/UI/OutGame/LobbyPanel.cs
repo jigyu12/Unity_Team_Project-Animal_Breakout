@@ -6,15 +6,15 @@ using UnityEngine.SceneManagement;
 public class LobbyPanel : MonoBehaviour
 {
     [SerializeField] private Button gameStartButton;
-    
-    private readonly WaitForSeconds waitTime = new(1f);
+
+    private readonly WaitForSecondsRealtime waitTime = new(1f);
 
 
     private void Start()
     {
         gameStartButton.onClick.RemoveAllListeners();
         gameStartButton.interactable = true;
-        
+
         gameStartButton.onClick.AddListener(() =>
         {
             gameStartButton.interactable = false;
@@ -26,7 +26,7 @@ public class LobbyPanel : MonoBehaviour
     private IEnumerator OnGameStartButtonClicked()
     {
         yield return waitTime;
-        
-        SceneManager.LoadScene("Run");
+
+        SceneManager.LoadScene("RunMin");
     }
 }

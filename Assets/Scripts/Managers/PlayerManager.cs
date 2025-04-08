@@ -32,6 +32,7 @@ public class PlayerManager : InGameManager
             PlayerStatus playerStatus = character.GetComponent<PlayerStatus>();
             if (playerStatus != null)
             {
+                playerStatus.Initialize();
                 currentPlayerStatus = playerStatus;
                 ActivatePlayer(playerStatus);
                 Debug.Log($"Player {animalID} spawned successfully.");

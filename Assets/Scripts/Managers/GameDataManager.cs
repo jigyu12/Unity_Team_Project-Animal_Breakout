@@ -14,7 +14,7 @@ public class GameDataManager : Singleton<GameDataManager>
     private GameManager_new gameManager;
 
     public List<int> runnerIDs = new List<int>();
-    private AnimalDatabase animalDatabase;
+    // private AnimalDatabase animalDatabase;
 
     private void Awake()
     {
@@ -36,7 +36,7 @@ public class GameDataManager : Singleton<GameDataManager>
     public void Initialize()
     {
         TryFindOutGameUIManager();
-        
+
         ClearInGameData();
     }
 
