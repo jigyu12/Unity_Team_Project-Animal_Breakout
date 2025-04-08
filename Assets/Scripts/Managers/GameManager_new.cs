@@ -43,6 +43,9 @@ public class GameManager_new : MonoBehaviour
 
     private PlayerManager playerManager;
     public PlayerManager PlayerManager => playerManager;
+    
+    private CameraManager cameraManager;
+    public CameraManager CameraManager => cameraManager;
 
     #endregion
 
@@ -89,6 +92,14 @@ public class GameManager_new : MonoBehaviour
         InitializeManagers();
     }
 
+    private void OnDestroy()
+    {
+        foreach (var manager in managers)
+        {
+            manager.Clear();
+        }
+    }
+
     private void InitializeManagers()
     {
         objectPoolManager = new ObjectPoolManager();
@@ -110,6 +121,10 @@ public class GameManager_new : MonoBehaviour
         findManagers.Find((manager) => manager.TryGetComponent<PlayerManager>(out playerManager));
         playerManager.SetGameManager(this);
         managers.Add(playerManager);
+        
+        findManagers.Find((manager) => manager.TryGetComponent<CameraManager>(out cameraManager));
+        cameraManager.SetGameManager(this);
+        managers.Add(cameraManager);
 
         foreach (var manager in managers)
         {
