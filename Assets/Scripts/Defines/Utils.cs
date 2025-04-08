@@ -9,6 +9,8 @@ public static class Utils
     public const string MapObjectsTableName = "MapObjects_Table";
     public const string RewardItemsTableName = "RewardItems_Table";
     public const string AnimalTableName = "Animal_Table";
+    
+    public const float GameStartWaitTime = 1f;
 
     public static void SetChildScaleFitToParent(GameObject child, GameObject parent)
     {

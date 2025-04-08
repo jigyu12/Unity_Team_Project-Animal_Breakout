@@ -35,7 +35,7 @@ public class AnimalDataTable : DataTable
             }
             else
             {
-                Debug.LogError($"Ű �ߺ�: {data.AnimalID}");
+                Debug.LogError($"Ű �ߺ�: {data.AnimalID}");
             }
         }
     }

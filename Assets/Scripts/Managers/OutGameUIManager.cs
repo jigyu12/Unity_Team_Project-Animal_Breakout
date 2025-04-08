@@ -14,13 +14,11 @@ public class OutGameUIManager : MonoBehaviour
     public static Action<int> onExpChanged;
     
     // Level TempCode //
-#if UNITY_EDITOR
         
     public static readonly Dictionary<int, int> expToLevelUpDictionary = new();    
     public readonly int maxLevel = 5;
     private static bool isAddToDict;
-        
-#endif
+       
     // Level TempCode //
     
     private void Start()
@@ -28,7 +26,6 @@ public class OutGameUIManager : MonoBehaviour
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
         
         // Level TempCode //
-#if UNITY_EDITOR
         
         if (!isAddToDict)
         {
@@ -47,7 +44,6 @@ public class OutGameUIManager : MonoBehaviour
         
         onLevelExpInitialized?.Invoke(initialData);
 
-#endif
         // Level TempCode //
     }
     

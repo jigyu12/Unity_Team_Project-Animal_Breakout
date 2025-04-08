@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Pool;
 
 public class MapObjectManager : InGameManager
 {
-    [SerializeField] private GameObject wallPrefab;
+    //[SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject trapBombPrefab;
     [SerializeField] private GameObject trapHolePrefab;
     [SerializeField] private GameObject itemRewardCoinPrefab;
@@ -90,10 +89,10 @@ public class MapObjectManager : InGameManager
         penaltyCoinSpawnChances.Add(fireCoinSpawnChance);
         penaltyCoinSpawnChances.Add(blackHoleCoinSpawnChance);
 
-        wallPool = GameManager.ObjectPoolManager.CreateObjectPool(wallPrefab,
-            () => Instantiate(wallPrefab, roadTransformRoot.transform),
-            obj => { obj.SetActive(true); },
-            obj => { obj.SetActive(false); });
+        // wallPool = GameManager.ObjectPoolManager.CreateObjectPool(wallPrefab,
+        //     () => Instantiate(wallPrefab, roadTransformRoot.transform),
+        //     obj => { obj.SetActive(true); },
+        //     obj => { obj.SetActive(false); });
 
         trapBombPool = GameManager.ObjectPoolManager.CreateObjectPool(trapBombPrefab,
             () => Instantiate(trapBombPrefab, roadTransformRoot.transform),
@@ -258,30 +257,30 @@ public class MapObjectManager : InGameManager
         }
     }
 
-    private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
-    {
-        int rows = objectTypes.GetLength(0);
-        int cols = objectTypes.GetLength(1);
-
-        int lastRowIndex = rows - 1;
-        int middleColIndex = cols / 2;
-
-        for (int i = 0; i < cols; ++i)
-        {
-            objectTypes[lastRowIndex, i] = ObjectType.Wall;
-        }
-
-        createMapObjectActionArray[lastRowIndex, middleColIndex] = CreateNormalWall;
-    }
-
-    private void CreateNormalWall(Vector3 position)
-    {
-        var wall = wallPool.Get();
-        wall.transform.SetPositionAndRotation(position, Quaternion.identity);
-        wall.TryGetComponent(out Wall wallComponent);
-        wallComponent.Initialize(WallType.NormalWall);
-        wallComponent.SetPool(wallPool);
-    }
+    // private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
+    // {
+    //     int rows = objectTypes.GetLength(0);
+    //     int cols = objectTypes.GetLength(1);
+    //
+    //     int lastRowIndex = rows - 1;
+    //     int middleColIndex = cols / 2;
+    //
+    //     for (int i = 0; i < cols; ++i)
+    //     {
+    //         objectTypes[lastRowIndex, i] = ObjectType.Wall;
+    //     }
+    //
+    //     createMapObjectActionArray[lastRowIndex, middleColIndex] = CreateNormalWall;
+    // }
+    //
+    // private void CreateNormalWall(Vector3 position)
+    // {
+    //     var wall = wallPool.Get();
+    //     wall.transform.SetPositionAndRotation(position, Quaternion.identity);
+    //     wall.TryGetComponent(out Wall wallComponent);
+    //     wallComponent.Initialize(WallType.NormalWall);
+    //     wallComponent.SetPool(wallPool);
+    // }
 
     private void SetCreateBombAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
