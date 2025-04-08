@@ -2,42 +2,24 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RelayContinueUI : MonoBehaviour
+public class RelayContinueUI : InGameManager
 {
-    //private RelayRunManager relayRunManager;
-    //게임매니저를 캐싱하지 말고 UI매니저를 통해 게임매니저를 접근하는 방식으로 바꾸세요
-    [SerializeField]
-    private GameManager_new gameManager;
-
     public GameObject panel;
     public Slider slider;
 
     private Coroutine countdown;
-
-    //private void Awake()
-    //{
-    //    relayRunManager = FindObjectOfType<RelayRunManager>();
-    //    gameManager = FindObjectOfType<GameManager>();
-
-    //    if (relayRunManager == null)
-    //    {
-    //        Debug.LogError("RelayRunManager를 찾을 수 없습니다!");
-    //    }
-
-    //    if (gameManager == null)
-    //    {
-    //        Debug.LogError("GameManager를 찾을 수 없습니다!");
-    //    }
-    //}
-
-    private void Start()
+    private bool isDisplayed = false;
+    public override void Initialize()
     {
-        gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, Show);
+        base.Initialize();
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, Show);
     }
 
     public void Show()
     {
+        if (isDisplayed) return;
         panel.SetActive(true);
+        isDisplayed = true;
 
         if (countdown != null)
             StopCoroutine(countdown);
@@ -48,24 +30,28 @@ public class RelayContinueUI : MonoBehaviour
     public void OnClickContinue()
     {
         panel.SetActive(false);
-
+        isDisplayed = false;
         if (countdown != null)
         {
             StopCoroutine(countdown);
         }
 
-        gameManager.SetGameState(GameManager_new.GameState.GameReStart);
-        //if (relayRunManager != null && relayRunManager.HasNextRunner())
-        //{
-        //}
-        //else
-        //{
-        //    gameManager.SetGameState(GameManager_new.GameState.GameOver);
-        //}
+        GameManager.SetGameState(GameManager_new.GameState.GameReStart);
     }
 
+    public void OnClickGiveUp()
+    {
+        panel.SetActive(false);
+        isDisplayed = false;
+        if (countdown != null)
+        {
+            StopCoroutine(countdown);
+        }
 
-    IEnumerator Countdown()
+        GameManager.SetGameState(GameManager_new.GameState.GameOver);
+    }
+
+    private IEnumerator Countdown()
     {
         float duration = 5f;
         float time = duration;
@@ -81,13 +67,7 @@ public class RelayContinueUI : MonoBehaviour
         }
 
         panel.SetActive(false);
-        if (gameManager != null)
-        {
-            gameManager.SetGameState(GameManager_new.GameState.GameOver);
-        }
-        else
-        {
-            Debug.LogError("GameManager가 존재하지 않습니다!");
-        }
+        isDisplayed = false;
+        GameManager.SetGameState(GameManager_new.GameState.GameOver);
     }
 }

@@ -5,8 +5,6 @@ using System.Collections;
 
 public class GameUIManager : InGameManager
 {
-
-    //private GameManager gameManager;
     public GameObject gameOverPanel;
     public GameObject pausePanel;
     public Button mainTitleButton;

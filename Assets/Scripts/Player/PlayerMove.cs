@@ -10,12 +10,14 @@ public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 10f;
     public int wayIndex = 1;
-    public float jumpHeight = 2f;
+    public float jumpHeight = 1f;
     public float gravity = -20f;
     public Lane way;
     private Vector3 targetPosition;
     private float verticalVelocity;
     private bool isJumping;
+    private PlayerInput playerInput;
+    private InputActionMap actionMap;
     private bool canMove = true;
     private Vector2 swipeStart;
     private Vector2 currentTouchPosition;
@@ -26,8 +28,23 @@ public class PlayerMove : MonoBehaviour
 
     private bool canTurn = false;
     private TurnDirection allowedTurn;
-
+    private PlayerStatus playerStatus;
     private Animator animator;
+    private void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+        if (playerInput != null)
+        {
+            actionMap = playerInput.currentActionMap;
+        }
+        animator = GetComponentInChildren<Animator>();
+        playerStatus = GetComponent<PlayerStatus>();
+        if (playerStatus != null)
+        {
+            jumpHeight = playerStatus.JumpPower;
+            Debug.Log($"Jump height set to {jumpHeight} from PlayerStatus.");
+        }
+    }
     private void Start()
     {
         way = FindObjectOfType<Lane>();
@@ -35,7 +52,7 @@ public class PlayerMove : MonoBehaviour
         {
             targetPosition = way.WayIndexToPosition(wayIndex);
             transform.localPosition = targetPosition;
-            animator = GetComponentInChildren<Animator>();
+            // animator = GetComponentInChildren<Animator>();
             Debug.Log("PlayerMove Initialized in Start: WayIndex = " + wayIndex);
         }
         else
@@ -225,12 +242,14 @@ public class PlayerMove : MonoBehaviour
     }
     public void DisableInput()
     {
-        canMove = false;
+        // canMove = false;
+        actionMap.Disable();
     }
 
     public void EnableInput()
     {
-        canMove = true;
+        // canMove = true;
+        actionMap.Enable();
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -27,8 +27,10 @@ public class PlayerStatus : MonoBehaviour
     public int AttackPower => statData != null ? statData.AttackPower : 0;
     public int MoveSpeed => statData != null ? statData.StartSpeed : 0;
     public int JumpPower => statData != null ? statData.Jump : 0;
+    private PlayerManager playerManager;
     private void Start()
     {
+        playerManager = FindObjectOfType<PlayerManager>();
         //if (animalDB == null)
         //{
         //    animalDB = FindObjectOfType<AnimalDatabase>();
@@ -88,7 +90,7 @@ public class PlayerStatus : MonoBehaviour
     [ContextMenu("Damage +1")]
     public void ForceTakeDamage()
     {
-        TakeDamage(1);
+        playerManager.OnPlayerDied(this);
     }
 
     public void TakeDamage(int damage)
@@ -99,45 +101,41 @@ public class PlayerStatus : MonoBehaviour
         //if (currentAnimal.HP <= 0) OnDie();
 
         if (isInvincible) return;
-        var playerManager = FindObjectOfType<PlayerManager>();
-        if (playerManager != null)
-        {
-            playerManager.OnPlayerDied(this);
-        }
+        playerManager.OnPlayerDied(this);
     }
 
-    private void OnDie()
-    {
-        //if (isGameOver) return;
-        //isGameOver = true;
-        StopAllMovements();
-        var move = GetComponent<PlayerMove>();
-        move.DisableInput();
+    // private void OnDie()
+    // {
+    //     //if (isGameOver) return;
+    //     //isGameOver = true;
+    //     StopAllMovements();
+    //     var move = GetComponent<PlayerMove>();
+    //     move.DisableInput();
 
-        if (animator != null)
-        {
-            animator.SetTrigger("Die");
-        }
+    //     if (animator != null)
+    //     {
+    //         animator.SetTrigger("Die");
+    //     }
 
-        onDie?.Invoke(this);
+    //     onDie?.Invoke(this);
 
-        Debug.Log($"Player Died");
-        StartCoroutine(DieAndSwitch());
-    }
+    //     Debug.Log($"Player Died");
+    //     StartCoroutine(DieAndSwitch());
+    // }
 
-    IEnumerator DieAndSwitch()
-    {
+    // IEnumerator DieAndSwitch()
+    // {
 
-        yield return new WaitForSeconds(1.5f);
-        Destroy(gameObject);
-    }
-    private void StopAllMovements()
-    {
-        MoveForward[] movingObjects = FindObjectsOfType<MoveForward>();
-        foreach (var move in movingObjects)
-        {
-            move.enabled = false;
-        }
-        Debug.Log("All movements stopped.");
-    }
+    //     yield return new WaitForSeconds(1.5f);
+    //     Destroy(gameObject);
+    // }
+    // private void StopAllMovements()
+    // {
+    //     MoveForward[] movingObjects = FindObjectsOfType<MoveForward>();
+    //     foreach (var move in movingObjects)
+    //     {
+    //         move.enabled = false;
+    //     }
+    //     Debug.Log("All movements stopped.");
+    // }
 }

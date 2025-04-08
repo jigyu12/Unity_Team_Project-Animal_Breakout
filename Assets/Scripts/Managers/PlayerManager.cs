@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager : InGameManager
 {
     public GameObject playerRoot;
-
+    public RelayContinueUI relayContinueUI;
     private PlayerRotator playerRotator;
 
     [ReadOnly]
@@ -16,15 +16,19 @@ public class PlayerManager : InGameManager
     [SerializeField]
     private int animalID = 100301;
 
+
     private void Awake()
     {
         playerRotator = GetComponent<PlayerRotator>();
+
     }
 
     public override void Initialize()
     {
         base.Initialize();
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => DisablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () => DisablePlayer(currentPlayerStatus));
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(currentPlayerStatus));
 
     }
     public void SetPlayer()
@@ -90,19 +94,15 @@ public class PlayerManager : InGameManager
 
     private void DisablePlayer(PlayerStatus playerStatus)
     {
-        PlayerMove move = playerStatus.GetComponent<PlayerMove>();
-        if (move != null)
-        {
-            move.DisableInput();
-            Debug.Log($"Player movement disabled for: {playerStatus.name}");
-        }
 
-        MoveForward moveForward = playerStatus.GetComponent<MoveForward>();
-        if (moveForward != null)
-        {
-            moveForward.enabled = false;
-            Debug.Log($"MoveForward disabled for: {playerStatus.name}");
-        }
+        currentPlayerMove.DisableInput();  // 입력 비활성화
+
+    }
+    private void EnablePlayer(PlayerStatus playerStatus)
+    {
+
+        currentPlayerMove.EnableInput();  // 입력 비활성화
+
     }
 
     private void PlayDeathAnimation(PlayerStatus playerStatus)
@@ -118,7 +118,15 @@ public class PlayerManager : InGameManager
     private IEnumerator DieAndSwitch(PlayerStatus playerStatus)
     {
         yield return new WaitForSeconds(1.5f);
-        GameManager.OnGameOver();
+        if (relayContinueUI != null)
+        {
+            relayContinueUI.Show();
+        }
+        else
+        {
+            Debug.LogError("RelayContinueUI를 찾을 수 없습니다!");
+            GameManager.OnGameOver();
+        }
         //  Destroy(playerStatus.gameObject);
         // Debug.Log($"Player {playerStatus.name} destroyed.");
     }
