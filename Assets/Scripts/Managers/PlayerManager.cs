@@ -122,12 +122,4 @@ public class PlayerManager : InGameManager
         //  Destroy(playerStatus.gameObject);
         // Debug.Log($"Player {playerStatus.name} destroyed.");
     }
-
-    public override void Initialize()
-    {
-        base.Initialize();
-        Debug.Log("PlayerManager Initialized");
-    }
-
-
 }
