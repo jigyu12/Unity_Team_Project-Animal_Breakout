@@ -1,23 +1,36 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class RelayContinueUI : InGameManager
+using TMPro;
+public class RelayContinueUI : MonoBehaviour
 {
     public GameObject panel;
     public Slider slider;
-
     private Coroutine countdown;
+    public TMP_Text countdownText;
+    public PlayerManager playerManager;
+    [SerializeField] private GameManager_new GameManager;
     private bool isDisplayed = false;
-    public override void Initialize()
+    private int deathCount = 0;
+    // public override void Initialize()
+    // {
+    //     base.Initialize();
+    //     GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, Show);
+    // }
+    public void Start()
     {
-        base.Initialize();
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, Show);
+        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, Show);
     }
 
     public void Show()
     {
+        if (deathCount > 0)
+        {
+            GameManager.SetGameState(GameManager_new.GameState.GameOver);
+            return;
+        }
         if (isDisplayed) return;
+        deathCount++; ;
         panel.SetActive(true);
         isDisplayed = true;
 
@@ -37,6 +50,7 @@ public class RelayContinueUI : InGameManager
         }
 
         GameManager.SetGameState(GameManager_new.GameState.GameReStart);
+        StartCoroutine(ResumeWithCountdown(countdownText));
     }
 
     public void OnClickGiveUp()
@@ -69,5 +83,19 @@ public class RelayContinueUI : InGameManager
         panel.SetActive(false);
         isDisplayed = false;
         GameManager.SetGameState(GameManager_new.GameState.GameOver);
+    }
+    public IEnumerator ResumeWithCountdown(TMP_Text countdownText)
+    {
+        GameManager.SetTimeScale(0);
+        countdownText.gameObject.SetActive(true);
+
+        for (int i = 3; i > 0; i--)
+        {
+            countdownText.text = i.ToString();
+            yield return new WaitForSecondsRealtime(1);
+        }
+
+        countdownText.gameObject.SetActive(false);
+        GameManager.SetTimeScale(1);
     }
 }

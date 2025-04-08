@@ -8,7 +8,6 @@ public class RealGiveUpPanelUI : MonoBehaviour
     public GameObject GameResultPanel;
     public Button yesButton;
     public Button noButton;
-
     private void Start()
     {
 
@@ -17,7 +16,6 @@ public class RealGiveUpPanelUI : MonoBehaviour
 
         yesButton.onClick.RemoveAllListeners();
         yesButton.onClick.AddListener(OnYesButtonClicked);
-
 
     }
     private void OnNoButtonClicked()

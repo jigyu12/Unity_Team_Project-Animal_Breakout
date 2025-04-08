@@ -6,6 +6,7 @@ using System.Collections;
 public class GameUIManager : InGameManager
 {
     public GameObject gameOverPanel;
+    public GameObject GameResultPanel;
     public GameObject pausePanel;
     public Button mainTitleButton;
     public Button pauseButton;
@@ -41,7 +42,8 @@ public class GameUIManager : InGameManager
 
     public void ShowGameOverPanel()
     {
-        gameOverPanel.SetActive(true);
+        GameResultPanel.SetActive(true);
+        // gameOverPanel.SetActive(true);
         //Time.timeScale = 0;
     }
 
@@ -62,4 +64,5 @@ public class GameUIManager : InGameManager
         pausePanel.SetActive(true);
         Time.timeScale = 0;
     }
+
 }

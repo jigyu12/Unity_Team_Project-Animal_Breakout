@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class DeathZoneTrigger : MonoBehaviour
 {
+    private PlayerManager playerManager;
+    public GameObject respawnPrefab;
+
+    public void SetPlayerManager(PlayerManager manager)
+    {
+        playerManager = manager;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -16,4 +23,5 @@ public class DeathZoneTrigger : MonoBehaviour
             }
         }
     }
+
 }

@@ -12,10 +12,10 @@ public class PlayerManager : InGameManager
     public PlayerStatus currentPlayerStatus;
     [ReadOnly]
     public PlayerMove currentPlayerMove;
+    [ReadOnly]
+    private Animator currentPlayerAnimator;
 
-    [SerializeField]
-    private int animalID = 100301;
-
+    [SerializeField] private int animalID = 100301;
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class PlayerManager : InGameManager
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => DisablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () => DisablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(currentPlayerStatus));
-
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, ContinuePlayer);
     }
     public void SetPlayer()
     {
@@ -58,6 +58,7 @@ public class PlayerManager : InGameManager
                 currentPlayerMove = playerMove;
                 playerRotator.SetPlayerMove(currentPlayerMove);
             }
+            currentPlayerAnimator = character.GetComponentInChildren<Animator>();
         }
         else
         {
@@ -78,7 +79,7 @@ public class PlayerManager : InGameManager
         Debug.Log($"Player Died: {status.name}");
         StopAllMovements();
         DisablePlayer(status);
-        PlayDeathAnimation(status);
+        PlayDeathAnimation();
         StartCoroutine(DieAndSwitch(status));
     }
 
@@ -105,13 +106,16 @@ public class PlayerManager : InGameManager
 
     }
 
-    private void PlayDeathAnimation(PlayerStatus playerStatus)
+    private void PlayDeathAnimation()
     {
-        Animator animator = playerStatus.GetComponentInChildren<Animator>();
-        if (animator != null)
+        if (currentPlayerAnimator != null)
         {
-            animator.SetTrigger("Die");
-            Debug.Log($"Death animation triggered for: {playerStatus.name}");
+            currentPlayerAnimator.SetTrigger("Die");
+            Debug.Log("Death animation triggered.");
+        }
+        else
+        {
+            Debug.LogError("Animator not found. Unable to play death animation.");
         }
     }
 
@@ -130,4 +134,34 @@ public class PlayerManager : InGameManager
         //  Destroy(playerStatus.gameObject);
         // Debug.Log($"Player {playerStatus.name} destroyed.");
     }
+
+    public void ContinuePlayer()
+    {
+        if (currentPlayerStatus == null)
+        {
+            Debug.LogError("부활할 플레이어가 없습니다.");
+            return;
+        }
+        // 부활 시 무적 상태 설정
+        currentPlayerStatus.SetInvincible(true);
+        currentPlayerMove.EnableInput();
+        currentPlayerAnimator.SetTrigger("Run");
+        ActivatePlayer(currentPlayerStatus);
+        Debug.Log("플레이어 부활 및 무적 상태 설정");
+
+        StartCoroutine(RemoveInvincibilityAfterDelay(2f)); //2초무적
+    }
+
+    private IEnumerator RemoveInvincibilityAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (currentPlayerStatus != null)
+        {
+            currentPlayerStatus.SetInvincible(false);
+            Debug.Log("무적 상태 해제");
+        }
+    }
+
+
 }

@@ -17,7 +17,6 @@ public class PlayerStatus : MonoBehaviour
     //public int currentAnimalID;
     //private bool isGameOver;
     //private AnimalStatus currentAnimal;
-    private Animator animator;
 
     public Action<PlayerStatus> onDie;
     private bool isInvincible = false;
@@ -51,7 +50,6 @@ public class PlayerStatus : MonoBehaviour
         // animalData = DataTableManager.animalDataTable.Get(animalID);
         //animalDB = database;
         //SetAnimal(animalID);
-        animator = GetComponentInChildren<Animator>();
         defaultLayer = LayerMask.NameToLayer("Player");
         invincibleLayer = LayerMask.NameToLayer("InvinciblePlayer");
     }
