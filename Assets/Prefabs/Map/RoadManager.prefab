@@ -55,7 +55,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1002950731021501532}
-  - component: {fileID: 449674117152678179}
   - component: {fileID: 7795362620459781778}
   m_Layer: 0
   m_Name: RoadManager
@@ -80,20 +79,6 @@ Transform:
   - {fileID: 5962223096739644789}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &449674117152678179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4160796323777910873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9b10e5750a9dc2439ecff6793e949f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minX: -1.5
-  maxX: 1.5
 --- !u!114 &7795362620459781778
 MonoBehaviour:
   m_ObjectHideFlags: 0

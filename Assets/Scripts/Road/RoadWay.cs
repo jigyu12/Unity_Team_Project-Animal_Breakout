@@ -80,8 +80,11 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                 {
                     var startPosition = roadSegmentWithType.roadSegment.GetTilePosition(unit.startEndCoordinate[0].Item1, unit.startEndCoordinate[0].Item2);
                     var endPosition = roadSegmentWithType.roadSegment.GetTilePosition(unit.startEndCoordinate[1].Item1, unit.startEndCoordinate[1].Item2);
-
-                    unit.rewardItemConstructors?.Invoke(startPosition, endPosition, unit.itemGroupCount);
+                    if (unit.rewardItemConstructors != null)
+                    {
+                        var array = unit.rewardItemConstructors.Invoke(startPosition, endPosition, unit.itemGroupCount);
+                        array.ToList().ForEach((item) => mapObjects.Add(item));
+                    }
                 }
             }
         }

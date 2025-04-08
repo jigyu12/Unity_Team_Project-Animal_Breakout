@@ -192,7 +192,7 @@ public class MapObjectManager : InGameManager
         public (int, int)[] startEndCoordinate; // Size : 2
         public int itemGroupCount; // Reward Item Count In Same Group
 
-        public Action<Vector3, Vector3, int> rewardItemConstructors;
+        public Func<Vector3, Vector3, int, CollidableMapObject[]> rewardItemConstructors;
     }
 
     private void GenerateRewardItemInformation()
@@ -462,8 +462,9 @@ public class MapObjectManager : InGameManager
         return canSpawn;
     }
 
-    private void CreateRandomRewardCoin(Vector3 startPosition, Vector3 endPosition, int itemCount)
+    private CollidableMapObject[] CreateRandomRewardCoin(Vector3 startPosition, Vector3 endPosition, int itemCount)
     {
+        var array = new CollidableMapObject[itemCount];
         for (int i = 0; i < itemCount; ++i)
         {
             var rewardCoin = itemRewardCoinPool.Get();
@@ -471,14 +472,17 @@ public class MapObjectManager : InGameManager
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Initialize((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
             itemRewardCoinComponent.SetPool(itemRewardCoinPool);
+            array[i] = itemRewardCoinComponent;
         }
+        return array;
     }
 
-    private void CreateRandomRewardCoinWithHill(Vector3 startPosition, Vector3 endPosition, int itemCount)
+    private CollidableMapObject[] CreateRandomRewardCoinWithHill(Vector3 startPosition, Vector3 endPosition, int itemCount)
     {
         float maxHeight = maxHillHeight;
         int middleIndex = itemCount / 2;
 
+        var array = new CollidableMapObject[itemCount];
         for (int i = 0; i < itemCount; ++i)
         {
             Vector3 spawnPosition = Vector3.Lerp(startPosition, endPosition, (float)i / (itemCount - 1));
@@ -491,7 +495,9 @@ public class MapObjectManager : InGameManager
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Initialize((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
             itemRewardCoinComponent.SetPool(itemRewardCoinPool);
+            array[i] = itemRewardCoinComponent;
         }
+        return array;
     }
 
     private void SetCreateRandomHumanAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
