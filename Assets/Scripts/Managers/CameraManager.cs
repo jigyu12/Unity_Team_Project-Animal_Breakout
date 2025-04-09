@@ -16,7 +16,7 @@ public class CameraManager : InGameManager
     private readonly Dictionary<CinemachineVirtualCamera, List<Action<CinemachineVirtualCamera>>> cameraActionsDictionary = new();
     private readonly Dictionary<CinemachineVirtualCamera, List<Func<CinemachineVirtualCamera, IEnumerator>>> cameraCoroutinesDictionary = new();
 
-    public static Action<ICinemachineCamera> OnCameraChanged;
+    public static event Action<ICinemachineCamera> OnCameraChanged;
     
 
     public override void Initialize()

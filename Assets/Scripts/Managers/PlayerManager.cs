@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public enum DeathType
 {
@@ -20,11 +19,12 @@ public class PlayerManager : InGameManager
     [ReadOnly]
     private Animator currentPlayerAnimator;
 
-    [SerializeField] private int animalID = 100302;
+    private int animalID = 0;//100301;
     private Vector3 pendingRespawnPosition;
     private Quaternion pendingRespawnRotation;
     private Vector3 pendingForward;
     private DeathType lastDeathType = DeathType.None;
+
     private void Awake()
     {
         playerRotator = GetComponent<PlayerRotator>();
@@ -40,6 +40,8 @@ public class PlayerManager : InGameManager
     }
     public void SetPlayer()
     {
+        Debug.Log($"Set Player Start With Animal ID: {animalID}");
+        
         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
         if (prefab != null)
         {
@@ -151,6 +153,14 @@ public class PlayerManager : InGameManager
         //  Destroy(playerStatus.gameObject);
         // Debug.Log($"Player {playerStatus.name} destroyed.");
     }
+
+    public void SetStartAnimalID(int id)
+    {
+        Debug.Log($"Set Animal ID In PlayerManager: {id}");
+        
+        animalID = id;
+    }
+
     public void SetPendingRespawnInfo(Vector3 position, Quaternion rotation, Vector3 forward)
     {
         pendingRespawnPosition = position;
@@ -202,6 +212,4 @@ public class PlayerManager : InGameManager
     {
         lastDeathType = type;
     }
-
-
 }

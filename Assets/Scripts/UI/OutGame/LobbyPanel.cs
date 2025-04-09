@@ -8,10 +8,27 @@ public class LobbyPanel : MonoBehaviour
 
     private readonly WaitForSeconds waitTime = new(Utils.GameStartWaitTime);
 
+    private void Awake()
+    {
+        GameDataManager.onSetStartAnimalID += OnSetStartAnimalIDHandler;
+    }
+
+    private void OnDestroy()
+    {
+        GameDataManager.onSetStartAnimalID -= OnSetStartAnimalIDHandler;
+    }
+    
     private void Start()
     {
         gameStartButton.onClick.RemoveAllListeners();
-        gameStartButton.interactable = true;
+        if (GameDataManager.Instance.StartAnimalID == 0)
+        {
+            gameStartButton.interactable = false;
+        }
+        else
+        {
+            gameStartButton.interactable = true;
+        }
 
         gameStartButton.onClick.AddListener(() =>
         {
@@ -27,4 +44,12 @@ public class LobbyPanel : MonoBehaviour
 
         SceneManager.LoadScene("Run_new");
     }
-} 
+
+    private void OnSetStartAnimalIDHandler(int animalID)
+    {
+        if(animalID == 0)
+            return;
+        
+        gameStartButton.interactable = true;
+    }
+}

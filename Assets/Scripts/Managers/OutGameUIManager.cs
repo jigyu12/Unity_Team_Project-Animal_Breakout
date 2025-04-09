@@ -5,13 +5,16 @@ using UnityEngine;
 
 public class OutGameUIManager : MonoBehaviour
 {
-    public static Action<bool> onSwitchActiveLayoutGroupControllers;
-    public static Action<bool> onSwitchActiveDefaultCanvases;
-    public static Action<SwitchableCanvasType> onSwitchActiveSwitchableCanvas;
-    public static Action<SwitchableCanvasType, bool, bool> onSwitchVisualizeSwitchableCanvas;
+    public static event Action<bool> onSwitchActiveLayoutGroupControllers;
+    public static event Action<bool> onSwitchActiveDefaultCanvases;
+    public static event Action<SwitchableCanvasType> onSwitchActiveSwitchableCanvas;
+    public static event Action<SwitchableCanvasType, bool, bool> onSwitchVisualizeSwitchableCanvas;
     
-    public static Action<LevelInfoData> onLevelExpInitialized;
+    public static event Action<LevelInfoData> onLevelExpInitialized;
     public static Action<int> onExpChanged;
+    
+    public static event Action<List<int>> onAnimalsLock;
+    public static event Action<List<int>> onAnimalsLockToUnlock;
     
     // Level TempCode //
         
@@ -23,6 +26,8 @@ public class OutGameUIManager : MonoBehaviour
     
     private void Start()
     {
+        GameDataManager.Instance.Initialize();
+        
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
         
         // Level TempCode //
