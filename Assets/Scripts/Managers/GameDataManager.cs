@@ -104,8 +104,6 @@ public class GameDataManager : Singleton<GameDataManager>
         else if (SceneManager.GetActiveScene().name == "RunMin")
         {
             TryFindGameManager();
-            
-            gameManager.SetStartAnimalID(startAnimalID);
         }
 
         ClearInGameData();
