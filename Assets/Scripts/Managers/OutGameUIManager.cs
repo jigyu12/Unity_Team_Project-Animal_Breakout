@@ -13,6 +13,9 @@ public class OutGameUIManager : MonoBehaviour
     public static Action<LevelInfoData> onLevelExpInitialized;
     public static Action<int> onExpChanged;
     
+    public static Action<List<int>> onAnimalsLock;
+    public static Action<List<int>> onAnimalsLockToUnlock;
+    
     // Level TempCode //
         
     public static readonly Dictionary<int, int> expToLevelUpDictionary = new();    
@@ -23,6 +26,8 @@ public class OutGameUIManager : MonoBehaviour
     
     private void Start()
     {
+        GameDataManager.Instance.Initialize();
+        
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
         
         // Level TempCode //

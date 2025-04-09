@@ -50,6 +50,8 @@ public class GameManager_new : MonoBehaviour
 
     public int restartChanceCount = 1;
     private int restartCount = 0;
+    
+    private int startAnimalID = 0;
 
     private void Awake()
     {
@@ -129,6 +131,8 @@ public class GameManager_new : MonoBehaviour
         {
             manager.Initialize();
         }
+        
+        playerManager.SetStartAnimalID(startAnimalID);
     }
 
     public void SetGameState(GameState gameState)
@@ -160,5 +164,10 @@ public class GameManager_new : MonoBehaviour
         Debug.Log("Game Over!");
         UIManager.ShowGameOverPanel();
         SetTimeScale(0);
+    }
+
+    public void SetStartAnimalID(int id)
+    {
+        startAnimalID = id;
     }
 }

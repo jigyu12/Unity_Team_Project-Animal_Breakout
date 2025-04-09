@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class TestCode : MonoBehaviour
 {
@@ -12,22 +13,23 @@ public class TestCode : MonoBehaviour
 
     public List<GameObject> objList1 = new List<GameObject>();
     public List<GameObject> objList2 = new List<GameObject>();
+    
+    public static event Action OnAddAnimalInfoPanel; 
+    public static event Action OnRemoveAnimalInfoPanel;
 
-    private void Awake()
+    private void Start()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            objList1.Add(Instantiate(instantiateObj, parent.transform));
-            
-            LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
-        }
-
-        for (int i = 0; i < 4; i++)
-        {
-            objList2.Add(Instantiate(instantiateObj2, parent2.transform));
-                
-            LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
-        }
+        // for (int i = 0; i < 4; i++)
+        // {
+        //     objList1.Add(Instantiate(instantiateObj, parent.transform));
+        // }
+        //
+        // for (int i = 0; i < 4; i++)
+        // {
+        //     objList2.Add(Instantiate(instantiateObj2, parent2.transform));
+        // }
+        //
+        // OnAddAnimalInfoPanel?.Invoke();
     }
 
     public void InstantiatePrefab1()
@@ -35,7 +37,7 @@ public class TestCode : MonoBehaviour
         var obj = Instantiate(instantiateObj, parent.transform);
         objList1.Add(obj);
         
-        LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
+        OnAddAnimalInfoPanel?.Invoke();
     }
 
     public void InstantiatePrefab2()
@@ -43,7 +45,7 @@ public class TestCode : MonoBehaviour
         var obj = Instantiate(instantiateObj2, parent2.transform);
         objList2.Add(obj);
         
-        LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
+        OnAddAnimalInfoPanel?.Invoke();
     }
 
     public void DestroyRandomObjFromList1()
@@ -54,7 +56,7 @@ public class TestCode : MonoBehaviour
         objList1.RemoveAt(randIndex);
         Destroy(obj);
         
-        LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
+        OnRemoveAnimalInfoPanel?.Invoke();
     }
 
     public void DestroyRandomObjFromList2()
@@ -65,6 +67,6 @@ public class TestCode : MonoBehaviour
         objList2.RemoveAt(randIndex);
         Destroy(obj);
         
-        LayoutRebuilder.ForceRebuildLayoutImmediate(parent.GetComponent<RectTransform>());
+        OnRemoveAnimalInfoPanel?.Invoke();
     }
 }

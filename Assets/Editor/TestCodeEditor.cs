@@ -6,34 +6,43 @@ public class TestCodeEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector();
-
         TestCode testCode = (TestCode)target;
 
-        EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("프리팹 인스턴스 추가", EditorStyles.boldLabel);
+        DrawDefaultInspector();
 
-        if (GUILayout.Button("리스트1 프리팹 생성"))
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("생성 및 파괴 컨트롤", EditorStyles.boldLabel);
+
+        EditorGUILayout.BeginHorizontal();
+        
+        if (GUILayout.Button("Prefab 1 생성"))
         {
             testCode.InstantiatePrefab1();
         }
-
-        if (GUILayout.Button("리스트2 프리팹 생성"))
+        
+        if (GUILayout.Button("Prefab 2 생성"))
         {
             testCode.InstantiatePrefab2();
         }
-
-        EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("랜덤 오브젝트 제거", EditorStyles.boldLabel);
-
-        if (GUILayout.Button("리스트1에서 랜덤 제거"))
+        
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.BeginHorizontal();
+        
+        if (GUILayout.Button("리스트 1에서 랜덤 오브젝트 파괴"))
         {
             testCode.DestroyRandomObjFromList1();
         }
-
-        if (GUILayout.Button("리스트2에서 랜덤 제거"))
+        
+        if (GUILayout.Button("리스트 2에서 랜덤 오브젝트 파괴"))
         {
             testCode.DestroyRandomObjFromList2();
         }
+        
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.Space();
+
+        EditorGUILayout.LabelField($"리스트1 오브젝트 수 : {testCode.objList1.Count}");
+        EditorGUILayout.LabelField($"리스트2 오브젝트 수 : {testCode.objList2.Count}");
     }
 }

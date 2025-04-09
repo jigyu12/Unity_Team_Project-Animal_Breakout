@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -16,20 +17,26 @@ public class GameDataManager : Singleton<GameDataManager>
     public List<int> runnerIDs = new List<int>();
     // private AnimalDatabase animalDatabase;
 
-    private void Awake()
+    private int startAnimalID = 0;
+    public int StartAnimalID => startAnimalID;
+    public static event Action<int> onSetStartAnimalID;
+    
+    private void Start()
     {
         maxScore = 0;
         currentCoins = 0;
-    }
 
-    private void OnEnable()
-    {
         BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
+        AnimalUnlockPanel.onSetStartAnimalID += OnSetAnimalID;
+        
         SceneManager.sceneLoaded += OnChangeSceneHandler;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
+        SceneManager.sceneLoaded -= OnChangeSceneHandler;
+        AnimalUnlockPanel.onSetStartAnimalID -= OnSetAnimalID;
+        
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
     }
 
@@ -90,18 +97,27 @@ public class GameDataManager : Singleton<GameDataManager>
 
         Debug.Log($"CurrentCoins To Add : {currentCoins}");
 
-        if (SceneManager.GetActiveScene().name == "MainTitleSceneTest")
+        if (SceneManager.GetActiveScene().name == "MainTitleSceneCopy")
         {
             TryFindOutGameUIManager();
         }
-        else if (SceneManager.GetActiveScene().name == "RunCopy")
+        else if (SceneManager.GetActiveScene().name == "RunMin")
         {
             TryFindGameManager();
+            
+            gameManager.SetStartAnimalID(startAnimalID);
         }
 
         ClearInGameData();
 
         Time.timeScale = 1;
+    }
+
+    private void OnSetAnimalID(int id)
+    {
+        startAnimalID = id;
+        
+        onSetStartAnimalID?.Invoke(id);
     }
 
     //public void SetRunnerIDs(List<int> ids)

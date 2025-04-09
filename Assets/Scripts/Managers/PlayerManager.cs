@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : InGameManager
@@ -13,8 +12,7 @@ public class PlayerManager : InGameManager
     [ReadOnly]
     public PlayerMove currentPlayerMove;
 
-    [SerializeField]
-    private int animalID = 100301;
+    private int animalID = 0;//100301;
 
     private void Awake()
     {
@@ -29,6 +27,8 @@ public class PlayerManager : InGameManager
     }
     public void SetPlayer()
     {
+        Debug.Log($"Set Player Start With Animal ID: {animalID}");
+        
         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
         if (prefab != null)
         {
@@ -121,5 +121,12 @@ public class PlayerManager : InGameManager
         GameManager.OnGameOver();
         //  Destroy(playerStatus.gameObject);
         // Debug.Log($"Player {playerStatus.name} destroyed.");
+    }
+    
+    public void SetStartAnimalID(int id)
+    {
+        Debug.Log($"Set Animal ID In PlayerManager: {id}");
+        
+        animalID = id;
     }
 }

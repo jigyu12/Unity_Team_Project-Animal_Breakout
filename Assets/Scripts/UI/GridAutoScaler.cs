@@ -65,7 +65,5 @@ public class GridAutoScaler : MonoBehaviour
             
             gridLayoutGroup.cellSize = cellSize;
         }
-        
-        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
     }
 }
