@@ -7,7 +7,6 @@ public class MoveForward : MonoBehaviour
 {
     public Vector3 direction;
     public float speed;
-
     private Lane lane;
 
     private void Awake()
@@ -36,18 +35,20 @@ public class MoveForward : MonoBehaviour
         // };
     }
 
-    
-
+    private void Update()
+    {
+        var nextPosition = transform.position + direction * Time.deltaTime * speed;
+        transform.position = nextPosition;
+    }
     public void RotateForwardDirection(float angle)
     {
         direction = Quaternion.AngleAxis(angle, Vector3.up) * direction;
         direction.Normalize();
     }
 
-    private void Update()
+    public void SetDirectionByRotation()
     {
-        var nextPosition = transform.position + direction * Time.deltaTime * speed;
-        transform.position = nextPosition;
+        direction = transform.forward.normalized;
+        Debug.Log($"[MoveForward] 이동 방향을 회전값 기준으로 설정: {direction}");
     }
-
 }

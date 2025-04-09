@@ -36,7 +36,6 @@ public class PlayerRotator : MonoBehaviour
 
         MoveForward moveForward = playerMove.transform.parent.GetComponent<MoveForward>();
         moveForward.enabled = false;
-        
         int nextLane = GetTurnAfterLaneIndex(moveForward, pivot, angle);
         if (nextLane != 1)
         {
@@ -55,7 +54,7 @@ public class PlayerRotator : MonoBehaviour
             moveForward.transform.position = pivot;
         }
        
-        //ÇÃ·¹ÀÌ¾î ·ÎÄÃÀ» È¸ÀüÇÏ´Â ¿¬Ãâ
+        //í”Œë ˆì´ì–´ ë¡œì»¬ì„ íšŒì „í•˜ëŠ” ì—°ì¶œ
         float elapsed = 0f;
         float currentAngle = 0f;
         while (elapsed < rotateDuration)
@@ -68,11 +67,11 @@ public class PlayerRotator : MonoBehaviour
         }
 
 
-        //ÇÃ·¹ÀÌ¾î·çÆ®¸¦ ½ÇÁ¦·Î È¸ÀüÇÏ°í ¿¬Ãâ¿ë È¸ÀüÀº ¸®¼Â½ÃÅ²´Ù.
+        //í”Œë ˆì´ì–´ë£¨íŠ¸ë¥¼ ì‹¤ì œë¡œ íšŒì „í•˜ê³  ì—°ì¶œìš© íšŒì „ì€ ë¦¬ì…‹ì‹œí‚¨ë‹¤.
         moveForward.transform.RotateAround(pivot,Vector3.up, angle);
         playerMove.transform.localRotation = Quaternion.identity;
 
-        //·¹ÀÎ À§Ä¡¸¦ º¸Á¤ÇØÁØ´Ù.
+        //ë ˆì¸ ìœ„ì¹˜ë¥¼ ë³´ì •í•´ì¤€ë‹¤.
         playerMove.MoveLaneIndexImmediate(nextLane);
 
         if (moveForward != null)
@@ -95,16 +94,16 @@ public class PlayerRotator : MonoBehaviour
 
     private int GetTurnAfterLaneIndex(MoveForward player, Vector3 pivot, float angle)
     {
-        //°¢ Å¸ÀÏ»çÀÌÁî°¡ 1,1ÀÌ¶ó´Â °¡Á¤ÇÏ¿¡ ¾²ÀÓ
+        //ê° íƒ€ì¼ì‚¬ì´ì¦ˆê°€ 1,1ì´ë¼ëŠ” ê°€ì •í•˜ì— ì“°ì„
         var playerToPivot = pivot - player.transform.position;
         if (Vector3.Magnitude(playerToPivot) <= 0.5f)
         {
-            //ÇÃ·¹ÀÌ¾î¿Í ÇÇº¿°£ °Å¸®°¡ 0.5 ¹Ì¸¸ÀÌ¸é 1¹ø ·¹ÀÎ
+            //í”Œë ˆì´ì–´ì™€ í”¼ë´‡ê°„ ê±°ë¦¬ê°€ 0.5 ë¯¸ë§Œì´ë©´ 1ë²ˆ ë ˆì¸
             return 1;
         }
         else
         {
-            //ÇÃ·¹ÀÌ¾î°¡ ÇÇº¿À» Áö³­ °æ¿ì 0¶Ç´Â 2ÀÎµ¥ È¸Àü ¹æÇâ¿¡µû¶ó ÇöÀçÀ§Ä¡°¡ 0ÀÎÁö 2ÀÎÁö °áÁ¤µÈ´Ù.
+            //í”Œë ˆì´ì–´ê°€ í”¼ë´‡ì„ ì§€ë‚œ ê²½ìš° 0ë˜ëŠ” 2ì¸ë° íšŒì „ ë°©í–¥ì—ë”°ë¼ í˜„ì¬ìœ„ì¹˜ê°€ 0ì¸ì§€ 2ì¸ì§€ ê²°ì •ëœë‹¤.
             bool isPassed = IsPlayerPassedPivot(player, pivot);
             if (isPassed)
             {

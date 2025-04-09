@@ -9,6 +9,7 @@ public enum TurnDirection { Left, Right, Both }
 public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 10f;
+
     public int laneIndex = 1;
     public float jumpHeight = 2f;
     public float gravity = -20f;
@@ -16,6 +17,8 @@ public class PlayerMove : MonoBehaviour
     private Vector3 targetPosition;
     private float verticalVelocity;
     private bool isJumping;
+    private PlayerInput playerInput;
+    private InputActionMap actionMap;
     private bool canMove = true;
     private Vector2 swipeStart;
     private Vector2 currentTouchPosition;
@@ -26,8 +29,24 @@ public class PlayerMove : MonoBehaviour
 
     private bool canTurn = false;
     private TurnDirection allowedTurn;
-
+    private PlayerStatus playerStatus;
     private Animator animator;
+
+    private void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+        if (playerInput != null)
+        {
+            actionMap = playerInput.currentActionMap;
+        }
+        animator = GetComponentInChildren<Animator>();
+        playerStatus = GetComponent<PlayerStatus>();
+        if (playerStatus != null)
+        {
+            jumpHeight = playerStatus.JumpPower;
+            Debug.Log($"Jump height set to {jumpHeight} from PlayerStatus.");
+        }
+    }
 
     private void Start()
     {
@@ -36,6 +55,7 @@ public class PlayerMove : MonoBehaviour
         {
             targetPosition = way.LaneIndexToPosition(laneIndex);
             transform.localPosition = targetPosition;
+
             animator = GetComponentInChildren<Animator>();
             Debug.Log("PlayerMove Initialized in Start: WayIndex = " + laneIndex);
         }
@@ -241,12 +261,14 @@ public class PlayerMove : MonoBehaviour
 
     public void DisableInput()
     {
-        canMove = false;
+        // canMove = false;
+        actionMap.Disable();
     }
 
     public void EnableInput()
     {
-        canMove = true;
+        // canMove = true;
+        actionMap.Enable();
     }
     private void OnTriggerEnter(Collider other)
     {
