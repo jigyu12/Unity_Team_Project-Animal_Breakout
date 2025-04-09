@@ -48,14 +48,13 @@ public class TempleRunStyleRoadMaker : InGameManager
     private void Awake()
     {
         SetRoadMakeMode(RoadMakeMode.RandomWay);
-        SetMapObjectMakeMode(ItemSetMode.None);
     }
 
     public override void Initialize()
     {
         base.Initialize();
 
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetMapObjectMakeMode(ItemSetMode.TrapAndReward));
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, InitialRoadSetting);
 
         for (int i = 0; i < roadWayPrefabs.Count(); i++)
         {
@@ -66,14 +65,14 @@ public class TempleRunStyleRoadMaker : InGameManager
                 OnGetRoadWay,
             OnRelease));
         }
-
-        InitialRoadSetting();
     }
 
     private void InitialRoadSetting()
     {
         currentRoad = initialRoadWay;
         onCurrentWayChanged += RemoveInitialRoadWay;
+
+        SetMapObjectMakeMode(ItemSetMode.TrapAndReward);
 
         PushNextRoadType();
         CreateNNextRoadWay(precreateRoadWayCount, initialRoadWay, currentMapObjectsMode != ItemSetMode.None);

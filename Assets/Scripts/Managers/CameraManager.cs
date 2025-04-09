@@ -18,6 +18,7 @@ public class CameraManager : InGameManager
 
     public static Action<ICinemachineCamera> OnCameraChanged;
     
+
     public override void Initialize()
     {
         base.Initialize();
@@ -51,6 +52,8 @@ public class CameraManager : InGameManager
         cameraCoroutinesDictionary.Clear();
         OnCameraChanged = null;
     }
+
+
 
     public void SetBlendListCamera(CinemachineBlendListCamera blendListCamera)
     {
