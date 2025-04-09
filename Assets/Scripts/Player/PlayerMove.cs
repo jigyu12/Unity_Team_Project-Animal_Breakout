@@ -171,9 +171,12 @@ public class PlayerMove : MonoBehaviour
 
     public void MoveLaneIndexImmediate(int index)
     {
-        var lanePosition = way.LaneIndexToPosition(laneIndex);
+        var lanePosition = way.LaneIndexToPosition(index);
         lanePosition.y = transform.localPosition.y;
+        laneIndex = index;
 
+        //진행중이던 이동 코드 리셋
+        targetPosition = lanePosition;
         transform.localPosition = lanePosition;
     }
 
