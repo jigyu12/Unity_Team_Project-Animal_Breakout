@@ -27,6 +27,7 @@ public class PlayerStatus : MonoBehaviour
     public int MoveSpeed => statData != null ? statData.StartSpeed : 0;
     public int JumpPower => statData != null ? statData.Jump : 0;
     private PlayerManager playerManager;
+
     private void Start()
     {
         playerManager = FindObjectOfType<PlayerManager>();

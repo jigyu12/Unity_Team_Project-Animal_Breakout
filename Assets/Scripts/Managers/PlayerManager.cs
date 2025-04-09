@@ -16,13 +16,14 @@ public class PlayerManager : InGameManager
     private Animator currentPlayerAnimator;
 
     [SerializeField] private int animalID = 100301;
-
+    private Vector3 pendingRespawnPosition;
+    private Quaternion pendingRespawnRotation;
+    private Vector3 pendingForward;
     private void Awake()
     {
         playerRotator = GetComponent<PlayerRotator>();
 
     }
-
     public override void Initialize()
     {
         base.Initialize();
@@ -83,6 +84,7 @@ public class PlayerManager : InGameManager
         StartCoroutine(DieAndSwitch(status));
     }
 
+
     private void StopAllMovements()
     {
         MoveForward[] movingObjects = FindObjectsOfType<MoveForward>();
@@ -134,7 +136,12 @@ public class PlayerManager : InGameManager
         //  Destroy(playerStatus.gameObject);
         // Debug.Log($"Player {playerStatus.name} destroyed.");
     }
-
+    public void SetPendingRespawnInfo(Vector3 position, Quaternion rotation, Vector3 forward)
+    {
+        pendingRespawnPosition = position;
+        pendingRespawnRotation = rotation;
+        pendingForward = forward.normalized;
+    }
     public void ContinuePlayer()
     {
         if (currentPlayerStatus == null)
@@ -142,14 +149,23 @@ public class PlayerManager : InGameManager
             Debug.LogError("부활할 플레이어가 없습니다.");
             return;
         }
-        // 부활 시 무적 상태 설정
+
+        var moveForward = currentPlayerStatus.GetComponentInParent<MoveForward>();
+        moveForward.transform.SetPositionAndRotation(pendingRespawnPosition, pendingRespawnRotation);
+        moveForward.SetDirectionByRotation();
+
         currentPlayerStatus.SetInvincible(true);
+
+        currentPlayerMove.DisableInput();
+        moveForward.enabled = false;
+
         currentPlayerMove.EnableInput();
         currentPlayerAnimator.SetTrigger("Run");
         ActivatePlayer(currentPlayerStatus);
         Debug.Log("플레이어 부활 및 무적 상태 설정");
 
         StartCoroutine(RemoveInvincibilityAfterDelay(2f)); //2초무적
+
     }
 
     private IEnumerator RemoveInvincibilityAfterDelay(float delay)

@@ -88,7 +88,6 @@ public class RelayContinueUI : MonoBehaviour
     {
         GameManager.SetTimeScale(0);
         countdownText.gameObject.SetActive(true);
-
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
@@ -97,5 +96,6 @@ public class RelayContinueUI : MonoBehaviour
 
         countdownText.gameObject.SetActive(false);
         GameManager.SetTimeScale(1);
+
     }
 }

@@ -34,9 +34,9 @@ public class PlayerRotator : MonoBehaviour
         MoveForward moveForward = playerMove.transform.parent.GetComponent<MoveForward>();
         moveForward.enabled = false;
 
-        //юс╫ц цЁ╦╝
+        //О©╫с╫О©╫ цЁО©╫О©╫
         moveForward.transform.position = pivot;
-        
+
 
         float elapsed = 0f;
         float currentAngle = 0f;
