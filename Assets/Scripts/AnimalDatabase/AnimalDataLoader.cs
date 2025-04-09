@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
 
 public class AnimalDataLoader : MonoBehaviour
 {
@@ -19,6 +18,7 @@ public class AnimalDataLoader : MonoBehaviour
             return;
         }
 
+#if UNITY_EDITOR
         var animalList = AnimalDataTable.LoadCSV<AnimalDataTable.AnimalData>(textAsset.text);
         foreach (var animal in animalList)
         {
@@ -39,5 +39,6 @@ public class AnimalDataLoader : MonoBehaviour
 
             Debug.Log($"AnimalStatData created: {assetPath}");
         }
+#endif
     }
 }

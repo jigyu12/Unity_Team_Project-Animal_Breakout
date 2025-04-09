@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -31,7 +30,7 @@ public class TempleRunStyleRoadMaker : InGameManager
     private List<RoadWay> activeRoadWays = new();
     private RoadWay currentRoad;
 
-    public Action<RoadWay, RoadWay> onCurrentWayChanged; //previous, current ¼ø
+    public Action<RoadWay, RoadWay> onCurrentWayChanged; //previous, current ï¿½ï¿½
 
     [SerializeField]
     private RoadWay initialRoadWay;
@@ -133,7 +132,7 @@ public class TempleRunStyleRoadMaker : InGameManager
             var roadWay = CreateRoadWay(previousRoadWay.index + 1, wayTypeIndex);
             roadWay.transform.SetPositionAndRotation(trs.position, trs.rotation);
 
-            //¸Ê¿ÀºêÁ§Æ® »ý¼º
+            //ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
             if (createMapObject)
             {
                 int randomIndex1 = UnityEngine.Random.Range(1, 4);
@@ -179,12 +178,12 @@ public class TempleRunStyleRoadMaker : InGameManager
         {
             if (nowRoadWay.index < currentRoad.index)
             {
-                //Áö³ª°£ ±æ »èÁ¦
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 releaseQueue.Enqueue(nowRoadWay);
             }
             else if (nowRoadWay.index == currentRoad.index && nowRoadWay != currentRoad)
             {
-                //ÇöÀç Way¸¦ Á¦¿ÜÇÑ ¸ðµç ÇüÁ¦±æ°ú ¿¬°áµÈ±æ »èÁ¦
+                //ï¿½ï¿½ï¿½ï¿½ Wayï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È±ï¿½ ï¿½ï¿½ï¿½ï¿½
                 AddToReleaseQueueLinkedRoadWay(nowRoadWay);
             }
         }
@@ -206,7 +205,7 @@ public class TempleRunStyleRoadMaker : InGameManager
         }
     }
 
-    //n¹ø ´ÙÀ½ ¸Ê¿þÀÌ »ý¼º
+    //nï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private void CreateNNextRoadWay(int next, RoadWay previous, bool createMapObject = true)
     {
         if (next <= 0)

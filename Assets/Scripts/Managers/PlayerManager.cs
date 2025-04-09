@@ -40,6 +40,7 @@ public class PlayerManager : InGameManager
     }
     public void SetPlayer()
     {
+        animalID = GameDataManager.Instance.StartAnimalID;
         Debug.Log($"Set Player Start With Animal ID: {animalID}");
         
         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
@@ -152,13 +153,6 @@ public class PlayerManager : InGameManager
         }
         //  Destroy(playerStatus.gameObject);
         // Debug.Log($"Player {playerStatus.name} destroyed.");
-    }
-
-    public void SetStartAnimalID(int id)
-    {
-        Debug.Log($"Set Animal ID In PlayerManager: {id}");
-        
-        animalID = id;
     }
 
     public void SetPendingRespawnInfo(Vector3 position, Quaternion rotation, Vector3 forward)
