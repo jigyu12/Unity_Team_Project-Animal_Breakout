@@ -37,10 +37,15 @@ public class PlayerRotator : MonoBehaviour
         MoveForward moveForward = playerMove.transform.parent.GetComponent<MoveForward>();
         moveForward.enabled = false;
 
+        playerMove.MoveLaneIndexImmediate(playerMove.laneIndex);
+
         //임시 처리
+        //Vector3 temp2 = pivot + moveForward.direction;
+        //Vector3 temp1 = pivot;
+        //Vector3 temp0 = pivot - moveForward.direction;
+
         moveForward.transform.position = pivot;
         
-
         float elapsed = 0f;
         float currentAngle = 0f;
         while (elapsed < rotateDuration)
