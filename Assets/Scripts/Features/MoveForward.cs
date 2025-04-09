@@ -43,6 +43,7 @@ public class MoveForward : MonoBehaviour
     public void RotateForwardDirection(float angle)
     {
         direction = Quaternion.AngleAxis(angle, Vector3.up) * direction;
+        direction.Normalize();
     }
 
     public void SetDirectionByRotation()

@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,13 @@ using UnityEngine;
 public class SwipeTurnTrigger : MonoBehaviour
 {
     public TurnDirection allowedDirection;
+  
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+
             PlayerMove player = other.GetComponent<PlayerMove>();
             if (player != null)
             {
@@ -29,6 +32,11 @@ public class SwipeTurnTrigger : MonoBehaviour
                 player.SetCanTurn(false, gameObject, allowedDirection);
             }
         }
+    }
+
+    private void UpdateLaneRangeRect()
+    {
+
     }
 }
 
