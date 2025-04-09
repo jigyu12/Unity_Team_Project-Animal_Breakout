@@ -1,14 +1,21 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CinemachineVirtualCamera))]
 public class FollowCamara : MonoBehaviour
 {
     public GameObject target;
     public float rayLength;
 
     public LayerMask ignoreLayers;
+    private CinemachineVirtualCamera followCamera;
 
+    private void Awake()
+    {
+        followCamera = GetComponent<CinemachineVirtualCamera>();
+    }
 
     private void LateUpdate()
     {
@@ -24,5 +31,10 @@ public class FollowCamara : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, target.transform.position);
+    }
+
+    private void SetFollowPlayerMove(PlayerMove player)
+    {
+        followCamera.Follow = player.transform;
     }
 }
