@@ -20,7 +20,7 @@ public class PlayerManager : InGameManager
     [ReadOnly]
     private Animator currentPlayerAnimator;
 
-    [SerializeField] private int animalID = 100301;
+    [SerializeField] private int animalID = 100302;
     private Vector3 pendingRespawnPosition;
     private Quaternion pendingRespawnRotation;
     private Vector3 pendingForward;
