@@ -24,6 +24,12 @@ public class CheckerTile : MonoBehaviour
         }
     }
 
+    public Transform GetTileTrasnform(int colIndex, int rowIndex)
+    {
+        int index = colIndex * 3 + rowIndex;
+        return tileMeshFilters[index].transform;
+    }
+
     [ContextMenu("Update TileMesh")]
     public void UpdateTileMesh()
     {

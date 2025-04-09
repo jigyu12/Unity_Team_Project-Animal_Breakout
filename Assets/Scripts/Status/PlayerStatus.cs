@@ -99,7 +99,11 @@ public class PlayerStatus : MonoBehaviour
         //if (currentAnimal.HP <= 0) OnDie();
 
         if (isInvincible) return;
-        OnDie();
+        var playerManager = FindObjectOfType<PlayerManager>();
+        if (playerManager != null)
+        {
+            playerManager.OnPlayerDied(this);
+        }
     }
 
     private void OnDie()

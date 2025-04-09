@@ -21,6 +21,12 @@ public class PlayerManager : InGameManager
         playerRotator = GetComponent<PlayerRotator>();
     }
 
+    public override void Initialize()
+    {
+        base.Initialize();
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () => DisablePlayer(currentPlayerStatus));
+
+    }
     public void SetPlayer()
     {
         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
@@ -63,6 +69,57 @@ public class PlayerManager : InGameManager
             Debug.Log($"MoveForward enabled for: {playerStatus.name}");
         }
     }
+    public void OnPlayerDied(PlayerStatus status)
+    {
+        Debug.Log($"Player Died: {status.name}");
+        StopAllMovements();
+        DisablePlayer(status);
+        PlayDeathAnimation(status);
+        StartCoroutine(DieAndSwitch(status));
+    }
 
+    private void StopAllMovements()
+    {
+        MoveForward[] movingObjects = FindObjectsOfType<MoveForward>();
+        foreach (var move in movingObjects)
+        {
+            move.enabled = false;
+        }
+        Debug.Log("All movements stopped.");
+    }
 
+    private void DisablePlayer(PlayerStatus playerStatus)
+    {
+        PlayerMove move = playerStatus.GetComponent<PlayerMove>();
+        if (move != null)
+        {
+            move.DisableInput();
+            Debug.Log($"Player movement disabled for: {playerStatus.name}");
+        }
+
+        MoveForward moveForward = playerStatus.GetComponent<MoveForward>();
+        if (moveForward != null)
+        {
+            moveForward.enabled = false;
+            Debug.Log($"MoveForward disabled for: {playerStatus.name}");
+        }
+    }
+
+    private void PlayDeathAnimation(PlayerStatus playerStatus)
+    {
+        Animator animator = playerStatus.GetComponentInChildren<Animator>();
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+            Debug.Log($"Death animation triggered for: {playerStatus.name}");
+        }
+    }
+
+    private IEnumerator DieAndSwitch(PlayerStatus playerStatus)
+    {
+        yield return new WaitForSeconds(1.5f);
+        GameManager.OnGameOver();
+        //  Destroy(playerStatus.gameObject);
+        // Debug.Log($"Player {playerStatus.name} destroyed.");
+    }
 }

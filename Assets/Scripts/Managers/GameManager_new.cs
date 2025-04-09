@@ -23,10 +23,8 @@ public class GameManager_new : MonoBehaviour
 
     private Action[] gameStateEnterAction;
     private Action[] gameStateExitAction;
-    public UnityAction<PlayerStatus> onPlayerDied;
-    public UnityAction onGameOver;
     private GameState currentState;
-
+ 
     #region manager
     private List<IManager> managers = new();
 
@@ -44,6 +42,9 @@ public class GameManager_new : MonoBehaviour
 
     private PlayerManager playerManager;
     public PlayerManager PlayerManager => playerManager;
+    
+    private CameraManager cameraManager;
+    public CameraManager CameraManager => cameraManager;
 
     #endregion
 
@@ -62,6 +63,7 @@ public class GameManager_new : MonoBehaviour
     {
         gameStateEnterAction = new Action[(int)GameState.Max];
         gameStateExitAction = new Action[(int)GameState.Max];
+        AddGameStateEnterAction(GameState.GameOver, OnGameOver);
     }
 
     public void AddGameStateEnterAction(GameState state, Action action)
@@ -89,6 +91,14 @@ public class GameManager_new : MonoBehaviour
         InitializeManagers();
     }
 
+    private void OnDestroy()
+    {
+        foreach (var manager in managers)
+        {
+            manager.Clear();
+        }
+    }
+
     private void InitializeManagers()
     {
         objectPoolManager = new ObjectPoolManager();
@@ -110,6 +120,10 @@ public class GameManager_new : MonoBehaviour
         findManagers.Find((manager) => manager.TryGetComponent<PlayerManager>(out playerManager));
         playerManager.SetGameManager(this);
         managers.Add(playerManager);
+        
+        findManagers.Find((manager) => manager.TryGetComponent<CameraManager>(out cameraManager));
+        cameraManager.SetGameManager(this);
+        managers.Add(cameraManager);
 
         foreach (var manager in managers)
         {
@@ -124,6 +138,11 @@ public class GameManager_new : MonoBehaviour
         gameStateEnterAction[(int)currentState]?.Invoke();
     }
 
+    public GameState GetCurrentGameState()
+    {
+        return currentState;
+    }
+
     private void OnPlayerReady()
     {
         playerManager.SetPlayer();
@@ -136,10 +155,10 @@ public class GameManager_new : MonoBehaviour
     {
         Time.timeScale = scale;
     }
-
-    public void GameOver()
+    public void OnGameOver()
     {
         Debug.Log("Game Over!");
-        onGameOver?.Invoke();
+        UIManager.ShowGameOverPanel();
+        SetTimeScale(0);
     }
 }

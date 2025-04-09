@@ -30,28 +30,28 @@ public class ItemHuman : ItemBase
         
         CollisionBehaviour = CollisionBehaviourFactory.GetHumanBehaviour(humanItemType);
         
-        // ToDo : Load Asset & Table
-        TryGetComponent(out MeshRenderer meshRenderer);
-        switch (humanItemType)
-        {
-            case HumanItemType.JuniorResearcher:
-            {
-                meshRenderer.material.color = Color.green;
-                CollisionBehaviour.SetScoreToAdd(ScoreToAddJuniorResearcher);
-            }
-                break;
-            case HumanItemType.Researcher:
-            {
-                meshRenderer.material.color = Color.blue;
-                CollisionBehaviour.SetScoreToAdd(ScoreToAddResearcher);
-            }
-                break;
-            case HumanItemType.SeniorResearcher:
-            {
-                meshRenderer.material.color = Color.magenta;
-                CollisionBehaviour.SetScoreToAdd(ScoreToAddSeniorResearcher);
-            }
-                break;
-        }
+        // // ToDo : Load Asset & Table
+        // TryGetComponent(out MeshRenderer meshRenderer);
+        // switch (humanItemType)
+        // {
+        //     case HumanItemType.JuniorResearcher:
+        //     {
+        //         meshRenderer.material.color = Color.green;
+        //         CollisionBehaviour.SetScoreToAdd(ScoreToAddJuniorResearcher);
+        //     }
+        //         break;
+        //     case HumanItemType.Researcher:
+        //     {
+        //         meshRenderer.material.color = Color.blue;
+        //         CollisionBehaviour.SetScoreToAdd(ScoreToAddResearcher);
+        //     }
+        //         break;
+        //     case HumanItemType.SeniorResearcher:
+        //     {
+        //         meshRenderer.material.color = Color.magenta;
+        //         CollisionBehaviour.SetScoreToAdd(ScoreToAddSeniorResearcher);
+        //     }
+        //         break;
+        // }
     }
 }

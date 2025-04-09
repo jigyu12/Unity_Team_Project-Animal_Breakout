@@ -10,17 +10,17 @@ public class InGameManager : MonoBehaviour, IManager
         private set;
     }
 
-    virtual public void SetGameManager(GameManager_new gameManager)
+    public virtual void SetGameManager(GameManager_new gameManager)
     {
         GameManager = gameManager;
     }
 
-    virtual public void Initialize()
+    public virtual void Initialize()
     {
 
     }
 
-    virtual public void Clear()
+    public virtual void Clear()
     {
 
     }
