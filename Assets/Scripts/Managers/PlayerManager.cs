@@ -1,7 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum DeathType
+{
+    None,
+    Normal,
+    DeathZone
+}
 public class PlayerManager : InGameManager
 {
     public GameObject playerRoot;
@@ -19,6 +24,7 @@ public class PlayerManager : InGameManager
     private Vector3 pendingRespawnPosition;
     private Quaternion pendingRespawnRotation;
     private Vector3 pendingForward;
+    private DeathType lastDeathType = DeathType.None;
     private void Awake()
     {
         playerRotator = GetComponent<PlayerRotator>();
@@ -78,6 +84,15 @@ public class PlayerManager : InGameManager
     public void OnPlayerDied(PlayerStatus status)
     {
         Debug.Log($"Player Died: {status.name}");
+
+        // 죽기 전 위치 저장 (DeathZone이 아닌 경우)
+        if (lastDeathType != DeathType.DeathZone)
+        {
+            var moveForward = status.GetComponentInParent<MoveForward>();
+            SetPendingRespawnInfo(moveForward.transform.position, moveForward.transform.rotation, moveForward.transform.forward);
+            lastDeathType = DeathType.Normal;
+        }
+
         StopAllMovements();
         DisablePlayer(status);
         PlayDeathAnimation();
@@ -151,8 +166,12 @@ public class PlayerManager : InGameManager
         }
 
         var moveForward = currentPlayerStatus.GetComponentInParent<MoveForward>();
-        moveForward.transform.SetPositionAndRotation(pendingRespawnPosition, pendingRespawnRotation);
-        moveForward.SetDirectionByRotation();
+
+        if (lastDeathType == DeathType.DeathZone)
+        {
+            moveForward.transform.SetPositionAndRotation(pendingRespawnPosition, pendingRespawnRotation);
+            moveForward.SetDirectionByRotation();
+        }
 
         currentPlayerStatus.SetInvincible(true);
 
@@ -166,6 +185,7 @@ public class PlayerManager : InGameManager
 
         StartCoroutine(RemoveInvincibilityAfterDelay(2f)); //2초무적
 
+        lastDeathType = DeathType.None;
     }
 
     private IEnumerator RemoveInvincibilityAfterDelay(float delay)
@@ -177,6 +197,10 @@ public class PlayerManager : InGameManager
             currentPlayerStatus.SetInvincible(false);
             Debug.Log("무적 상태 해제");
         }
+    }
+    public void SetLastDeathType(DeathType type)
+    {
+        lastDeathType = type;
     }
 
 

@@ -45,9 +45,12 @@ public class DeathZoneTrigger : MonoBehaviour
                 if (transform.childCount > 0)
                 {
                     var respawnPoint = transform.GetChild(0);
-                    playerManager.SetPendingRespawnInfo(respawnPoint.position, respawnPoint.rotation, respawnPoint.forward);
+                    playerManager.SetPendingRespawnInfo(
+                        respawnPoint.position,
+                        respawnPoint.rotation,
+                        respawnPoint.forward);
                 }
-
+                playerManager.SetLastDeathType(DeathType.DeathZone);
                 player.TakeDamage(1);
             }
         }
