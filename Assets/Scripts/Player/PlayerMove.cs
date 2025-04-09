@@ -9,13 +9,16 @@ public enum TurnDirection { Left, Right, Both }
 public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 10f;
-    public int wayIndex = 1;
+
+    public int laneIndex = 1;
     public float jumpHeight = 2f;
     public float gravity = -20f;
     public Lane way;
     private Vector3 targetPosition;
     private float verticalVelocity;
     private bool isJumping;
+    private PlayerInput playerInput;
+    private InputActionMap actionMap;
     private bool canMove = true;
     private Vector2 swipeStart;
     private Vector2 currentTouchPosition;
@@ -26,17 +29,35 @@ public class PlayerMove : MonoBehaviour
 
     private bool canTurn = false;
     private TurnDirection allowedTurn;
-
+    private PlayerStatus playerStatus;
     private Animator animator;
+
+    private void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+        if (playerInput != null)
+        {
+            actionMap = playerInput.currentActionMap;
+        }
+        animator = GetComponentInChildren<Animator>();
+        playerStatus = GetComponent<PlayerStatus>();
+        if (playerStatus != null)
+        {
+            jumpHeight = playerStatus.JumpPower;
+            Debug.Log($"Jump height set to {jumpHeight} from PlayerStatus.");
+        }
+    }
+
     private void Start()
     {
         way = FindObjectOfType<Lane>();
         if (way != null)
         {
-            targetPosition = way.WayIndexToPosition(wayIndex);
+            targetPosition = way.LaneIndexToPosition(laneIndex);
             transform.localPosition = targetPosition;
+
             animator = GetComponentInChildren<Animator>();
-            Debug.Log("PlayerMove Initialized in Start: WayIndex = " + wayIndex);
+            Debug.Log("PlayerMove Initialized in Start: WayIndex = " + laneIndex);
         }
         else
         {
@@ -97,7 +118,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-
     public void OnMoveLeft(InputAction.CallbackContext context)
     {
         if (!canMove) return;
@@ -156,15 +176,28 @@ public class PlayerMove : MonoBehaviour
     private void MoveLeft()
     {
         if (isJumping) return;
-        wayIndex = Mathf.Clamp(wayIndex - 1, 0, 2);
-        targetPosition = way.WayIndexToPosition(wayIndex);
+        laneIndex = Mathf.Clamp(laneIndex - 1, 0, 2);
+        targetPosition = way.LaneIndexToPosition(laneIndex);
     }
 
     private void MoveRight()
     {
         if (isJumping) return;
-        wayIndex = Mathf.Clamp(wayIndex + 1, 0, 2);
-        targetPosition = way.WayIndexToPosition(wayIndex);
+        laneIndex = Mathf.Clamp(laneIndex + 1, 0, 2);
+        targetPosition = way.LaneIndexToPosition(laneIndex);
+    }
+
+
+
+    public void MoveLaneIndexImmediate(int index)
+    {
+        var lanePosition = way.LaneIndexToPosition(index);
+        lanePosition.y = transform.localPosition.y;
+        laneIndex = index;
+
+        //진행중이던 이동 코드 리셋
+        targetPosition = lanePosition;
+        transform.localPosition = lanePosition;
     }
 
     private void TryRotateLeft()
@@ -191,10 +224,12 @@ public class PlayerMove : MonoBehaviour
         allowedTurn = direction;
         this.turnPivot = turnPivot;
     }
+
     public void OnTouchPosition(InputAction.CallbackContext context)
     {
         currentTouchPosition = context.ReadValue<Vector2>();
     }
+
     public void OnTouchPress(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -223,14 +258,17 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+
     public void DisableInput()
     {
-        canMove = false;
+        // canMove = false;
+        actionMap.Disable();
     }
 
     public void EnableInput()
     {
-        canMove = true;
+        // canMove = true;
+        actionMap.Enable();
     }
     private void OnTriggerEnter(Collider other)
     {

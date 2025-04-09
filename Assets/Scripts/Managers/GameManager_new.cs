@@ -111,13 +111,13 @@ public class GameManager_new : MonoBehaviour
         gameUIManager.SetGameManager(this);
         managers.Add(gameUIManager);
 
-        findManagers.Find((manager) => manager.TryGetComponent<TempleRunStyleRoadMaker>(out roadMaker));
-        roadMaker.SetGameManager(this);
-        managers.Add(roadMaker);
-
         findManagers.Find((manager) => manager.TryGetComponent<MapObjectManager>(out mapObjectManager));
         mapObjectManager.SetGameManager(this);
         managers.Add(mapObjectManager);
+
+        findManagers.Find((manager) => manager.TryGetComponent<TempleRunStyleRoadMaker>(out roadMaker));
+        roadMaker.SetGameManager(this);
+        managers.Add(roadMaker);
 
         findManagers.Find((manager) => manager.TryGetComponent<PlayerManager>(out playerManager));
         playerManager.SetGameManager(this);

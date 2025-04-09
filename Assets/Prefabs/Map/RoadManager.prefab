@@ -91,13 +91,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52317ea1129da2b4daad6dc3761d1452, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentMode: 0
   roadWayPrefabs:
+  - {fileID: 5444199048451139359, guid: 73a4ddf153933474fb9581b84f1676c7, type: 3}
+  - {fileID: 5444199048451139359, guid: 1dc35870e5556364daed2c433ff21d9c, type: 3}
   - {fileID: 5444199048451139359, guid: 052a5c0ac14c129498e69261fb638f5b, type: 3}
   - {fileID: 8590565346342507532, guid: 050c9fd062ea6dc4cb642370d7b29506, type: 3}
   - {fileID: 5444199048451139359, guid: 680fb78f51a40a645bc8e482fe3048ba, type: 3}
   - {fileID: 5444199048451139359, guid: 321ece33bf8864f4fa5c3f05568cacde, type: 3}
-  - {fileID: 5444199048451139359, guid: 1dc35870e5556364daed2c433ff21d9c, type: 3}
-  initialRoadSegment: {fileID: 0}
+  initialRoadWay: {fileID: 0}
   roadChunkSize: 10
-  precreateRoadWayCount: 3
+  precreateRoadWayCount: 2

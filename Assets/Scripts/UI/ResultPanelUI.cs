@@ -24,12 +24,13 @@ public class ResultPanelUI : MonoBehaviour
 
     private void OnReStartButtonClicked()
     {
-        gameManager.SetGameState(GameManager_new.GameState.GameReStart);
+        gameManager.SetGameState(GameManager_new.GameState.GamePlay);
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         GameResultPanel.SetActive(false);
 
         Time.timeScale = 1;
+
     }
     private void OnGoMainButtonClicked()
     {

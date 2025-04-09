@@ -1,43 +1,38 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class RelayContinueUI : MonoBehaviour
 {
-    //private RelayRunManager relayRunManager;
-    //게임매니저를 캐싱하지 말고 UI매니저를 통해 게임매니저를 접근하는 방식으로 바꾸세요
-    [SerializeField]
-    private GameManager_new gameManager;
-
     public GameObject panel;
     public Slider slider;
-
     private Coroutine countdown;
-
-    //private void Awake()
-    //{
-    //    relayRunManager = FindObjectOfType<RelayRunManager>();
-    //    gameManager = FindObjectOfType<GameManager>();
-
-    //    if (relayRunManager == null)
-    //    {
-    //        Debug.LogError("RelayRunManager를 찾을 수 없습니다!");
-    //    }
-
-    //    if (gameManager == null)
-    //    {
-    //        Debug.LogError("GameManager를 찾을 수 없습니다!");
-    //    }
-    //}
-
-    private void Start()
+    public TMP_Text countdownText;
+    public PlayerManager playerManager;
+    [SerializeField] private GameManager_new GameManager;
+    private bool isDisplayed = false;
+    private int deathCount = 0;
+    // public override void Initialize()
+    // {
+    //     base.Initialize();
+    //     GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, Show);
+    // }
+    public void Start()
     {
-        gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, Show);
+        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, Show);
     }
 
     public void Show()
     {
+        if (deathCount > 0)
+        {
+            GameManager.SetGameState(GameManager_new.GameState.GameOver);
+            return;
+        }
+        if (isDisplayed) return;
+        deathCount++; ;
         panel.SetActive(true);
+        isDisplayed = true;
 
         if (countdown != null)
             StopCoroutine(countdown);
@@ -48,24 +43,29 @@ public class RelayContinueUI : MonoBehaviour
     public void OnClickContinue()
     {
         panel.SetActive(false);
-
+        isDisplayed = false;
         if (countdown != null)
         {
             StopCoroutine(countdown);
         }
 
-        gameManager.SetGameState(GameManager_new.GameState.GameReStart);
-        //if (relayRunManager != null && relayRunManager.HasNextRunner())
-        //{
-        //}
-        //else
-        //{
-        //    gameManager.SetGameState(GameManager_new.GameState.GameOver);
-        //}
+        GameManager.SetGameState(GameManager_new.GameState.GameReStart);
+        StartCoroutine(ResumeWithCountdown(countdownText));
     }
 
+    public void OnClickGiveUp()
+    {
+        panel.SetActive(false);
+        isDisplayed = false;
+        if (countdown != null)
+        {
+            StopCoroutine(countdown);
+        }
 
-    IEnumerator Countdown()
+        GameManager.SetGameState(GameManager_new.GameState.GameOver);
+    }
+
+    private IEnumerator Countdown()
     {
         float duration = 5f;
         float time = duration;
@@ -81,13 +81,21 @@ public class RelayContinueUI : MonoBehaviour
         }
 
         panel.SetActive(false);
-        if (gameManager != null)
+        isDisplayed = false;
+        GameManager.SetGameState(GameManager_new.GameState.GameOver);
+    }
+    public IEnumerator ResumeWithCountdown(TMP_Text countdownText)
+    {
+        GameManager.SetTimeScale(0);
+        countdownText.gameObject.SetActive(true);
+        for (int i = 3; i > 0; i--)
         {
-            gameManager.SetGameState(GameManager_new.GameState.GameOver);
+            countdownText.text = i.ToString();
+            yield return new WaitForSecondsRealtime(1);
         }
-        else
-        {
-            Debug.LogError("GameManager가 존재하지 않습니다!");
-        }
+
+        countdownText.gameObject.SetActive(false);
+        GameManager.SetTimeScale(1);
+
     }
 }
