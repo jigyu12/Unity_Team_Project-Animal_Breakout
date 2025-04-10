@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ public class PlayerRotator : MonoBehaviour
     public Action onRotationEnd;
 
     private bool isRotating = false;
-    
+
     private GameManager_new gameManager;
 
     private void Start()
@@ -44,27 +45,36 @@ public class PlayerRotator : MonoBehaviour
 
         MoveForward moveForward = playerMove.transform.parent.GetComponent<MoveForward>();
         moveForward.enabled = false;
+        Vector3 startPosition;
         int nextLane = GetTurnAfterLaneIndex(moveForward, pivot, angle);
         if (nextLane != 1)
         {
             bool isPassed = IsPlayerPassedPivot(moveForward, pivot);
             if (isPassed)
             {
-                moveForward.transform.position = pivot + moveForward.direction;
+                startPosition = pivot + moveForward.direction;
             }
             else
             {
-                moveForward.transform.position = pivot - moveForward.direction;
+                startPosition = pivot - moveForward.direction;
             }
         }
         else
         {
-            moveForward.transform.position = pivot;
+            startPosition = pivot;
         }
-        
+
+        moveForward.transform.position = startPosition;
         gameManager.CameraManager.GetVirtualCamera(2).Follow = playerMove.transform;
         gameManager.CameraManager.GetVirtualCamera(2).LookAt = playerMove.transform;
-       
+
+        //var transposer = gameManager.CameraManager.GetVirtualCamera(2).GetCinemachineComponent<CinemachineTransposer>();
+        //float prevFollowOffsetZ = transposer.m_FollowOffset.z;
+        //float prevFollowOffsetY = transposer.m_FollowOffset.y;
+        //transposer.m_FollowOffset.z = -10f;
+        //transposer.m_FollowOffset.y = 10f;
+
+
         //플레이어 로컬을 회전하는 연출
         float elapsed = 0f;
         float currentAngle = 0f;
@@ -76,25 +86,55 @@ public class PlayerRotator : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        
+
+        //플레이어루트를 실제로 회전하고 연출용 회전은 리셋시킨다.
+        moveForward.transform.RotateAround(pivot, Vector3.up, angle);
+        playerMove.transform.localRotation = Quaternion.identity;
+
+        //90도 회전에 따른 플레이어 루트 위치도 보정해준다.
+        moveForward.RotateForwardDirection(angle);
+        if (angle > 0)
+        {
+            if (playerMove.laneIndex == 0)
+            {
+                moveForward.transform.position = pivot - moveForward.direction;
+            }
+            else if (playerMove.laneIndex == 1)
+            {
+                moveForward.transform.position = pivot;
+            }
+            else
+            {
+                moveForward.transform.position = pivot + moveForward.direction;
+            }
+        }
+        else
+        {
+            if (playerMove.laneIndex == 0)
+            {
+                moveForward.transform.position = pivot + moveForward.direction;
+            }
+            else if (playerMove.laneIndex == 1)
+            {
+                moveForward.transform.position = pivot;
+            }
+            else
+            {
+                moveForward.transform.position = pivot - moveForward.direction;
+            }
+        }
+
         gameManager.CameraManager.GetVirtualCamera(2).Follow = moveForward.transform;
         gameManager.CameraManager.GetVirtualCamera(2).LookAt = moveForward.transform;
-        
-        //플레이어루트를 실제로 회전하고 연출용 회전은 리셋시킨다.
-        moveForward.transform.RotateAround(pivot,Vector3.up, angle);
-        playerMove.transform.localRotation = Quaternion.identity;
 
         //레인 위치를 보정해준다.
         playerMove.MoveLaneIndexImmediate(nextLane);
-
         if (moveForward != null)
         {
             moveForward.enabled = true;
         }
-        isRotating = false;
 
-       
-        moveForward.RotateForwardDirection(angle);
+        isRotating = false;
         onRotationEnd?.Invoke();
     }
 
