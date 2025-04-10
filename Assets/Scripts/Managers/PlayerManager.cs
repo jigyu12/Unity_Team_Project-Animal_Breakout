@@ -70,6 +70,8 @@ public class PlayerManager : InGameManager
                 currentPlayerMove = playerMove;
                 playerRotator.SetPlayerMove(currentPlayerMove);
             }
+            GameManager.UIManager?.ConnectPlayerMove(currentPlayerMove); // 버튼 연결
+
             currentPlayerAnimator = character.GetComponentInChildren<Animator>();
         }
         else
@@ -117,15 +119,14 @@ public class PlayerManager : InGameManager
 
     private void DisablePlayer(PlayerStatus playerStatus)
     {
-
         currentPlayerMove.DisableInput();  // 입력 비활성화
-
+        GameManager.UIManager?.SetDirectionButtonsInteractable(false);
     }
     private void EnablePlayer(PlayerStatus playerStatus)
     {
 
         currentPlayerMove.EnableInput();  // 입력 비활성화
-
+        GameManager.UIManager?.SetDirectionButtonsInteractable(true);
     }
 
     private void PlayDeathAnimation()

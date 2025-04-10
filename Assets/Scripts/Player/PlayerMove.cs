@@ -3,7 +3,6 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public enum TurnDirection { Left, Right, Both }
 
 public class PlayerMove : MonoBehaviour
@@ -173,14 +172,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void MoveLeft()
+    public void MoveLeft()
     {
         if (isJumping) return;
         laneIndex = Mathf.Clamp(laneIndex - 1, 0, 2);
         targetPosition = way.LaneIndexToPosition(laneIndex);
     }
 
-    private void MoveRight()
+    public void MoveRight()
     {
         if (isJumping) return;
         laneIndex = Mathf.Clamp(laneIndex + 1, 0, 2);
@@ -232,14 +231,14 @@ public class PlayerMove : MonoBehaviour
 
     public void OnTouch(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            Vector2 pos = Touchscreen.current.primaryTouch.position.ReadValue();
-            Debug.Log("탭 입력 감지");
+        // if (context.performed)
+        // {
+        //     Vector2 pos = Touchscreen.current.primaryTouch.position.ReadValue();
+        //     Debug.Log("탭 입력 감지");
 
-            if (pos.x < Screen.width * 0.5f) MoveLeft();
-            else MoveRight();
-        }
+        //     if (pos.x < Screen.width * 0.5f) MoveLeft();
+        //     else MoveRight();
+        // }
     }
 
     public void OnTouchPress(InputAction.CallbackContext context)
