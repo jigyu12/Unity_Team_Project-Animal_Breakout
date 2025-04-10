@@ -423,6 +423,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acdd9d53521a94695b817e97988e0044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &254480822 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2752588065350292869, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+  m_PrefabInstance: {fileID: 254480820}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &346278928
 GameObject:
   m_ObjectHideFlags: 0
@@ -2065,6 +2076,10 @@ PrefabInstance:
       propertyPath: playerRoot
       value: 
       objectReference: {fileID: 1161090861}
+    - target: {fileID: 7443011005958144452, guid: 4077a71e48d780844a0c0f2bcb38947d, type: 3}
+      propertyPath: countdownText
+      value: 
+      objectReference: {fileID: 254480822}
     - target: {fileID: 7443011005958144452, guid: 4077a71e48d780844a0c0f2bcb38947d, type: 3}
       propertyPath: relayContinueUI
       value: 
