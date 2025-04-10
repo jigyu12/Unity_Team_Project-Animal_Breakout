@@ -26,7 +26,7 @@ public class PlayerMove : MonoBehaviour
 
     public Action<Vector3, float> onRotate;
 
-    private bool canTurn = false;
+    public bool canTurn = false;
     private TurnDirection allowedTurn;
     private PlayerStatus playerStatus;
     private Animator animator;

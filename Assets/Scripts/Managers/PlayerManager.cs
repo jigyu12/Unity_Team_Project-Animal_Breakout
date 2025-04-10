@@ -38,6 +38,8 @@ public class PlayerManager : InGameManager
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () => DisablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(countdownText));
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => EnablePlayer(currentPlayerStatus));
+
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, ContinuePlayer);
     }
     public void SetPlayer()
@@ -100,6 +102,10 @@ public class PlayerManager : InGameManager
             lastDeathType = DeathType.Normal;
         }
 
+        if (lastDeathType == DeathType.DeathZone)
+        {
+            currentPlayerMove.canTurn = false;
+        }
         StopAllMovements();
         DisablePlayer(status);
         PlayDeathAnimation();
@@ -125,7 +131,7 @@ public class PlayerManager : InGameManager
     private void EnablePlayer(PlayerStatus playerStatus)
     {
 
-        currentPlayerMove.EnableInput();  // 입력 비활성화
+        currentPlayerMove.EnableInput();  // 입력 활성화
         GameManager.UIManager?.SetDirectionButtonsInteractable(true);
     }
 
