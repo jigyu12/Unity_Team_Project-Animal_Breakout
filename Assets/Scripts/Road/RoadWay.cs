@@ -62,7 +62,10 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                     {
                         if (blueprint.objectsConstructors[i, j] != null)
                         {
-                            mapObjects.Add(blueprint.objectsConstructors[i, j].Invoke(roadSegmentWithType.roadSegment.GetTilePosition(i, j)));
+                            var mapObject = blueprint.objectsConstructors[i, j].Invoke(roadSegmentWithType.roadSegment.GetTilePosition(i, j));
+                            mapObjects.Add(mapObject);
+                            mapObject.transform.SetParent(roadSegmentWithType.roadSegment.transform);
+                            mapObject.transform.rotation = Quaternion.LookRotation(-roadSegmentWithType.roadSegment.transform.forward);
                         }
                     }
                 }
@@ -84,6 +87,12 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                     {
                         var array = unit.rewardItemConstructors.Invoke(startPosition, endPosition, unit.itemGroupCount);
                         array.ToList().ForEach((item) => mapObjects.Add(item));
+                        array.ToList().ForEach((item) =>
+                        {
+                            item.transform.SetParent(roadSegmentWithType.roadSegment.transform);
+                            item.transform.rotation = Quaternion.LookRotation(-roadSegmentWithType.roadSegment.transform.forward);
+                        }
+                            );
                     }
                 }
             }

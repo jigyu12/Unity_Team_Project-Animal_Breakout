@@ -7,8 +7,14 @@ public class RewardItemsDataTable : DataTable
 {
     private static readonly Dictionary<int, List<RewardItemData>> table = new();
     
+    public static event Action<int> OnMaxRewardItemIdSet;
+    public static event Action<int> OnMinRewardItemIdSet;
+    
     public override void Load(string filename)
     {
+        int maxId = -1;
+        int minId = int.MaxValue;
+        
         var path = string.Format(FormatPath, filename);
         var textAsset = Resources.Load<TextAsset>(path);
         var list = LoadCSV<RewardItemCSVData>(textAsset.text);
@@ -18,6 +24,16 @@ public class RewardItemsDataTable : DataTable
             RewardItemData data = new RewardItemData();
             data.CSVDataToData(csvData);
             int id = data.PrefabID;
+            
+            if (id < minId)
+            {
+                minId = id;
+            }
+
+            if (id > maxId)
+            {
+                maxId = id;
+            }
             
             if (!table.ContainsKey(id))
             {
@@ -31,6 +47,9 @@ public class RewardItemsDataTable : DataTable
                 table[id].Add(data);
             }
         }
+        
+        OnMaxRewardItemIdSet?.Invoke(maxId);
+        OnMinRewardItemIdSet?.Invoke(minId);
     }
     
     public List<RewardItemData> Get(int prefabID)
