@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,6 +68,12 @@ public class PlayerRotator : MonoBehaviour
         gameManager.CameraManager.GetVirtualCamera(2).Follow = playerMove.transform;
         gameManager.CameraManager.GetVirtualCamera(2).LookAt = playerMove.transform;
 
+        //var transposer = gameManager.CameraManager.GetVirtualCamera(2).GetCinemachineComponent<CinemachineTransposer>();
+        //float prevFollowOffsetZ = transposer.m_FollowOffset.z;
+        //float prevFollowOffsetY = transposer.m_FollowOffset.y;
+        //transposer.m_FollowOffset.z = -10f;
+        //transposer.m_FollowOffset.y = 10f;
+
         //플레이어 로컬을 회전하는 연출
         float elapsed = 0f;
         float currentAngle = 0f;
@@ -79,8 +86,9 @@ public class PlayerRotator : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        gameManager.CameraManager.GetVirtualCamera(2).Follow = moveForward.transform;
-        gameManager.CameraManager.GetVirtualCamera(2).LookAt = moveForward.transform;
+  
+        //transposer.m_FollowOffset.z = prevFollowOffsetZ;
+        //transposer.m_FollowOffset.y = prevFollowOffsetY;
 
         //플레이어루트를 실제로 회전하고 연출용 회전은 리셋시킨다.
         moveForward.transform.RotateAround(pivot, Vector3.up, angle);
@@ -118,6 +126,9 @@ public class PlayerRotator : MonoBehaviour
                 moveForward.transform.position = pivot - moveForward.direction;
             }
         }
+
+        gameManager.CameraManager.GetVirtualCamera(2).Follow = moveForward.transform;
+        gameManager.CameraManager.GetVirtualCamera(2).LookAt = moveForward.transform;
 
         //레인 위치를 보정해준다.
         playerMove.MoveLaneIndexImmediate(nextLane);
