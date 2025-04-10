@@ -6,15 +6,12 @@ using UnityEngine;
 public class RewardItemsDataTable : DataTable
 {
     private static readonly Dictionary<int, List<RewardItemData>> table = new();
-    
-    public static event Action<int> OnMaxRewardItemIdSet;
-    public static event Action<int> OnMinRewardItemIdSet;
+ 
+    public int maxId { get; private set; } = -1;
+    public int minId { get; private set; } = int.MaxValue;
     
     public override void Load(string filename)
     {
-        int maxId = -1;
-        int minId = int.MaxValue;
-        
         var path = string.Format(FormatPath, filename);
         var textAsset = Resources.Load<TextAsset>(path);
         var list = LoadCSV<RewardItemCSVData>(textAsset.text);
@@ -47,9 +44,6 @@ public class RewardItemsDataTable : DataTable
                 table[id].Add(data);
             }
         }
-        
-        OnMaxRewardItemIdSet?.Invoke(maxId);
-        OnMinRewardItemIdSet?.Invoke(minId);
     }
     
     public List<RewardItemData> Get(int prefabID)

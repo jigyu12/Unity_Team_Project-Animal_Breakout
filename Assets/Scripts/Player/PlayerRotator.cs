@@ -12,6 +12,14 @@ public class PlayerRotator : MonoBehaviour
     public Action onRotationEnd;
 
     private bool isRotating = false;
+    
+    private GameManager_new gameManager;
+
+    private void Start()
+    {
+        GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager);
+    }
+
     public void SetPlayerMove(PlayerMove playerMove)
     {
         this.playerMove = playerMove;
@@ -53,6 +61,9 @@ public class PlayerRotator : MonoBehaviour
         {
             moveForward.transform.position = pivot;
         }
+        
+        gameManager.CameraManager.GetVirtualCamera(2).Follow = playerMove.transform;
+        gameManager.CameraManager.GetVirtualCamera(2).LookAt = playerMove.transform;
        
         //플레이어 로컬을 회전하는 연출
         float elapsed = 0f;
@@ -65,8 +76,10 @@ public class PlayerRotator : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-
-
+        
+        gameManager.CameraManager.GetVirtualCamera(2).Follow = moveForward.transform;
+        gameManager.CameraManager.GetVirtualCamera(2).LookAt = moveForward.transform;
+        
         //플레이어루트를 실제로 회전하고 연출용 회전은 리셋시킨다.
         moveForward.transform.RotateAround(pivot,Vector3.up, angle);
         playerMove.transform.localRotation = Quaternion.identity;

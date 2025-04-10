@@ -70,44 +70,6 @@ public class MapObjectManager : InGameManager
         InitializeMapObjectObjectPools();
     }
 
-    private void Awake()
-    {
-        MapObjectsDataTable.OnMaxMapObjectIdSet += OnMaxMapObjectIdSetHandler;
-        MapObjectsDataTable.OnMinMapObjectIdSet += OnMinMapObjectIdSetHandler;
-        
-        RewardItemsDataTable.OnMaxRewardItemIdSet += OnMaxRewardItemIdSetHandler;
-        RewardItemsDataTable.OnMinRewardItemIdSet += OnMinRewardItemIdSetHandler;
-    }
-
-    private void OnDestroy()
-    {
-        MapObjectsDataTable.OnMaxMapObjectIdSet -= OnMaxMapObjectIdSetHandler;
-        MapObjectsDataTable.OnMinMapObjectIdSet -= OnMinMapObjectIdSetHandler;
-        
-        RewardItemsDataTable.OnMaxRewardItemIdSet -= OnMaxRewardItemIdSetHandler;
-        RewardItemsDataTable.OnMinRewardItemIdSet -= OnMinRewardItemIdSetHandler;
-    }
-
-    private void OnMaxMapObjectIdSetHandler(int maxMapObjectCount)
-    {
-        MaxMapObjectId = maxMapObjectCount;
-    }
-    
-    private void OnMinMapObjectIdSetHandler(int minMapObjectCount)
-    {
-        MinMapObjectId = minMapObjectCount;
-    }
-
-    private void OnMaxRewardItemIdSetHandler(int maxRewardItemCount)
-    {
-        MaxRewardItemId = maxRewardItemCount;
-    }
-    
-    private void OnMinRewardItemIdSetHandler(int minRewardItemCount)
-    {
-        MinRewardItemId = minRewardItemCount;   
-    }
-
     private void Start()
     {
         GenerateMapObjectInformation(20, 3);

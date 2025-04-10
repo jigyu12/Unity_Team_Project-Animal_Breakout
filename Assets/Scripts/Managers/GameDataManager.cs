@@ -17,9 +17,31 @@ public class GameDataManager : Singleton<GameDataManager>
     public List<int> runnerIDs = new List<int>();
     // private AnimalDatabase animalDatabase;
 
-    private int startAnimalID = 0;
+    private int startAnimalID = 100301;
     public int StartAnimalID => startAnimalID;
     public static event Action<int> onSetStartAnimalID;
+    public static event Action OnSceneChangedToInGame;
+    
+    public int MinMapObjectId { get; private set; } = 0;
+    public int MinRewardItemId { get; private set; } = 0;
+    public int MaxMapObjectId { get; private set; } = 0;
+    public int MaxRewardItemId { get; private set; } = 0;
+    
+    private void Awake()
+    {
+        OnMaxMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.maxId);
+        OnMinMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.minId);
+        OnMaxRewardItemIdSetHandler(DataTableManager.rewardItemsDataTable.maxId);
+        OnMinRewardItemIdSetHandler(DataTableManager.rewardItemsDataTable.minId);
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnChangeSceneHandler;
+        AnimalUnlockPanel.onSetStartAnimalID -= OnSetAnimalID;
+        
+        SceneManager.sceneLoaded -= OnChangeSceneHandler;
+    }
     
     private void Start()
     {
@@ -31,15 +53,27 @@ public class GameDataManager : Singleton<GameDataManager>
         
         SceneManager.sceneLoaded += OnChangeSceneHandler;
     }
-
-    private void OnDestroy()
+    
+    private void OnMaxMapObjectIdSetHandler(int maxMapObjectCount)
     {
-        SceneManager.sceneLoaded -= OnChangeSceneHandler;
-        AnimalUnlockPanel.onSetStartAnimalID -= OnSetAnimalID;
-        
-        SceneManager.sceneLoaded -= OnChangeSceneHandler;
+        MaxMapObjectId = maxMapObjectCount;
+    }
+    
+    private void OnMinMapObjectIdSetHandler(int minMapObjectCount)
+    {
+        MinMapObjectId = minMapObjectCount;
     }
 
+    private void OnMaxRewardItemIdSetHandler(int maxRewardItemCount)
+    {
+        MaxRewardItemId = maxRewardItemCount;
+    }
+    
+    private void OnMinRewardItemIdSetHandler(int minRewardItemCount)
+    {
+        MinRewardItemId = minRewardItemCount;   
+    }
+    
     public void Initialize()
     {
         TryFindOutGameUIManager();
@@ -104,6 +138,8 @@ public class GameDataManager : Singleton<GameDataManager>
         else if (SceneManager.GetActiveScene().name == "RunMin")
         {
             TryFindGameManager();
+            
+            OnSceneChangedToInGame?.Invoke();
         }
 
         ClearInGameData();

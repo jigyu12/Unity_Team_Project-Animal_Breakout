@@ -32,40 +32,33 @@ public class ItemRewardCoin : ItemBase
         
         CollisionBehaviour = CollisionBehaviourFactory.GetRewardCoinBehaviour(rewardCoinItemType);
         
-        // // ToDo : Load Asset & Table
-        // TryGetComponent(out MeshRenderer meshRenderer);
-        // switch (rewardCoinItemType)
-        // {
-        //     case RewardCoinItemType.BronzeCoin:
-        //     {
-        //         meshRenderer.material.color = new Color(0.8f, 0.5f, 0.2f);
-        //         CollisionBehaviour.SetScoreToAdd(ScoreToAddBronzeCoin);
-        //     }
-        //         break;
-        //     case RewardCoinItemType.SilverCoin:
-        //     {
-        //         meshRenderer.material.color = Color.gray;
-        //         CollisionBehaviour.SetScoreToAdd(ScoreToAddSilverCoin);
-        //     }
-        //         break;
-        //     case RewardCoinItemType.GoldCoin:
-        //     {
-        //         meshRenderer.material.color = Color.yellow;
-        //         CollisionBehaviour.SetScoreToAdd(ScoreToAddGoldCoin);
-        //     }
-        //         break;
-        //     case RewardCoinItemType.PlatinumCoin:
-        //     {
-        //         meshRenderer.material.color = new Color(0.65f, 0.77f, 0.85f);
-        //         CollisionBehaviour.SetScoreToAdd(ScoreToAddPlatinumCoin);
-        //     }
-        //         break;
-        //     case RewardCoinItemType.DiamondCoin:
-        //     {
-        //         meshRenderer.material.color = new Color(0.6f, 1f, 1f);
-        //         CollisionBehaviour.SetScoreToAdd(ScoreToAddDiamondCoin);
-        //     }
-        //         break;
-        // }
+        switch (rewardCoinItemType)
+        {
+            case RewardCoinItemType.BronzeCoin:
+            {
+                CollisionBehaviour.SetScoreToAdd(ScoreToAddBronzeCoin);
+            }
+                break;
+            case RewardCoinItemType.SilverCoin:
+            {
+                CollisionBehaviour.SetScoreToAdd(ScoreToAddSilverCoin);
+            }
+                break;
+            case RewardCoinItemType.GoldCoin:
+            {
+                CollisionBehaviour.SetScoreToAdd(ScoreToAddGoldCoin);
+            }
+                break;
+            case RewardCoinItemType.PlatinumCoin:
+            {
+                CollisionBehaviour.SetScoreToAdd(ScoreToAddPlatinumCoin);
+            }
+                break;
+            case RewardCoinItemType.DiamondCoin:
+            {
+                CollisionBehaviour.SetScoreToAdd(ScoreToAddDiamondCoin);
+            }
+                break;
+        }
     }
 }

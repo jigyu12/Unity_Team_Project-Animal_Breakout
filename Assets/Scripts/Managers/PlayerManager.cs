@@ -19,7 +19,7 @@ public class PlayerManager : InGameManager
     [ReadOnly]
     private Animator currentPlayerAnimator;
 
-    private int animalID = 0;//100301;
+    private int animalID = 100301;//100301;
     private Vector3 pendingRespawnPosition;
     private Quaternion pendingRespawnRotation;
     private Vector3 pendingForward;
