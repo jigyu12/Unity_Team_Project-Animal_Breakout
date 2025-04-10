@@ -25,8 +25,6 @@ public class TempleRunStyleRoadMaker : InGameManager
     public GameObject[] roadWayPrefabs;
     private List<ObjectPool<GameObject>> roadWayPools = new();
 
-    private GameObject player;
-
     private List<RoadWay> activeRoadWays = new();
     private RoadWay currentRoad;
 
