@@ -42,7 +42,7 @@ public class LobbyPanel : MonoBehaviour
     {
         yield return waitTime;
 
-        SceneManager.LoadScene("Run_new1");
+        SceneManager.LoadScene("Run_newMinjae");
     }
 
     private void OnSetStartAnimalIDHandler(int animalID)

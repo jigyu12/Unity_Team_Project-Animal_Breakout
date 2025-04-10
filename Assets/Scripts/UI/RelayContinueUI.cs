@@ -49,8 +49,9 @@ public class RelayContinueUI : MonoBehaviour
             StopCoroutine(countdown);
         }
 
+        //StartCoroutine(ResumeWithCountdown(countdownText));
+        // playerManager.ContinuePlayerWithCountdown(countdownText);
         GameManager.SetGameState(GameManager_new.GameState.GameReStart);
-        StartCoroutine(ResumeWithCountdown(countdownText));
     }
 
     public void OnClickGiveUp()
@@ -86,7 +87,7 @@ public class RelayContinueUI : MonoBehaviour
     }
     public IEnumerator ResumeWithCountdown(TMP_Text countdownText)
     {
-        GameManager.SetTimeScale(0);
+        // GameManager.SetTimeScale(0);
         countdownText.gameObject.SetActive(true);
         for (int i = 3; i > 0; i--)
         {
@@ -95,7 +96,8 @@ public class RelayContinueUI : MonoBehaviour
         }
 
         countdownText.gameObject.SetActive(false);
-        GameManager.SetTimeScale(1);
+        // GameManager.SetTimeScale(1);
 
     }
+
 }
