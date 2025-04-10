@@ -74,6 +74,7 @@ public class PlayerRotator : MonoBehaviour
         //transposer.m_FollowOffset.z = -10f;
         //transposer.m_FollowOffset.y = 10f;
 
+
         //플레이어 로컬을 회전하는 연출
         float elapsed = 0f;
         float currentAngle = 0f;
@@ -85,10 +86,6 @@ public class PlayerRotator : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-
-  
-        //transposer.m_FollowOffset.z = prevFollowOffsetZ;
-        //transposer.m_FollowOffset.y = prevFollowOffsetY;
 
         //플레이어루트를 실제로 회전하고 연출용 회전은 리셋시킨다.
         moveForward.transform.RotateAround(pivot, Vector3.up, angle);
