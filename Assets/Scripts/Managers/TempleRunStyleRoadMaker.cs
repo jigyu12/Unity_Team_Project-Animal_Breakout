@@ -133,8 +133,8 @@ public class TempleRunStyleRoadMaker : InGameManager
             //�ʿ�����Ʈ ����
             if (createMapObject)
             {
-                int randomIndex1 = UnityEngine.Random.Range(1, 4);
-                int randomIndex2 = UnityEngine.Random.Range(1, 4);
+                int randomIndex1 = UnityEngine.Random.Range(GameDataManager.Instance.MinMapObjectId, GameDataManager.Instance.MaxMapObjectId + 1);
+                int randomIndex2 = UnityEngine.Random.Range(GameDataManager.Instance.MinRewardItemId, GameDataManager.Instance.MaxRewardItemId + 1);
                 roadWay.SetMapObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex1));
                 roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex1));
 

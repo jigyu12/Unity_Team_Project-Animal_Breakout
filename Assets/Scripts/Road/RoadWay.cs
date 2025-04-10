@@ -37,6 +37,9 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
     public List<RoadWay> NextRoadWays => nextRoadways;
 
     private List<CollidableMapObject> mapObjects = new();
+    
+    private readonly Vector3 yOffsetItem = new Vector3(0, 0.5f, 0); 
+    private readonly Vector3 yOffsetBomb = new Vector3(0, 1f, 0); 
 
     public void Awake()
     {
@@ -62,7 +65,18 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                     {
                         if (blueprint.objectsConstructors[i, j] != null)
                         {
-                            mapObjects.Add(blueprint.objectsConstructors[i, j].Invoke(roadSegmentWithType.roadSegment.GetTilePosition(i, j)));
+                            var mapObject = blueprint.objectsConstructors[i, j].Invoke(roadSegmentWithType.roadSegment.GetTilePosition(i, j));
+                            if (mapObject.TryGetComponent(out Trap trap) && trap.TrapType == TrapType.Bomb)
+                            {
+                                mapObject.transform.position += yOffsetBomb;
+                            }
+                            else if (mapObject.TryGetComponent(out ItemPenaltyCoin penaltyCoin))
+                            {
+                                mapObject.transform.position += yOffsetItem;
+                            }
+                            mapObjects.Add(mapObject);
+                            mapObject.transform.SetParent(roadSegmentWithType.roadSegment.transform);
+                            mapObject.transform.rotation = Quaternion.LookRotation(-roadSegmentWithType.roadSegment.transform.forward);
                         }
                     }
                 }
@@ -78,12 +92,18 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
             {
                 foreach (var unit in blueprints)
                 {
-                    var startPosition = roadSegmentWithType.roadSegment.GetTilePosition(unit.startEndCoordinate[0].Item1, unit.startEndCoordinate[0].Item2);
-                    var endPosition = roadSegmentWithType.roadSegment.GetTilePosition(unit.startEndCoordinate[1].Item1, unit.startEndCoordinate[1].Item2);
+                    var startPosition = roadSegmentWithType.roadSegment.GetTilePosition(unit.startEndCoordinate[0].Item1, unit.startEndCoordinate[0].Item2) + yOffsetItem;
+                    var endPosition = roadSegmentWithType.roadSegment.GetTilePosition(unit.startEndCoordinate[1].Item1, unit.startEndCoordinate[1].Item2) + yOffsetItem;
                     if (unit.rewardItemConstructors != null)
                     {
                         var array = unit.rewardItemConstructors.Invoke(startPosition, endPosition, unit.itemGroupCount);
                         array.ToList().ForEach((item) => mapObjects.Add(item));
+                        array.ToList().ForEach((item) =>
+                        {
+                            item.transform.SetParent(roadSegmentWithType.roadSegment.transform);
+                            item.transform.rotation = Quaternion.LookRotation(-roadSegmentWithType.roadSegment.transform.forward);
+                        }
+                            );
                     }
                 }
             }

@@ -32,37 +32,30 @@ public class ItemPenaltyCoin : ItemBase
 
         CollisionBehaviour = CollisionBehaviourFactory.GetPenaltyCoinBehaviour(penaltyCoinItemType);
 
-        // ToDo : Load Asset & Table
-        TryGetComponent(out MeshRenderer meshRenderer);
         switch (penaltyCoinItemType)
         {
             case PenaltyCoinItemType.GhostCoin:
                 {
-                    meshRenderer.material.color = new Color(0.9f, 0.9f, 0.9f, 0.5f);
                     CollisionBehaviour.SetScoreToAdd(ScoreToAddGhostCoin);
                 }
                 break;
             case PenaltyCoinItemType.PoisonCoin:
                 {
-                    meshRenderer.material.color = Color.green;
                     CollisionBehaviour.SetScoreToAdd(ScoreToAddPoisonCoin);
                 }
                 break;
             case PenaltyCoinItemType.SkullCoin:
                 {
-                    meshRenderer.material.color = Color.gray;
                     CollisionBehaviour.SetScoreToAdd(ScoreToAddSkullCoin);
                 }
                 break;
             case PenaltyCoinItemType.FireCoin:
                 {
-                    meshRenderer.material.color = new Color(1f, 0.3f, 0f);
                     CollisionBehaviour.SetScoreToAdd(ScoreToAddFireCoin);
                 }
                 break;
             case PenaltyCoinItemType.BlackHoleCoin:
                 {
-                    meshRenderer.material.color = Color.black;
                     CollisionBehaviour.SetScoreToAdd(ScoreToAddBlackHoleCoin);
                 }
                 break;

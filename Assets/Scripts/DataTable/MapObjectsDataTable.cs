@@ -7,6 +7,9 @@ public class MapObjectsDataTable : DataTable
 {
     private static readonly Dictionary<int, List<MapObjectData>> table = new();
 
+    public int maxId { get; private set; } = -1;
+    public int minId { get; private set; } = int.MaxValue;
+
     public override void Load(string filename)
     {
         var path = string.Format(FormatPath, filename);
@@ -18,6 +21,16 @@ public class MapObjectsDataTable : DataTable
             MapObjectData data = new MapObjectData();
             data.CSVDataToData(csvData);
             int id = data.PrefabID;
+
+            if (id < minId)
+            {
+                minId = id;
+            }
+
+            if (id > maxId)
+            {
+                maxId = id;
+            }
             
             if (!table.ContainsKey(id))
             {
