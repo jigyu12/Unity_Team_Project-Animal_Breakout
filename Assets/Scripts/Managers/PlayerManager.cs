@@ -19,7 +19,7 @@ public class PlayerManager : InGameManager
     [ReadOnly]
     private Animator currentPlayerAnimator;
 
-    private int animalID = 0;//100301;
+    private int animalID = 100301;//100301;
     private Vector3 pendingRespawnPosition;
     private Quaternion pendingRespawnRotation;
     private Vector3 pendingForward;
@@ -42,7 +42,7 @@ public class PlayerManager : InGameManager
     {
         animalID = GameDataManager.Instance.StartAnimalID;
         Debug.Log($"Set Player Start With Animal ID: {animalID}");
-        
+
         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
         if (prefab != null)
         {

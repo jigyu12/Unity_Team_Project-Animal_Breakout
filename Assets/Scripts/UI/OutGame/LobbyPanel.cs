@@ -17,7 +17,7 @@ public class LobbyPanel : MonoBehaviour
     {
         GameDataManager.onSetStartAnimalID -= OnSetStartAnimalIDHandler;
     }
-    
+
     private void Start()
     {
         gameStartButton.onClick.RemoveAllListeners();
@@ -42,14 +42,14 @@ public class LobbyPanel : MonoBehaviour
     {
         yield return waitTime;
 
-        SceneManager.LoadScene("Run_new");
+        SceneManager.LoadScene("Run_new1");
     }
 
     private void OnSetStartAnimalIDHandler(int animalID)
     {
-        if(animalID == 0)
+        if (animalID == 0)
             return;
-        
+
         gameStartButton.interactable = true;
     }
 }
