@@ -6,9 +6,15 @@ using UnityEngine;
 public class MapObjectsDataTable : DataTable
 {
     private static readonly Dictionary<int, List<MapObjectData>> table = new();
+    
+    public static event Action<int> OnMaxMapObjectIdSet;
+    public static event Action<int> OnMinMapObjectIdSet;
 
     public override void Load(string filename)
     {
+        int maxId = -1;
+        int minId = int.MaxValue;
+        
         var path = string.Format(FormatPath, filename);
         var textAsset = Resources.Load<TextAsset>(path);
         var list = LoadCSV<MapObjectCSVData>(textAsset.text);
@@ -18,6 +24,16 @@ public class MapObjectsDataTable : DataTable
             MapObjectData data = new MapObjectData();
             data.CSVDataToData(csvData);
             int id = data.PrefabID;
+
+            if (id < minId)
+            {
+                minId = id;
+            }
+
+            if (id > maxId)
+            {
+                maxId = id;
+            }
             
             if (!table.ContainsKey(id))
             {
@@ -31,6 +47,9 @@ public class MapObjectsDataTable : DataTable
                 table[id].Add(data);
             }
         }
+        
+        OnMaxMapObjectIdSet?.Invoke(maxId);
+        OnMinMapObjectIdSet?.Invoke(minId);
     }
 
     public List<MapObjectData> Get(int prefabID)

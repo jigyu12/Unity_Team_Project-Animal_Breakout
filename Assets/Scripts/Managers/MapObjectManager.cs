@@ -58,11 +58,54 @@ public class MapObjectManager : InGameManager
     [SerializeField]
     private GameObject roadTransformRoot;
 
+    public int MinMapObjectId { get; private set; } = 0;
+    public int MinRewardItemId { get; private set; } = 0;
+    public int MaxMapObjectId { get; private set; } = 0;
+    public int MaxRewardItemId { get; private set; } = 0;
+
     public override void Initialize()
     {
         base.Initialize();
 
         InitializeMapObjectObjectPools();
+    }
+
+    private void Awake()
+    {
+        MapObjectsDataTable.OnMaxMapObjectIdSet += OnMaxMapObjectIdSetHandler;
+        MapObjectsDataTable.OnMinMapObjectIdSet += OnMinMapObjectIdSetHandler;
+        
+        RewardItemsDataTable.OnMaxRewardItemIdSet += OnMaxRewardItemIdSetHandler;
+        RewardItemsDataTable.OnMinRewardItemIdSet += OnMinRewardItemIdSetHandler;
+    }
+
+    private void OnDestroy()
+    {
+        MapObjectsDataTable.OnMaxMapObjectIdSet -= OnMaxMapObjectIdSetHandler;
+        MapObjectsDataTable.OnMinMapObjectIdSet -= OnMinMapObjectIdSetHandler;
+        
+        RewardItemsDataTable.OnMaxRewardItemIdSet -= OnMaxRewardItemIdSetHandler;
+        RewardItemsDataTable.OnMinRewardItemIdSet -= OnMinRewardItemIdSetHandler;
+    }
+
+    private void OnMaxMapObjectIdSetHandler(int maxMapObjectCount)
+    {
+        MaxMapObjectId = maxMapObjectCount;
+    }
+    
+    private void OnMinMapObjectIdSetHandler(int minMapObjectCount)
+    {
+        MinMapObjectId = minMapObjectCount;
+    }
+
+    private void OnMaxRewardItemIdSetHandler(int maxRewardItemCount)
+    {
+        MaxRewardItemId = maxRewardItemCount;
+    }
+    
+    private void OnMinRewardItemIdSetHandler(int minRewardItemCount)
+    {
+        MinRewardItemId = minRewardItemCount;   
     }
 
     private void Start()
@@ -95,27 +138,27 @@ public class MapObjectManager : InGameManager
         //     obj => { obj.SetActive(false); });
 
         trapBombPool = GameManager.ObjectPoolManager.CreateObjectPool(trapBombPrefab,
-            () => Instantiate(trapBombPrefab, roadTransformRoot.transform),
+            () => Instantiate(trapBombPrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
         trapHolePool = GameManager.ObjectPoolManager.CreateObjectPool(trapHolePrefab,
-            () => Instantiate(trapHolePrefab, roadTransformRoot.transform),
+            () => Instantiate(trapHolePrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
         itemRewardCoinPool = GameManager.ObjectPoolManager.CreateObjectPool(itemRewardCoinPrefab,
-            () => Instantiate(itemRewardCoinPrefab, roadTransformRoot.transform),
+            () => Instantiate(itemRewardCoinPrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
         itemHumanPool = GameManager.ObjectPoolManager.CreateObjectPool(itemHumanPrefab,
-            () => Instantiate(itemHumanPrefab, roadTransformRoot.transform),
+            () => Instantiate(itemHumanPrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
         itemPenaltyCoinPool = GameManager.ObjectPoolManager.CreateObjectPool(itemPenaltyCoinPrefab,
-            () => Instantiate(itemPenaltyCoinPrefab, roadTransformRoot.transform),
+            () => Instantiate(itemPenaltyCoinPrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
     }
