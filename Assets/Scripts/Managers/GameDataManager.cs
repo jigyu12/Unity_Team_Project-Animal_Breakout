@@ -29,11 +29,11 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void Awake()
     {
-        MapObjectsDataTable.OnMaxMapObjectIdSet += OnMaxMapObjectIdSetHandler;
-        MapObjectsDataTable.OnMinMapObjectIdSet += OnMinMapObjectIdSetHandler;
 
-        RewardItemsDataTable.OnMaxRewardItemIdSet += OnMaxRewardItemIdSetHandler;
-        RewardItemsDataTable.OnMinRewardItemIdSet += OnMinRewardItemIdSetHandler;
+        OnMaxMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.maxId);
+        OnMinMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.minId);
+        OnMaxRewardItemIdSetHandler(DataTableManager.rewardItemsDataTable.maxId);
+        OnMinRewardItemIdSetHandler(DataTableManager.rewardItemsDataTable.minId);
     }
 
     private void OnDestroy()
@@ -43,12 +43,6 @@ public class GameDataManager : Singleton<GameDataManager>
 
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
 
-
-        MapObjectsDataTable.OnMaxMapObjectIdSet -= OnMaxMapObjectIdSetHandler;
-        MapObjectsDataTable.OnMinMapObjectIdSet -= OnMinMapObjectIdSetHandler;
-
-        RewardItemsDataTable.OnMaxRewardItemIdSet -= OnMaxRewardItemIdSetHandler;
-        RewardItemsDataTable.OnMinRewardItemIdSet -= OnMinRewardItemIdSetHandler;
     }
 
     private void Start()
