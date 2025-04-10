@@ -12,6 +12,14 @@ public class PlayerRotator : MonoBehaviour
     public Action onRotationEnd;
 
     private bool isRotating = false;
+    
+    private GameManager_new gameManager;
+
+    private void Start()
+    {
+        
+    }
+
     public void SetPlayerMove(PlayerMove playerMove)
     {
         this.playerMove = playerMove;
@@ -53,6 +61,8 @@ public class PlayerRotator : MonoBehaviour
         {
             moveForward.transform.position = pivot;
         }
+        
+        
        
         //플레이어 로컬을 회전하는 연출
         float elapsed = 0f;
