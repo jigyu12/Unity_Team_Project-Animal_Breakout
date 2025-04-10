@@ -10,11 +10,11 @@ public class RewardItemsDataTable : DataTable
     public static event Action<int> OnMaxRewardItemIdSet;
     public static event Action<int> OnMinRewardItemIdSet;
     
+    int maxId = -1;
+    int minId = int.MaxValue;
+    
     public override void Load(string filename)
     {
-        int maxId = -1;
-        int minId = int.MaxValue;
-        
         var path = string.Format(FormatPath, filename);
         var textAsset = Resources.Load<TextAsset>(path);
         var list = LoadCSV<RewardItemCSVData>(textAsset.text);
