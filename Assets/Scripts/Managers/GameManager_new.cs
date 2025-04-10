@@ -129,6 +129,8 @@ public class GameManager_new : MonoBehaviour
         {
             manager.Initialize();
         }
+
+        GameDataManager.Instance.Initialize();
     }
 
     public void SetGameState(GameState gameState)

@@ -10,6 +10,8 @@ public class GameUIManager : InGameManager
     public GameObject pausePanel;
     public Button mainTitleButton;
     public Button pauseButton;
+    [SerializeField] private Button leftButton;
+    [SerializeField] private Button rightButton;
 
     private void Awake()
     {
@@ -31,7 +33,14 @@ public class GameUIManager : InGameManager
         pauseButton.onClick.RemoveAllListeners();
         pauseButton.onClick.AddListener(OnPauseButtonClicked);
     }
+    public void ConnectPlayerMove(PlayerMove move)
+    {
+        leftButton.onClick.RemoveAllListeners();
+        rightButton.onClick.RemoveAllListeners();
 
+        leftButton.onClick.AddListener(move.MoveLeft);
+        rightButton.onClick.AddListener(move.MoveRight);
+    }
     //private void OnDestroy()
     //{
     //    //if (gameManager != null)
@@ -63,6 +72,11 @@ public class GameUIManager : InGameManager
     {
         pausePanel.SetActive(true);
         Time.timeScale = 0;
+    }
+    public void SetDirectionButtonsInteractable(bool interactable)
+    {
+        leftButton.interactable = interactable;
+        rightButton.interactable = interactable;
     }
 
 }

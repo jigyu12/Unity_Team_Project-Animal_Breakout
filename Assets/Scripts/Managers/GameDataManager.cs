@@ -21,14 +21,15 @@ public class GameDataManager : Singleton<GameDataManager>
     public int StartAnimalID => startAnimalID;
     public static event Action<int> onSetStartAnimalID;
     public static event Action OnSceneChangedToInGame;
-    
+
     public int MinMapObjectId { get; private set; } = 0;
     public int MinRewardItemId { get; private set; } = 0;
     public int MaxMapObjectId { get; private set; } = 0;
     public int MaxRewardItemId { get; private set; } = 0;
-    
+
     private void Awake()
     {
+
         OnMaxMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.maxId);
         OnMinMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.minId);
         OnMaxRewardItemIdSetHandler(DataTableManager.rewardItemsDataTable.maxId);
@@ -39,10 +40,11 @@ public class GameDataManager : Singleton<GameDataManager>
     {
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
         AnimalUnlockPanel.onSetStartAnimalID -= OnSetAnimalID;
-        
+
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
+
     }
-    
+
     private void Start()
     {
         maxScore = 0;
@@ -50,15 +52,15 @@ public class GameDataManager : Singleton<GameDataManager>
 
         BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
         AnimalUnlockPanel.onSetStartAnimalID += OnSetAnimalID;
-        
+
         SceneManager.sceneLoaded += OnChangeSceneHandler;
     }
-    
+
     private void OnMaxMapObjectIdSetHandler(int maxMapObjectCount)
     {
         MaxMapObjectId = maxMapObjectCount;
     }
-    
+
     private void OnMinMapObjectIdSetHandler(int minMapObjectCount)
     {
         MinMapObjectId = minMapObjectCount;
@@ -68,15 +70,22 @@ public class GameDataManager : Singleton<GameDataManager>
     {
         MaxRewardItemId = maxRewardItemCount;
     }
-    
+
     private void OnMinRewardItemIdSetHandler(int minRewardItemCount)
     {
-        MinRewardItemId = minRewardItemCount;   
+        MinRewardItemId = minRewardItemCount;
     }
-    
+
     public void Initialize()
     {
-        TryFindOutGameUIManager();
+        if (SceneManager.GetActiveScene().name == "MainTitleSceneCopy")
+        {
+            TryFindOutGameUIManager();
+        }
+        else if (SceneManager.GetActiveScene().name == "Run_new")
+        {
+            TryFindGameManager();
+        }
 
         ClearInGameData();
     }
@@ -135,10 +144,10 @@ public class GameDataManager : Singleton<GameDataManager>
         {
             TryFindOutGameUIManager();
         }
-        else if (SceneManager.GetActiveScene().name == "RunMin")
+        else if (SceneManager.GetActiveScene().name == "Run_new")
         {
             TryFindGameManager();
-            
+
             OnSceneChangedToInGame?.Invoke();
         }
 
@@ -150,7 +159,7 @@ public class GameDataManager : Singleton<GameDataManager>
     private void OnSetAnimalID(int id)
     {
         startAnimalID = id;
-        
+
         onSetStartAnimalID?.Invoke(id);
     }
 
