@@ -6,13 +6,10 @@ using UnityEngine;
 public class MapObjectsDataTable : DataTable
 {
     private static readonly Dictionary<int, List<MapObjectData>> table = new();
-    
-    public static event Action<int> OnMaxMapObjectIdSet;
-    public static event Action<int> OnMinMapObjectIdSet;
 
-    int maxId = -1;
-    int minId = int.MaxValue;
-    
+    public int maxId { get; private set; } = -1;
+    public int minId { get; private set; } = int.MaxValue;
+
     public override void Load(string filename)
     {
         var path = string.Format(FormatPath, filename);
@@ -47,9 +44,6 @@ public class MapObjectsDataTable : DataTable
                 table[id].Add(data);
             }
         }
-        
-        OnMaxMapObjectIdSet?.Invoke(maxId);
-        OnMinMapObjectIdSet?.Invoke(minId);
     }
 
     public List<MapObjectData> Get(int prefabID)

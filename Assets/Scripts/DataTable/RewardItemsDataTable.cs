@@ -6,12 +6,9 @@ using UnityEngine;
 public class RewardItemsDataTable : DataTable
 {
     private static readonly Dictionary<int, List<RewardItemData>> table = new();
-    
-    public static event Action<int> OnMaxRewardItemIdSet;
-    public static event Action<int> OnMinRewardItemIdSet;
-    
-    int maxId = -1;
-    int minId = int.MaxValue;
+ 
+    public int maxId { get; private set; } = -1;
+    public int minId { get; private set; } = int.MaxValue;
     
     public override void Load(string filename)
     {
@@ -47,9 +44,6 @@ public class RewardItemsDataTable : DataTable
                 table[id].Add(data);
             }
         }
-        
-        OnMaxRewardItemIdSet?.Invoke(maxId);
-        OnMinRewardItemIdSet?.Invoke(minId);
     }
     
     public List<RewardItemData> Get(int prefabID)

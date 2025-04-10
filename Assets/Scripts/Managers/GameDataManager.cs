@@ -17,7 +17,7 @@ public class GameDataManager : Singleton<GameDataManager>
     public List<int> runnerIDs = new List<int>();
     // private AnimalDatabase animalDatabase;
 
-    private int startAnimalID = 0;
+    private int startAnimalID = 100301;
     public int StartAnimalID => startAnimalID;
     public static event Action<int> onSetStartAnimalID;
     public static event Action OnSceneChangedToInGame;
@@ -29,11 +29,10 @@ public class GameDataManager : Singleton<GameDataManager>
     
     private void Awake()
     {
-        MapObjectsDataTable.OnMaxMapObjectIdSet += OnMaxMapObjectIdSetHandler;
-        MapObjectsDataTable.OnMinMapObjectIdSet += OnMinMapObjectIdSetHandler;
-        
-        RewardItemsDataTable.OnMaxRewardItemIdSet += OnMaxRewardItemIdSetHandler;
-        RewardItemsDataTable.OnMinRewardItemIdSet += OnMinRewardItemIdSetHandler;
+        OnMaxMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.maxId);
+        OnMinMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.minId);
+        OnMaxRewardItemIdSetHandler(DataTableManager.rewardItemsDataTable.maxId);
+        OnMinRewardItemIdSetHandler(DataTableManager.rewardItemsDataTable.minId);
     }
 
     private void OnDestroy()
@@ -42,13 +41,6 @@ public class GameDataManager : Singleton<GameDataManager>
         AnimalUnlockPanel.onSetStartAnimalID -= OnSetAnimalID;
         
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
-        
-        
-        MapObjectsDataTable.OnMaxMapObjectIdSet -= OnMaxMapObjectIdSetHandler;
-        MapObjectsDataTable.OnMinMapObjectIdSet -= OnMinMapObjectIdSetHandler;
-        
-        RewardItemsDataTable.OnMaxRewardItemIdSet -= OnMaxRewardItemIdSetHandler;
-        RewardItemsDataTable.OnMinRewardItemIdSet -= OnMinRewardItemIdSetHandler;
     }
     
     private void Start()
