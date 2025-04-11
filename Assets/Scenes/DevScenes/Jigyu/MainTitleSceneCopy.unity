@@ -6025,6 +6025,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1967156090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1967156091}
+  - component: {fileID: 1967156092}
+  m_Layer: 0
+  m_Name: OutGameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1967156091
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967156090}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1967156092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967156090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d48ebda50b79b7142bfbea3fc897107c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1973587787
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6170,6 +6214,10 @@ PrefabInstance:
     - target: {fileID: 1397711185368602730, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069631823982989368, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
+      propertyPath: m_Name
+      value: AnimalSaperatedPanel
       objectReference: {fileID: 0}
     - target: {fileID: 3131635998017822695, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6515,6 +6563,10 @@ PrefabInstance:
       propertyPath: LobbyGameObjects
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
+      propertyPath: UnlockAnimalPanel
+      value: 
+      objectReference: {fileID: 1849237577376199906, guid: 5f6390b547adbc94b919785f3192cde2, type: 3}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: switchableCanvasList.Array.size
       value: 3
@@ -7348,3 +7400,4 @@ SceneRoots:
   - {fileID: 1468328703}
   - {fileID: 1339308845}
   - {fileID: 4054455691724017053}
+  - {fileID: 1967156091}
