@@ -25,6 +25,7 @@ public class PlayerManager : InGameManager
     private Quaternion pendingRespawnRotation;
     private Vector3 pendingForward;
     private DeathType lastDeathType = DeathType.None;
+    private bool isDead;
     [SerializeField] public TMP_Text countdownText;
     private void Awake()
     {
@@ -38,7 +39,7 @@ public class PlayerManager : InGameManager
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () => DisablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(countdownText));
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => EnablePlayer(currentPlayerStatus));
+        //   GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => EnablePlayer(currentPlayerStatus));
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, ContinuePlayer);
     }
@@ -93,7 +94,6 @@ public class PlayerManager : InGameManager
     public void OnPlayerDied(PlayerStatus status)
     {
         Debug.Log($"Player Died: {status.name}");
-
         // 죽기 전 위치 저장 (DeathZone이 아닌 경우)
         if (lastDeathType != DeathType.DeathZone)
         {
@@ -249,6 +249,7 @@ public class PlayerManager : InGameManager
 
     private IEnumerator ResumeAfterCountdown(TMP_Text countdownText, MoveForward moveForward)
     {
+        GameManager.UIManager?.SetDirectionButtonsInteractable(false);
         GameManager.SetTimeScale(0);
         countdownText.gameObject.SetActive(true);
 
@@ -262,8 +263,11 @@ public class PlayerManager : InGameManager
         GameManager.SetTimeScale(1);
 
         // 이동 및 입력 복원
+        GameManager.UIManager?.SetDirectionButtonsInteractable(true);
+        currentPlayerStatus.SetAlive();
         currentPlayerMove.EnableInput();
         moveForward.enabled = true;
+        currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal; // 스케일 영향 받게 함 임시 처리 라 수정 해야함
         currentPlayerAnimator.SetTrigger("Run");
 
         // 무적 해제는 따로 2초 후
