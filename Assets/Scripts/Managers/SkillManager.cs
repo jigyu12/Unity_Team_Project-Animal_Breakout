@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,17 +8,17 @@ public class SkillManager : InGameManager
     [SerializeField]
     private int maxSkillCount = 4;
 
-    private List<ISkill> skills = new();
+    private List<SkillPriorityItem> skills = new();
+    private SkillQueue readySkillQueue = new SkillQueue();
+
 
     public float skillPerformInterval = 1f;
-   // private SortedList<int, ISkill> readySkillsQueue = new(new SkillPriorityComparer());
-
     private Coroutine coSkillPerform = null;
     private IDamagerable skillTarget;
 
     private void Awake()
     {
-        
+
     }
 
     public void SetSkillTarget(IDamagerable target)
@@ -25,35 +26,56 @@ public class SkillManager : InGameManager
         skillTarget = target;
     }
 
-    public void AddSkill(ISkill skill)
+    public bool IsSkillExist(ISkill skill)
     {
-        //readySkillsQueue.
+        return IsSkillExist(skill.Id);
+    }
+
+    public bool IsSkillExist(int skillId)
+    {
+        return skills.Exists((target) => target.skill.Id == skillId);
+    }
+
+    public void AddSkill(int priority, ISkill skill)
+    {
+        var item = new SkillPriorityItem(priority, skill);
+        skills.Add(item);
+        //skill.OnReady += () => AddToReadySkillQueue(item);
+    }
+
+    private void AddToReadySkillQueue(SkillPriorityItem skillPriorityItem)
+    {
+        readySkillQueue.Enqueue(skillPriorityItem);
     }
 
 
-    //public void RemoveSkill(ISkill skill)
-    //{
-    //    skills.Remove(skill);
-    //    readySkillsQueue.Enqueue(skill);
-    //}
+    private void Update()
+    {
+        if (coSkillPerform == null && readySkillQueue.Count != 0)
+        {
+            coSkillPerform = StartCoroutine(CoroutinePerformSkill());
+        }
+    }
 
-    //private void Update()
-    //{
-    //    if (readySkillsQueue.Count != 0 && coSkillPerform == null)
-    //    {
-    //        coSkillPerform = StartCoroutine(CoroutinePerformSkill());
-    //    }
-    //}
+    private void OnDisable()
+    {
+        if (coSkillPerform != null)
+        {
+            StopCoroutine(coSkillPerform);
+            coSkillPerform = null;
+        }
 
-    //private IEnumerator CoroutinePerformSkill()
-    //{
-    //    while (readySkillsQueue.Count != 0)
-    //    {
-    //        var currentSkill = readySkillsQueue.Dequeue();
-    //        currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus, skillTarget);
-    //        yield return new WaitForSecondsRealtime(skillPerformInterval);
-    //    }
-    //    coSkillPerform = null;
-    //}
+    }
+
+    private IEnumerator CoroutinePerformSkill()
+    {
+        while (readySkillQueue.Count != 0)
+        {
+            var currentSkill = readySkillQueue.Dequeue();
+            currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus, skillTarget);
+            yield return new WaitForSeconds(skillPerformInterval);
+        }
+        coSkillPerform = null;
+    }
 
 }

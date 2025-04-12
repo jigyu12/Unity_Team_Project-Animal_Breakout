@@ -1,19 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillPriorityComparer : Comparer<KeyValuePair<int, ISkill>>
+public class SkillPriorityComparer : Comparer<SkillPriorityItem>
 {
-    public override int Compare(KeyValuePair<int, ISkill> x, KeyValuePair<int, ISkill> y)
+    public override int Compare(SkillPriorityItem x, SkillPriorityItem y)
     {
-        if (x.Value.Level == y.Value.Level)
+        //레벨이 더 큰 Item이 먼저
+        //동일 레벨끼리는 먼저 들어온 Item
+        if (x.skill.Level != y.skill.Level)
         {
-            return x.Key.CompareTo(y.Key);
+            return -(x.skill.Level - y.skill.Level);
         }
         else
         {
-            return x.Value.Level - y.Value.Level;
+            return x.priority.CompareTo(y.priority);
         }
-
     }
 }
+

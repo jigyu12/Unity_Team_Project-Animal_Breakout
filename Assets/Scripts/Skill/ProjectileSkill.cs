@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -21,7 +22,17 @@ public class ProjectileSkill : MonoBehaviour, ISkill
         get => (Time.time <= lastPerformedTime + coolTime);
     }
 
+    public int Id
+    {
+        get;
+        private set;
+    }
 
+    public Action OnReady
+    {
+        get;
+        set;
+    }
 
     public void Perform(IAttacker attacker, IDamagerable target)
     {
@@ -35,15 +46,11 @@ public class ProjectileSkill : MonoBehaviour, ISkill
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-
-    }
-
     public void UpgradeLevel()
     {
         Level++;
 
         //추후 clamp추가
     }
+
 }

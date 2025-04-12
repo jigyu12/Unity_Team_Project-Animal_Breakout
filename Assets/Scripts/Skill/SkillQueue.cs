@@ -1,3 +1,5 @@
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Search;
@@ -5,23 +7,51 @@ using UnityEngine;
 
 public class SkillQueue
 {
-    private List<KeyValuePair<int, ISkill>> list = new();
+    //È×µæ ¼ø¼­, ½ºÅ³
+    private List<SkillPriorityItem> list = new();
+    public int Count => list.Count;
 
-    private Comparer<KeyValuePair<int, ISkill>> comparer = new SkillPriorityComparer();
-
-    //public bool Contains(ISkill skill)
-    //{
-
-    //}
+    private Comparer<SkillPriorityItem> comparer = new SkillPriorityComparer();
+    public void Enqueue(SkillPriorityItem skillPriorityItem)
+    {
+        list.Add(skillPriorityItem);
+        list.Sort(comparer);
+    }
 
     public void Enqueue(int value, ISkill skill)
     {
-        list.Add(new KeyValuePair<int, ISkill>(value, skill));
-        list.Sort(comparer);
+        Enqueue(new SkillPriorityItem(value, skill));
     }
 
     public ISkill Dequeue()
     {
-        return list[0].Value;
+        list.Sort(comparer);
+        var value = list[0].skill;
+        list.RemoveAt(0);
+        return value;
     }
+    public void Remove(ISkill skill)
+    {
+        int index = list.FindIndex(x => x.skill.Id == skill.Id);
+        list.RemoveAt(index);
+    }
+}
+
+public struct SkillPriorityItem : IEquatable<SkillPriorityItem>
+{
+    public SkillPriorityItem(int priority, ISkill skill)
+    {
+        this.priority = priority;
+        this.skill = skill;
+    }
+
+    public int priority;
+    public ISkill skill;
+
+    public bool Equals(SkillPriorityItem other)
+    {
+        return skill.Id == other.skill.Id;
+    }
+
+
 }
