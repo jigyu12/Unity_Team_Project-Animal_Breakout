@@ -20,7 +20,6 @@ public class GameDataManager : Singleton<GameDataManager>
     private int startAnimalID = 100301;
     public int StartAnimalID => startAnimalID;
     
-    public static event Action OnSceneChangedToInGame;
     public static event Action<int> onSetStartAnimalIDInGameDataManager;
     
     public int MinMapObjectId { get; private set; } = 0;
@@ -40,10 +39,9 @@ public class GameDataManager : Singleton<GameDataManager>
     {
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
 
-        AnimalUnlockPanel.onSetStartAnimalIDInPanel -= OnSetAnimalIDInPanel;
+        UnlockedAnimalPanel.onSetStartAnimalIDInPanel -= OnSetAnimalIDInPanel;
         
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
-
     }
 
     private void Start()
@@ -53,7 +51,7 @@ public class GameDataManager : Singleton<GameDataManager>
 
         BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
 
-        AnimalUnlockPanel.onSetStartAnimalIDInPanel += OnSetAnimalIDInPanel;
+        UnlockedAnimalPanel.onSetStartAnimalIDInPanel += OnSetAnimalIDInPanel;
 
         SceneManager.sceneLoaded += OnChangeSceneHandler;
         
@@ -150,8 +148,6 @@ public class GameDataManager : Singleton<GameDataManager>
         else if (SceneManager.GetActiveScene().name == "Run_new")
         {
             TryFindGameManager();
-            
-            OnSceneChangedToInGame?.Invoke();
         }
 
         ClearInGameData();
@@ -165,24 +161,4 @@ public class GameDataManager : Singleton<GameDataManager>
         
         onSetStartAnimalIDInGameDataManager?.Invoke(id);
     }
-
-    //public void SetRunnerIDs(List<int> ids)
-    //{
-    //    runnerIDs = new List<int>(ids);
-    //}
-
-    //public List<int> GetRunnerIDs()
-    //{
-    //    return new List<int>(runnerIDs);
-    //}
-
-    //public void SetAnimalDatabase(AnimalDatabase db)
-    //{
-    //    animalDatabase = db;
-    //}
-
-    //public AnimalDatabase GetAnimalDatabase()
-    //{
-    //    return animalDatabase;
-    //}
 }

@@ -1,35 +1,19 @@
-using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 public class AnimalUnlockPanel : MonoBehaviour
 {
-    [SerializeField] [ReadOnly] private AnimalStatData animalStatData;
-    [SerializeField] private Button animalChooseButton;
-    [SerializeField] private AnimalChooseButton animalChooseButtonScript;
-    [SerializeField] private TMP_Text tempAnimalNameText;
-    [SerializeField] private TMP_Text animalChooseText;
-    
-    public static event Action<int> onSetStartAnimalIDInPanel;
-
-
-    private void Start()
+    private void Awake()
     {
-        animalChooseButton.onClick.RemoveAllListeners();
-        animalChooseButton.onClick.AddListener(() =>
-        {
-            onSetStartAnimalIDInPanel?.Invoke(animalStatData.AnimalID);
-            
-            Debug.Log($"Set Start Animal ID :{animalStatData.AnimalID}");
-        });
+        OutGameUIManager.onAnimalUnlockPanelInstantiated += OnAnimalUnlockPanelInstantiatedHandler;
+    }
+
+    private void OnDestroy()
+    {
+        OutGameUIManager.onAnimalUnlockPanelInstantiated -= OnAnimalUnlockPanelInstantiatedHandler;
     }
     
-    public void SetAnimalStatData(AnimalStatData statData)
+    private void OnAnimalUnlockPanelInstantiatedHandler(GameObject animalUnlockPanel)
     {
-        animalStatData = statData;
-        tempAnimalNameText.text = statData.name;
-        animalChooseText.text = $"Select {statData.StringID}";
+        animalUnlockPanel.transform.SetParent(transform);
     }
 }

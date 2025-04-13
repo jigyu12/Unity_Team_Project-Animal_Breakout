@@ -25,7 +25,9 @@ public class LobbyPanel : MonoBehaviour
     private void Start()
     {
         gameStartButton.onClick.RemoveAllListeners();
-        if (GameDataManager.Instance.StartAnimalID == 0)
+        
+        var gameDataManagerStartAnimalId = GameDataManager.Instance.StartAnimalID;
+        if (gameDataManagerStartAnimalId == 0 || !IsContainsAnimalIdInTable(gameDataManagerStartAnimalId))
         {
             gameStartButton.interactable = false;
         }
@@ -52,9 +54,22 @@ public class LobbyPanel : MonoBehaviour
 
     private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID)
     {
-        if (animalID == 0)
+        if (animalID == 0 || !IsContainsAnimalIdInTable(animalID))
+        {
+            gameStartButton.interactable = false;
+
+            Debug.Assert(false, "Invalid animal ID");
+            
             return;
+        }
 
         gameStartButton.interactable = true;
+    }
+
+    private bool IsContainsAnimalIdInTable(int animalID)
+    {
+        var animalIdList = DataTableManager.animalDataTable.GetAnimalIDs();
+
+        return animalIdList.Contains(animalID);
     }
 }

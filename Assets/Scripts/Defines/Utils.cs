@@ -15,12 +15,6 @@ public static class Utils
     
     public const float GameStartWaitTime = 1f;
 
-    public static void SetChildScaleFitToParent(GameObject child, GameObject parent)
-    {
-        child.transform.localScale = 
-            new Vector3(1f / parent.transform.localScale.x, 1f / parent.transform.localScale.y, 1f / parent.transform.localScale.z);
-    }
-
     public static bool IsChanceHit(float chance)
     {
         return Random.value <= chance;
@@ -50,10 +44,5 @@ public static class Utils
         }
         
         throw new System.ArgumentException("The sum of input chances must be equal to 1f.", nameof(chances));
-    }
-    
-    public static int GetTileIndex(int row, int col, int cols)
-    {
-        return col + row * cols;
     }
 }

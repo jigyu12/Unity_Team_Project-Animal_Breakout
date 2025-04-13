@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.Serialization;
 
 public class OutGameUIManager : MonoBehaviour, IManager
 {
@@ -17,23 +16,24 @@ public class OutGameUIManager : MonoBehaviour, IManager
     public static event Action<LevelInfoData> onLevelExpInitialized;
     public static Action<int> onExpChanged;
 
-    [SerializeField] private GameObject unlockAnimalPanel;
+    [SerializeField] private GameObject unlockAnimalPanelPrefab;
     private ObjectPool<GameObject> unlockAnimalPanelPool;
-    // Level TempCode //
+    public static event Action<GameObject> onAnimalUnlockPanelInstantiated;
+    private readonly List<GameObject> animalUnlockPanelList = new();
+    
+    // TempCode //
         
     public static readonly Dictionary<int, int> expToLevelUpDictionary = new();    
     public readonly int maxLevel = 5;
     private static bool isAddToDict;
     
-    private readonly List<AnimalDataTable.AnimalData> animalDataList = new();
-    
-    // Level TempCode //
+    // TempCode //
     
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
         
-        // Level TempCode //
+        // TempCode //
         
         if (!isAddToDict)
         {
@@ -52,15 +52,22 @@ public class OutGameUIManager : MonoBehaviour, IManager
         
         onLevelExpInitialized?.Invoke(initialData);
         
-        unlockAnimalPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(unlockAnimalPanel,
-            () => Instantiate(unlockAnimalPanel),
+        unlockAnimalPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(unlockAnimalPanelPrefab,
+            () => Instantiate(unlockAnimalPanelPrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
         var animalIdList = DataTableManager.animalDataTable.GetAnimalIDs();
-        
+        for (int i = 0; i < animalIdList.Count; ++i)
+        {
+            var unlockAnimalPanel = unlockAnimalPanelPool.Get();
+            unlockAnimalPanel.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanel);
+            animalUnlockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
+            onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
+            animalUnlockPanelList.Add(unlockAnimalPanel);
+        }   
 
-        // Level TempCode //
+        // TempCode //
     }
     
     public void Initialize()
