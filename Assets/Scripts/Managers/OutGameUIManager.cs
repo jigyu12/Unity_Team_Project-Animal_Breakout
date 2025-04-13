@@ -64,6 +64,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
             unlockAnimalPanel.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanel);
             animalUnlockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
             onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
+            unlockAnimalPanel.transform.localScale = Vector3.one;
             animalUnlockPanelList.Add(unlockAnimalPanel);
         }   
 
