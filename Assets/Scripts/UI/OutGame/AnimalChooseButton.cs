@@ -28,6 +28,13 @@ public class AnimalChooseButton : MonoBehaviour
         animalID = id;
     }
 
+    private void SetAnimalChooseText(int id, int currentStamina)
+    {
+        bool isSameWithCurrentAnimalId = id == animalID;
+        animalChooseText.text = isSameWithCurrentAnimalId ? Utils.AnimalSelectedString : Utils.AnimalSelectableString;
+        animalChooseButton.interactable = !isSameWithCurrentAnimalId;
+    }
+    
     public void SetAnimalChooseText(int id)
     {
         bool isSameWithCurrentAnimalId = id == animalID;

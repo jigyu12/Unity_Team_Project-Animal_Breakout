@@ -11,7 +11,7 @@ public class OutGameManager : MonoBehaviour
     public ObjectPoolManager ObjectPoolManager => objectPoolManager;
     
     private OutGameUIManager outGameUIManager;
-    public OutGameUIManager UIManager => outGameUIManager;
+    public OutGameUIManager OutGameUIManager => outGameUIManager;
     
     #endregion
     
