@@ -23,7 +23,7 @@ public class OutGameUIManagerEditor : Editor
         {
             if (Application.isPlaying)
             {
-                OutGameUIManager.onExpChanged?.Invoke(addExpValue);
+                GameDataManager.onExpChanged?.Invoke(addExpValue);
                 Debug.Log($"Added exp: {addExpValue}");
             }
             else

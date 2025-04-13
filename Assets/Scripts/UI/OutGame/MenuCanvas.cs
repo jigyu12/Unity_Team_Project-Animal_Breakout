@@ -19,7 +19,7 @@ public class MenuCanvas : DefaultCanvas
         LobbyPanel.onGameStartButtonClicked -= GameStartButtonClickedHandler;
     }
 
-    private void GameStartButtonClickedHandler()
+    private void GameStartButtonClickedHandler(int staminaRequiredToStartGame)
     {
         gameObject.SetActive(false);
     }

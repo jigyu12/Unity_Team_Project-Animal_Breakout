@@ -9,17 +9,21 @@ public class LobbyPanel : MonoBehaviour
     [SerializeField] private Button gameStartButton;
 
     private readonly WaitForSeconds waitTime = new(Utils.GameStartWaitTime);
+    private readonly int staminaRequiredToStartGame = 5;
+    private bool isStaminaEnoughToStartGame;
     
-    public static event Action onGameStartButtonClicked;
+    public static event Action<int> onGameStartButtonClicked;
 
     private void Awake()
     {
         GameDataManager.onSetStartAnimalIDInGameDataManager += OnSetStartAnimalIDInGameDataManagerHandler;
+        GameDataManager.onStaminaChangedInGameDataManager += OnStaminaChangedInGameDataManagerHandler;
     }
 
     private void OnDestroy()
     {
         GameDataManager.onSetStartAnimalIDInGameDataManager -= OnSetStartAnimalIDInGameDataManagerHandler;
+        GameDataManager.onStaminaChangedInGameDataManager -= OnStaminaChangedInGameDataManagerHandler;
     }
 
     private void Start()
@@ -27,7 +31,7 @@ public class LobbyPanel : MonoBehaviour
         gameStartButton.onClick.RemoveAllListeners();
         
         var gameDataManagerStartAnimalId = GameDataManager.Instance.StartAnimalID;
-        if (gameDataManagerStartAnimalId == 0 || !IsContainsAnimalIdInTable(gameDataManagerStartAnimalId))
+        if (gameDataManagerStartAnimalId == 0 || !IsContainsAnimalIdInTable(gameDataManagerStartAnimalId) || !isStaminaEnoughToStartGame)
         {
             gameStartButton.interactable = false;
         }
@@ -39,7 +43,7 @@ public class LobbyPanel : MonoBehaviour
         gameStartButton.onClick.AddListener(() =>
         {
             gameStartButton.interactable = false;
-            onGameStartButtonClicked?.Invoke();
+            onGameStartButtonClicked?.Invoke(staminaRequiredToStartGame);
             StartCoroutine(OnGameStartButtonClicked());
         }
             );
@@ -52,13 +56,20 @@ public class LobbyPanel : MonoBehaviour
         SceneManager.LoadScene("Run_new");
     }
 
-    private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID)
+    private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID, int currentStamina)
     {
         if (animalID == 0 || !IsContainsAnimalIdInTable(animalID))
         {
             gameStartButton.interactable = false;
 
             Debug.Assert(false, "Invalid animal ID");
+            
+            return;
+        }
+
+        if (currentStamina < staminaRequiredToStartGame)
+        {
+            gameStartButton.interactable = false;
             
             return;
         }
@@ -71,5 +82,19 @@ public class LobbyPanel : MonoBehaviour
         var animalIdList = DataTableManager.animalDataTable.GetAnimalIDs();
 
         return animalIdList.Contains(animalID);
+    }
+
+    private void OnStaminaChangedInGameDataManagerHandler(int currentStamina, int maxStamina)
+    {
+        if (currentStamina >= staminaRequiredToStartGame)
+        {
+            gameStartButton.interactable = true;
+            isStaminaEnoughToStartGame = true;
+        }
+        else
+        {
+            gameStartButton.interactable = false;
+            isStaminaEnoughToStartGame = false;
+        }
     }
 }

@@ -13,44 +13,16 @@ public class OutGameUIManager : MonoBehaviour, IManager
     public static event Action<SwitchableCanvasType> onSwitchActiveSwitchableCanvas;
     public static event Action<SwitchableCanvasType, bool, bool> onSwitchVisualizeSwitchableCanvas;
     
-    public static event Action<LevelInfoData> onLevelExpInitialized;
-    public static Action<int> onExpChanged;
-
     [SerializeField] private GameObject unlockAnimalPanelPrefab;
     private ObjectPool<GameObject> unlockAnimalPanelPool;
     public static event Action<GameObject> onAnimalUnlockPanelInstantiated;
     private readonly List<GameObject> animalUnlockPanelList = new();
-    
-    // TempCode //
-        
-    public static readonly Dictionary<int, int> expToLevelUpDictionary = new();    
-    public readonly int maxLevel = 5;
-    private static bool isAddToDict;
-    
-    // TempCode //
-    
+
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
         
         // TempCode //
-        
-        if (!isAddToDict)
-        {
-            isAddToDict = true;
-            
-            expToLevelUpDictionary.Add(1, 110);
-            expToLevelUpDictionary.Add(2, 120);
-            expToLevelUpDictionary.Add(3, 130);
-            expToLevelUpDictionary.Add(4, 140);
-            expToLevelUpDictionary.Add(5, 150);
-        }
-
-        LevelInfoData initialData = new(maxLevel);
-        int level = 1;
-        initialData.SaveLevelInfoData(level, expToLevelUpDictionary[level], 0);
-        
-        onLevelExpInitialized?.Invoke(initialData);
         
         unlockAnimalPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(unlockAnimalPanelPrefab,
             () => Instantiate(unlockAnimalPanelPrefab),
@@ -67,7 +39,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
             unlockAnimalPanel.transform.localScale = Vector3.one;
             animalUnlockPanelList.Add(unlockAnimalPanel);
         }   
-
+        
         // TempCode //
     }
     
