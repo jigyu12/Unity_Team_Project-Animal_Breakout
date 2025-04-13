@@ -10,6 +10,8 @@ public class UnlockedAnimalPanel : MonoBehaviour
     [SerializeField] private TMP_Text tempAnimalNameText;
     [SerializeField] private AnimalChooseButton animalChooseButtonScript;
     
+    public int animalId => animalStatData.AnimalID;
+    
     public static event Action<int> onSetStartAnimalIDInPanel;
 
     private void Start()
