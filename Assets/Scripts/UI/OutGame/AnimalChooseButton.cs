@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,17 +7,20 @@ public class AnimalChooseButton : MonoBehaviour
 {
     private Button animalChooseButton;
     [SerializeField] [ReadOnly] private int animalID;
+    [SerializeField] private TMP_Text animalChooseText;
     
     private void Awake()
     {
         TryGetComponent(out animalChooseButton);
-        
-        //AnimalUnlockPanel.onSetStartAnimalIDInPanel 
+
+        GameDataManager.onSetStartAnimalIDInGameDataManager += SetAnimalChooseText;
+        UnlockedAnimalPanel.onSetStartAnimalIDInPanel += SetAnimalChooseText;
     }
 
     private void OnDestroy()
     {
-        
+        GameDataManager.onSetStartAnimalIDInGameDataManager -= SetAnimalChooseText;
+        UnlockedAnimalPanel.onSetStartAnimalIDInPanel -= SetAnimalChooseText;
     }
 
     public void SetAnimalID(int id)
@@ -24,9 +28,10 @@ public class AnimalChooseButton : MonoBehaviour
         animalID = id;
     }
 
-    public void SetAnimalChooseText(bool isChoose)
+    public void SetAnimalChooseText(int id)
     {
-        //animalChooseText.text = isChoose ? "선택됨" : "선택하기";
-        animalChooseButton.interactable = !isChoose;
+        bool isSameWithCurrentAnimalId = id == animalID;
+        animalChooseText.text = isSameWithCurrentAnimalId ? Utils.AnimalSelectedString : Utils.AnimalSelectableString;
+        animalChooseButton.interactable = !isSameWithCurrentAnimalId;
     }
 }
