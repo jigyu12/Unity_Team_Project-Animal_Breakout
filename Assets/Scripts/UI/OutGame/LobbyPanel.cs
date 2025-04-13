@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 public class LobbyPanel : MonoBehaviour
 {
     [SerializeField] private Button gameStartButton;
 
     private readonly WaitForSeconds waitTime = new(Utils.GameStartWaitTime);
+    
+    public static event Action onGameStartButtonClicked;
 
     private void Awake()
     {
@@ -17,7 +21,7 @@ public class LobbyPanel : MonoBehaviour
     {
         GameDataManager.onSetStartAnimalIDInGameDataManager -= OnSetStartAnimalIDInGameDataManagerHandler;
     }
-    
+
     private void Start()
     {
         gameStartButton.onClick.RemoveAllListeners();
@@ -33,6 +37,7 @@ public class LobbyPanel : MonoBehaviour
         gameStartButton.onClick.AddListener(() =>
         {
             gameStartButton.interactable = false;
+            onGameStartButtonClicked?.Invoke();
             StartCoroutine(OnGameStartButtonClicked());
         }
             );
@@ -47,9 +52,9 @@ public class LobbyPanel : MonoBehaviour
 
     private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID)
     {
-        if(animalID == 0)
+        if (animalID == 0)
             return;
-        
+
         gameStartButton.interactable = true;
     }
 }

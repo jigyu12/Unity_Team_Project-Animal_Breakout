@@ -10,6 +10,8 @@ public class GameUIManager : InGameManager
     public GameObject pausePanel;
     public Button mainTitleButton;
     public Button pauseButton;
+    [SerializeField] private Button leftButton;
+    [SerializeField] private Button rightButton;
 
     private void Awake()
     {
@@ -31,7 +33,16 @@ public class GameUIManager : InGameManager
         pauseButton.onClick.RemoveAllListeners();
         pauseButton.onClick.AddListener(OnPauseButtonClicked);
     }
+    public void ConnectPlayerMove(PlayerMove move)
+    {
+        leftButton.onClick.RemoveAllListeners();
+        rightButton.onClick.RemoveAllListeners();
 
+
+        leftButton.GetComponent<DirectionButton>().Initialize(move, leftButton);
+        rightButton.GetComponent<DirectionButton>().Initialize(move, rightButton);
+
+    }
     //private void OnDestroy()
     //{
     //    //if (gameManager != null)
@@ -56,13 +67,20 @@ public class GameUIManager : InGameManager
 
     private void OnMainTitleButtonClicked()
     {
-        SceneManager.LoadScene("MainTitleSceneCopyMin");
+        SceneManager.LoadScene("MainTitleSceneCopy");
         Time.timeScale = 1;
     }
     private void OnPauseButtonClicked()
     {
         pausePanel.SetActive(true);
+        SetDirectionButtonsInteractable(false);
         Time.timeScale = 0;
+    }
+    public void SetDirectionButtonsInteractable(bool interactable)
+    {
+        leftButton.interactable = interactable;
+        rightButton.interactable = interactable;
+        pauseButton.interactable = interactable;
     }
 
 }

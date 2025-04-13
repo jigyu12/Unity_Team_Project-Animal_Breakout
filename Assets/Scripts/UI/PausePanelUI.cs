@@ -16,6 +16,7 @@ public class PausePanulUI : MonoBehaviour
     public Button GiveUpButton;
     public Button settingsButton;
 
+    public GameUIManager uiManager;
     private void Start()
     {
 
@@ -37,10 +38,10 @@ public class PausePanulUI : MonoBehaviour
 
     public IEnumerator ResumeWithCountdown(TMP_Text countdownText, GameObject pausePanel)
     {
+        uiManager.SetDirectionButtonsInteractable(false);
         gameManager.SetTimeScale(0);
         pausePanel.SetActive(false);
         countdownText.gameObject.SetActive(true);
-
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
@@ -49,6 +50,7 @@ public class PausePanulUI : MonoBehaviour
 
         countdownText.gameObject.SetActive(false);
         gameManager.SetTimeScale(1);
+        uiManager.SetDirectionButtonsInteractable(true);
     }
 
     private void OnGiveUpButtonClicked()

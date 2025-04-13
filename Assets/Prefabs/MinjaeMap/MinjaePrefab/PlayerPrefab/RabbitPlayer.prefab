@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  wayIndex: 1
+  laneIndex: 1
   jumpHeight: 2
   gravity: -20
   way: {fileID: 0}
@@ -192,6 +192,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8186a793-c770-4a9e-81be-659d33d56bdd
     m_ActionName: PlayerActions/TouchPress
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7413067651986279277}
+        m_TargetAssemblyTypeName: PlayerMove, Assembly-CSharp
+        m_MethodName: OnTouch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 932ef9ab-9314-4f65-aa4b-f40d0e641bf8
+    m_ActionName: PlayerActions/Touch[/Device Simulator Touchscreen/primaryTouch/tap]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerActions

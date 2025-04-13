@@ -19,13 +19,15 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private int startAnimalID = 100301;
     public int StartAnimalID => startAnimalID;
+    
+    public static event Action OnSceneChangedToInGame;
     public static event Action<int> onSetStartAnimalIDInGameDataManager;
     
     public int MinMapObjectId { get; private set; } = 0;
     public int MinRewardItemId { get; private set; } = 0;
     public int MaxMapObjectId { get; private set; } = 0;
     public int MaxRewardItemId { get; private set; } = 0;
-    
+
     private void Awake()
     {
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
@@ -37,24 +39,27 @@ public class GameDataManager : Singleton<GameDataManager>
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
+
         AnimalUnlockPanel.onSetStartAnimalIDInPanel -= OnSetAnimalIDInPanel;
         
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
+
     }
-    
+
     private void Start()
     {
         maxScore = 0;
         currentCoins = 0;
 
         BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
+
         AnimalUnlockPanel.onSetStartAnimalIDInPanel += OnSetAnimalIDInPanel;
-        
+
         SceneManager.sceneLoaded += OnChangeSceneHandler;
         
         onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID);
     }
-    
+
     private void SetMaxMapObjectId(int maxMapObjectCount)
     {
         MaxMapObjectId = maxMapObjectCount;
@@ -69,15 +74,21 @@ public class GameDataManager : Singleton<GameDataManager>
     {
         MaxRewardItemId = maxRewardItemCount;
     }
-    
     private void SetMinRewardItemId(int minRewardItemCount)
     {
-        MinRewardItemId = minRewardItemCount;   
+        MinRewardItemId = minRewardItemCount;
     }
-    
+
     public void Initialize()
     {
-        TryFindOutGameUIManager();
+        if (SceneManager.GetActiveScene().name == "MainTitleSceneCopy")
+        {
+            TryFindOutGameUIManager();
+        }
+        else if (SceneManager.GetActiveScene().name == "Run_new")
+        {
+            TryFindGameManager();
+        }
 
         ClearInGameData();
     }
@@ -136,9 +147,11 @@ public class GameDataManager : Singleton<GameDataManager>
         {
             TryFindOutGameUIManager();
         }
-        else if (SceneManager.GetActiveScene().name == "RunMin")
+        else if (SceneManager.GetActiveScene().name == "Run_new")
         {
             TryFindGameManager();
+            
+            OnSceneChangedToInGame?.Invoke();
         }
 
         ClearInGameData();

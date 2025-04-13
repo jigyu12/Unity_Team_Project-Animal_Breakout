@@ -20,6 +20,7 @@ public class PlayerStatus : MonoBehaviour
 
     public Action<PlayerStatus> onDie;
     private bool isInvincible = false;
+    private bool isDead;
     public int defaultLayer;
     public int invincibleLayer;
     public bool IsInvincible => isInvincible;
@@ -98,11 +99,23 @@ public class PlayerStatus : MonoBehaviour
         //Debug.Log($"{currentAnimal.Name} took {damage} damage. Current HP: {currentAnimal.HP}");
 
         //if (currentAnimal.HP <= 0) OnDie();
-
+        if (isDead)
+        {
+            return;
+        }
         if (isInvincible) return;
-        playerManager.OnPlayerDied(this);
-    }
 
+        playerManager.OnPlayerDied(this);
+        isDead = true;
+    }
+    public bool IsDead()
+    {
+        return isDead;
+    }
+    public void SetAlive()
+    {
+        isDead = false;
+    }
     // private void OnDie()
     // {
     //     //if (isGameOver) return;

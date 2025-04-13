@@ -3,7 +3,6 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public enum TurnDirection { Left, Right, Both }
 
 public class PlayerMove : MonoBehaviour
@@ -27,7 +26,7 @@ public class PlayerMove : MonoBehaviour
 
     public Action<Vector3, float> onRotate;
 
-    private bool canTurn = false;
+    public bool canTurn = false;
     private TurnDirection allowedTurn;
     private PlayerStatus playerStatus;
     private Animator animator;
@@ -173,14 +172,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void MoveLeft()
+    public void MoveLeft()
     {
         if (isJumping) return;
         laneIndex = Mathf.Clamp(laneIndex - 1, 0, 2);
         targetPosition = way.LaneIndexToPosition(laneIndex);
     }
 
-    private void MoveRight()
+    public void MoveRight()
     {
         if (isJumping) return;
         laneIndex = Mathf.Clamp(laneIndex + 1, 0, 2);
@@ -230,17 +229,30 @@ public class PlayerMove : MonoBehaviour
         currentTouchPosition = context.ReadValue<Vector2>();
     }
 
+    public void OnTouch(InputAction.CallbackContext context)
+    {
+        // if (context.performed)
+        // {
+        //     Vector2 pos = Touchscreen.current.primaryTouch.position.ReadValue();
+        //     Debug.Log("탭 입력 감지");
+
+        //     if (pos.x < Screen.width * 0.5f) MoveLeft();
+        //     else MoveRight();
+        // }
+    }
+
     public void OnTouchPress(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            swipeStart = currentTouchPosition;
+            swipeStart = Touchscreen.current.primaryTouch.position.ReadValue();
         }
         else if (context.canceled)
         {
-            Vector2 delta = currentTouchPosition - swipeStart;
+            Vector2 current = Touchscreen.current.primaryTouch.position.ReadValue();
+            Vector2 delta = current - swipeStart;
 
-            if (Mathf.Abs(delta.y) > 30f && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
+            if (delta.y > 30f && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
             {
                 TryJump();
             }
@@ -251,13 +263,9 @@ public class PlayerMove : MonoBehaviour
                 else
                     TryRotateRight();
             }
-            else if (delta.magnitude < 20f)
-            {
-                if (currentTouchPosition.x < Screen.width * 0.5f) MoveLeft();
-                else MoveRight();
-            }
         }
     }
+
 
     public void DisableInput()
     {
