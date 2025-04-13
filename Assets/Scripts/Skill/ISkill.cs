@@ -2,8 +2,9 @@
 
 using System;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
-public interface ISkill 
+public interface ISkill
 {
     public int Id
     {
@@ -20,12 +21,18 @@ public interface ISkill
         get;
     }
 
-    public Action OnReady
+    public float CoolTimeRatio
     {
         get;
     }
 
-    void Perform(IAttacker attacker, IDamagerable target);
-    void UpgradeLevel();
+    public void InitializeSkilManager(SkillManager skillManager);
+
+    void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker = null, IDamagerable target = null);
+    public void ApplyDamage(IAttacker attacker, IDamagerable target);
+
+    public void OnReady();
+    public void AddOnReadyAction(Action onReady);
+    public void UpgradeLevel();
 
 }

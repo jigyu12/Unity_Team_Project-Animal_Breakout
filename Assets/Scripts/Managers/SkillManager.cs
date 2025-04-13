@@ -5,8 +5,16 @@ using UnityEngine;
 
 public class SkillManager : InGameManager
 {
+    public enum SkillType
+    {
+        BossAttack,
+        Utill,
+    }
+
     [SerializeField]
     private int maxSkillCount = 4;
+
+    public int MaxSkillCount=>maxSkillCount;
 
     private List<SkillPriorityItem> skills = new();
     private SkillQueue readySkillQueue = new SkillQueue();
@@ -14,17 +22,11 @@ public class SkillManager : InGameManager
 
     public float skillPerformInterval = 1f;
     private Coroutine coSkillPerform = null;
-    private IDamagerable skillTarget;
+    [SerializeField]
+    private GameObject skillTarget;
 
-    private void Awake()
-    {
+    public Action<List<SkillPriorityItem>> onSkillListUpdated;
 
-    }
-
-    public void SetSkillTarget(IDamagerable target)
-    {
-        skillTarget = target;
-    }
 
     public bool IsSkillExist(ISkill skill)
     {
@@ -35,19 +37,25 @@ public class SkillManager : InGameManager
     {
         return skills.Exists((target) => target.skill.Id == skillId);
     }
+   
 
     public void AddSkill(int priority, ISkill skill)
     {
         var item = new SkillPriorityItem(priority, skill);
         skills.Add(item);
-        //skill.OnReady += () => AddToReadySkillQueue(item);
+        onSkillListUpdated?.Invoke(skills);
+
+
+        skill.InitializeSkilManager(this);
+        skill.AddOnReadyAction(()=>readySkillQueue.Enqueue(item));
+        skill.OnReady();
     }
 
-    private void AddToReadySkillQueue(SkillPriorityItem skillPriorityItem)
+    public float GetSkillInheritedForwardSpeed()
     {
-        readySkillQueue.Enqueue(skillPriorityItem);
+        //임시 코드입니다 필히 수정해주세요
+        return GameManager.PlayerManager.playerRoot.GetComponent<MoveForward>().speed;
     }
-
 
     private void Update()
     {
@@ -64,7 +72,6 @@ public class SkillManager : InGameManager
             StopCoroutine(coSkillPerform);
             coSkillPerform = null;
         }
-
     }
 
     private IEnumerator CoroutinePerformSkill()
@@ -72,7 +79,7 @@ public class SkillManager : InGameManager
         while (readySkillQueue.Count != 0)
         {
             var currentSkill = readySkillQueue.Dequeue();
-            currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus, skillTarget);
+            currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus.transform, skillTarget.transform);
             yield return new WaitForSeconds(skillPerformInterval);
         }
         coSkillPerform = null;
