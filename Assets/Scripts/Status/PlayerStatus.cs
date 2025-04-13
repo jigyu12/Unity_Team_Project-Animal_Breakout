@@ -29,9 +29,13 @@ public class PlayerStatus : MonoBehaviour
     public int JumpPower => statData != null ? statData.Jump : 0;
     private PlayerManager playerManager;
 
+
     private void Start()
     {
-        playerManager = FindObjectOfType<PlayerManager>();
+        var GameManager = GameObject.FindGameObjectWithTag(Utils.GameManagerTag);
+        var GameManager_new = GameManager.GetComponent<GameManager_new>();
+        playerManager = GameManager_new.PlayerManager;
+
         //if (animalDB == null)
         //{
         //    animalDB = FindObjectOfType<AnimalDatabase>();

@@ -12,6 +12,7 @@ public class PlayerManager : InGameManager
     public GameObject playerRoot;
     public RelayContinueUI relayContinueUI;
     private PlayerRotator playerRotator;
+    private MoveForward moveForward;
 
     [ReadOnly]
     public PlayerStatus currentPlayerStatus;
@@ -42,6 +43,10 @@ public class PlayerManager : InGameManager
         //   GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => EnablePlayer(currentPlayerStatus));
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, ContinuePlayer);
+    }
+    private void Start()
+    {
+        moveForward = playerRoot.GetComponent<MoveForward>();
     }
     public void SetPlayer()
     {
@@ -84,12 +89,8 @@ public class PlayerManager : InGameManager
     }
     public void ActivatePlayer(PlayerStatus playerStatus)
     {
-        MoveForward moveComponent = playerStatus.GetComponentInParent<MoveForward>();
-        if (moveComponent != null)
-        {
-            moveComponent.enabled = true;
-            Debug.Log($"MoveForward enabled for: {playerStatus.name}");
-        }
+        moveForward.enabled = true;
+        Debug.Log($"MoveForward enabled for: {playerStatus.name}");
     }
     public void OnPlayerDied(PlayerStatus status)
     {
@@ -97,7 +98,6 @@ public class PlayerManager : InGameManager
         // 죽기 전 위치 저장 (DeathZone이 아닌 경우)
         if (lastDeathType != DeathType.DeathZone)
         {
-            var moveForward = status.GetComponentInParent<MoveForward>();
             SetPendingRespawnInfo(moveForward.transform.position, moveForward.transform.rotation, moveForward.transform.forward);
             lastDeathType = DeathType.Normal;
         }
@@ -115,11 +115,7 @@ public class PlayerManager : InGameManager
 
     private void StopAllMovements()
     {
-        MoveForward[] movingObjects = FindObjectsOfType<MoveForward>();
-        foreach (var move in movingObjects)
-        {
-            move.enabled = false;
-        }
+        moveForward.enabled = false;
         Debug.Log("All movements stopped.");
     }
 
@@ -223,7 +219,6 @@ public class PlayerManager : InGameManager
             return;
         }
 
-        var moveForward = currentPlayerStatus.GetComponentInParent<MoveForward>();
 
         if (lastDeathType == DeathType.DeathZone)
         {
