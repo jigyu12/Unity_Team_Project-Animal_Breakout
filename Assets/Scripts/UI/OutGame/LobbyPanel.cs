@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 public class LobbyPanel : MonoBehaviour
 {
     [SerializeField] private Button gameStartButton;
 
     private readonly WaitForSeconds waitTime = new(Utils.GameStartWaitTime);
+    
+    public static event Action onGameStartButtonClicked;
 
     private void Awake()
     {
@@ -33,6 +37,7 @@ public class LobbyPanel : MonoBehaviour
         gameStartButton.onClick.AddListener(() =>
         {
             gameStartButton.interactable = false;
+            onGameStartButtonClicked?.Invoke();
             StartCoroutine(OnGameStartButtonClicked());
         }
             );
@@ -43,7 +48,6 @@ public class LobbyPanel : MonoBehaviour
         yield return waitTime;
 
         SceneManager.LoadScene("Run_new");
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void OnSetStartAnimalIDHandler(int animalID)

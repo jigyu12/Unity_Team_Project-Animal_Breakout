@@ -29,7 +29,6 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void Awake()
     {
-
         OnMaxMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.maxId);
         OnMinMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.minId);
         OnMaxRewardItemIdSetHandler(DataTableManager.rewardItemsDataTable.maxId);
