@@ -9,6 +9,9 @@ public static class Utils
     public const string MapObjectsTableName = "MapObjects_Table";
     public const string RewardItemsTableName = "RewardItems_Table";
     public const string AnimalTableName = "Animal_Table";
+
+    public const string AnimalSelectedString = "선택됨";
+    public const string AnimalSelectableString = "선택하기";
     
     public const float GameStartWaitTime = 1f;
 

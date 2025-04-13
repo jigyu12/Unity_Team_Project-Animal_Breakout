@@ -19,9 +19,10 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private int startAnimalID = 100301;
     public int StartAnimalID => startAnimalID;
-    public static event Action<int> onSetStartAnimalID;
+    
     public static event Action OnSceneChangedToInGame;
-
+    public static event Action<int> onSetStartAnimalIDInGameDataManager;
+    
     public int MinMapObjectId { get; private set; } = 0;
     public int MinRewardItemId { get; private set; } = 0;
     public int MaxMapObjectId { get; private set; } = 0;
@@ -29,17 +30,18 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void Awake()
     {
-        OnMaxMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.maxId);
-        OnMinMapObjectIdSetHandler(DataTableManager.mapObjectsDataTable.minId);
-        OnMaxRewardItemIdSetHandler(DataTableManager.rewardItemsDataTable.maxId);
-        OnMinRewardItemIdSetHandler(DataTableManager.rewardItemsDataTable.minId);
+        SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
+        SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
+        SetMaxRewardItemId(DataTableManager.rewardItemsDataTable.maxId);
+        SetMinRewardItemId(DataTableManager.rewardItemsDataTable.minId);
     }
 
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
-        AnimalUnlockPanel.onSetStartAnimalID -= OnSetAnimalID;
 
+        AnimalUnlockPanel.onSetStartAnimalIDInPanel -= OnSetAnimalIDInPanel;
+        
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
 
     }
@@ -50,27 +52,29 @@ public class GameDataManager : Singleton<GameDataManager>
         currentCoins = 0;
 
         BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
-        AnimalUnlockPanel.onSetStartAnimalID += OnSetAnimalID;
+
+        AnimalUnlockPanel.onSetStartAnimalIDInPanel += OnSetAnimalIDInPanel;
 
         SceneManager.sceneLoaded += OnChangeSceneHandler;
+        
+        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID);
     }
 
-    private void OnMaxMapObjectIdSetHandler(int maxMapObjectCount)
+    private void SetMaxMapObjectId(int maxMapObjectCount)
     {
         MaxMapObjectId = maxMapObjectCount;
     }
-
-    private void OnMinMapObjectIdSetHandler(int minMapObjectCount)
+    
+    private void SetMinMapObjectId(int minMapObjectCount)
     {
         MinMapObjectId = minMapObjectCount;
     }
 
-    private void OnMaxRewardItemIdSetHandler(int maxRewardItemCount)
+    private void SetMaxRewardItemId(int maxRewardItemCount)
     {
         MaxRewardItemId = maxRewardItemCount;
     }
-
-    private void OnMinRewardItemIdSetHandler(int minRewardItemCount)
+    private void SetMinRewardItemId(int minRewardItemCount)
     {
         MinRewardItemId = minRewardItemCount;
     }
@@ -146,7 +150,7 @@ public class GameDataManager : Singleton<GameDataManager>
         else if (SceneManager.GetActiveScene().name == "Run_new")
         {
             TryFindGameManager();
-
+            
             OnSceneChangedToInGame?.Invoke();
         }
 
@@ -155,11 +159,11 @@ public class GameDataManager : Singleton<GameDataManager>
         Time.timeScale = 1;
     }
 
-    private void OnSetAnimalID(int id)
+    private void OnSetAnimalIDInPanel(int id)
     {
         startAnimalID = id;
-
-        onSetStartAnimalID?.Invoke(id);
+        
+        onSetStartAnimalIDInGameDataManager?.Invoke(id);
     }
 
     //public void SetRunnerIDs(List<int> ids)

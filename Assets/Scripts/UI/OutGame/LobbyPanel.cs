@@ -14,12 +14,12 @@ public class LobbyPanel : MonoBehaviour
 
     private void Awake()
     {
-        GameDataManager.onSetStartAnimalID += OnSetStartAnimalIDHandler;
+        GameDataManager.onSetStartAnimalIDInGameDataManager += OnSetStartAnimalIDInGameDataManagerHandler;
     }
 
     private void OnDestroy()
     {
-        GameDataManager.onSetStartAnimalID -= OnSetStartAnimalIDHandler;
+        GameDataManager.onSetStartAnimalIDInGameDataManager -= OnSetStartAnimalIDInGameDataManagerHandler;
     }
 
     private void Start()
@@ -50,7 +50,7 @@ public class LobbyPanel : MonoBehaviour
         SceneManager.LoadScene("Run_new");
     }
 
-    private void OnSetStartAnimalIDHandler(int animalID)
+    private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID)
     {
         if (animalID == 0)
             return;
