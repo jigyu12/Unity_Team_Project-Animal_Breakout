@@ -197,7 +197,7 @@ public class PlayerManager : InGameManager
     //     lastDeathType = DeathType.None;
     // }
 
-    private IEnumerator RemoveInvincibilityAfterDelay(float delay)
+    private IEnumerator RemoveInvincibilityAfterDelay(float delay) 
     {
         yield return new WaitForSeconds(delay);
 
@@ -207,7 +207,7 @@ public class PlayerManager : InGameManager
             Debug.Log("무적 상태 해제");
         }
     }
-    public void SetLastDeathType(DeathType type)
+    public void SetLastDeathType(DeathType type) 
     {
         lastDeathType = type;
     }
