@@ -1626,6 +1626,7 @@ MonoBehaviour:
   resumeButton: {fileID: 2750575393478229562}
   GiveUpButton: {fileID: 48885522587893330}
   settingsButton: {fileID: 34311752053951941}
+  uiManager: {fileID: 0}
 --- !u!1 &2303779639286362981
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,6 +1773,7 @@ GameObject:
   - component: {fileID: 6075861729407877277}
   - component: {fileID: 8146728089268530461}
   - component: {fileID: 7559202798799397068}
+  - component: {fileID: 1688514004774365575}
   m_Layer: 0
   m_Name: LeftButton
   m_TagString: Untagged
@@ -1892,6 +1894,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1688514004774365575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2432507684986257795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd1d332450aa45839ccf9c447ba4000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 0
 --- !u!1 &3259722053525220252
 GameObject:
   m_ObjectHideFlags: 0
@@ -4094,6 +4109,7 @@ GameObject:
   - component: {fileID: 2155342732360930411}
   - component: {fileID: 733233587198511354}
   - component: {fileID: 6440762035289693497}
+  - component: {fileID: 6319681524961038240}
   m_Layer: 0
   m_Name: RightButton
   m_TagString: Untagged
@@ -4202,6 +4218,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6319681524961038240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6674632220817416018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd1d332450aa45839ccf9c447ba4000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 1
 --- !u!1 &6729894775982528199
 GameObject:
   m_ObjectHideFlags: 0
