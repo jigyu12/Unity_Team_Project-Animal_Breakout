@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -9,26 +10,29 @@ public class LevelSlider : MonoBehaviour
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text expPercentText;
 
-    private LevelInfoData levelInfoData;
+    private LevelUpInfoData levelUpInfoData;
 
     private readonly StringBuilder stringBuilder = new(4);
+    
+    public static event Action<int, int, int> onLevelUp;
+    public static event Action<int, int, int> onExpChangedInSameLevel;
 
     private void Awake()
     {
-        OutGameUIManager.onLevelExpInitialized += LevelExpInitializedHandler;
-        OutGameUIManager.onExpChanged += ExpChangedHandler;
+        GameDataManager.onLevelExpInitialized += LevelExpInitializedHandler;
+        GameDataManager.onExpChanged += ExpChangedHandler;
     }
 
     private void OnDestroy()
     {
-        OutGameUIManager.onLevelExpInitialized -= LevelExpInitializedHandler;
-        OutGameUIManager.onExpChanged -= ExpChangedHandler;
+        GameDataManager.onLevelExpInitialized -= LevelExpInitializedHandler;
+        GameDataManager.onExpChanged -= ExpChangedHandler;
     }
 
-    private void LevelExpInitializedHandler(LevelInfoData initialData)
+    private void LevelExpInitializedHandler(LevelUpInfoData initialData)
     {
-        levelInfoData = new(initialData.maxLevel);
-        levelInfoData.SaveLevelInfoData(initialData.currentLevel, initialData.nextExp, initialData.currentExp);
+        levelUpInfoData = new(initialData.maxLevel);
+        levelUpInfoData.SaveLevelUpInfoData(initialData.currentLevel, initialData.nextExp, initialData.currentExp);
 
         TryLevelUp();
     }
@@ -42,7 +46,7 @@ public class LevelSlider : MonoBehaviour
             return;
         }
         
-        levelInfoData.SaveLevelInfoData(levelInfoData.currentLevel, levelInfoData.nextExp, levelInfoData.currentExp + exp);
+        levelUpInfoData.SaveLevelUpInfoData(levelUpInfoData.currentLevel, levelUpInfoData.nextExp, levelUpInfoData.currentExp + exp);
 
         TryLevelUp();
     }
@@ -58,42 +62,44 @@ public class LevelSlider : MonoBehaviour
 
     private bool UpdateLevelInfoData()
     {
-        if (levelInfoData.currentExp >= levelInfoData.nextExp)
+        if (levelUpInfoData.currentExp >= levelUpInfoData.nextExp)
         {
-            while (levelInfoData.currentExp >= levelInfoData.nextExp)
+            while (levelUpInfoData.currentExp >= levelUpInfoData.nextExp)
             {
-                if (levelInfoData.currentLevel >= levelInfoData.maxLevel)
+                if (levelUpInfoData.currentLevel >= levelUpInfoData.maxLevel)
                 {
-                    levelInfoData.SaveLevelInfoData(levelInfoData.maxLevel,
-                        OutGameUIManager.expToLevelUpDictionary[levelInfoData.maxLevel],
-                        OutGameUIManager.expToLevelUpDictionary[levelInfoData.maxLevel] - 1);
+                    levelUpInfoData.SaveLevelUpInfoData(levelUpInfoData.maxLevel,
+                        GameDataManager.expToLevelUpDictionary[levelUpInfoData.maxLevel],
+                        GameDataManager.expToLevelUpDictionary[levelUpInfoData.maxLevel] - 1);
 
                     break;
                 }
 
-                int remainingExp = levelInfoData.currentExp - levelInfoData.nextExp;
-                int nextLevel = levelInfoData.currentLevel + 1;
-                int nextExp = OutGameUIManager.expToLevelUpDictionary[nextLevel];
+                int remainingExp = levelUpInfoData.currentExp - levelUpInfoData.nextExp;
+                int nextLevel = levelUpInfoData.currentLevel + 1;
+                int nextExp = GameDataManager.expToLevelUpDictionary[nextLevel];
 
-                levelInfoData.SaveLevelInfoData(nextLevel, nextExp, remainingExp);
+                levelUpInfoData.SaveLevelUpInfoData(nextLevel, nextExp, remainingExp);
                 
                 // Todo : Give Level up Reward
+                onLevelUp?.Invoke(nextLevel, nextExp, remainingExp);
                 Debug.Log("Level up!");
             }
 
             return true;
         }
 
+        onExpChangedInSameLevel?.Invoke(levelUpInfoData.currentLevel, levelUpInfoData.nextExp, levelUpInfoData.currentExp);
         return false;
     }
 
     private void SetLevelSlider()
     {
         stringBuilder.Clear();
-        stringBuilder.Append(levelInfoData.currentLevel);
+        stringBuilder.Append(levelUpInfoData.currentLevel);
         levelText.SetText(stringBuilder);
 
-        float percentValue = levelInfoData.currentExp / (float)levelInfoData.nextExp;
+        float percentValue = levelUpInfoData.currentExp / (float)levelUpInfoData.nextExp;
         stringBuilder.Clear();
         stringBuilder.Append(Mathf.FloorToInt(percentValue * 100));
         stringBuilder.Append('%');

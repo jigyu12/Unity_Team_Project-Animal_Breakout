@@ -8,7 +8,7 @@ public abstract class GridCellSizeChanger<T> : MonoBehaviour
 {
     private GridLayoutGroup gridLayoutGroup;
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         TryGetComponent(out gridLayoutGroup);
         
@@ -22,9 +22,6 @@ public abstract class GridCellSizeChanger<T> : MonoBehaviour
 
     protected virtual void OnDimensionsChanged(RectTransform rectTransform)
     {
-        if (gridLayoutGroup is null || rectTransform is null)
-            return;
-        
         gridLayoutGroup.cellSize = new Vector2(gridLayoutGroup.cellSize.x, rectTransform.rect.height);
     }
     

@@ -2,54 +2,55 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class OutGameUIManager : MonoBehaviour
+public class OutGameUIManager : MonoBehaviour, IManager
 {
+    private OutGameManager outGameManager;
+    
     public static event Action<bool> onSwitchActiveLayoutGroupControllers;
     public static event Action<bool> onSwitchActiveDefaultCanvases;
     public static event Action<SwitchableCanvasType> onSwitchActiveSwitchableCanvas;
     public static event Action<SwitchableCanvasType, bool, bool> onSwitchVisualizeSwitchableCanvas;
     
-    public static event Action<LevelInfoData> onLevelExpInitialized;
-    public static Action<int> onExpChanged;
-    
-    public static event Action<List<int>> onAnimalsLock;
-    public static event Action<List<int>> onAnimalsLockToUnlock;
-    
-    // Level TempCode //
-        
-    public static readonly Dictionary<int, int> expToLevelUpDictionary = new();    
-    public readonly int maxLevel = 5;
-    private static bool isAddToDict;
-       
-    // Level TempCode //
-    
+    [SerializeField] private GameObject unlockAnimalPanelPrefab;
+    private ObjectPool<GameObject> unlockAnimalPanelPool;
+    public static event Action<GameObject> onAnimalUnlockPanelInstantiated;
+    private readonly List<GameObject> animalUnlockPanelList = new();
+
     private void Start()
     {
-        GameDataManager.Instance.Initialize();
-        
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
         
-        // Level TempCode //
+        // TempCode //
         
-        if (!isAddToDict)
+        unlockAnimalPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(unlockAnimalPanelPrefab,
+            () => Instantiate(unlockAnimalPanelPrefab),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+
+        var animalIdList = DataTableManager.animalDataTable.GetAnimalIDs();
+        for (int i = 0; i < animalIdList.Count; ++i)
         {
-            isAddToDict = true;
-            
-            expToLevelUpDictionary.Add(1, 110);
-            expToLevelUpDictionary.Add(2, 120);
-            expToLevelUpDictionary.Add(3, 130);
-            expToLevelUpDictionary.Add(4, 140);
-            expToLevelUpDictionary.Add(5, 150);
-        }
-
-        LevelInfoData initialData = new(maxLevel);
-        int level = 1;
-        initialData.SaveLevelInfoData(level, expToLevelUpDictionary[level], 0);
+            var unlockAnimalPanel = unlockAnimalPanelPool.Get();
+            unlockAnimalPanel.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanel);
+            animalUnlockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
+            onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
+            unlockAnimalPanel.transform.localScale = Vector3.one;
+            animalUnlockPanelList.Add(unlockAnimalPanel);
+        }   
         
-        onLevelExpInitialized?.Invoke(initialData);
+        // TempCode //
+    }
+    
+    public void Initialize()
+    {
+        GameDataManager.Instance.Initialize();
+    }
 
-        // Level TempCode //
+    public void Clear()
+    {
+        
     }
     
     public void EnableAllLayoutGroup(SwitchableCanvasType showCanvasType)
@@ -103,5 +104,10 @@ public class OutGameUIManager : MonoBehaviour
     private void SwitchActiveLayoutGroupController(bool isActive)
     { 
         onSwitchActiveLayoutGroupControllers?.Invoke(isActive);
+    }
+
+    public void SetOutGameManager(OutGameManager outGameManager)
+    {
+        this.outGameManager = outGameManager;
     }
 }

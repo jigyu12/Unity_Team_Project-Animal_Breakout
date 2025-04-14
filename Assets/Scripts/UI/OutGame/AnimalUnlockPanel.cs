@@ -1,22 +1,19 @@
-using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AnimalUnlockPanel : MonoBehaviour
 {
-    [SerializeField] private int animalID;
-    [SerializeField] private Button chooseButton;
-    
-    public static event Action<int> onSetStartAnimalID;
-
-    private void Start()
+    private void Awake()
     {
-        chooseButton.onClick.RemoveAllListeners();
-        chooseButton.onClick.AddListener(() =>
-        {
-            onSetStartAnimalID?.Invoke(animalID);
-            
-            Debug.Log($"Set Start Animal ID :{animalID}");
-        });
+        OutGameUIManager.onAnimalUnlockPanelInstantiated += OnAnimalUnlockPanelInstantiatedHandler;
+    }
+
+    private void OnDestroy()
+    {
+        OutGameUIManager.onAnimalUnlockPanelInstantiated -= OnAnimalUnlockPanelInstantiatedHandler;
+    }
+    
+    private void OnAnimalUnlockPanelInstantiatedHandler(GameObject animalUnlockPanel)
+    {
+        animalUnlockPanel.transform.SetParent(transform);
     }
 }
