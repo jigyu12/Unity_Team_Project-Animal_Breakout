@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,10 +8,17 @@ public class StageManager : InGameManager
 {
 
     [ReadOnly]
-    public int currentStageDataIndex=0;
+    public int currentStageDataIndex = 0;
+
+    public StageData CurrentStageData
+    {
+        get => stageDatas[currentStageDataIndex];
+    }
 
     [SerializeField]
     private List<StageData> stageDatas = new List<StageData>();
+
+    public Action onBossStageEnter;
 
     public override void Initialize()
     {
@@ -20,27 +28,21 @@ public class StageManager : InGameManager
 
     public void SetInitialRoadMode()
     {
-        var currStageData = stageDatas[currentStageDataIndex];
-        GameManager.RoadMaker.SetRoadMakeMode(currStageData.roadMode, currStageData.roadWayCount);
-        GameManager.RoadMaker.SetMapObjectMakeMode(currStageData.itemSetMode);
+        GameManager.RoadMaker.PushNextStageRoadWayData(CurrentStageData);
     }
 
 
-    //Å×½ºÆ®¿ëÀ¸·Î ¹«ÇÑ ¹Ýº¹ÇÏ°Ô ÇÒ°ÍÀÔ´Ï´Ù.
+    //í…ŒìŠ¤íŠ¸ìš©ìœ¼ë¡œ ë¬´í•œ ë°˜ë³µí•˜ê²Œ í• ê²ƒìž…ë‹ˆë‹¤.
     private void OnSetRoadMode()
     {
+
         currentStageDataIndex++;
-        currentStageDataIndex%= stageDatas.Count;  
+        currentStageDataIndex %= stageDatas.Count;
+
+        Debug.Log("Stage " + currentStageDataIndex + "is boss stage " + CurrentStageData.isBossStage);
 
         var currStageData = stageDatas[currentStageDataIndex];
-
-        if(currStageData.isBossStage)
-        {
-            OnBossStageStart();
-        }
-
-        GameManager.RoadMaker.SetRoadMakeMode(currStageData.roadMode, currStageData.roadWayCount);
-        GameManager.RoadMaker.SetMapObjectMakeMode(currStageData.itemSetMode);
+        GameManager.RoadMaker.PushNextStageRoadWayData(CurrentStageData);
     }
 
     [ContextMenu("Boss Stage Exit")]
@@ -49,8 +51,9 @@ public class StageManager : InGameManager
         OnSetRoadMode();
     }
 
-    private void OnBossStageStart()
+    public void OnBossStageEnter()
     {
-
+        Debug.Log("Boss Stage Enter");
+        onBossStageEnter?.Invoke();
     }
 }
