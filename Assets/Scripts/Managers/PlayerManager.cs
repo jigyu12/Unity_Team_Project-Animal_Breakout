@@ -44,6 +44,7 @@ public class PlayerManager : InGameManager
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
 
+
         gameUIManager = GameManager.UIManager;
         gameUIManager.playerManager = this;
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => EnablePlayer(currentPlayerStatus));
@@ -251,6 +252,7 @@ public class PlayerManager : InGameManager
         ActivatePlayer(currentPlayerStatus);
 
         //  gameUIManager.CountDown();
+
     }
 
     // private IEnumerator ResumeAfterCountdown(TMP_Text countdoext, MoveForward moveForward)

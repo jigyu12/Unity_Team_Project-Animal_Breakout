@@ -21,6 +21,7 @@ public class GameUIManager : InGameManager
 
 
 
+
     private void Awake()
     {
     }
@@ -96,6 +97,7 @@ public class GameUIManager : InGameManager
         pausePanel.SetActive(true);
         SetDirectionButtonsInteractable(false);
 
+
     }
     public void SetDirectionButtonsInteractable(bool interactable)
     {
@@ -152,6 +154,7 @@ public class GameUIManager : InGameManager
         // currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         // currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
 
+
         // GameManager.SetTimeScale(1);
 
         // 이동 및 입력 복원
@@ -172,11 +175,13 @@ public class GameUIManager : InGameManager
         // playerManager.currentPlayerAnimator.SetTrigger("Run");
 
 
+
         StartCoroutine(RemoveInvincibilityAfterDelay(2f));
         coCountDown = null;
         playerManager.lastDeathType = DeathType.None;
         Debug.Log("플레이어 3초 후 부활 처리 완료");
     }
+
     public IEnumerator InGameResumeAfterCountdown(TMP_Text countdownText, MoveForward moveForward)
     {
 
@@ -217,6 +222,7 @@ public class GameUIManager : InGameManager
         coCountDown = null;
         // playerManager.lastDeathType = DeathType.None;
     }
+
     private IEnumerator RemoveInvincibilityAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
