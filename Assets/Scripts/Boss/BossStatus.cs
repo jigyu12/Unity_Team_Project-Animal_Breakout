@@ -5,7 +5,6 @@ public class BossStatus : DamageableStatus
     public override float currentHp { get; protected set; }
     public override float maxHp { get; protected set; }
     public override bool isDead { get; protected set; }
-    protected override bool isRealDead { get; set; }
 
     public override void InitializeStatus(float maxHp)
     {

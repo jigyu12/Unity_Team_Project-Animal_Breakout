@@ -6,7 +6,6 @@ public abstract class DamageableStatus : MonoBehaviour, IDamageable
     public abstract float maxHp { get; protected set; }
     
     public abstract bool isDead { get; protected set; }
-    protected abstract bool isRealDead { get; set; }
 
     public abstract void InitializeStatus(float maxHp);
     public abstract void OnDamage(float damage);
