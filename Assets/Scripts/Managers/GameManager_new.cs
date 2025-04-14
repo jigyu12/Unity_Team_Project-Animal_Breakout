@@ -51,6 +51,9 @@ public class GameManager_new : MonoBehaviour
 
     private StageManager stageManager;
     public StageManager StageManager => stageManager;
+    
+    private BossManager bossManager;
+    public BossManager BossManager => bossManager;
 
     #endregion
 
@@ -138,6 +141,10 @@ public class GameManager_new : MonoBehaviour
         findManagers.Find((manager) => manager.TryGetComponent<StageManager>(out stageManager));
         stageManager.SetGameManager(this);
         managers.Add(stageManager);
+        
+        findManagers.Find((manager) => manager.TryGetComponent<BossManager>(out bossManager));
+        bossManager.SetGameManager(this);
+        managers.Add(bossManager);
 
         foreach (var manager in managers)
         {
