@@ -40,7 +40,8 @@ public class PlayerManager : InGameManager
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => DisablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () => DisablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(currentPlayerStatus));
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
+
+        // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
         gameUIManager = GameManager.UIManager;
         gameUIManager.playerManager = this;
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => EnablePlayer(currentPlayerStatus));
@@ -144,10 +145,15 @@ public class PlayerManager : InGameManager
             Debug.LogError("Animator not found. Unable to play death animation.");
         }
     }
+    private void PlayRunAnimaition()
+    {
+        currentPlayerAnimator.SetTrigger("Run");
+    }
 
     private IEnumerator DieAndSwitch(PlayerStatus playerStatus)
     {
         yield return new WaitForSeconds(1.5f);
+        GameManager.SetGameState(GameManager_new.GameState.GameStop);
         if (relayContinueUI != null)
         {
             relayContinueUI.Show();
@@ -214,6 +220,8 @@ public class PlayerManager : InGameManager
     }
     public void ContinuePlayerWithCountdown(TMP_Text countdownText)
     {
+        GameManager.SetTimeScale(0);
+
         if (currentPlayerStatus == null)
         {
             Debug.LogError("부활할 플레이어가 없습니다.");
@@ -228,7 +236,7 @@ public class PlayerManager : InGameManager
         }
 
         // 무적 유지 (계속 유지됨)
-        currentPlayerStatus.SetInvincible(true);
+        //currentPlayerStatus.SetInvincible(true);
 
         // 이동 및 입력 비활성화
         currentPlayerMove.DisableInput();

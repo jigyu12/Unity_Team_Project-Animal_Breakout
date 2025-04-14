@@ -24,7 +24,7 @@ public class GameManager_new : MonoBehaviour
     private Action[] gameStateEnterAction;
     private Action[] gameStateExitAction;
     private GameState currentState;
- 
+
     #region manager
     private List<IManager> managers = new();
 
@@ -42,7 +42,7 @@ public class GameManager_new : MonoBehaviour
 
     private PlayerManager playerManager;
     public PlayerManager PlayerManager => playerManager;
-    
+
     private CameraManager cameraManager;
     public CameraManager CameraManager => cameraManager;
 
@@ -70,6 +70,14 @@ public class GameManager_new : MonoBehaviour
         gameStateEnterAction = new Action[(int)GameState.Max];
         gameStateExitAction = new Action[(int)GameState.Max];
         AddGameStateEnterAction(GameState.GameOver, OnGameOver);
+        AddGameStateEnterAction(GameState.GameStop, () =>
+        {
+            SetTimeScale(0);
+        });
+        AddGameStateEnterAction(GameState.GamePlay, () =>
+        {
+            SetTimeScale(1);
+        });
     }
 
     public void AddGameStateEnterAction(GameState state, Action action)
@@ -126,7 +134,7 @@ public class GameManager_new : MonoBehaviour
         findManagers.Find((manager) => manager.TryGetComponent<PlayerManager>(out playerManager));
         playerManager.SetGameManager(this);
         managers.Add(playerManager);
-        
+
         findManagers.Find((manager) => manager.TryGetComponent<CameraManager>(out cameraManager));
         cameraManager.SetGameManager(this);
         managers.Add(cameraManager);

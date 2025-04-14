@@ -4,10 +4,10 @@ using System.Collections;
 using TMPro;
 public class RealGiveUpPanelUI : MonoBehaviour
 {
-    public GameObject RealGiveUpPanel;
-    public GameObject GameResultPanel;
-    public Button yesButton;
-    public Button noButton;
+    [SerializeField] private GameObject RealGiveUpPanel;
+    [SerializeField] private GameObject GameResultPanel;
+    [SerializeField] private Button yesButton;
+    [SerializeField] private Button noButton;
     private void Start()
     {
 

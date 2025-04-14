@@ -10,6 +10,7 @@ public class RelayContinueUI : MonoBehaviour
     // public TMP_Text countdownText;
     public PlayerManager playerManager;
     [SerializeField] private GameManager_new GameManager;
+    public GameUIManager gameUIManager;
     private bool isDisplayed = false;
     private int deathCount = 0;
     // public override void Initialize()
@@ -33,10 +34,8 @@ public class RelayContinueUI : MonoBehaviour
         deathCount++; ;
         panel.SetActive(true);
         isDisplayed = true;
-
         if (countdown != null)
             StopCoroutine(countdown);
-
         countdown = StartCoroutine(Countdown());
     }
 
@@ -48,10 +47,10 @@ public class RelayContinueUI : MonoBehaviour
         {
             StopCoroutine(countdown);
         }
-
+        gameUIManager.CountDown();
         //StartCoroutine(ResumeWithCountdown(countdownText));
         // playerManager.ContinuePlayerWithCountdown(countdownText);
-        GameManager.SetGameState(GameManager_new.GameState.GameReStart);
+
     }
 
     public void OnClickGiveUp()

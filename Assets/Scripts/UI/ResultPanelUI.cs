@@ -34,6 +34,7 @@ public class ResultPanelUI : MonoBehaviour
     }
     private void OnGoMainButtonClicked()
     {
+        gameManager.SetGameState(GameManager_new.GameState.GamePlay);
         SceneManager.LoadScene("MainTitleSceneCopy");
 
         GameResultPanel.SetActive(false);
