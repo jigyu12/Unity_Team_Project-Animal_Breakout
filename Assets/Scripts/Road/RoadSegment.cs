@@ -46,9 +46,9 @@ public class RoadSegment : MonoBehaviour
         return tiles.GetTileTrasnform(rowIndex, colIndex).position;
     }
 
-    public float GetTileRotation()
+    public Vector3 GetTileRotation()
     {
-        return tiles.transform.eulerAngles.y;
+        return tiles.transform.forward;
     }
 
     public void SetEnterTriggerAction(Action action)

@@ -32,11 +32,6 @@ public class GameDataManager : Singleton<GameDataManager>
     
     public static event Action<int, int> onSetStartAnimalIDInGameDataManager;
     
-    public int MinMapObjectId { get; private set; } = 0;
-    public int MinRewardItemId { get; private set; } = 0;
-    public int MaxMapObjectId { get; private set; } = 0;
-    public int MaxRewardItemId { get; private set; } = 0;
-    
     public static event Action<int, int> onStaminaChangedInGameDataManager;
     public static event Action<long> OnGoldChangedInGameDataManager;
     public const int minStamina = 0;
@@ -49,11 +44,6 @@ public class GameDataManager : Singleton<GameDataManager>
     private void Awake()
     {        
         SetInitializeData();
-
-        SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
-        SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
-        SetMaxRewardItemId(DataTableManager.rewardItemsDataTable.maxId);
-        SetMinRewardItemId(DataTableManager.rewardItemsDataTable.minId);
     }
 
     private void Start()
@@ -89,26 +79,7 @@ public class GameDataManager : Singleton<GameDataManager>
         
         OutGameUIManager.onAnimalUnlockPanelInstantiated -= onAnimalUnlockPanelInstantiatedHandler;
     }
-
-    private void SetMaxMapObjectId(int maxMapObjectCount)
-    {
-        MaxMapObjectId = maxMapObjectCount;
-    }
     
-    private void SetMinMapObjectId(int minMapObjectCount)
-    {
-        MinMapObjectId = minMapObjectCount;
-    }
-
-    private void SetMaxRewardItemId(int maxRewardItemCount)
-    {
-        MaxRewardItemId = maxRewardItemCount;
-    }
-    private void SetMinRewardItemId(int minRewardItemCount)
-    {
-        MinRewardItemId = minRewardItemCount;
-    }
-
     public void Initialize()
     {
         if (SceneManager.GetActiveScene().name == "MainTitleSceneCopy")
