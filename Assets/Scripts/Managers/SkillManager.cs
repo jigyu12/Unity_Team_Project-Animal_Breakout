@@ -27,6 +27,15 @@ public class SkillManager : InGameManager
 
     public Action<List<SkillPriorityItem>> onSkillListUpdated;
 
+    private void Awake()
+    {
+        BossManager.onSpawnBoss += OnSpawnBossHandler;
+    }
+
+    private void OnDestroy()
+    {
+        BossManager.onSpawnBoss -= OnSpawnBossHandler;
+    }
 
     public bool IsSkillExist(ISkill skill)
     {
@@ -53,7 +62,7 @@ public class SkillManager : InGameManager
 
     public float GetSkillInheritedForwardSpeed()
     {
-        //ÀÓ½Ã ÄÚµåÀÔ´Ï´Ù ÇÊÈ÷ ¼öÁ¤ÇØÁÖ¼¼¿ä
+        //ï¿½Ó½ï¿½ ï¿½Úµï¿½ï¿½Ô´Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½
         return GameManager.PlayerManager.playerRoot.GetComponent<MoveForward>().speed;
     }
 
@@ -85,4 +94,8 @@ public class SkillManager : InGameManager
         coSkillPerform = null;
     }
 
+    private void OnSpawnBossHandler(GameObject boss)
+    {
+        skillTarget = boss;
+    }
 }
