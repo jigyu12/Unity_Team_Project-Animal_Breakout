@@ -38,6 +38,7 @@ public class PausePanulUI : MonoBehaviour
     public void OnResumeButtonClicked()
     {
         gameUIManager.InGameCountDown();
+
         // StartCoroutine(gameUIManager.ResumeAfterCountdown(gameUIManager.countdownText, playerManager.moveForward));
     }
 

@@ -12,11 +12,13 @@ public class GameUIManager : InGameManager
     public Button mainTitleButton;
     public Button pauseButton;
     public PlayerManager playerManager;
+
     private bool isPaused = false;
     private GameManager_new.GameState previousStateBeforePause;
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
     [SerializeField] public TMP_Text countdownText;
+
 
 
     private void Awake()
@@ -93,6 +95,7 @@ public class GameUIManager : InGameManager
         playerManager.currentPlayerMove.DisableInput();
         pausePanel.SetActive(true);
         SetDirectionButtonsInteractable(false);
+
     }
     public void SetDirectionButtonsInteractable(bool interactable)
     {
@@ -114,6 +117,7 @@ public class GameUIManager : InGameManager
             coCountDown = StartCoroutine(ResumeAfterCountdown(countdownText, playerManager.moveForward));
         }
     }
+
     public void InGameCountDown()
     {
         if (coCountDown == null)
@@ -126,16 +130,19 @@ public class GameUIManager : InGameManager
             coCountDown = StartCoroutine(InGameResumeAfterCountdown(countdownText, playerManager.moveForward));
         }
     }
+
     public IEnumerator ResumeAfterCountdown(TMP_Text countdownText, MoveForward moveForward)
     {
 
         // GameManager.UIManager?.SetDirectionButtonsInteractable(false);
+
         if (pausePanel != null)
             pausePanel.SetActive(false);
         countdownText.gameObject.SetActive(true);
         playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         playerManager.currentPlayerAnimator.SetTrigger("idle");
         // GameManager.SetGameState(GameManager_new.GameState.GameStop);
+
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
@@ -144,10 +151,12 @@ public class GameUIManager : InGameManager
         }
         // currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         // currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
+
         // GameManager.SetTimeScale(1);
 
         // 이동 및 입력 복원
         // GameManager.UIManager?.SetDirectionButtonsInteractable(true);
+
         // 무적 해제는 따로 2초 후
         isPaused = false;
         countdownText.gameObject.SetActive(false);
@@ -161,6 +170,7 @@ public class GameUIManager : InGameManager
         moveForward.enabled = true;
         playerManager.currentPlayerAnimator.SetTrigger("Run");
         // playerManager.currentPlayerAnimator.SetTrigger("Run");
+
 
         StartCoroutine(RemoveInvincibilityAfterDelay(2f));
         coCountDown = null;
