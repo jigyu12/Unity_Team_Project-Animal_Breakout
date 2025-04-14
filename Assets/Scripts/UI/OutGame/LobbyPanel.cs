@@ -53,7 +53,7 @@ public class LobbyPanel : MonoBehaviour
     {
         yield return waitTime;
 
-        SceneManager.LoadScene("Run_new");
+        SceneManager.LoadScene("Run_new1");
     }
 
     private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID, int currentStamina)
