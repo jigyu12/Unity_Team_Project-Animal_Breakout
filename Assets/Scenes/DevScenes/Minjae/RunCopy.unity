@@ -1004,6 +1004,7 @@ PrefabInstance:
     - target: {fileID: 5052352571859111027, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: gameManager
       value: 
+<<<<<<< Updated upstream
       objectReference: {fileID: 0}
     - target: {fileID: 5052352571859111027, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: pauseButton
@@ -1017,6 +1018,17 @@ PrefabInstance:
       propertyPath: mainTitleButton
       value: 
       objectReference: {fileID: 243972297}
+=======
+      objectReference: {fileID: 722160177}
+    - target: {fileID: 5052352571859111027, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: countdownText
+      value: 
+      objectReference: {fileID: 168741944}
+    - target: {fileID: 5052352571859111027, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: playerManager
+      value: 
+      objectReference: {fileID: 7557261376287445144}
+>>>>>>> Stashed changes
     - target: {fileID: 5394412714568851649, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1229,6 +1241,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: GmUiManager
       objectReference: {fileID: 0}
+<<<<<<< Updated upstream
     - target: {fileID: 8730535621774814449, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_TagString
       value: Manager
@@ -1266,6 +1279,23 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7313281643050312736, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 801810948}
+=======
+    - target: {fileID: 9096657156217102774, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: GameManager
+      value: 
+      objectReference: {fileID: 722160177}
+    - target: {fileID: 9096657156217102774, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 722160177}
+    - target: {fileID: 9096657156217102774, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: gameUIManager
+      value: 
+      objectReference: {fileID: 254480822}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+>>>>>>> Stashed changes
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
 --- !u!114 &254480821 stripped

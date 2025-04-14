@@ -7,7 +7,7 @@ public class RelayContinueUI : MonoBehaviour
     public GameObject panel;
     public Slider slider;
     private Coroutine countdown;
-    public TMP_Text countdownText;
+    // public TMP_Text countdownText;
     public PlayerManager playerManager;
     [SerializeField] private GameManager_new GameManager;
     private bool isDisplayed = false;
@@ -85,19 +85,19 @@ public class RelayContinueUI : MonoBehaviour
         isDisplayed = false;
         GameManager.SetGameState(GameManager_new.GameState.GameOver);
     }
-    public IEnumerator ResumeWithCountdown(TMP_Text countdownText)
-    {
-        // GameManager.SetTimeScale(0);
-        countdownText.gameObject.SetActive(true);
-        for (int i = 3; i > 0; i--)
-        {
-            countdownText.text = i.ToString();
-            yield return new WaitForSecondsRealtime(1);
-        }
+    // public IEnumerator ResumeWithCountdown(TMP_Text countdownText)
+    // {
+    //     // GameManager.SetTimeScale(0);
+    //     countdownText.gameObject.SetActive(true);
+    //     for (int i = 3; i > 0; i--)
+    //     {
+    //         countdownText.text = i.ToString();
+    //         yield return new WaitForSecondsRealtime(1);
+    //     }
 
-        countdownText.gameObject.SetActive(false);
-        // GameManager.SetTimeScale(1);
+    //     countdownText.gameObject.SetActive(false);
+    //     // GameManager.SetTimeScale(1);
 
-    }
+    // }
 
 }
