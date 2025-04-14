@@ -40,8 +40,15 @@ public class TempleRunStyleRoadMaker : InGameManager
 
     public int precreateRoadWayCount;
 
-    private Queue<int> nextRoadWayTypeQueue = new();
+    public struct NextRoadWayData
+    {
+        public int roadWayIndex;
+        public ItemSetMode itemMode;
+        public bool isBossEnter;
+    }
 
+    private Queue<int> nextRoadWayTypeQueue = new();
+    private Queue<NextRoadWayData> stageRoadWayDataQueue = new();
 
     public override void Initialize()
     {
@@ -66,7 +73,7 @@ public class TempleRunStyleRoadMaker : InGameManager
         onCurrentWayChanged += RemoveInitialRoadWay;
 
         GameManager.StageManager.SetInitialRoadMode();
-        CreateNNextRoadWay(precreateRoadWayCount, initialRoadWay, currentMapObjectsMode != ItemSetMode.None);
+        CreateNNextRoadWay(precreateRoadWayCount, initialRoadWay);
     }
 
     private void RemoveInitialRoadWay(RoadWay previous, RoadWay current)
@@ -88,13 +95,14 @@ public class TempleRunStyleRoadMaker : InGameManager
         roadWay.GetComponent<RoadWay>().OnRelease();
     }
 
-    private RoadWay CreateRoadWay(int index, int randomIndex)
+    private RoadWay CreateRoadWay(int index, int randomIndex, Action onEnterRoadWay = null)
     {
         //var roadWay = Instantiate(roadWayPrefab, gameObject.transform).GetComponent<RoadWay>();
         var roadWay = roadWayPools[randomIndex].Get().GetComponent<RoadWay>();
         roadWay.release = () => roadWayPools[randomIndex].Release(roadWay.gameObject);
 
-        roadWay.SetEntryTriggerAction(() => SetCurrentRoadWay(roadWay));
+        onEnterRoadWay += () => SetCurrentRoadWay(roadWay);
+        roadWay.SetEntryTriggerAction(onEnterRoadWay);
         roadWay.index = index;
         activeRoadWays.Add(roadWay);
 
@@ -107,7 +115,7 @@ public class TempleRunStyleRoadMaker : InGameManager
         currentRoad = roadWay;
         onCurrentWayChanged?.Invoke(previousRoad, currentRoad);
 
-        CreateNNextRoadWay(precreateRoadWayCount, currentRoad, currentMapObjectsMode != ItemSetMode.None);
+        CreateNNextRoadWay(precreateRoadWayCount, currentRoad);
         ReleasePassedRoadWay();
     }
 
@@ -145,27 +153,35 @@ public class TempleRunStyleRoadMaker : InGameManager
         }
     }
 
-    //public void CreateLastRoadWay()
-    //{
-    //    if (activeRoadWays.Count == 0)
-    //    {
-    //        return;
-    //    }
+    public void CreateNextRoadWay_new(RoadWay previousRoadWay)
+    {
+        if (previousRoadWay.NextRoadWays.Count != 0)
+            return;
 
-    //    int lastIndex = activeRoadWays.Last().index;
-    //    int count = activeRoadWays.Count;
-    //    for (int i = count - 1; i >= 0; i--)
-    //    {
-    //        if (lastIndex == activeRoadWays[i].index)
-    //        {
-    //            CreateNextRoadWay(activeRoadWays[i]);
-    //        }
-    //        else
-    //        {
-    //            break;
-    //        }
-    //    }
-    //}
+        var startPoints = previousRoadWay.GetNextRoadWayPoints();
+        var nextRoadWayData = GetNextRoadWayData();
+
+        foreach (var trs in startPoints)
+        {
+            var roadWay = CreateRoadWay(previousRoadWay.index + 1, nextRoadWayData.roadWayIndex, nextRoadWayData.isBossEnter? GameManager.StageManager.OnBossStageEnter : null);
+            roadWay.transform.SetPositionAndRotation(trs.position, trs.rotation);
+
+            if (nextRoadWayData.itemMode == ItemSetMode.TrapAndReward)
+            {
+                //지규가 수정한 코드로 변경될 예정
+                int randomIndex1 = UnityEngine.Random.Range(GameDataManager.Instance.MinMapObjectId, GameDataManager.Instance.MaxMapObjectId + 1);
+                int randomIndex2 = UnityEngine.Random.Range(GameDataManager.Instance.MinRewardItemId, GameDataManager.Instance.MaxRewardItemId + 1);
+                roadWay.SetMapObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex1));
+                roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex1));
+
+                roadWay.SetMapObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex2));
+                roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex2));
+            }
+
+            previousRoadWay.AddNextRoadWay(roadWay);
+        }
+    }
+
 
     private Queue<RoadWay> releaseQueue = new();
 
@@ -203,21 +219,23 @@ public class TempleRunStyleRoadMaker : InGameManager
     }
 
     //n�� ���� �ʿ��� ����
-    private void CreateNNextRoadWay(int next, RoadWay previous, bool createMapObject = true)
+    private void CreateNNextRoadWay(int next, RoadWay previous)
     {
         if (next <= 0)
             return;
 
         if (previous.NextRoadWays.Count == 0)
         {
-            CreateNextRoadWay(previous, createMapObject);
+            CreateNextRoadWay_new(previous);
         }
 
         foreach (var n in previous.NextRoadWays)
         {
-            CreateNNextRoadWay(next - 1, n, createMapObject);
+            CreateNNextRoadWay(next - 1, n);
         }
     }
+
+
 
     #region mapObjectsMode
     public void SetMapObjectMakeMode(ItemSetMode mode)
@@ -235,7 +253,7 @@ public class TempleRunStyleRoadMaker : InGameManager
     #region roadMakeMode
     public void SetRoadMakeMode(RoadMakeMode mode, int roadWayCount)
     {
-        Debug.Log("Road Make Mode : "+ mode.ToString());
+        Debug.Log("Road Make Mode : " + mode.ToString());
         currentRoadMakeMode = mode;
         currentRoadWayCount = roadWayCount;
         nextRoadWayTypeQueue.Clear();
@@ -285,6 +303,57 @@ public class TempleRunStyleRoadMaker : InGameManager
             {
                 nextRoadWayTypeQueue.Enqueue(0);
             }
+        }
+    }
+
+    public void PushNextStageRoadWayData(StageData stageData)
+    {
+        //BossEnter에 BossStageEnter event 넣기 위함
+        if (stageData.isBossStage)
+        {
+            stageRoadWayDataQueue.Enqueue(new NextRoadWayData { roadWayIndex = 0, itemMode = stageData.itemSetMode, isBossEnter = true });
+        }
+
+        if (stageData.roadMode == RoadMakeMode.RandomWay)
+        {
+            for (int i = 0; i < Mathf.Abs(stageData.roadWayCount); i++)
+            {
+                stageRoadWayDataQueue.Enqueue(new NextRoadWayData { roadWayIndex = UnityEngine.Random.Range(1, roadWayPrefabs.Count()), itemMode = stageData.itemSetMode, isBossEnter = false });
+            }
+        }
+        else if (stageData.roadMode == RoadMakeMode.Vertical)
+        {
+            for (int i = 0; i < Mathf.Abs(stageData.roadWayCount); i++)
+            {
+                stageRoadWayDataQueue.Enqueue(new NextRoadWayData { roadWayIndex = 0, itemMode = stageData.itemSetMode, isBossEnter = false });
+            }
+        }
+    }
+
+    private NextRoadWayData GetNextRoadWayData()
+    {
+        if (stageRoadWayDataQueue.Count == 0)
+        {
+            onCurrentRoadWayEmpty?.Invoke();
+        }
+
+        //임시로 이렇게 해둔다
+        if (GameManager.StageManager.CurrentStageData.roadWayCount == -1)
+        {
+            var next = stageRoadWayDataQueue.Dequeue();
+            if (next.isBossEnter)
+            {
+                return next;
+            }
+            else
+            {
+                stageRoadWayDataQueue.Enqueue(next);
+                return next;
+            }
+        }
+        else
+        {
+            return stageRoadWayDataQueue.Dequeue();
         }
     }
 
