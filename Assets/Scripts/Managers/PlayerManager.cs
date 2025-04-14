@@ -250,7 +250,7 @@ public class PlayerManager : InGameManager
 
         ActivatePlayer(currentPlayerStatus);
 
-        gameUIManager.CountDown();
+        //  gameUIManager.CountDown();
     }
 
     // private IEnumerator ResumeAfterCountdown(TMP_Text countdoext, MoveForward moveForward)

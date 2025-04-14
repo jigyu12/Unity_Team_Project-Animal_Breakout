@@ -216,7 +216,6 @@ public class GameUIManager : InGameManager
         // StartCoroutine(RemoveInvincibilityAfterDelay(2f));
         coCountDown = null;
         // playerManager.lastDeathType = DeathType.None;
-        Debug.Log("플레이어 3초 후 부활 처리 완료");
     }
     private IEnumerator RemoveInvincibilityAfterDelay(float delay)
     {
