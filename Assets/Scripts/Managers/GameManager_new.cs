@@ -46,6 +46,12 @@ public class GameManager_new : MonoBehaviour
     private CameraManager cameraManager;
     public CameraManager CameraManager => cameraManager;
 
+    private SkillManager skillManager;
+    public SkillManager SkillManager => skillManager;
+
+    private StageManager stageManager;
+    public StageManager StageManager => stageManager;
+
     #endregion
 
     public int restartChanceCount = 1;
@@ -124,6 +130,14 @@ public class GameManager_new : MonoBehaviour
         findManagers.Find((manager) => manager.TryGetComponent<CameraManager>(out cameraManager));
         cameraManager.SetGameManager(this);
         managers.Add(cameraManager);
+
+        findManagers.Find((manager) => manager.TryGetComponent<SkillManager>(out skillManager));
+        skillManager.SetGameManager(this);
+        managers.Add(skillManager);
+
+        findManagers.Find((manager) => manager.TryGetComponent<StageManager>(out stageManager));
+        stageManager.SetGameManager(this);
+        managers.Add(stageManager);
 
         foreach (var manager in managers)
         {
