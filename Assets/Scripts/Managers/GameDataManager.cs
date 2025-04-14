@@ -238,7 +238,7 @@ public class GameDataManager : Singleton<GameDataManager>
     
     private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
     {
-        if (SceneManager.GetActiveScene().name == "MainTitleSceneCopy")
+        if (SceneManager.GetActiveScene().name == "MainTitleScene")
         {
             TryFindOutGameUIManager();
             
@@ -259,7 +259,7 @@ public class GameDataManager : Singleton<GameDataManager>
             currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
             onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
         }
-        else if (SceneManager.GetActiveScene().name == "Run_new")
+        else if (SceneManager.GetActiveScene().name == "Run")
         {
             TryFindGameManager();
         }
