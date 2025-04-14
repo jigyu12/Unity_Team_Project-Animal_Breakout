@@ -243,15 +243,15 @@ public class TempleRunStyleRoadMaker : InGameManager
 
 
     #region mapObjectsMode
-    public void SetMapObjectMakeMode(ItemSetMode mode)
-    {
-        Debug.Log("Road MapObject Mode : " + mode.ToString());
-        //if (currentMapObjectsMode == mode)
-        //{
-        //    return;
-        //}
-        currentMapObjectsMode = mode;
-    }
+    //public void SetMapObjectMakeMode(ItemSetMode mode)
+    //{
+    //    Debug.Log("Road MapObject Mode : " + mode.ToString());
+    //    //if (currentMapObjectsMode == mode)
+    //    //{
+    //    //    return;
+    //    //}
+    //    currentMapObjectsMode = mode;
+    //}
 
     #endregion
 
