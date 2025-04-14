@@ -29,14 +29,15 @@ public class ResultPanelUI : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         GameResultPanel.SetActive(false);
 
-        Time.timeScale = 1;
+        // Time.timeScale = 1;
 
     }
     private void OnGoMainButtonClicked()
     {
         SceneManager.LoadScene("MainTitleScene");
+=
 
         GameResultPanel.SetActive(false);
-        Time.timeScale = 1;
+        // Time.timeScale = 1;
     }
 }

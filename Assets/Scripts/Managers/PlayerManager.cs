@@ -12,25 +12,26 @@ public class PlayerManager : InGameManager
     public GameObject playerRoot;
     public RelayContinueUI relayContinueUI;
     private PlayerRotator playerRotator;
-    private MoveForward moveForward;
-
+    public MoveForward moveForward;
+    private GameUIManager gameUIManager;
     [ReadOnly]
     public PlayerStatus currentPlayerStatus;
     [ReadOnly]
     public PlayerMove currentPlayerMove;
     [ReadOnly]
-    private Animator currentPlayerAnimator;
+    public Animator currentPlayerAnimator;
 
     private int animalID = 100301;//100301;
     private Vector3 pendingRespawnPosition;
     private Quaternion pendingRespawnRotation;
     private Vector3 pendingForward;
-    private DeathType lastDeathType = DeathType.None;
+    public DeathType lastDeathType = DeathType.None;
     private bool isDead;
-    [SerializeField] public TMP_Text countdownText;
+    // [SerializeField] public TMP_Text countdownText;
     private void Awake()
     {
         playerRotator = GetComponent<PlayerRotator>();
+        gameUIManager = GetComponent<GameUIManager>();
 
     }
     public override void Initialize()
@@ -39,10 +40,14 @@ public class PlayerManager : InGameManager
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => DisablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () => DisablePlayer(currentPlayerStatus));
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(currentPlayerStatus));
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(countdownText));
-        //   GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => EnablePlayer(currentPlayerStatus));
 
-        // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, ContinuePlayer);
+
+        // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
+
+
+        gameUIManager = GameManager.UIManager;
+        gameUIManager.playerManager = this;
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => EnablePlayer(currentPlayerStatus));
     }
     private void Start()
     {
@@ -122,13 +127,13 @@ public class PlayerManager : InGameManager
     private void DisablePlayer(PlayerStatus playerStatus)
     {
         currentPlayerMove.DisableInput();  // 입력 비활성화
-        GameManager.UIManager?.SetDirectionButtonsInteractable(false);
+        // GameManager.UIManager?.SetDirectionButtonsInteractable(false);
     }
     private void EnablePlayer(PlayerStatus playerStatus)
     {
 
         currentPlayerMove.EnableInput();  // 입력 활성화
-        GameManager.UIManager?.SetDirectionButtonsInteractable(true);
+        // GameManager.UIManager?.SetDirectionButtonsInteractable(true);
     }
 
     private void PlayDeathAnimation()
@@ -143,10 +148,15 @@ public class PlayerManager : InGameManager
             Debug.LogError("Animator not found. Unable to play death animation.");
         }
     }
+    private void PlayRunAnimaition()
+    {
+        currentPlayerAnimator.SetTrigger("Run");
+    }
 
     private IEnumerator DieAndSwitch(PlayerStatus playerStatus)
     {
         yield return new WaitForSeconds(1.5f);
+        GameManager.SetGameState(GameManager_new.GameState.GameStop);
         if (relayContinueUI != null)
         {
             relayContinueUI.Show();
@@ -197,7 +207,7 @@ public class PlayerManager : InGameManager
     //     lastDeathType = DeathType.None;
     // }
 
-    private IEnumerator RemoveInvincibilityAfterDelay(float delay) 
+    private IEnumerator RemoveInvincibilityAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
 
@@ -207,12 +217,14 @@ public class PlayerManager : InGameManager
             Debug.Log("무적 상태 해제");
         }
     }
-    public void SetLastDeathType(DeathType type) 
+    public void SetLastDeathType(DeathType type)
     {
         lastDeathType = type;
     }
     public void ContinuePlayerWithCountdown(TMP_Text countdownText)
     {
+        GameManager.SetTimeScale(0);
+
         if (currentPlayerStatus == null)
         {
             Debug.LogError("부활할 플레이어가 없습니다.");
@@ -227,49 +239,50 @@ public class PlayerManager : InGameManager
         }
 
         // 무적 유지 (계속 유지됨)
-        currentPlayerStatus.SetInvincible(true);
+        //currentPlayerStatus.SetInvincible(true);
 
         // 이동 및 입력 비활성화
         currentPlayerMove.DisableInput();
         moveForward.enabled = false;
 
         // 애니메이션은 Run으로
-        currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        // currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         currentPlayerAnimator.SetTrigger("idle");
 
         ActivatePlayer(currentPlayerStatus);
 
-        StartCoroutine(ResumeAfterCountdown(countdownText, moveForward));
+        //  gameUIManager.CountDown();
+
     }
 
-    private IEnumerator ResumeAfterCountdown(TMP_Text countdownText, MoveForward moveForward)
-    {
-        GameManager.UIManager?.SetDirectionButtonsInteractable(false);
-        GameManager.SetTimeScale(0);
-        countdownText.gameObject.SetActive(true);
+    // private IEnumerator ResumeAfterCountdown(TMP_Text countdoext, MoveForward moveForward)
+    // {
+    //     GameManager.UIManager?.SetDirectionButtonsInteractable(false);
+    //     GameManager.SetTimeScale(0);
+    //     countdownText.gameObject.SetActive(true);
 
-        for (int i = 3; i > 0; i--)
-        {
-            countdownText.text = i.ToString();
-            yield return new WaitForSecondsRealtime(1);
-        }
+    //     for (int i = 3; i > 0; i--)
+    //     {
+    //         countdownText.text = i.ToString();
+    //         yield return new WaitForSecondsRealtime(1);
+    //     }
 
-        countdownText.gameObject.SetActive(false);
-        GameManager.SetTimeScale(1);
+    //     countdownText.gameObject.SetActive(false);
+    //     GameManager.SetTimeScale(1);
 
-        // 이동 및 입력 복원
-        GameManager.UIManager?.SetDirectionButtonsInteractable(true);
-        currentPlayerStatus.SetAlive();
-        currentPlayerMove.EnableInput();
-        moveForward.enabled = true;
-        currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal; // 스케일 영향 받게 함 임시 처리 라 수정 해야함
-        currentPlayerAnimator.SetTrigger("Run");
+    //     // 이동 및 입력 복원
+    //     GameManager.UIManager?.SetDirectionButtonsInteractable(true);
+    //     currentPlayerStatus.SetAlive();
+    //     currentPlayerMove.EnableInput();
+    //     moveForward.enabled = true;
+    //     currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal; // 스케일 영향 받게 함 임시 처리 라 수정 해야함
+    //     currentPlayerAnimator.SetTrigger("Run");
 
-        // 무적 해제는 따로 2초 후
-        StartCoroutine(RemoveInvincibilityAfterDelay(2f));
+    //     // 무적 해제는 따로 2초 후
+    //     StartCoroutine(RemoveInvincibilityAfterDelay(2f));
 
-        lastDeathType = DeathType.None;
-        Debug.Log("플레이어 3초 후 부활 처리 완료");
-    }
+    //     lastDeathType = DeathType.None;
+    //     Debug.Log("플레이어 3초 후 부활 처리 완료");
+    // }
 
 }

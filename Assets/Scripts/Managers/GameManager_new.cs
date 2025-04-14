@@ -51,7 +51,7 @@ public class GameManager_new : MonoBehaviour
 
     private StageManager stageManager;
     public StageManager StageManager => stageManager;
-    
+
     private BossManager bossManager;
     public BossManager BossManager => bossManager;
 
@@ -73,6 +73,14 @@ public class GameManager_new : MonoBehaviour
         gameStateEnterAction = new Action[(int)GameState.Max];
         gameStateExitAction = new Action[(int)GameState.Max];
         AddGameStateEnterAction(GameState.GameOver, OnGameOver);
+        AddGameStateEnterAction(GameState.GameStop, () =>
+        {
+            SetTimeScale(0);
+        });
+        AddGameStateEnterAction(GameState.GamePlay, () =>
+        {
+            SetTimeScale(1);
+        });
     }
 
     public void AddGameStateEnterAction(GameState state, Action action)
@@ -114,11 +122,13 @@ public class GameManager_new : MonoBehaviour
         managers.Add(ObjectPoolManager);
 
         var findManagers = GameObject.FindGameObjectsWithTag("Manager").ToList();
-        
+
+
         //findManagers.Find((manager) => manager.TryGetComponent<GameUIManager>(out gameUIManager));
         //gameUIManager.SetGameManager(this);
         //managers.Add(gameUIManager);
         gameUIManager = AddManagerToManagers<GameUIManager>(findManagers);
+
 
         //findManagers.Find((manager) => manager.TryGetComponent<MapObjectManager>(out mapObjectManager));
         //mapObjectManager.SetGameManager(this);
