@@ -127,13 +127,18 @@ public class TempleRunStyleRoadMaker : InGameManager
             //�ʿ�����Ʈ ����
             if (createMapObject)
             {
-                int randomIndex1 = GameDataManager.Instance.GetNextRandomMapObjectsPrefabId();
-                int randomIndex2 = GameDataManager.Instance.GetNextRandomMapObjectsPrefabId();
+                int randomIndex1 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+                int randomIndex2 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+                int randomIndex3 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+                
                 roadWay.SetMapObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex1));
                 roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex1));
 
                 roadWay.SetMapObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex2));
                 roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex2));
+                
+                roadWay.SetMapObjects(RoadWay.RoadSegmentType.Exit, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex3));
+                roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Exit, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex3));
             }
 
             previousRoadWay.AddNextRoadWay(roadWay);

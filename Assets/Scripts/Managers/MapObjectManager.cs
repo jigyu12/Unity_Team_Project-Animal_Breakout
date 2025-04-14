@@ -62,6 +62,18 @@ public class MapObjectManager : InGameManager
     public int MinRewardItemId { get; private set; } = 0;
     public int MaxMapObjectId { get; private set; } = 0;
     public int MaxRewardItemId { get; private set; } = 0;
+    
+    private readonly Queue<int> nextMapObjectsPrefabIdQueue = new();
+    private readonly List<int> mapObjectsPrefabIds = new();
+    public const int maxPrefabIdQueueSize = 9; // Original value is 12
+
+    private void Awake()
+    {
+        SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
+        SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
+        SetMaxRewardItemId(DataTableManager.rewardItemsDataTable.maxId);
+        SetMinRewardItemId(DataTableManager.rewardItemsDataTable.minId);
+    }
 
     public override void Initialize()
     {
@@ -124,7 +136,26 @@ public class MapObjectManager : InGameManager
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
     }
+    
+    private void SetMaxMapObjectId(int maxMapObjectCount)
+    {
+        MaxMapObjectId = maxMapObjectCount;
+    }
+    
+    private void SetMinMapObjectId(int minMapObjectCount)
+    {
+        MinMapObjectId = minMapObjectCount;
+    }
 
+    private void SetMaxRewardItemId(int maxRewardItemCount)
+    {
+        MaxRewardItemId = maxRewardItemCount;
+    }
+    private void SetMinRewardItemId(int minRewardItemCount)
+    {
+        MinRewardItemId = minRewardItemCount;
+    }
+    
     public struct MapObjectsBlueprint
     {
         public ObjectType[,] objectsTypes;
@@ -607,5 +638,46 @@ public class MapObjectManager : InGameManager
         itemPenaltyCoinComponent.Initialize((PenaltyCoinItemType)Utils.GetEnumIndexByChance(penaltyCoinSpawnChances));
         itemPenaltyCoinComponent.SetPool(itemPenaltyCoinPool);
         return itemPenaltyCoinComponent;
+    }
+    
+    public int GetNextRandomMapObjectsPrefabId()
+    {
+        if ((MinMapObjectId != MinRewardItemId) || (MaxMapObjectId != MaxRewardItemId))
+        {
+            Debug.Assert(false, "MapObjectId is different from RewardItemId");
+
+            return -1;
+        }
+        
+        if (nextMapObjectsPrefabIdQueue.Count == 0)
+        {
+            mapObjectsPrefabIds.Clear();
+            for (int i = MinMapObjectId; i <= MaxMapObjectId; ++i)
+            {
+                mapObjectsPrefabIds.Add(i);
+            }
+
+            if (mapObjectsPrefabIds.Count < maxPrefabIdQueueSize)
+            {
+                Debug.Assert(false, "PrefabId Count is smaller than maxPrefabIdQueueSize");
+
+                return -1;
+            }
+
+            while (mapObjectsPrefabIds.Count > maxPrefabIdQueueSize)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, mapObjectsPrefabIds.Count);
+                mapObjectsPrefabIds.RemoveAt(randomIndex);
+            }
+
+            while (mapObjectsPrefabIds.Count > 0)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, mapObjectsPrefabIds.Count);
+                nextMapObjectsPrefabIdQueue.Enqueue(mapObjectsPrefabIds[randomIndex]);
+                mapObjectsPrefabIds.RemoveAt(randomIndex);
+            }
+        }
+
+        return nextMapObjectsPrefabIdQueue.Dequeue();
     }
 }
