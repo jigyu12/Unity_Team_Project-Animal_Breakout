@@ -35,7 +35,6 @@ public class ResultPanelUI : MonoBehaviour
     private void OnGoMainButtonClicked()
     {
         SceneManager.LoadScene("MainTitleScene");
-=
 
         GameResultPanel.SetActive(false);
         // Time.timeScale = 1;
