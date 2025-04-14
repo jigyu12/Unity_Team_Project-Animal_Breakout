@@ -24,7 +24,7 @@ public class GameManager_new : MonoBehaviour
     private Action[] gameStateEnterAction;
     private Action[] gameStateExitAction;
     private GameState currentState;
- 
+
     #region manager
     private List<IManager> managers = new();
 
@@ -42,7 +42,7 @@ public class GameManager_new : MonoBehaviour
 
     private PlayerManager playerManager;
     public PlayerManager PlayerManager => playerManager;
-    
+
     private CameraManager cameraManager;
     public CameraManager CameraManager => cameraManager;
 
@@ -111,33 +111,40 @@ public class GameManager_new : MonoBehaviour
         managers.Add(ObjectPoolManager);
 
         var findManagers = GameObject.FindGameObjectsWithTag("Manager").ToList();
-        findManagers.Find((manager) => manager.TryGetComponent<GameUIManager>(out gameUIManager));
-        gameUIManager.SetGameManager(this);
-        managers.Add(gameUIManager);
+        //findManagers.Find((manager) => manager.TryGetComponent<GameUIManager>(out gameUIManager));
+        //gameUIManager.SetGameManager(this);
+        //managers.Add(gameUIManager);
+        gameUIManager = AddManagerToManagers<GameUIManager>(findManagers);
 
-        findManagers.Find((manager) => manager.TryGetComponent<MapObjectManager>(out mapObjectManager));
-        mapObjectManager.SetGameManager(this);
-        managers.Add(mapObjectManager);
+        //findManagers.Find((manager) => manager.TryGetComponent<MapObjectManager>(out mapObjectManager));
+        //mapObjectManager.SetGameManager(this);
+        //managers.Add(mapObjectManager);
+        mapObjectManager = AddManagerToManagers<MapObjectManager>(findManagers);
 
-        findManagers.Find((manager) => manager.TryGetComponent<TempleRunStyleRoadMaker>(out roadMaker));
-        roadMaker.SetGameManager(this);
-        managers.Add(roadMaker);
+        //findManagers.Find((manager) => manager.TryGetComponent<TempleRunStyleRoadMaker>(out roadMaker));
+        //roadMaker.SetGameManager(this);
+        //managers.Add(roadMaker);
+        roadMaker = AddManagerToManagers<TempleRunStyleRoadMaker>(findManagers);
 
-        findManagers.Find((manager) => manager.TryGetComponent<PlayerManager>(out playerManager));
-        playerManager.SetGameManager(this);
-        managers.Add(playerManager);
-        
-        findManagers.Find((manager) => manager.TryGetComponent<CameraManager>(out cameraManager));
-        cameraManager.SetGameManager(this);
-        managers.Add(cameraManager);
+        //findManagers.Find((manager) => manager.TryGetComponent<PlayerManager>(out playerManager));
+        //playerManager.SetGameManager(this);
+        //managers.Add(playerManager);
+        playerManager = AddManagerToManagers<PlayerManager>(findManagers);
 
-        findManagers.Find((manager) => manager.TryGetComponent<SkillManager>(out skillManager));
-        skillManager.SetGameManager(this);
-        managers.Add(skillManager);
+        //findManagers.Find((manager) => manager.TryGetComponent<CameraManager>(out cameraManager));
+        //cameraManager.SetGameManager(this);
+        //managers.Add(cameraManager);
+        cameraManager = AddManagerToManagers<CameraManager>(findManagers);
 
-        findManagers.Find((manager) => manager.TryGetComponent<StageManager>(out stageManager));
-        stageManager.SetGameManager(this);
-        managers.Add(stageManager);
+        //findManagers.Find((manager) => manager.TryGetComponent<SkillManager>(out skillManager));
+        //skillManager.SetGameManager(this);
+        //managers.Add(skillManager);
+        skillManager = AddManagerToManagers<SkillManager>(findManagers);
+
+        //findManagers.Find((manager) => manager.TryGetComponent<StageManager>(out stageManager));
+        //stageManager.SetGameManager(this);
+        //managers.Add(stageManager);
+        stageManager = AddManagerToManagers<StageManager>(findManagers);
 
         foreach (var manager in managers)
         {
@@ -145,6 +152,35 @@ public class GameManager_new : MonoBehaviour
         }
 
         GameDataManager.Instance.Initialize();
+    }
+
+    private T AddManagerToManagers<T>(List<GameObject> list) where T : InGameManager
+    {
+        T managerT = null;
+        list.Find((manager) =>
+        {
+            if (manager.TryGetComponent<T>(out T tempManager))
+            {
+                managerT = tempManager;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        });
+
+        if (managerT != null)
+        {
+            managerT.SetGameManager(this);
+            managers.Add(managerT);
+        }
+        else
+        {
+            Debug.Log(typeof(T) + " is not Ready");
+        }
+
+        return managerT;
     }
 
     public void SetGameState(GameState gameState)
