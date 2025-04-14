@@ -40,7 +40,7 @@ public class PlayerMove : MonoBehaviour
         }
         animator = GetComponentInChildren<Animator>();
         playerStatus = GetComponent<PlayerStatus>();
-        
+
         if (playerStatus != null)
         {
             jumpHeight = playerStatus.JumpPower;
