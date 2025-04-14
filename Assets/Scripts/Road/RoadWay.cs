@@ -76,7 +76,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                             }
                             mapObjects.Add(mapObject);
                             mapObject.transform.SetParent(roadSegmentWithType.roadSegment.transform);
-                            mapObject.transform.rotation = Quaternion.LookRotation(-roadSegmentWithType.roadSegment.transform.forward);
+                            mapObject.transform.rotation = Quaternion.LookRotation(-roadSegmentWithType.roadSegment.GetTileRotation());
                         }
                     }
                 }
@@ -101,7 +101,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                         array.ToList().ForEach((item) =>
                         {
                             item.transform.SetParent(roadSegmentWithType.roadSegment.transform);
-                            item.transform.rotation = Quaternion.LookRotation(-roadSegmentWithType.roadSegment.transform.forward);
+                            item.transform.rotation = Quaternion.LookRotation(-roadSegmentWithType.roadSegment.GetTileRotation());
                         }
                             );
                     }
