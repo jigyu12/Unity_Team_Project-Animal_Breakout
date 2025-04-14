@@ -45,7 +45,7 @@ public class ProjectileSkill : MonoBehaviour, ISkill
         this.skillManager = skillManager;
     }
 
-    public void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker = null, IDamagerable target = null)
+    public void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker = null, IDamageable target = null)
     {
         //DoSomeThing;
         var projectile = Instantiate(projectilePrefab.gameObject).GetComponent<ProjectileBehaviour>();
@@ -57,7 +57,7 @@ public class ProjectileSkill : MonoBehaviour, ISkill
         StartCoroutine(CoWaitCoolTime());
     }
 
-    public void ApplyDamage(IAttacker attacker, IDamagerable target)
+    public void ApplyDamage(IAttacker attacker, IDamageable target)
     {
 
     }
@@ -71,10 +71,10 @@ public class ProjectileSkill : MonoBehaviour, ISkill
     {
         Level++;
 
-        //ÃßÈÄ clampÃß°¡
+        //ï¿½ï¿½ï¿½ï¿½ clampï¿½ß°ï¿½
     }
 
-    //ÄÚ·çÆ¾Àº enabled=falseÀÏ¶§ ¾Èµµ¹Ç·Î ÁÖÀÇ
+    //ï¿½Ú·ï¿½Æ¾ï¿½ï¿½ enabled=falseï¿½Ï¶ï¿½ ï¿½Èµï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½
     private IEnumerator CoWaitCoolTime()
     {
         yield return new WaitForSeconds(coolDownTime);
