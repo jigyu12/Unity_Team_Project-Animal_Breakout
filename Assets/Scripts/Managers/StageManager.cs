@@ -3,34 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-//작업중...
 public class StageManager : InGameManager
 {
-    //더미
-    public class StageData
-    {
-        //public bool isBossStage;
-        public RoadMakeMode roadMode;
-        public ItemSetMode itemSetMode;
-        public int roadWayCount;
-    }
 
     [ReadOnly]
     public int currentStageDataIndex=0;
 
+    [SerializeField]
     private List<StageData> stageDatas = new List<StageData>();
-
-    private void SetDummyData()
-    {
-        stageDatas.Add(new StageData { roadMode = RoadMakeMode.RandomWay, itemSetMode = ItemSetMode.TrapAndReward, roadWayCount = 8 });
-        stageDatas.Add(new StageData { roadMode = RoadMakeMode.Vertical, itemSetMode = ItemSetMode.None, roadWayCount = -1 });
-    }
 
     public override void Initialize()
     {
         base.Initialize();
-
-        SetDummyData();
         GameManager.RoadMaker.onCurrentRoadWayEmpty += OnSetRoadMode;
     }
 
@@ -41,12 +25,21 @@ public class StageManager : InGameManager
         GameManager.RoadMaker.SetMapObjectMakeMode(currStageData.itemSetMode);
     }
 
+
+    //테스트용으로 무한 반복하게 할것입니다.
     private void OnSetRoadMode()
     {
         currentStageDataIndex++;
+        currentStageDataIndex%= stageDatas.Count;  
 
         var currStageData = stageDatas[currentStageDataIndex];
         GameManager.RoadMaker.SetRoadMakeMode(currStageData.roadMode, currStageData.roadWayCount);
         GameManager.RoadMaker.SetMapObjectMakeMode(currStageData.itemSetMode);
+    }
+
+    [ContextMenu("Boss Stage Exit")]
+    private void OnCurrentStageClear()
+    {
+        OnSetRoadMode();
     }
 }
