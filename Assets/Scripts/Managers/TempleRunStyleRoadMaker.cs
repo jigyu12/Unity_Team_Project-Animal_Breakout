@@ -27,7 +27,7 @@ public class TempleRunStyleRoadMaker : InGameManager
     private List<RoadWay> activeRoadWays = new();
     private RoadWay currentRoad;
 
-    public Action<RoadWay, RoadWay> onCurrentWayChanged; //previous, current ��
+    public Action<RoadWay, RoadWay> onCurrentWayChanged; //previous, current 占쏙옙
 
     [SerializeField]
     private RoadWay initialRoadWay;
@@ -132,19 +132,19 @@ public class TempleRunStyleRoadMaker : InGameManager
     //        var roadWay = CreateRoadWay(previousRoadWay.index + 1, wayTypeIndex);
     //        roadWay.transform.SetPositionAndRotation(trs.position, trs.rotation);
 
-    //        //�ʿ�����Ʈ ����
+    //        //占십울옙占쏙옙占쏙옙트 占쏙옙占쏙옙
     //        if (createMapObject)
     //        {
     //            int randomIndex1 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
     //            int randomIndex2 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
     //            int randomIndex3 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
-                
+
     //            roadWay.SetMapObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex1));
     //            roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex1));
 
     //            roadWay.SetMapObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex2));
     //            roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex2));
-                
+
     //            roadWay.SetMapObjects(RoadWay.RoadSegmentType.Exit, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex3));
     //            roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Exit, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex3));
     //        }
@@ -163,12 +163,12 @@ public class TempleRunStyleRoadMaker : InGameManager
 
         foreach (var trs in startPoints)
         {
-            var roadWay = CreateRoadWay(previousRoadWay.index + 1, nextRoadWayData.roadWayIndex, nextRoadWayData.isBossEnter? GameManager.StageManager.OnBossStageEnter : null);
+            var roadWay = CreateRoadWay(previousRoadWay.index + 1, nextRoadWayData.roadWayIndex, nextRoadWayData.isBossEnter ? GameManager.StageManager.OnBossStageEnter : null);
             roadWay.transform.SetPositionAndRotation(trs.position, trs.rotation);
 
             if (nextRoadWayData.itemMode == ItemSetMode.TrapAndReward)
             {
-                //지규가 수정한 코드로 변경 duim
+                //吏洹쒓? ?섏젙??肄붾뱶濡?蹂寃?duim
                 int randomIndex1 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
                 int randomIndex2 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
                 int randomIndex3 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
@@ -196,12 +196,12 @@ public class TempleRunStyleRoadMaker : InGameManager
         {
             if (nowRoadWay.index < currentRoad.index)
             {
-                //������ �� ����
+                //占쏙옙占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙
                 releaseQueue.Enqueue(nowRoadWay);
             }
             else if (nowRoadWay.index == currentRoad.index && nowRoadWay != currentRoad)
             {
-                //���� Way�� ������ ��� ������� ����ȱ� ����
+                //占쏙옙占쏙옙 Way占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占?占쏙옙占쏙옙占쏙옙占?占쏙옙占쏙옙홧占?占쏙옙占쏙옙
                 AddToReleaseQueueLinkedRoadWay(nowRoadWay);
             }
         }
@@ -223,7 +223,7 @@ public class TempleRunStyleRoadMaker : InGameManager
         }
     }
 
-    //n�� ���� �ʿ��� ����
+    //n占쏙옙 占쏙옙占쏙옙 占십울옙占쏙옙 占쏙옙占쏙옙
     private void CreateNNextRoadWay(int next, RoadWay previous)
     {
         if (next <= 0)
@@ -313,24 +313,18 @@ public class TempleRunStyleRoadMaker : InGameManager
 
     public void PushNextStageRoadWayData(StageData stageData)
     {
-        //BossEnter에 BossStageEnter event 넣기 위함
-        if (stageData.isBossStage)
-        {
-            stageRoadWayDataQueue.Enqueue(new NextRoadWayData { roadWayIndex = 0, itemMode = stageData.itemSetMode, isBossEnter = true });
-        }
-
         if (stageData.roadMode == RoadMakeMode.RandomWay)
         {
-            for (int i = 0; i < Mathf.Abs(stageData.roadWayCount); i++)
+            for (int i = 0; i < stageData.roadWayCount; i++)
             {
-                stageRoadWayDataQueue.Enqueue(new NextRoadWayData { roadWayIndex = UnityEngine.Random.Range(1, roadWayPrefabs.Count()), itemMode = stageData.itemSetMode, isBossEnter = false });
+                stageRoadWayDataQueue.Enqueue(new NextRoadWayData { roadWayIndex = UnityEngine.Random.Range(1, roadWayPrefabs.Count()), itemMode = stageData.itemSetMode, isBossEnter = stageData.isBossStage });
             }
         }
         else if (stageData.roadMode == RoadMakeMode.Vertical)
         {
-            for (int i = 0; i < Mathf.Abs(stageData.roadWayCount); i++)
+            for (int i = 0; i < stageData.roadWayCount; i++)
             {
-                stageRoadWayDataQueue.Enqueue(new NextRoadWayData { roadWayIndex = 0, itemMode = stageData.itemSetMode, isBossEnter = false });
+                stageRoadWayDataQueue.Enqueue(new NextRoadWayData { roadWayIndex = 0, itemMode = stageData.itemSetMode, isBossEnter = stageData.isBossStage });
             }
         }
     }
@@ -342,24 +336,8 @@ public class TempleRunStyleRoadMaker : InGameManager
             onCurrentRoadWayEmpty?.Invoke();
         }
 
-        //임시로 이렇게 해둔다
-        if (GameManager.StageManager.CurrentStageData.roadWayCount == -1)
-        {
-            var next = stageRoadWayDataQueue.Dequeue();
-            if (next.isBossEnter)
-            {
-                return next;
-            }
-            else
-            {
-                stageRoadWayDataQueue.Enqueue(next);
-                return next;
-            }
-        }
-        else
-        {
-            return stageRoadWayDataQueue.Dequeue();
-        }
+        return stageRoadWayDataQueue.Dequeue();
+
     }
 
     #endregion

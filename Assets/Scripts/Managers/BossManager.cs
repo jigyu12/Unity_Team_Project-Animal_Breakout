@@ -13,7 +13,7 @@ public class BossManager : InGameManager
     
     private GameManager_new gameManager;
     
-    public static event Action<GameObject> onSpawnBoss;
+    public static event Action<BossStatus> onSpawnBoss;
     
     private void Start()
     {
@@ -53,6 +53,6 @@ public class BossManager : InGameManager
         boss.TryGetComponent(out bossStatus);
         bossStatus.InitializeStatus(100f);
         bossStatus.SetPool(bossPool);
-        onSpawnBoss?.Invoke(boss);
+        onSpawnBoss?.Invoke(bossStatus);
     }
 }
