@@ -1622,11 +1622,10 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   pausePanel: {fileID: 4072084577278961329}
   RealGiveUpPanel: {fileID: 7847180627451531586}
-  countdownText: {fileID: 2752588065350292869}
   resumeButton: {fileID: 2750575393478229562}
   GiveUpButton: {fileID: 48885522587893330}
   settingsButton: {fileID: 34311752053951941}
-  uiManager: {fileID: 0}
+  gameUIManager: {fileID: 5052352571859111027}
 --- !u!1 &2303779639286362981
 GameObject:
   m_ObjectHideFlags: 0
@@ -5364,8 +5363,10 @@ MonoBehaviour:
   pausePanel: {fileID: 4072084577278961329}
   mainTitleButton: {fileID: 5078117912836810013}
   pauseButton: {fileID: 2496770725574280407}
+  playerManager: {fileID: 0}
   leftButton: {fileID: 7559202798799397068}
   rightButton: {fileID: 6440762035289693497}
+  countdownText: {fileID: 2752588065350292869}
 --- !u!114 &5725109582612319284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5380,7 +5381,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 4374399446332422455}
   slider: {fileID: 3712863023976545535}
-  countdownText: {fileID: 2752588065350292869}
   playerManager: {fileID: 0}
   GameManager: {fileID: 0}
 --- !u!1 &8799414871056579600

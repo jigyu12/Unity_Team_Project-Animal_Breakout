@@ -108,9 +108,9 @@ public class PlayerStatus : MonoBehaviour, IAttacker
             return;
         }
         if (isInvincible) return;
-
-        playerManager.OnPlayerDied(this);
         isDead = true;
+        playerManager.currentPlayerStatus.SetInvincible(true);
+        playerManager.OnPlayerDied(this);
     }
     public bool IsDead()
     {

@@ -4,19 +4,20 @@ using System.Collections;
 using TMPro;
 public class PausePanulUI : MonoBehaviour
 {
-    //private GameManager gameManager;
     //게임매니저를 캐싱하지 말고 UI매니저를 통해 게임매니저를 접근하는 방식으로 바꾸세요
     [SerializeField]
-    private GameManager_new gameManager;
+    private GameManager_new GameManager;
 
     public GameObject pausePanel;
     public GameObject RealGiveUpPanel;
-    public TMP_Text countdownText;
+    // public TMP_Text countdownText;
     public Button resumeButton;
     public Button GiveUpButton;
     public Button settingsButton;
 
-    public GameUIManager uiManager;
+    public GameUIManager gameUIManager;
+    private PlayerManager playerManager;
+
     private void Start()
     {
 
@@ -28,30 +29,37 @@ public class PausePanulUI : MonoBehaviour
 
         settingsButton.onClick.RemoveAllListeners();
         settingsButton.onClick.AddListener(OnSettingsButtonClicked);
+        gameUIManager = GameManager.UIManager;
+        playerManager = GameManager.PlayerManager;
+
     }
 
 
-    private void OnResumeButtonClicked()
+    public void OnResumeButtonClicked()
     {
-        StartCoroutine(ResumeWithCountdown(countdownText, pausePanel));
+
+        gameUIManager.InGameCountDown();
+
+
+        // StartCoroutine(gameUIManager.ResumeAfterCountdown(gameUIManager.countdownText, playerManager.moveForward));
     }
 
-    public IEnumerator ResumeWithCountdown(TMP_Text countdownText, GameObject pausePanel)
-    {
-        uiManager.SetDirectionButtonsInteractable(false);
-        gameManager.SetTimeScale(0);
-        pausePanel.SetActive(false);
-        countdownText.gameObject.SetActive(true);
-        for (int i = 3; i > 0; i--)
-        {
-            countdownText.text = i.ToString();
-            yield return new WaitForSecondsRealtime(1);
-        }
+    // public IEnumerator ResumeWithCountdown(TMP_Text countdownText, GameObject pausePanel)
+    // {
+    //     uiManager.SetDirectionButtonsInteractable(false);
+    //     gameManager.SetTimeScale(0);
+    //     pausePanel.SetActive(false);
+    //     countdownText.gameObject.SetActive(true);
+    //     for (int i = 3; i > 0; i--)
+    //     {
+    //         countdownText.text = i.ToString();
+    //         yield return new WaitForSecondsRealtime(1);
+    //     }
 
-        countdownText.gameObject.SetActive(false);
-        gameManager.SetTimeScale(1);
-        uiManager.SetDirectionButtonsInteractable(true);
-    }
+    //     countdownText.gameObject.SetActive(false);
+    //     gameManager.SetTimeScale(1);
+    //     uiManager.SetDirectionButtonsInteractable(true);
+    // }
 
     private void OnGiveUpButtonClicked()
     {

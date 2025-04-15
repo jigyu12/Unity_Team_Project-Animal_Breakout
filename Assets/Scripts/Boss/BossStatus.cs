@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -8,6 +9,8 @@ public class BossStatus : DamageableStatus
     public override bool isDead { get; protected set; }
     
     private ObjectPool<GameObject> bossPool;
+    
+    public static event Action onBossDead;
 
     public override void InitializeStatus(float maxHp)
     {
@@ -43,6 +46,8 @@ public class BossStatus : DamageableStatus
         isDead = true;
         
         bossPool.Release(gameObject);
+        
+        onBossDead?.Invoke();
     }
 
     public void SetPool(ObjectPool<GameObject> bossPool)

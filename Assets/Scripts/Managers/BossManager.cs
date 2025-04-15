@@ -11,6 +11,8 @@ public class BossManager : InGameManager
     [SerializeField] private GameObject parentGameObjectToSpawnBoss;
     private readonly Vector3 spawnLocalPosition = new Vector3(0f, 1f, 15f);
     
+    private GameManager_new gameManager;
+    
     public static event Action<GameObject> onSpawnBoss;
     
     private void Start()
@@ -20,7 +22,13 @@ public class BossManager : InGameManager
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
         
-        SpawnBoss();
+        GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager);
+        gameManager.StageManager.onBossStageEnter += SpawnBoss;
+    }
+
+    private void OnDestroy()
+    {
+        gameManager.StageManager.onBossStageEnter -= SpawnBoss;
     }
 
     public override void Initialize()
