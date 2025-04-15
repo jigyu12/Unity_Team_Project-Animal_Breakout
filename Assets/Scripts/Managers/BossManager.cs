@@ -53,6 +53,6 @@ public class BossManager : InGameManager
         bossStatus.InitializeStatus(100f);
 
         //bossStatus.SetPool(bossPool);
-        onSpawnBoss?.Invoke(boss);
+        onSpawnBoss?.Invoke(bossStatus);
     }
 }
