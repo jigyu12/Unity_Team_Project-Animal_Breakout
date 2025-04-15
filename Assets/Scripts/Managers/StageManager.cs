@@ -42,7 +42,7 @@ public class StageManager : InGameManager
     }
 
 
-    //테스트용으로 무한 반복하게 할것입니다.
+    //?뚯뒪?몄슜?쇰줈 臾댄븳 諛섎났?섍쾶 ?좉쾬?낅땲??
     private void OnSetRoadMode()
     {
 
@@ -64,6 +64,7 @@ public class StageManager : InGameManager
     public void OnBossStageEnter()
     {
         Debug.Log("Boss Stage Enter");
+        GameManager.PlayerManager.StopAllMovements();
         onBossStageEnter?.Invoke();
     }
 }

@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ProjectileSkill : MonoBehaviour, ISkill
 {
+    private ProjectileSkillData skillData;
+
     [SerializeField]
     private float coolDownTime;
     [SerializeField]
@@ -45,12 +47,13 @@ public class ProjectileSkill : MonoBehaviour, ISkill
         this.skillManager = skillManager;
     }
 
-    public void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker = null, IDamageable target = null)
+    public void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker, IDamageable target)
     {
         //DoSomeThing;
         var projectile = Instantiate(projectilePrefab.gameObject).GetComponent<ProjectileBehaviour>();
         projectile.InitializeSkilManager(skillManager);
 
+        projectile.onArrival += () => ApplyDamage(attacker, target);
         projectile.Fire(attackerTrs, targetTrs, speed);
 
         lastPerformedTime = Time.time;
@@ -59,7 +62,8 @@ public class ProjectileSkill : MonoBehaviour, ISkill
 
     public void ApplyDamage(IAttacker attacker, IDamageable target)
     {
-
+        //임시
+        target.OnDamage(attacker.AttackPower);
     }
 
     private void OnEnable()
@@ -71,10 +75,10 @@ public class ProjectileSkill : MonoBehaviour, ISkill
     {
         Level++;
 
-        //���� clamp�߰�
+        //?좎룞?쇿뜝?숈삕 clamp?좎뙥怨ㅼ삕
     }
 
-    //�ڷ�ƾ�� enabled=false�϶� �ȵ��Ƿ� ����
+    //?좎뙓琉꾩삕?닷뜝?숈삕 enabled=false?좎떦?곗삕 ?좎떕?몄삕?좎떎琉꾩삕 ?좎룞?쇿뜝?숈삕
     private IEnumerator CoWaitCoolTime()
     {
         yield return new WaitForSeconds(coolDownTime);

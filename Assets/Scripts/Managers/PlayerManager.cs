@@ -117,8 +117,8 @@ public class PlayerManager : InGameManager
         StartCoroutine(DieAndSwitch(status));
     }
 
-
-    private void StopAllMovements()
+    //스테이지매니저에서 필요해서 퍼블릭으로 변경
+    public void StopAllMovements()
     {
         moveForward.enabled = false;
         Debug.Log("All movements stopped.");

@@ -5,12 +5,6 @@ using UnityEngine;
 
 public class SkillManager : InGameManager
 {
-    public enum SkillType
-    {
-        BossAttack,
-        Utill,
-    }
-
     [SerializeField]
     private int maxSkillCount = 4;
 
@@ -23,7 +17,7 @@ public class SkillManager : InGameManager
     public float skillPerformInterval = 1f;
     private Coroutine coSkillPerform = null;
     [SerializeField]
-    private GameObject skillTarget;
+    private BossStatus skillTarget;
 
     public Action<List<SkillPriorityItem>> onSkillListUpdated;
 
@@ -31,10 +25,17 @@ public class SkillManager : InGameManager
     {
         BossManager.onSpawnBoss += OnSpawnBossHandler;
     }
-
+    
+ 
     private void OnDestroy()
     {
         BossManager.onSpawnBoss -= OnSpawnBossHandler;
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        enabled = false;
     }
 
     public bool IsSkillExist(ISkill skill)
@@ -62,7 +63,7 @@ public class SkillManager : InGameManager
 
     public float GetSkillInheritedForwardSpeed()
     {
-        //�ӽ� �ڵ��Դϴ� ���� �������ּ���
+        //절대 수정
         return GameManager.PlayerManager.playerRoot.GetComponent<MoveForward>().speed;
     }
 
@@ -88,14 +89,16 @@ public class SkillManager : InGameManager
         while (readySkillQueue.Count != 0)
         {
             var currentSkill = readySkillQueue.Dequeue();
-            currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus.transform, skillTarget.transform);
+            currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus.transform, skillTarget.transform, GameManager.PlayerManager.currentPlayerStatus, skillTarget);
             yield return new WaitForSeconds(skillPerformInterval);
         }
         coSkillPerform = null;
     }
 
-    private void OnSpawnBossHandler(GameObject boss)
+    private void OnSpawnBossHandler(BossStatus boss)
     {
         skillTarget = boss;
+        enabled = true;
+
     }
 }

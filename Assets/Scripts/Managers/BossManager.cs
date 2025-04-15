@@ -12,7 +12,7 @@ public class BossManager : InGameManager
     
     private GameManager_new gameManager;
     
-    public static event Action<GameObject> onSpawnBoss;
+    public static event Action<BossStatus> onSpawnBoss;
     
     private void Start()
     {
@@ -33,8 +33,8 @@ public class BossManager : InGameManager
     public override void Initialize()
     {
         base.Initialize();
-        
-        
+
+        GameManager.StageManager.onBossStageEnter += SpawnBoss;
     }
 
     public override void Clear()
@@ -51,6 +51,7 @@ public class BossManager : InGameManager
         boss.transform.localPosition = spawnLocalPosition;
         boss.TryGetComponent(out bossStatus);
         bossStatus.InitializeStatus(100f);
+
         //bossStatus.SetPool(bossPool);
         onSpawnBoss?.Invoke(boss);
     }
