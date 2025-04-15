@@ -1,12 +1,11 @@
 using System;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class BossManager : InGameManager
 {
     [SerializeField] private GameObject bossPrefab;
     private BossStatus bossStatus;
-    private ObjectPool<GameObject> bossPool;
+    //private ObjectPool<GameObject> bossPool;
     
     [SerializeField] private GameObject parentGameObjectToSpawnBoss;
     private readonly Vector3 spawnLocalPosition = new Vector3(0f, 1f, 15f);
@@ -17,10 +16,10 @@ public class BossManager : InGameManager
     
     private void Start()
     {
-        bossPool = GameManager.ObjectPoolManager.CreateObjectPool(bossPrefab,
-            () => Instantiate(bossPrefab),
-            obj => { obj.SetActive(true); },
-            obj => { obj.SetActive(false); });
+        // bossPool = GameManager.ObjectPoolManager.CreateObjectPool(bossPrefab,
+        //     () => Instantiate(bossPrefab),
+        //     obj => { obj.SetActive(true); },
+        //     obj => { obj.SetActive(false); });
         
         GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager);
         gameManager.StageManager.onBossStageEnter += SpawnBoss;
@@ -47,12 +46,12 @@ public class BossManager : InGameManager
 
     private void SpawnBoss()
     {
-        var boss = bossPool.Get();
-        boss.transform.SetParent(parentGameObjectToSpawnBoss.transform);
+        //var boss = bossPool.Get();
+        var boss = Instantiate(bossPrefab, parentGameObjectToSpawnBoss.transform);
         boss.transform.localPosition = spawnLocalPosition;
         boss.TryGetComponent(out bossStatus);
         bossStatus.InitializeStatus(100f);
-        bossStatus.SetPool(bossPool);
+        //bossStatus.SetPool(bossPool);
         onSpawnBoss?.Invoke(boss);
     }
 }
