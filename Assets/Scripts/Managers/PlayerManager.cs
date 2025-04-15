@@ -113,6 +113,7 @@ public class PlayerManager : InGameManager
         {
             currentPlayerMove.canTurn = false;
         }
+        gameUIManager.UnShowRotateButton();
         StopAllMovements();
         DisablePlayer(status);
         PlayDeathAnimation();

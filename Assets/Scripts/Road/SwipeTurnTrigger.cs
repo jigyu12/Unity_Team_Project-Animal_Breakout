@@ -8,14 +8,23 @@ public class SwipeTurnTrigger : MonoBehaviour
 {
     public TurnDirection allowedDirection;
 
+    private GameUIManager gameUIManager;
 
+    private void Start()
+    {
+        var GameManager = GameObject.FindGameObjectWithTag(Utils.GameManagerTag);
+        var GameManager_new = GameManager.GetComponent<GameManager_new>();
+        gameUIManager = GameManager_new.UIManager;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-
+            gameUIManager.ShowRotateButton();
             PlayerMove player = other.GetComponent<PlayerMove>();
             PlayerStatus status = other.GetComponent<PlayerStatus>();
+            RotateButtonController rotateButtonController = gameUIManager.rotateButtonController;
+            rotateButtonController.SetCurrentTurnTrigger(this);
             if (player != null)
             {
                 player.SetCanTurn(true, gameObject, allowedDirection);

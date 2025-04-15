@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 
 public class GameUIManager : InGameManager
 {
@@ -10,9 +11,11 @@ public class GameUIManager : InGameManager
     public GameObject GameResultPanel;
     public GameObject pausePanel;
     public Button mainTitleButton;
+    public Button RotateButton;
+
     public Button pauseButton;
     public PlayerManager playerManager;
-
+    public RotateButtonController rotateButtonController;
     private bool isPaused = false;
     private GameManager_new.GameState previousStateBeforePause;
     [SerializeField] private Button leftButton;
@@ -44,7 +47,6 @@ public class GameUIManager : InGameManager
         mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
         pauseButton.onClick.RemoveAllListeners();
         pauseButton.onClick.AddListener(OnPauseButtonClicked);
-
     }
     public void ConnectPlayerMove(PlayerMove move)
     {
@@ -94,6 +96,7 @@ public class GameUIManager : InGameManager
         playerManager.currentPlayerMove.DisableInput();
         pausePanel.SetActive(true);
         SetDirectionButtonsInteractable(false);
+        UnShowRotateButton();
     }
     public void SetPauseButtonInteractable(bool interactable)
     {
@@ -105,6 +108,19 @@ public class GameUIManager : InGameManager
         rightButton.interactable = interactable;
         //   pauseButton.interactable = interactable;
     }
+    public void ShowRotateButton()
+    {
+        RotateButton.gameObject.SetActive(true);
+    }
+    public void UnShowRotateButton()
+    {
+        RotateButton.gameObject.SetActive(false);
+    }
+
+
+
+
+
     private Coroutine coCountDown = null;
 
     public void CountDown()
