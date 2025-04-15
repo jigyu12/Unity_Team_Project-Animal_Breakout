@@ -94,8 +94,10 @@ public class GameUIManager : InGameManager
         playerManager.currentPlayerMove.DisableInput();
         pausePanel.SetActive(true);
         SetDirectionButtonsInteractable(false);
-
-
+    }
+    public void SetPauseButtonInteractable(bool interactable)
+    {
+        pauseButton.interactable = interactable;
     }
     public void SetDirectionButtonsInteractable(bool interactable)
     {
@@ -135,7 +137,7 @@ public class GameUIManager : InGameManager
     {
 
         // GameManager.UIManager?.SetDirectionButtonsInteractable(false);
-
+        SetPauseButtonInteractable(false);
         if (pausePanel != null)
             pausePanel.SetActive(false);
         countdownText.gameObject.SetActive(true);
@@ -160,14 +162,22 @@ public class GameUIManager : InGameManager
         // GameManager.UIManager?.SetDirectionButtonsInteractable(true);
 
         // 무적 해제는 따로 2초 후
-        //    isPaused = false;
-        countdownText.gameObject.SetActive(false);
+        SetPauseButtonInteractable(true);
+        isPaused = false;
+        if (isPaused == true)
+        {
+            Debug.Log("Pause 상태라 부활 보류");
+            countdownText.gameObject.SetActive(false);
+            coCountDown = null;
+            yield break;
+        }
         // if (previousStateBeforePause == GameManager_new.GameState.GameReady)
         //     GameManager.SetGameState(GameManager_new.GameState.GameReady);
         // else
         SetDirectionButtonsInteractable(true);
         GameManager.SetGameState(GameManager_new.GameState.GamePlay);
         playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
+        countdownText.gameObject.SetActive(false);
         playerManager.currentPlayerStatus.SetAlive();
         playerManager.currentPlayerMove.EnableInput();
         moveForward.enabled = true;

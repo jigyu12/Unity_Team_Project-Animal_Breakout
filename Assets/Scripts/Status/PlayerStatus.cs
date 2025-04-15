@@ -87,6 +87,7 @@ public class PlayerStatus : MonoBehaviour, IAttacker
         SetInvincible(!isInvincible);
     }
 
+
     //임시로 고쳐놓은 것이라 수정이 필요합니다.
     // public float GetMoveSpeed() => animalData?.StartSpeed ?? 0f;
     // public float GetJumpPower() => animalData?.Jump ?? 0f;
