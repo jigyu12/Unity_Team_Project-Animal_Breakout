@@ -7,7 +7,7 @@ public class SkillManager : InGameManager
 {
     public enum SkillType
     {
-        BossAttack,
+        BossTarget,
         Utill,
     }
 
@@ -37,6 +37,12 @@ public class SkillManager : InGameManager
         BossManager.onSpawnBoss -= OnSpawnBossHandler;
     }
 
+    public override void Initialize()
+    {
+        base.Initialize();
+        enabled = false;
+    }
+
     public bool IsSkillExist(ISkill skill)
     {
         return IsSkillExist(skill.Id);
@@ -62,7 +68,7 @@ public class SkillManager : InGameManager
 
     public float GetSkillInheritedForwardSpeed()
     {
-        //�ӽ� �ڵ��Դϴ� ���� �������ּ���
+        //절대 수정 필!!!!!!!!!!!!!
         return GameManager.PlayerManager.playerRoot.GetComponent<MoveForward>().speed;
     }
 
@@ -97,5 +103,7 @@ public class SkillManager : InGameManager
     private void OnSpawnBossHandler(GameObject boss)
     {
         skillTarget = boss;
+        enabled = true;
+
     }
 }
