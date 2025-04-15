@@ -142,6 +142,7 @@ public class GameUIManager : InGameManager
             pausePanel.SetActive(false);
         countdownText.gameObject.SetActive(true);
         playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        playerManager.currentPlayerAnimator.ResetTrigger("Run");
         playerManager.currentPlayerAnimator.SetTrigger("idle");
         // GameManager.SetGameState(GameManager_new.GameState.GameStop);
 
@@ -161,7 +162,7 @@ public class GameUIManager : InGameManager
         // GameManager.UIManager?.SetDirectionButtonsInteractable(true);
 
         // 무적 해제는 따로 2초 후
-        isPaused = false;
+        //    isPaused = false;
         countdownText.gameObject.SetActive(false);
         // if (previousStateBeforePause == GameManager_new.GameState.GameReady)
         //     GameManager.SetGameState(GameManager_new.GameState.GameReady);

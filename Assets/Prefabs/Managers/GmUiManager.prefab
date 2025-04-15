@@ -1619,7 +1619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c78a8a0a68a4741018d26a290e304acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
+  GameManager: {fileID: 0}
   pausePanel: {fileID: 4072084577278961329}
   RealGiveUpPanel: {fileID: 7847180627451531586}
   resumeButton: {fileID: 2750575393478229562}
@@ -5383,6 +5383,7 @@ MonoBehaviour:
   slider: {fileID: 3712863023976545535}
   playerManager: {fileID: 0}
   GameManager: {fileID: 0}
+  gameUIManager: {fileID: 5052352571859111027}
 --- !u!1 &8799414871056579600
 GameObject:
   m_ObjectHideFlags: 0
