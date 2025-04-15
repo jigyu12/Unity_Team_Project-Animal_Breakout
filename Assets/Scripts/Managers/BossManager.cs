@@ -22,7 +22,7 @@ public class BossManager : InGameManager
         //     obj => { obj.SetActive(false); });
         
         GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager);
-        gameManager.StageManager.onBossStageEnter += SpawnBoss;
+        GameManager.StageManager.onBossStageEnter += SpawnBoss;
     }
 
     private void OnDestroy()
@@ -33,15 +33,11 @@ public class BossManager : InGameManager
     public override void Initialize()
     {
         base.Initialize();
-
-        GameManager.StageManager.onBossStageEnter += SpawnBoss;
     }
 
     public override void Clear()
     {
         base.Clear();
-        
-        
     }
 
     private void SpawnBoss()
