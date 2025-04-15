@@ -46,6 +46,8 @@ public class BossStatus : DamageableStatus
         isDead = true;
         
         bossPool.Release(gameObject);
+        
+        onBossDead?.Invoke();
     }
 
     public void SetPool(ObjectPool<GameObject> bossPool)

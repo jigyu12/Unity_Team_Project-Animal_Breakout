@@ -20,6 +20,16 @@ public class StageManager : InGameManager
 
     public Action onBossStageEnter;
 
+    private void Awake()
+    {
+        BossStatus.onBossDead += OnCurrentStageClear;
+    }
+
+    private void OnDestroy()
+    {
+        BossStatus.onBossDead -= OnCurrentStageClear;
+    }
+
     public override void Initialize()
     {
         base.Initialize();
