@@ -173,10 +173,6 @@ public class GameUIManager : InGameManager
         playerManager.currentPlayerMove.EnableInput();
         moveForward.enabled = true;
         playerManager.currentPlayerAnimator.SetTrigger("Run");
-        // playerManager.currentPlayerAnimator.SetTrigger("Run");
-
-
-
         StartCoroutine(RemoveInvincibilityAfterDelay(2f));
         coCountDown = null;
         playerManager.lastDeathType = DeathType.None;
@@ -210,17 +206,25 @@ public class GameUIManager : InGameManager
         // if (previousStateBeforePause == GameManager_new.GameState.GameReady)
         //     GameManager.SetGameState(GameManager_new.GameState.GameReady);
         // else
-        GameManager.SetGameState(GameManager_new.GameState.GamePlay);
-        countdownText.gameObject.SetActive(false);
-        playerManager.currentPlayerStatus.SetAlive();
-        playerManager.currentPlayerMove.EnableInput();
-        moveForward.enabled = true;
-        // playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
-        playerManager.currentPlayerAnimator.SetTrigger("Run");
-        // playerManager.currentPlayerAnimator.SetTrigger("Run");
-
+        if (playerManager.currentPlayerStatus.isDead == false)
+        {
+            GameManager.SetGameState(GameManager_new.GameState.GamePlay);
+            countdownText.gameObject.SetActive(false);
+            playerManager.currentPlayerStatus.SetAlive();
+            playerManager.currentPlayerMove.EnableInput();
+            moveForward.enabled = true;
+            playerManager.currentPlayerAnimator.SetTrigger("Run");
+            coCountDown = null;
+            // playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
+        }
+        else
+        {
+            GameManager.SetGameState(GameManager_new.GameState.GamePlay);
+            countdownText.gameObject.SetActive(false);
+            coCountDown = null;
+        }
         // StartCoroutine(RemoveInvincibilityAfterDelay(2f));
-        coCountDown = null;
+
         // playerManager.lastDeathType = DeathType.None;
     }
 

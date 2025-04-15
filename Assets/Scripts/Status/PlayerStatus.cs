@@ -20,7 +20,7 @@ public class PlayerStatus : MonoBehaviour, IAttacker
 
     public Action<PlayerStatus> onDie;
     private bool isInvincible = false;
-    private bool isDead;
+    public bool isDead;
     public int defaultLayer;
     public int invincibleLayer;
     public bool IsInvincible => isInvincible;
