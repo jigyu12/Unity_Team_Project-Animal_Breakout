@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 using UnityEngine.Events;
-public class PlayerStatus : MonoBehaviour, IAttacker
+public class PlayerStatus : MonoBehaviour
 {
     //1.데이터 테이블에서 바로 읽어오는 방식
     //2.스크립터블 오브젝트 채로 프리펩화 하는 방식

@@ -113,7 +113,7 @@ public class SkillManager : InGameManager
         while (readySkillQueue.Count != 0)
         {
             var currentSkill = readySkillQueue.Dequeue();
-            currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus.transform, skillTarget.transform, GameManager.PlayerManager.currentPlayerStatus, skillTarget);
+            currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus.transform, skillTarget.transform, GameManager.PlayerManager.attackPower, skillTarget);
             yield return new WaitForSeconds(skillPerformInterval);
         }
         coSkillPerform = null;

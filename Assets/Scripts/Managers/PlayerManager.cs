@@ -10,10 +10,15 @@ public enum DeathType
 public class PlayerManager : InGameManager
 {
     public GameObject playerRoot;
+
+    public IAttacker attackPower;
+     
+
     public RelayContinueUI relayContinueUI;
     private PlayerRotator playerRotator;
     public MoveForward moveForward;
     private GameUIManager gameUIManager;
+
     [ReadOnly]
     public PlayerStatus currentPlayerStatus;
     [ReadOnly]
