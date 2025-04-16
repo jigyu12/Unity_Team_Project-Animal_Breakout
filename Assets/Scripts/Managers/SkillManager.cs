@@ -72,7 +72,7 @@ public class SkillManager : InGameManager
     public float GetSkillInheritedForwardSpeed()
     {
         //절대 수정
-        return GameManager.PlayerManager.playerRoot.GetComponent<MoveForward>().speed;
+        return GameManager.PlayerManager.playerRootGameObject.GetComponent<MoveForward>().speed;
     }
 
     private void Update()
@@ -119,7 +119,7 @@ public class SkillManager : InGameManager
         while (readySkillQueue.Count != 0)
         {
             var currentSkill = readySkillQueue.Dequeue();
-            currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus.transform, skillTarget.transform, GameManager.PlayerManager.attackPower, skillTarget);
+            currentSkill.Perform(GameManager.PlayerManager.playerStatus.transform, skillTarget.transform, GameManager.PlayerManager.playerAttack, skillTarget);
             yield return new WaitForSeconds(skillPerformInterval);
         }
         coSkillPerform = null;
