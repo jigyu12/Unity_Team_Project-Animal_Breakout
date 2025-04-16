@@ -27,6 +27,7 @@ public class GameManager_new : MonoBehaviour
     private Action[] gameStateExitAction;
 
 
+    private GameState previousState;
     private GameState currentState;
 
     #region manager
@@ -79,8 +80,8 @@ public class GameManager_new : MonoBehaviour
         gameStateStartAction = new Action[(int)GameState.Max];
 
 
-        AddGameStateEnterAction(GameState.GameOver, OnGameOver);
-        AddGameStateEnterAction(GameState.GameStop, () =>
+        AddGameStateStartAction(GameState.GameOver, OnGameOver);
+        AddGameStateStartAction(GameState.GameStop, () =>
         {
             SetTimeScale(0);
         });
@@ -221,15 +222,18 @@ public class GameManager_new : MonoBehaviour
 
     public void SetGameState(GameState gameState)
     {
-        gameStateExitAction[(int)currentState]?.Invoke();
-
+        previousState = currentState;
         currentState = gameState;
+
+        gameStateExitAction[(int)previousState]?.Invoke();
         gameStateEnterAction[(int)currentState]?.Invoke();
         gameStateStartAction[(int)currentState]?.Invoke();
     }
 
-    public void RestartCurrentGameState()
+    public void RestartGameState()
     {
+        gameStateExitAction[(int)currentState]?.Invoke();
+        currentState = previousState;
         gameStateStartAction[(int)currentState]?.Invoke();
     }
 

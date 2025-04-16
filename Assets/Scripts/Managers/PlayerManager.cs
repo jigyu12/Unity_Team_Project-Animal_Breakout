@@ -41,8 +41,8 @@ public class PlayerManager : InGameManager
     private PlayerRotator playerRotator;
     private GameUIManager gameUIManager;
 
-    private Vector3 pendingRespawnPosition;
-    private Quaternion pendingRespawnRotation;
+    public Vector3 pendingRespawnPosition;
+    public Quaternion pendingRespawnRotation;
     private Vector3 pendingForward;
     public DeathType lastDeathType = DeathType.None;
     private bool isDead;
@@ -102,7 +102,7 @@ public class PlayerManager : InGameManager
         animalID = GameDataManager.Instance.StartAnimalID;
         Debug.Log($"Set Player Start With Animal ID: {animalID}");
 
-        ActivatePlayer(playerStatus);
+        ActivatePlayer();
 
         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
         if (prefab != null)
@@ -147,6 +147,12 @@ public class PlayerManager : InGameManager
         DisablePlayer(status);
         PlayDeathAnimation();
         StartCoroutine(DieAndSwitch(status));
+    }
+
+
+    public void ResetMoveForward()
+    {
+        //if(GameManager.StageManager.)
     }
 
     //스테이지매니저에서 필요해서 퍼블릭으로 변경
