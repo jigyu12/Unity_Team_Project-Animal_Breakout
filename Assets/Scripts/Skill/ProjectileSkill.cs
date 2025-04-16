@@ -4,38 +4,48 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ProjectileSkill : MonoBehaviour, ISkill
+public class ProjectileSkill : ISkill
 {
-    [SerializeField]
-    private float coolDownTime;
-    [SerializeField]
-    private float lastPerformedTime;
-    [SerializeField]
-    private float speed;
-
-    [SerializeField]
-    private GameObject projectilePrefab;
-
-    public int Level
+    public ProjectileSkill(ProjectileSkillData data)
     {
-        get; private set;
-    } = 1;
-
-    public bool IsReady
-    {
-        get => (Time.time >= lastPerformedTime + coolDownTime);
-    }
-    public float CoolTimeRatio
-    {
-        get => Mathf.Clamp01((Time.time - lastPerformedTime) / coolDownTime);
+        ProjectileSkillData = data;
     }
 
-    public int Id
+    public SkillData SkillData
+    {
+        get => ProjectileSkillData;
+    }
+
+    public ProjectileSkillData ProjectileSkillData
     {
         get;
         private set;
     }
 
+    public bool IsReady
+    {
+        get => (CoolTime >= SkillData.coolDownTime);
+    }
+    public float CoolTime
+    {
+        get => SkillData.coolDownTime - Mathf.Clamp((Time.time - lastPerformedTime), 0, SkillData.coolDownTime);
+    }
+
+    public float CoolTimeRatio
+    {
+        get => Mathf.Clamp01(CoolTime / SkillData.coolDownTime);
+    }
+
+    public int Id
+    {
+        get => SkillData.skillID;
+    }
+    public int Level
+    {
+        get => SkillData.level;
+    }
+
+    private float lastPerformedTime = 0;
     private Action onReady;
 
     private SkillManager skillManager;
@@ -45,41 +55,43 @@ public class ProjectileSkill : MonoBehaviour, ISkill
         this.skillManager = skillManager;
     }
 
-    public void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker = null, IDamageable target = null)
+    public void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker, IDamageable target)
     {
         //DoSomeThing;
-        var projectile = Instantiate(projectilePrefab.gameObject).GetComponent<ProjectileBehaviour>();
+        var projectile = UnityEngine.Object.Instantiate(ProjectileSkillData.projectileBehaviourPrefab.gameObject, skillManager.transform).GetComponent<ProjectileBehaviour>();
         projectile.InitializeSkilManager(skillManager);
 
-        projectile.Fire(attackerTrs, targetTrs, speed);
+        projectile.onArrival += () => ApplyDamage(attacker, target);
+        projectile.Fire(attackerTrs, targetTrs, ProjectileSkillData.speed);
 
         lastPerformedTime = Time.time;
-        StartCoroutine(CoWaitCoolTime());
+        //StartCoroutine(CoWaitCoolTime());
+        WaitCoolDownTime();
     }
 
     public void ApplyDamage(IAttacker attacker, IDamageable target)
     {
-
-    }
-
-    private void OnEnable()
-    {
-
+        //임시
+        target.OnDamage(attacker.AttackPower * ProjectileSkillData.damageRate);
     }
 
     public void UpgradeLevel()
     {
-        Level++;
+        // Level++;
 
-        //���� clamp�߰�
+        //?좎룞?쇿뜝?숈삕 clamp?좎뙥怨ㅼ삕
     }
 
-    //�ڷ�ƾ�� enabled=false�϶� �ȵ��Ƿ� ����
-    private IEnumerator CoWaitCoolTime()
+    public void WaitCoolDownTime()
     {
-        yield return new WaitForSeconds(coolDownTime);
-        OnReady();
+        skillManager.WaitSkillCoolDownTime(this);
     }
+
+    //private IEnumerator CoWaitCoolTime()
+    //{
+    //    yield return new WaitForSeconds(skillData.coolDownTime);
+    //    OnReady();
+    //}
 
     public void AddOnReadyAction(Action onReady)
     {

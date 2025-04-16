@@ -1,0 +1,96 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Pool;
+
+public class BossBehaviourController : MonoBehaviour
+{
+    private GameManager_new gameManager;
+    
+    private GameObject playerRoot;
+    private Lane lane;
+    
+    private Vector3 attackSpawnLocalPosition;
+    private Vector3 localDirectionToPlayer;
+    
+    private bool isAttacked;
+    
+    private WaitForSeconds attackWaitTime = new(3f);
+    
+    [SerializeField] private GameObject tempBossProjectilePrefab;
+    private ObjectPool<GameObject> tempBossProjectilePool;
+
+    private GameObject projectileReleaseParent;
+    private readonly List<GameObject> tempBossProjectileList = new();
+    
+    private void Start()
+    {
+        playerRoot = GameObject.FindGameObjectWithTag("PlayerParent");
+        playerRoot.TryGetComponent(out lane);
+        
+        localDirectionToPlayer = (playerRoot.transform.position - transform.position).normalized;
+        
+        transform.localPosition = BossManager.spawnLocalPosition;
+        
+        attackSpawnLocalPosition = new Vector3(
+            BossManager.spawnLocalPosition.x, 
+            BossManager.spawnLocalPosition.y,
+            BossManager.spawnLocalPosition.z - 1f);
+
+        isAttacked = false;
+        
+        GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager);
+        tempBossProjectilePool = gameManager.ObjectPoolManager.CreateObjectPool(tempBossProjectilePrefab,
+            () => Instantiate(tempBossProjectilePrefab),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+
+        projectileReleaseParent = GameObject.FindGameObjectWithTag("ProjectileParent");
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var tempBossProjectile in tempBossProjectileList)
+        {
+            if (tempBossProjectile != null)
+            {
+                continue;
+            }
+            
+            tempBossProjectile.transform.SetParent(projectileReleaseParent.transform);
+            tempBossProjectilePool.Release(tempBossProjectile);
+        }
+    }
+    
+    private void Update()
+    {
+        if (!isAttacked)
+        {
+            StartCoroutine(TestMove());
+        }
+    }
+
+    private IEnumerator TestMove()
+    {
+        isAttacked = true;
+
+        // temp code //
+        
+        //TryGetComponent(out BossStatus bossStatus); 
+        //bossStatus.OnDamage(20f);
+        
+        // temp code //
+        
+        Vector3 attackPosition = lane.LaneIndexToPosition(Random.Range(0, 3));
+        var tempBossProjectile = tempBossProjectilePool.Get();
+        tempBossProjectile.TryGetComponent(out TempBossProjectile tempBossProjectileComponent);
+        tempBossProjectile.transform.SetParent(transform);
+        tempBossProjectileComponent.Initialize(attackPosition, localDirectionToPlayer, 5f, tempBossProjectilePool, tempBossProjectileList, projectileReleaseParent.transform);
+        tempBossProjectileList.Add(tempBossProjectile);
+        
+        yield return attackWaitTime;
+
+        isAttacked = false;
+    }
+}
