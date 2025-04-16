@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -11,6 +12,8 @@ public class TempBossProjectile : MonoBehaviour
     private float projectileLifeTimeDelay = 5f;
     private float projectileLifeTimer;
 
+    private List<GameObject> tempBossProjectileList;
+
     private void Update()
     {
         transform.position += direction * (speed * Time.deltaTime);
@@ -18,11 +21,12 @@ public class TempBossProjectile : MonoBehaviour
         projectileLifeTimer += Time.deltaTime;
         if (projectileLifeTimer >= projectileLifeTimeDelay)
         {
+            tempBossProjectileList.Remove(gameObject);
             projectilePool.Release(gameObject);
         }
     }
     
-    public void Initialize(Vector3 position, Vector3 direction, float speed, ObjectPool<GameObject> projectilePool)
+    public void Initialize(Vector3 position, Vector3 direction, float speed, ObjectPool<GameObject> projectilePool, List<GameObject> tempBossProjectileList)
     {
         transform.localPosition = position;
         
@@ -31,6 +35,8 @@ public class TempBossProjectile : MonoBehaviour
         this.projectilePool = projectilePool;
 
         projectileLifeTimer = 0f;
+
+        this.tempBossProjectileList = tempBossProjectileList;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,6 +45,8 @@ public class TempBossProjectile : MonoBehaviour
         {
             other.gameObject.TryGetComponent(out PlayerStatus playerStatus);
             playerStatus.TakeDamage(1);
+
+            tempBossProjectileList.Remove(gameObject);
             projectilePool.Release(gameObject);
         }
     }

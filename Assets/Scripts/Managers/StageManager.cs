@@ -58,6 +58,7 @@ public class StageManager : InGameManager
     [ContextMenu("Boss Stage Exit")]
     private void OnCurrentStageClear()
     {
+        GameManager.PlayerManager.ActivatePlayer();
         OnSetRoadMode();
     }
 

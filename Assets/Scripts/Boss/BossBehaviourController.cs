@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -18,6 +19,8 @@ public class BossBehaviourController : MonoBehaviour
     
     [SerializeField] private GameObject tempBossProjectilePrefab;
     private ObjectPool<GameObject> tempBossProjectilePool;
+    
+    private readonly List<GameObject> tempBossProjectileList = new();
     
     private void Start()
     {
@@ -41,6 +44,14 @@ public class BossBehaviourController : MonoBehaviour
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
     }
+
+    private void OnDestroy()
+    {
+        foreach (var tempBossProjectile in tempBossProjectileList)
+        {
+            tempBossProjectilePool.Release(tempBossProjectile);
+        }
+    }
     
     private void Update()
     {
@@ -56,8 +67,8 @@ public class BossBehaviourController : MonoBehaviour
 
         // temp code //
         
-        TryGetComponent(out BossStatus bossStatus);
-        bossStatus.OnDamage(20f);
+        //TryGetComponent(out BossStatus bossStatus); 
+        //bossStatus.OnDamage(20f);
         
         // temp code //
         
@@ -65,7 +76,7 @@ public class BossBehaviourController : MonoBehaviour
         var tempBossProjectile = tempBossProjectilePool.Get();
         tempBossProjectile.TryGetComponent(out TempBossProjectile tempBossProjectileComponent);
         tempBossProjectile.transform.SetParent(transform);
-        tempBossProjectileComponent.Initialize(attackPosition, localDirectionToPlayer, 5f, tempBossProjectilePool);
+        tempBossProjectileComponent.Initialize(attackPosition, localDirectionToPlayer, 5f, tempBossProjectilePool, tempBossProjectileList);
         
         yield return attackWaitTime;
 
