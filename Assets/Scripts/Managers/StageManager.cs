@@ -6,6 +6,12 @@ using UnityEngine;
 
 public class StageManager : InGameManager
 {
+    public bool IsPlayerInBossStage
+    {
+        get;
+        private set;
+    }
+
 
     [ReadOnly]
     public int currentStageDataIndex = 0;
@@ -23,6 +29,9 @@ public class StageManager : InGameManager
     private void Awake()
     {
         BossStatus.onBossDead += OnCurrentStageClear;
+        BossStatus.onBossDead += () => IsPlayerInBossStage = false;
+
+        onBossStageEnter += () => IsPlayerInBossStage = true;
     }
 
     private void OnDestroy()

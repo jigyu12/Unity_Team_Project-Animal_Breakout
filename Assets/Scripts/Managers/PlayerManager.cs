@@ -152,7 +152,14 @@ public class PlayerManager : InGameManager
 
     public void ResetMoveForward()
     {
-        //if(GameManager.StageManager.)
+        if(GameManager.StageManager.IsPlayerInBossStage)
+        {
+            moveForward.enabled = false;
+        }
+        else
+        {
+            moveForward.enabled = true;
+        }
     }
 
     //스테이지매니저에서 필요해서 퍼블릭으로 변경
