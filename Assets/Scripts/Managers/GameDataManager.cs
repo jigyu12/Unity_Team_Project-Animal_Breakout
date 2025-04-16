@@ -197,7 +197,7 @@ public class GameDataManager : Singleton<GameDataManager>
 
         maxScore = 0;
         currentGolds = 1000;
-        currentStamina = 5;
+        currentStamina = 100; // 5
         currentLevel = 1;
         nextExp = expToLevelUpDictionary[currentLevel];
         currentExp = 0;
