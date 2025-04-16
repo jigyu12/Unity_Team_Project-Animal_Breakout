@@ -20,7 +20,7 @@ public class PlayerStatus : MonoBehaviour, IAttacker
 
     public Action<PlayerStatus> onDie;
     private bool isInvincible = false;
-    private bool isDead;
+    public bool isDead;
     public int defaultLayer;
     public int invincibleLayer;
     public bool IsInvincible => isInvincible;
@@ -86,6 +86,7 @@ public class PlayerStatus : MonoBehaviour, IAttacker
     {
         SetInvincible(!isInvincible);
     }
+
 
     //임시로 고쳐놓은 것이라 수정이 필요합니다.
     // public float GetMoveSpeed() => animalData?.StartSpeed ?? 0f;

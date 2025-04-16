@@ -207,6 +207,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadSegmentRightTurn
       objectReference: {fileID: 0}
+    - target: {fileID: 4417944255433312261, guid: 0eb71f579de613f489d6dae4479f7219, type: 3}
+      propertyPath: allowedDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538237014545406332, guid: 0eb71f579de613f489d6dae4479f7219, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538237014545406332, guid: 0eb71f579de613f489d6dae4479f7219, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971852585116485145, guid: 0eb71f579de613f489d6dae4479f7219, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -280,6 +296,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RoadSegment (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8538237014545406332, guid: a2deb738456a4184081aad9e2c628653, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971852585116485145, guid: a2deb738456a4184081aad9e2c628653, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -352,6 +376,18 @@ PrefabInstance:
     - target: {fileID: 4392002336861150956, guid: a2deb738456a4184081aad9e2c628653, type: 3}
       propertyPath: m_Name
       value: RoadSegment
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538237014545406332, guid: a2deb738456a4184081aad9e2c628653, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538237014545406332, guid: a2deb738456a4184081aad9e2c628653, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971852585116485145, guid: a2deb738456a4184081aad9e2c628653, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
