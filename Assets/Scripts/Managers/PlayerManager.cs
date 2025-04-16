@@ -71,7 +71,7 @@ public class PlayerManager : InGameManager
             {
                 playerStatus.Initialize();
                 currentPlayerStatus = playerStatus;
-                ActivatePlayer(playerStatus);
+                ActivatePlayer();
                 Debug.Log($"Player {animalID} spawned successfully.");
             }
             else
@@ -94,10 +94,9 @@ public class PlayerManager : InGameManager
             Debug.LogError($"Character prefab not found for ID {animalID}.");
         }
     }
-    public void ActivatePlayer(PlayerStatus playerStatus)
+    public void ActivatePlayer()
     {
         moveForward.enabled = true;
-        Debug.Log($"MoveForward enabled for: {playerStatus.name}");
     }
     public void OnPlayerDied(PlayerStatus status)
     {
@@ -253,7 +252,7 @@ public class PlayerManager : InGameManager
         // currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         currentPlayerAnimator.SetTrigger("idle");
 
-        ActivatePlayer(currentPlayerStatus);
+        ActivatePlayer();
 
         //  gameUIManager.CountDown();
 
