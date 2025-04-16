@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,11 @@ public class BossHpSlider : MonoBehaviour
         BossManager.onSpawnBoss += OnSpawnBossHandler;
         BossStatus.onBossDead += OnBossDeadHandler;
         BossStatus.onBossCurrentHpChanged += OnBossCurrentHpChangedHandler;
+    }
+
+    private void OnEnable()
+    {
+        hpSlider.value = 1;
     }
 
     private void OnDestroy()

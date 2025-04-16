@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -19,7 +20,8 @@ public class BossBehaviourController : MonoBehaviour
     
     [SerializeField] private GameObject tempBossProjectilePrefab;
     private ObjectPool<GameObject> tempBossProjectilePool;
-    
+
+    private GameObject projectileReleaseParent;
     private readonly List<GameObject> tempBossProjectileList = new();
     
     private void Start()
@@ -43,12 +45,20 @@ public class BossBehaviourController : MonoBehaviour
             () => Instantiate(tempBossProjectilePrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
+
+        projectileReleaseParent = GameObject.FindGameObjectWithTag("ProjectileParent");
     }
 
     private void OnDestroy()
     {
         foreach (var tempBossProjectile in tempBossProjectileList)
         {
+            if (tempBossProjectile != null)
+            {
+                continue;
+            }
+            
+            tempBossProjectile.transform.SetParent(projectileReleaseParent.transform);
             tempBossProjectilePool.Release(tempBossProjectile);
         }
     }
@@ -76,7 +86,8 @@ public class BossBehaviourController : MonoBehaviour
         var tempBossProjectile = tempBossProjectilePool.Get();
         tempBossProjectile.TryGetComponent(out TempBossProjectile tempBossProjectileComponent);
         tempBossProjectile.transform.SetParent(transform);
-        tempBossProjectileComponent.Initialize(attackPosition, localDirectionToPlayer, 5f, tempBossProjectilePool, tempBossProjectileList);
+        tempBossProjectileComponent.Initialize(attackPosition, localDirectionToPlayer, 5f, tempBossProjectilePool, tempBossProjectileList, projectileReleaseParent.transform);
+        tempBossProjectileList.Add(tempBossProjectile);
         
         yield return attackWaitTime;
 
