@@ -15,14 +15,18 @@ public class GameManager_new : MonoBehaviour
         GameReady,
         GamePlay,
         GameStop,
-        GameReStart,
+        //GameReStart,
         GameOver,
         GameClear,
         Max,
     }
 
+    //enter->start->exit순으로 돈다
     private Action[] gameStateEnterAction;
+    private Action[] gameStateStartAction;
     private Action[] gameStateExitAction;
+
+
     private GameState currentState;
 
     #region manager
@@ -72,12 +76,15 @@ public class GameManager_new : MonoBehaviour
     {
         gameStateEnterAction = new Action[(int)GameState.Max];
         gameStateExitAction = new Action[(int)GameState.Max];
+        gameStateStartAction = new Action[(int)GameState.Max];
+
+
         AddGameStateEnterAction(GameState.GameOver, OnGameOver);
         AddGameStateEnterAction(GameState.GameStop, () =>
         {
             SetTimeScale(0);
         });
-        AddGameStateEnterAction(GameState.GamePlay, () =>
+        AddGameStateExitAction(GameState.GameStop, () =>
         {
             SetTimeScale(1);
         });
@@ -86,6 +93,10 @@ public class GameManager_new : MonoBehaviour
     public void AddGameStateEnterAction(GameState state, Action action)
     {
         gameStateEnterAction[(int)state] += action;
+    }
+    public void AddGameStateStartAction(GameState state, Action action)
+    {
+        gameStateStartAction[(int)state] += action;
     }
 
     public void AddGameStateExitAction(GameState state, Action action)
@@ -97,11 +108,16 @@ public class GameManager_new : MonoBehaviour
     {
         gameStateEnterAction[(int)state] -= action;
     }
+    public void RemoveGameStateStartAction(GameState state, Action action)
+    {
+        gameStateStartAction[(int)state] -= action;
+    }
 
     public void RemoveGameStateExitAction(GameState state, Action action)
     {
         gameStateExitAction[(int)state] -= action;
     }
+
 
     private void Start()
     {
@@ -206,8 +222,15 @@ public class GameManager_new : MonoBehaviour
     public void SetGameState(GameState gameState)
     {
         gameStateExitAction[(int)currentState]?.Invoke();
+
         currentState = gameState;
         gameStateEnterAction[(int)currentState]?.Invoke();
+        gameStateStartAction[(int)currentState]?.Invoke();
+    }
+
+    public void RestartCurrentGameState()
+    {
+        gameStateStartAction[(int)currentState]?.Invoke();
     }
 
     public GameState GetCurrentGameState()
