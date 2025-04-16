@@ -110,11 +110,11 @@ public class GameUIManager : InGameManager
     }
     public void ShowRotateButton()
     {
-        // RotateButton.gameObject.SetActive(true);
+        RotateButton.gameObject.SetActive(true);
     }
     public void UnShowRotateButton()
     {
-        // RotateButton.gameObject.SetActive(false);
+        RotateButton.gameObject.SetActive(false);
     }
 
 
@@ -148,11 +148,19 @@ public class GameUIManager : InGameManager
             coCountDown = StartCoroutine(InGameResumeAfterCountdown(countdownText, playerManager.moveForward));
         }
     }
-
+    public void SetLastDeathType(DeathType type)
+    {
+        playerManager.lastDeathType = type;
+    }
     public IEnumerator ResumeAfterCountdown(TMP_Text countdownText, MoveForward moveForward)
     {
 
         // GameManager.UIManager?.SetDirectionButtonsInteractable(false);
+        if (playerManager.lastDeathType == DeathType.DeathZone)
+        {
+            moveForward.transform.SetPositionAndRotation(playerManager.pendingRespawnPosition, playerManager.pendingRespawnRotation);
+            moveForward.SetDirectionByRotation();
+        }
         SetPauseButtonInteractable(false);
         if (pausePanel != null)
             pausePanel.SetActive(false);
@@ -190,12 +198,22 @@ public class GameUIManager : InGameManager
         // if (previousStateBeforePause == GameManager_new.GameState.GameReady)
         //     GameManager.SetGameState(GameManager_new.GameState.GameReady);
         // else
+
         SetDirectionButtonsInteractable(true);
         GameManager.SetGameState(GameManager_new.GameState.GamePlay);
         playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
         countdownText.gameObject.SetActive(false);
         playerManager.currentPlayerStatus.SetAlive();
         playerManager.currentPlayerMove.EnableInput();
+        // 3초 카운트다운 끝나고 무적 상태일 때 주변 트리거 강제 확인
+        Collider[] hits = Physics.OverlapSphere(playerManager.currentPlayerMove.transform.position, 1f);
+        foreach (var hit in hits)
+        {
+            if (hit.TryGetComponent<SwipeTurnTrigger>(out var trigger))
+            {
+                trigger.ForceAutoTurnIfInside(playerManager.currentPlayerMove.gameObject);
+            }
+        }
         moveForward.enabled = true;
         playerManager.currentPlayerAnimator.SetTrigger("Run");
         StartCoroutine(RemoveInvincibilityAfterDelay(2f));

@@ -42,8 +42,8 @@ public class LobbyPanel : MonoBehaviour
 
         gameStartButton.onClick.AddListener(() =>
         {
-            gameStartButton.interactable = false;
             onGameStartButtonClicked?.Invoke(staminaRequiredToStartGame);
+            gameStartButton.interactable = false;
             StartCoroutine(OnGameStartButtonClicked());
         }
             );

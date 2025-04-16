@@ -258,15 +258,25 @@ public class PlayerMove : MonoBehaviour
             {
                 TryJump();
             }
-            else if (Mathf.Abs(delta.x) > 50f && Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+            // 왼쪽 스와이프
+            else if (delta.x < -30f && Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
             {
-                if (delta.x < 0f)
-                    TryRotateLeft();
-                else
-                    TryRotateRight();
+                // if (canTurn)
+                //     TryRotateLeft();
+                // else
+                MoveLeft();
+            }
+            // 오른쪽 스와이프
+            else if (delta.x > 30f && Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+            {
+                // if (canTurn)
+                //     TryRotateRight();
+                // else
+                MoveRight();
             }
         }
     }
+
 
 
     public void DisableInput()

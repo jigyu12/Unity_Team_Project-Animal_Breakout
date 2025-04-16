@@ -22,8 +22,8 @@ public class PlayerManager : InGameManager
     public Animator currentPlayerAnimator;
 
     private int animalID = 100301;//100301;
-    private Vector3 pendingRespawnPosition;
-    private Quaternion pendingRespawnRotation;
+    public Vector3 pendingRespawnPosition;
+    public Quaternion pendingRespawnRotation;
     private Vector3 pendingForward;
     public DeathType lastDeathType = DeathType.None;
     private bool isDead;
@@ -179,6 +179,7 @@ public class PlayerManager : InGameManager
         pendingRespawnRotation = rotation;
         pendingForward = forward.normalized;
     }
+
     // public void ContinuePlayer()
     // {
     //     if (currentPlayerStatus == null)
