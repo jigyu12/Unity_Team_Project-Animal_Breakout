@@ -8,7 +8,7 @@ public class BossManager : InGameManager
     //private ObjectPool<GameObject> bossPool;
     
     [SerializeField] private GameObject parentGameObjectToSpawnBoss;
-    private readonly Vector3 spawnLocalPosition = new Vector3(0f, 1f, 15f);
+    public static readonly Vector3 spawnLocalPosition = new Vector3(0f, 1f, 15f);
     
     private GameManager_new gameManager;
     
@@ -22,7 +22,7 @@ public class BossManager : InGameManager
         //     obj => { obj.SetActive(false); });
         
         GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager);
-        gameManager.StageManager.onBossStageEnter += SpawnBoss;
+        GameManager.StageManager.onBossStageEnter += SpawnBoss;
     }
 
     private void OnDestroy()
@@ -38,8 +38,6 @@ public class BossManager : InGameManager
     public override void Clear()
     {
         base.Clear();
-        
-        
     }
 
     private void SpawnBoss()

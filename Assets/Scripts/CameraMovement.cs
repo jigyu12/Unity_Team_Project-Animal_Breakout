@@ -45,6 +45,8 @@ public class CameraMovement : MonoBehaviour
     private IEnumerator AfterFollowCamActivatedCoroutine(CinemachineVirtualCamera virtualCam)
     {
         yield return new WaitForSeconds(BlendTime);
+        gameManager.PlayerManager.isInIntroSequence = false;
         gameManager.SetGameState(GameManager_new.GameState.GamePlay);
+        gameManager.UIManager.SetDirectionButtonsInteractable(true);
     }
 }

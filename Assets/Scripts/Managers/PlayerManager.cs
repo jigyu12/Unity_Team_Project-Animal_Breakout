@@ -27,6 +27,8 @@ public class PlayerManager : InGameManager
     private Vector3 pendingForward;
     public DeathType lastDeathType = DeathType.None;
     private bool isDead;
+    public bool isInIntroSequence { get; set; } = true;
+    public void EndIntroSequence() => isInIntroSequence = false;
     // [SerializeField] public TMP_Text countdownText;
     private void Awake()
     {
@@ -111,6 +113,7 @@ public class PlayerManager : InGameManager
         {
             currentPlayerMove.canTurn = false;
         }
+        gameUIManager.UnShowRotateButton();
         StopAllMovements();
         DisablePlayer(status);
         PlayDeathAnimation();
@@ -155,6 +158,7 @@ public class PlayerManager : InGameManager
 
     private IEnumerator DieAndSwitch(PlayerStatus playerStatus)
     {
+        gameUIManager.SetDirectionButtonsInteractable(false);
         yield return new WaitForSeconds(1.5f);
         GameManager.SetGameState(GameManager_new.GameState.GameStop);
         if (relayContinueUI != null)
@@ -223,7 +227,7 @@ public class PlayerManager : InGameManager
     }
     public void ContinuePlayerWithCountdown(TMP_Text countdownText)
     {
-        GameManager.SetTimeScale(0);
+        // GameManager.SetTimeScale(0);
 
         if (currentPlayerStatus == null)
         {
