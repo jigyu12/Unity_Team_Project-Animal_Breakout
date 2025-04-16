@@ -110,11 +110,11 @@ public class GameUIManager : InGameManager
     }
     public void ShowRotateButton()
     {
-        RotateButton.gameObject.SetActive(true);
+        // RotateButton.gameObject.SetActive(true);
     }
     public void UnShowRotateButton()
     {
-        RotateButton.gameObject.SetActive(false);
+        // RotateButton.gameObject.SetActive(false);
     }
 
 
