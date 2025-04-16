@@ -6,8 +6,8 @@ using UnityEngine;
 
 public enum SkillType
 {
-    BossTarget,
-    Utill,
+    Attack,
+    Utility,
 }
 
 public enum SkillAttribute
@@ -21,16 +21,20 @@ public enum SkillAttribute
 
 public class SkillData : ScriptableObject
 {
-    int skillID;
+    public int skillID;
+    public SkillType skillType;
 
-    SkillType skillType;
+    public int level;
+    public float coolDownTime;
 
-    SkillAttribute skillAttribute;
+}
 
-    int level;
+public class AttackSkillData : SkillData
+{
+    public SkillAttribute skillAttribute;
+}
 
-    float damage;
-
-    float coolDownTime;
+public class UtilitySkillData : SkillData
+{
 
 }

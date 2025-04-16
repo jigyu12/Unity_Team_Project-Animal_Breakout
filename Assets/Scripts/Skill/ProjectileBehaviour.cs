@@ -26,7 +26,7 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         this.target = target;
         this.speed = speed;
-  
+
 
         transform.position = attacker.position;
         gameObject.SetActive(true);
@@ -34,7 +34,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if((target.transform.position - transform.position).magnitude <= arrivalThreshold)
+        if ((target.transform.position - transform.position).magnitude <= arrivalThreshold)
         {
             onArrival?.Invoke();
             Destroy(gameObject);
@@ -44,5 +44,5 @@ public class ProjectileBehaviour : MonoBehaviour
         transform.position += direction * (speed + skillManager?.GetSkillInheritedForwardSpeed() ?? 0f) * Time.deltaTime;
         transform.LookAt(this.target);
     }
-    
+
 }

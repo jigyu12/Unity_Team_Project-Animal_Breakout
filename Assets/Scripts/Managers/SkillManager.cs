@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,9 @@ public class SkillManager : InGameManager
 
     public float skillPerformInterval = 1f;
     private Coroutine coSkillPerform = null;
+
+    private bool isBossStage;
+
     [SerializeField]
     private BossStatus skillTarget;
 
@@ -36,8 +40,11 @@ public class SkillManager : InGameManager
     public override void Initialize()
     {
         base.Initialize();
-        enabled = false;
+
+        GameManager.StageManager.onBossStageEnter += () => isBossStage = true;
+        BossStatus.onBossDead+= ()=>isBossStage = false;
     }
+
 
     public bool IsSkillExist(ISkill skill)
     {
@@ -70,10 +77,27 @@ public class SkillManager : InGameManager
 
     private void Update()
     {
+        if(isBossStage)
+        {
+            BossStageUpdate();
+        }
+        else
+        {
+            NormalStageUpdate();
+        }
+    }
+
+    private void BossStageUpdate()
+    {
         if (coSkillPerform == null && readySkillQueue.Count != 0)
         {
             coSkillPerform = StartCoroutine(CoroutinePerformSkill());
         }
+    }
+
+    private void NormalStageUpdate()
+    {
+
     }
 
     private void OnDisable()
@@ -101,10 +125,19 @@ public class SkillManager : InGameManager
         coSkillPerform = null;
     }
 
+    public void WaitSkillCoolDownTime(ISkill skill)
+    {
+        StartCoroutine(CoWaitCoolTime(skill));
+    }
+
+    private IEnumerator CoWaitCoolTime(ISkill skill)
+    {
+        yield return new WaitForSeconds(skill.SkillData.coolDownTime);
+        skill.OnReady();
+    }
+
     private void OnSpawnBossHandler(BossStatus boss)
     {
         skillTarget = boss;
-        enabled = true;
-
     }
 }
