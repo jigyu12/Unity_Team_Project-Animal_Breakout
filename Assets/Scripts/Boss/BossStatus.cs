@@ -1,5 +1,5 @@
+using System;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class BossStatus : DamageableStatus
 {
@@ -7,7 +7,10 @@ public class BossStatus : DamageableStatus
     public override float maxHp { get; protected set; }
     public override bool isDead { get; protected set; }
     
-    private ObjectPool<GameObject> bossPool;
+    //private ObjectPool<GameObject> bossPool;
+    
+    public static event Action onBossDead;
+    public static event Action<float, float> onBossCurrentHpChanged;
 
     public override void InitializeStatus(float maxHp)
     {
@@ -27,6 +30,7 @@ public class BossStatus : DamageableStatus
         
         currentHp -= damage;
         currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
+        onBossCurrentHpChanged?.Invoke(currentHp, maxHp);
         
         Debug.Log($"Boss HP : {currentHp}/{maxHp}");
 
@@ -41,12 +45,15 @@ public class BossStatus : DamageableStatus
     protected override void OnDead()
     {
         isDead = true;
+
+        onBossDead?.Invoke();
         
-        bossPool.Release(gameObject);
+        //bossPool.Release(gameObject);
+        Destroy(gameObject);
     }
 
-    public void SetPool(ObjectPool<GameObject> bossPool)
-    {
-        this.bossPool = bossPool;
-    }
+    // public void SetPool(ObjectPool<GameObject> bossPool)
+    // {
+    //     this.bossPool = bossPool;
+    // }
 }

@@ -4,5 +4,8 @@ using UnityEngine;
 
 public interface IAttacker
 {
-   
+    public int AttackPower
+    {
+        get;
+    }
 }

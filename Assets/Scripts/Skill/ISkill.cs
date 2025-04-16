@@ -5,6 +5,10 @@ using UnityEngine;
 
 public interface ISkill
 {
+    public SkillData SkillData
+    {
+        get;
+    }
     public int Id
     {
         get;
@@ -15,7 +19,13 @@ public interface ISkill
         get;
     }
 
+
     public bool IsReady
+    {
+        get;
+    }
+
+    public float CoolTime
     {
         get;
     }
