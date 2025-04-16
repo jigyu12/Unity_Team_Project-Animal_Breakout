@@ -9,19 +9,38 @@ public enum DeathType
 }
 public class PlayerManager : InGameManager
 {
-    public GameObject playerRoot;
+    //이 아이디 기준으로 플레이어를 생성함
+    private int animalID = 100301;//100301;
+
+    public GameObject playerRootGameObject;
+    public GameObject playerGameObject;
+
+    #region player component caching
+
+    [ReadOnly]
+    public MoveForward moveForward;
+
+    [ReadOnly]
+    public ExperienceStatus playerExperience;
+
+    [ReadOnly]
+    public PlayerStatus playerStatus;
+
+    [ReadOnly]
+    public AttackPowerStatus playerAttack;
+
+    [ReadOnly]
+    public PlayerMove playerMove;
+
+    [ReadOnly]
+    public Animator playerAnimator;
+    #endregion
+
+
     public RelayContinueUI relayContinueUI;
     private PlayerRotator playerRotator;
-    public MoveForward moveForward;
     private GameUIManager gameUIManager;
-    [ReadOnly]
-    public PlayerStatus currentPlayerStatus;
-    [ReadOnly]
-    public PlayerMove currentPlayerMove;
-    [ReadOnly]
-    public Animator currentPlayerAnimator;
 
-    private int animalID = 100301;//100301;
     public Vector3 pendingRespawnPosition;
     public Quaternion pendingRespawnRotation;
     private Vector3 pendingForward;
@@ -39,9 +58,12 @@ public class PlayerManager : InGameManager
     public override void Initialize()
     {
         base.Initialize();
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => DisablePlayer(currentPlayerStatus));
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () => DisablePlayer(currentPlayerStatus));
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(currentPlayerStatus));
+
+        InitializePlayerComponents();
+
+        GameManager.AddGameStateStartAction(GameManager_new.GameState.GameReady, () => DisablePlayer(playerStatus));
+        GameManager.AddGameStateStartAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(playerStatus));
+        GameManager.AddGameStateExitAction(GameManager_new.GameState.GamePlay, () => DisablePlayer(playerStatus));
 
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
@@ -49,55 +71,63 @@ public class PlayerManager : InGameManager
 
         gameUIManager = GameManager.UIManager;
         gameUIManager.playerManager = this;
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => EnablePlayer(currentPlayerStatus));
+
     }
-    private void Start()
+
+
+    private void InitializePlayerComponents()
     {
-        moveForward = playerRoot.GetComponent<MoveForward>();
+        moveForward = playerRootGameObject.GetComponent<MoveForward>();
+
+        playerAttack = playerGameObject.GetComponent<AttackPowerStatus>();
+        playerExperience = playerGameObject.GetComponent<ExperienceStatus>();
+        playerStatus = playerGameObject.GetComponent<PlayerStatus>();
+        playerMove = playerGameObject.GetComponent<PlayerMove>();
+
+        var statData = Resources.Load<AnimalStatData>("Stats/Animal_" + animalID);
+        playerStatus.statData = statData;
+        playerStatus.Initialize();
+        playerAttack.InitializeValue(statData.AttackPower);
+
+        playerRotator.SetPlayerMove(playerMove);
+
+        //앞으로가는 속도랑 옆으로 가는 속도랑 다르지 않나 일단 임시로 해놨는데 추후 확인해서 수정 요함
+        //moveForward.speed = playerStatus.MoveSpeed;
+        moveForward.speed = playerStatus.MoveSpeed;
+        playerMove.moveSpeed = 5f;
     }
+
     public void SetPlayer()
     {
         animalID = GameDataManager.Instance.StartAnimalID;
         Debug.Log($"Set Player Start With Animal ID: {animalID}");
 
+        ActivatePlayer();
+
         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
         if (prefab != null)
         {
-            GameObject character = Instantiate(prefab, playerRoot.transform);
-            character.SetActive(true);
 
-            PlayerStatus playerStatus = character.GetComponent<PlayerStatus>();
-            if (playerStatus != null)
-            {
-                playerStatus.Initialize();
-                currentPlayerStatus = playerStatus;
-                ActivatePlayer();
-                Debug.Log($"Player {animalID} spawned successfully.");
-            }
-            else
-            {
-                Debug.LogError("PlayerStatus component not found on instantiated character.");
-            }
+            GameObject character = Instantiate(prefab, playerGameObject.transform);
+            playerAnimator = character.GetComponent<Animator>();
 
-            PlayerMove playerMove = character.GetComponent<PlayerMove>();
-            if (playerMove != null)
-            {
-                currentPlayerMove = playerMove;
-                playerRotator.SetPlayerMove(currentPlayerMove);
-            }
-            GameManager.UIManager?.ConnectPlayerMove(currentPlayerMove); // 버튼 연결
 
-            currentPlayerAnimator = character.GetComponentInChildren<Animator>();
+            GameManager.UIManager?.ConnectPlayerMove(this.playerMove); // 버튼 연결
+
+            Debug.Log($"Player {animalID} spawned successfully.");
+
         }
         else
         {
             Debug.LogError($"Character prefab not found for ID {animalID}.");
         }
     }
+
     public void ActivatePlayer()
     {
         moveForward.enabled = true;
     }
+
     public void OnPlayerDied(PlayerStatus status)
     {
         Debug.Log($"Player Died: {status.name}");
@@ -110,13 +140,19 @@ public class PlayerManager : InGameManager
 
         if (lastDeathType == DeathType.DeathZone)
         {
-            currentPlayerMove.canTurn = false;
+            playerMove.canTurn = false;
         }
         gameUIManager.UnShowRotateButton();
         StopAllMovements();
         DisablePlayer(status);
         PlayDeathAnimation();
         StartCoroutine(DieAndSwitch(status));
+    }
+
+
+    public void ResetMoveForward()
+    {
+        //if(GameManager.StageManager.)
     }
 
     //스테이지매니저에서 필요해서 퍼블릭으로 변경
@@ -128,21 +164,21 @@ public class PlayerManager : InGameManager
 
     private void DisablePlayer(PlayerStatus playerStatus)
     {
-        currentPlayerMove.DisableInput();  // 입력 비활성화
+        playerMove.DisableInput();  // 입력 비활성화
         // GameManager.UIManager?.SetDirectionButtonsInteractable(false);
     }
     private void EnablePlayer(PlayerStatus playerStatus)
     {
 
-        currentPlayerMove.EnableInput();  // 입력 활성화
+        playerMove.EnableInput();  // 입력 활성화
         // GameManager.UIManager?.SetDirectionButtonsInteractable(true);
     }
 
     private void PlayDeathAnimation()
     {
-        if (currentPlayerAnimator != null)
+        if (playerAnimator != null)
         {
-            currentPlayerAnimator.SetTrigger("Die");
+            playerAnimator.SetTrigger("Die");
             Debug.Log("Death animation triggered.");
         }
         else
@@ -152,7 +188,7 @@ public class PlayerManager : InGameManager
     }
     private void PlayRunAnimaition()
     {
-        currentPlayerAnimator.SetTrigger("Run");
+        playerAnimator.SetTrigger("Run");
     }
 
     private IEnumerator DieAndSwitch(PlayerStatus playerStatus)
@@ -215,9 +251,9 @@ public class PlayerManager : InGameManager
     {
         yield return new WaitForSeconds(delay);
 
-        if (currentPlayerStatus != null)
+        if (playerStatus != null)
         {
-            currentPlayerStatus.SetInvincible(false);
+            playerStatus.SetInvincible(false);
             Debug.Log("무적 상태 해제");
         }
     }
@@ -229,7 +265,7 @@ public class PlayerManager : InGameManager
     {
         // GameManager.SetTimeScale(0);
 
-        if (currentPlayerStatus == null)
+        if (playerStatus == null)
         {
             Debug.LogError("부활할 플레이어가 없습니다.");
             return;
@@ -246,14 +282,16 @@ public class PlayerManager : InGameManager
         //currentPlayerStatus.SetInvincible(true);
 
         // 이동 및 입력 비활성화
-        currentPlayerMove.DisableInput();
+        playerMove.DisableInput();
         moveForward.enabled = false;
 
         // 애니메이션은 Run으로
         // currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
-        currentPlayerAnimator.SetTrigger("idle");
+        playerAnimator.SetTrigger("idle");
+
 
         ActivatePlayer();
+
 
         //  gameUIManager.CountDown();
 

@@ -20,7 +20,7 @@ public class RoadWayRotator : MonoBehaviour
 
     public void SetPlayerMove(PlayerManager playerManager)
     {
-        playerMove = playerManager.currentPlayerMove;
+        playerMove = playerManager.playerMove;
         playerMove.onRotate += Rotate;
     }
 

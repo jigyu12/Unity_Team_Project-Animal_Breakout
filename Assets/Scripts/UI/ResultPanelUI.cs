@@ -24,7 +24,7 @@ public class ResultPanelUI : MonoBehaviour
 
     private void OnReStartButtonClicked()
     {
-        gameManager.SetGameState(GameManager_new.GameState.GamePlay);
+        //gameManager.RestartGameState();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         GameResultPanel.SetActive(false);

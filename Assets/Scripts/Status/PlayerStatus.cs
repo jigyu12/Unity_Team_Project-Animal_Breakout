@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 using UnityEngine.Events;
-public class PlayerStatus : MonoBehaviour, IAttacker
+public class PlayerStatus : MonoBehaviour
 {
     //1.데이터 테이블에서 바로 읽어오는 방식
     //2.스크립터블 오브젝트 채로 프리펩화 하는 방식
@@ -24,7 +24,7 @@ public class PlayerStatus : MonoBehaviour, IAttacker
     public int defaultLayer;
     public int invincibleLayer;
     public bool IsInvincible => isInvincible;
-    public int AttackPower => statData != null ? statData.AttackPower : 0;
+    //public int AttackPower => statData != null ? statData.AttackPower : 0;
     public int MoveSpeed => statData != null ? statData.StartSpeed : 0;
     public int JumpPower => statData != null ? statData.Jump : 0;
     private PlayerManager playerManager;
@@ -110,7 +110,7 @@ public class PlayerStatus : MonoBehaviour, IAttacker
         }
         if (isInvincible) return;
         isDead = true;
-        playerManager.currentPlayerStatus.SetInvincible(true);
+        playerManager.playerStatus.SetInvincible(true);
         playerManager.OnPlayerDied(this);
     }
     public bool IsDead()
