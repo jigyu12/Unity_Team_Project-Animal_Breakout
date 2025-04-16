@@ -1,13 +1,9 @@
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Search;
-using UnityEngine;
 
 public class SkillQueue
 {
-    //È×µæ ¼ø¼­, ½ºÅ³
+    //ï¿½×µï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Å³
     private List<SkillPriorityItem> list = new();
     public int Count => list.Count;
 
