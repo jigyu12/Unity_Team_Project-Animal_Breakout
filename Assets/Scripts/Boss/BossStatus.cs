@@ -43,7 +43,7 @@ public class BossStatus : DamageableStatus
     protected override void OnDead()
     {
         isDead = true;
-        
+
         onBossDead?.Invoke();
         
         //bossPool.Release(gameObject);

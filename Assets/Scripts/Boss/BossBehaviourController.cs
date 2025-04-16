@@ -54,6 +54,13 @@ public class BossBehaviourController : MonoBehaviour
     {
         isAttacked = true;
 
+        // temp code //
+        
+        TryGetComponent(out BossStatus bossStatus);
+        bossStatus.OnDamage(20f);
+        
+        // temp code //
+        
         Vector3 attackPosition = lane.LaneIndexToPosition(Random.Range(0, 3));
         var tempBossProjectile = tempBossProjectilePool.Get();
         tempBossProjectile.TryGetComponent(out TempBossProjectile tempBossProjectileComponent);
