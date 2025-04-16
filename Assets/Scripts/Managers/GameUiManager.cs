@@ -220,7 +220,7 @@ public class GameUIManager : InGameManager
             }
         }
 
-        moveForward.enabled = true;
+        GameManager.PlayerManager.ResetMoveForward();
         playerManager.playerAnimator.SetTrigger("Run");
         StartCoroutine(RemoveInvincibilityAfterDelay(2f));
         coCountDown = null;
@@ -265,7 +265,8 @@ public class GameUIManager : InGameManager
             countdownText.gameObject.SetActive(false);
             playerManager.playerStatus.SetAlive();
             playerManager.playerMove.EnableInput();
-            moveForward.enabled = true;
+            //moveForward.enabled = true;
+            GameManager.PlayerManager.ResetMoveForward();
             playerManager.playerAnimator.SetTrigger("Run");
             coCountDown = null;
             StartCoroutine(RemoveInvincibilityAfterDelay(2f));
