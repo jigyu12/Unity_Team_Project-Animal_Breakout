@@ -19,7 +19,7 @@ public class SkillIcon : MonoBehaviour
 
     private void Update()
     {
-        UpdateFillTimer(targetSkill.CoolTimeRatio);
+        UpdateFillTimer(targetSkill.CoolTimeRatio, targetSkill.CoolTime);
     }
 
     public void SetTargetSkill(ISkill skill)
@@ -27,9 +27,20 @@ public class SkillIcon : MonoBehaviour
         targetSkill = skill;
     }
 
-    private void UpdateFillTimer(float ratio)
+    //private static readonly string timeFormatString = $"{}";
+    private void UpdateFillTimer(float ratio, float time)
     {
-        timerText.text = Mathf.FloorToInt(ratio * 100f).ToString();
-        fillTimerImage.fillAmount = 1f - ratio;
+        if (time <= 0)
+        {
+            //숫자 0일때는 text안뜨게함
+            timerText.gameObject.SetActive(false);
+        }
+        else
+        {
+            timerText.gameObject.SetActive(true);
+            timerText.text = time.ToString("F1");
+
+        }
+        fillTimerImage.fillAmount = ratio;
     }
 }

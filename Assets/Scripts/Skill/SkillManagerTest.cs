@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkillManagerTest : MonoBehaviour
 {
     [SerializeField]
-    private GameObject skillPrefab;
+    private ProjectileSkillData tempProjectile;
 
     [SerializeField]
     private SkillManager skillManager;
@@ -15,7 +15,7 @@ public class SkillManagerTest : MonoBehaviour
     [ContextMenu("AddSkill")]
     public void AddTempSkill()
     {
-        var skill = Instantiate(skillPrefab).GetComponent<ProjectileSkill>();
+        var skill = new ProjectileSkill(tempProjectile);
         skillManager.AddSkill(priority++, skill);
     }
 

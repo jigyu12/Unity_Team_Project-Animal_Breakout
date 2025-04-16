@@ -34,8 +34,6 @@ public class BossManager : InGameManager
     public override void Initialize()
     {
         base.Initialize();
-
-        GameManager.StageManager.onBossStageEnter += SpawnBoss;
     }
 
     public override void Clear()
