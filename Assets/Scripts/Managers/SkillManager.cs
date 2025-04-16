@@ -2,6 +2,7 @@ using Newtonsoft.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SkillManager : InGameManager
@@ -110,6 +111,11 @@ public class SkillManager : InGameManager
 
     private IEnumerator CoroutinePerformSkill()
     {
+        if (skillTarget.IsDestroyed())
+        {
+            yield break;
+        }
+        
         while (readySkillQueue.Count != 0)
         {
             var currentSkill = readySkillQueue.Dequeue();

@@ -165,7 +165,8 @@ public class PlayerMove : MonoBehaviour
 
     private void TryJump()
     {
-        if (!isJumping && transform.position.y <= 0.01f)
+        // if (!isJumping && transform.position.y <= 0.01f)
+        if (!isJumping)
         {
             isJumping = true;
             verticalVelocity = Mathf.Sqrt(-2f * gravity * jumpHeight);
@@ -291,4 +292,26 @@ public class PlayerMove : MonoBehaviour
             animator?.SetBool("Jump", false);
         }
     }
+
+
+
+    // 자동 회전
+    public void TryAutoRotateLeft()
+    {
+        if (canTurn && (allowedTurn == TurnDirection.Left || allowedTurn == TurnDirection.Both))
+        {
+            onRotate?.Invoke(turnPivot.transform.position, -90f);
+            canTurn = false;
+        }
+    }
+
+    public void TryAutoRotateRight()
+    {
+        if (canTurn && (allowedTurn == TurnDirection.Right || allowedTurn == TurnDirection.Both))
+        {
+            onRotate?.Invoke(turnPivot.transform.position, 90f);
+            canTurn = false;
+        }
+    }
+
 }

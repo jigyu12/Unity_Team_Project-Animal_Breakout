@@ -31,7 +31,7 @@ public class ResultPanelUI : MonoBehaviour
 
         // Time.timeScale = 1;
 
-    }
+    }   
     private void OnGoMainButtonClicked()
     {
         SceneManager.LoadScene("MainTitleScene");
