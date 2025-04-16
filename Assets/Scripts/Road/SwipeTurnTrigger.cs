@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 
@@ -28,9 +29,11 @@ public class SwipeTurnTrigger : MonoBehaviour
             if (player != null)
             {
                 player.SetCanTurn(true, gameObject, allowedDirection);
+
             }
             if (status != null && status.IsInvincible)
             {
+                gameUIManager.UnShowRotateButton();
                 AutoTurn(player);
             }
         }
@@ -53,18 +56,30 @@ public class SwipeTurnTrigger : MonoBehaviour
                 break;
         }
     }
+    public void ForceAutoTurnIfInside(GameObject playerObj)
+    {
+        if (playerObj.CompareTag("Player"))
+        {
+            var player = playerObj.GetComponent<PlayerMove>();
+            var status = playerObj.GetComponent<PlayerStatus>();
+
+            if (player != null && status != null && status.IsInvincible)
+            {
+                AutoTurn(player);
+                gameUIManager.UnShowRotateButton();
+            }
+        }
+    }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             PlayerMove player = other.GetComponent<PlayerMove>();
-
             if (player != null)
             {
                 player.SetCanTurn(false, gameObject, allowedDirection);
             }
-
         }
     }
 

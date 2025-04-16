@@ -10,6 +10,7 @@ public class BossStatus : DamageableStatus
     //private ObjectPool<GameObject> bossPool;
     
     public static event Action onBossDead;
+    public static event Action<float, float> onBossCurrentHpChanged;
 
     public override void InitializeStatus(float maxHp)
     {
@@ -29,6 +30,7 @@ public class BossStatus : DamageableStatus
         
         currentHp -= damage;
         currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
+        onBossCurrentHpChanged?.Invoke(currentHp, maxHp);
         
         Debug.Log($"Boss HP : {currentHp}/{maxHp}");
 
@@ -43,7 +45,7 @@ public class BossStatus : DamageableStatus
     protected override void OnDead()
     {
         isDead = true;
-        
+
         onBossDead?.Invoke();
         
         //bossPool.Release(gameObject);

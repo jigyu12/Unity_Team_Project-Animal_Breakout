@@ -107,6 +107,7 @@ public class PlayerManager : InGameManager
         GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
         if (prefab != null)
         {
+
             GameObject character = Instantiate(prefab, playerGameObject.transform);
             playerAnimator = character.GetComponent<Animator>();
 
@@ -114,6 +115,7 @@ public class PlayerManager : InGameManager
             GameManager.UIManager?.ConnectPlayerMove(this.playerMove); // 버튼 연결
 
             Debug.Log($"Player {animalID} spawned successfully.");
+
         }
         else
         {
@@ -121,11 +123,9 @@ public class PlayerManager : InGameManager
         }
     }
 
-
-    public void ActivatePlayer(PlayerStatus playerStatus)
+    public void ActivatePlayer()
     {
         moveForward.enabled = true;
-        Debug.Log($"MoveForward enabled for: {playerStatus.name}");
     }
 
     public void OnPlayerDied(PlayerStatus status)
@@ -209,6 +209,7 @@ public class PlayerManager : InGameManager
         pendingRespawnRotation = rotation;
         pendingForward = forward.normalized;
     }
+
     // public void ContinuePlayer()
     // {
     //     if (currentPlayerStatus == null)
@@ -282,7 +283,9 @@ public class PlayerManager : InGameManager
         // currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         playerAnimator.SetTrigger("idle");
 
-        ActivatePlayer(playerStatus);
+
+        ActivatePlayer();
+
 
         //  gameUIManager.CountDown();
 
