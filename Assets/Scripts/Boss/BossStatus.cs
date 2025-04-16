@@ -8,7 +8,7 @@ public class BossStatus : DamageableStatus
     public override float maxHp { get; protected set; }
     public override bool isDead { get; protected set; }
     
-    private ObjectPool<GameObject> bossPool;
+    //private ObjectPool<GameObject> bossPool;
     
     public static event Action onBossDead;
 
@@ -45,13 +45,14 @@ public class BossStatus : DamageableStatus
     {
         isDead = true;
         
-        bossPool.Release(gameObject);
-        
         onBossDead?.Invoke();
+        
+        //bossPool.Release(gameObject);
+        Destroy(gameObject);
     }
 
-    public void SetPool(ObjectPool<GameObject> bossPool)
-    {
-        this.bossPool = bossPool;
-    }
+    // public void SetPool(ObjectPool<GameObject> bossPool)
+    // {
+    //     this.bossPool = bossPool;
+    // }
 }
