@@ -9,9 +9,9 @@ public class AnimalStatData : ScriptableObject
     public string StringID;
     public int Grade;
     public int AttackPower;
-    public int StartSpeed;
-    public int MaxSpeed;
-    public int Jump;
+    public float StartSpeed;
+    public float MaxSpeed;
+    public float Jump;
 
     public void SetData(AnimalDataTable.AnimalData rawData)
     {
