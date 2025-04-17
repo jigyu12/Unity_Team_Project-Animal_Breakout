@@ -110,7 +110,7 @@ public class GameUIManager : InGameManager
     {
         leftButton.interactable = interactable;
         rightButton.interactable = interactable;
-        //   pauseButton.interactable = interactable;
+        pauseButton.interactable = interactable;
     }
     public void ShowRotateButton()
     {
