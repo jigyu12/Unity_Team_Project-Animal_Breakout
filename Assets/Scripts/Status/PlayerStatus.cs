@@ -11,22 +11,22 @@ public class PlayerStatus : MonoBehaviour
     //기존 방식인 애니멀데이터 전체를 스크립터블 오브젝트화하는 것은 일반적이지 않습니다
     //각 AnimalData를 스크립터블 오브젝트화 하여 런타임전에 미리 장착하는 방법을 추천합니다.
     public AnimalStatData statData;
-    public UnityAction<PlayerStatus> onPlayerDied;
 
     //public AnimalDatabase animalDB;
     //public int currentAnimalID;
     //private bool isGameOver;
     //private AnimalStatus currentAnimal;
+    //public Action<PlayerStatus> onDie;
 
-    public Action<PlayerStatus> onDie;
     private bool isInvincible = false;
     public bool isDead;
+    public Action onAlive;
     public int defaultLayer;
     public int invincibleLayer;
     public bool IsInvincible => isInvincible;
     //public int AttackPower => statData != null ? statData.AttackPower : 0;
-    public int MoveSpeed => statData != null ? statData.StartSpeed : 0;
-    public int JumpPower => statData != null ? statData.Jump : 0;
+    public float MoveSpeed => statData != null ? statData.StartSpeed : 0;
+    public float JumpPower => statData != null ? statData.Jump : 0;
     private PlayerManager playerManager;
 
 
@@ -120,6 +120,7 @@ public class PlayerStatus : MonoBehaviour
     public void SetAlive()
     {
         isDead = false;
+        onAlive?.Invoke();
     }
     // private void OnDie()
     // {

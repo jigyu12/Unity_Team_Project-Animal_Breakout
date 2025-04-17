@@ -9,6 +9,7 @@ public class ProjectileSkill : ISkill
     public ProjectileSkill(ProjectileSkillData data)
     {
         ProjectileSkillData = data;
+        CoolTime = data.coolDownTime;
     }
 
     public SkillData SkillData
@@ -26,9 +27,17 @@ public class ProjectileSkill : ISkill
     {
         get => (CoolTime >= SkillData.coolDownTime);
     }
+
+
     public float CoolTime
     {
-        get => SkillData.coolDownTime - Mathf.Clamp((Time.time - lastPerformedTime), 0, SkillData.coolDownTime);
+        //get => SkillData.coolDownTime - Mathf.Clamp((Time.time - lastPerformedTime), 0, SkillData.coolDownTime);
+        get;
+        private set;
+    }
+    public float CoolDownRemaining
+    {
+        get => SkillData.coolDownTime - CoolTime;
     }
 
     public float CoolTimeRatio
@@ -44,6 +53,7 @@ public class ProjectileSkill : ISkill
     {
         get => SkillData.level;
     }
+
 
     private float lastPerformedTime = 0;
     private Action onReady;
@@ -65,8 +75,7 @@ public class ProjectileSkill : ISkill
         projectile.Fire(attackerTrs, targetTrs, ProjectileSkillData.speed);
 
         lastPerformedTime = Time.time;
-        //StartCoroutine(CoWaitCoolTime());
-        WaitCoolDownTime();
+        CoolTime = 0f;
     }
 
     public void ApplyDamage(IAttacker attacker, IDamageable target)
@@ -82,16 +91,19 @@ public class ProjectileSkill : ISkill
         //?좎룞?쇿뜝?숈삕 clamp?좎뙥怨ㅼ삕
     }
 
-    public void WaitCoolDownTime()
+    public void UpdateCoolTime()
     {
-        skillManager.WaitSkillCoolDownTime(this);
-    }
+        if (CoolTimeRatio < 1f)
+        {
+            CoolTime += Time.deltaTime;
+            CoolTime = Mathf.Clamp(CoolTime, 0, SkillData.coolDownTime);
 
-    //private IEnumerator CoWaitCoolTime()
-    //{
-    //    yield return new WaitForSeconds(skillData.coolDownTime);
-    //    OnReady();
-    //}
+            if (CoolTimeRatio >= 1f)
+            {
+                OnReady();
+            }
+        }
+    }
 
     public void AddOnReadyAction(Action onReady)
     {
@@ -102,4 +114,5 @@ public class ProjectileSkill : ISkill
     {
         onReady?.Invoke();
     }
+
 }
