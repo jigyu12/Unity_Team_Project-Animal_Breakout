@@ -94,7 +94,9 @@ public class PlayerManager : InGameManager
         //앞으로 가는 속도랑 옆으로 가는 속도랑 다르지 않나 일단 임시로 해놨는데 추후 확인해서 수정 요함 
         //moveForward.speed = playerStatus.MoveSpeed;
         moveForward.speed = playerStatus.MoveSpeed;
-        playerMove.moveSpeed = 10f;
+
+        //playerMove.moveSpeed = 5f;
+
     }
 
     public void SetPlayer()
