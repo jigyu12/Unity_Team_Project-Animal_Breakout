@@ -115,6 +115,14 @@ public class PlayerMove : MonoBehaviour
 
     private void UpdateJump()
     {
+        if (playerStatus.IsDead())
+        {
+            Vector3 pos = transform.localPosition;
+            // pos.y = 0f;
+            transform.localPosition = pos;
+            verticalVelocity = 0f;
+            return;
+        }
         if (isJumping)
         {
             verticalVelocity += gravity * Time.deltaTime;
