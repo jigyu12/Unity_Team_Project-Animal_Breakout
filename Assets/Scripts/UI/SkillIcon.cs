@@ -10,6 +10,9 @@ public class SkillIcon : MonoBehaviour
     private TextMeshProUGUI timerText;
 
     [SerializeField]
+    private TextMeshProUGUI levelText;
+
+    [SerializeField]
     private Image iconImage;
 
     [SerializeField]
@@ -25,6 +28,7 @@ public class SkillIcon : MonoBehaviour
     public void SetTargetSkill(ISkill skill)
     {
         targetSkill = skill;
+        levelText.text = skill.Level.ToString();
     }
 
     //private static readonly string timeFormatString = $"{}";

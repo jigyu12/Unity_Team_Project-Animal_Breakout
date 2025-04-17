@@ -3,12 +3,12 @@ using UnityEngine.Pool;
 
 public abstract class CollidableMapObject : MonoBehaviour
 {
-    // Temporary Code //
-    public GameObject player;
-    public void Start()
-    {
-        player = GameObject.Find(Utils.PlayerRootName);
-    }
+    //// Temporary Code //
+    //public GameObject player;
+    //public void Start()
+    //{
+    //    player = GameObject.Find(Utils.PlayerRootName);
+    //}
 
     //private void Update()
     //{

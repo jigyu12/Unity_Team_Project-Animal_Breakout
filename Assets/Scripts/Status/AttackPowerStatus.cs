@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-public class AttackPowerStatus : MonoBehaviour, IAttacker
+public class AttackPowerStatus : MonoBehaviour, IAttacker, IItemTaker
 {
     public int AttackPower
     {
@@ -22,5 +22,10 @@ public class AttackPowerStatus : MonoBehaviour, IAttacker
     {
         AttackPower += value;
         onAddValue?.Invoke(value);
+    }
+
+    public void ApplyItem(int value)
+    {
+        AddValue(value);
     }
 }
