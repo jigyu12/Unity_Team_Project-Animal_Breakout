@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -67,11 +66,11 @@ public class BossBehaviourController : MonoBehaviour
     {
         if (!isAttacked)
         {
-            StartCoroutine(TestMove());
+            StartCoroutine(TestAttack());
         }
     }
 
-    private IEnumerator TestMove()
+    private IEnumerator TestAttack()
     {
         isAttacked = true;
 
