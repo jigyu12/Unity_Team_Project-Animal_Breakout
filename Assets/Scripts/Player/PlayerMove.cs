@@ -43,9 +43,12 @@ public class PlayerMove : MonoBehaviour
         {
             actionMap = playerInput.currentActionMap;
         }
-        animator = GetComponentInChildren<Animator>();
     }
 
+    public void SetAnimator(Animator animator)
+    {
+        this.animator = animator;
+    }
     private void Start()
     {
         way = FindObjectOfType<Lane>();
@@ -53,8 +56,6 @@ public class PlayerMove : MonoBehaviour
         {
             targetPosition = way.LaneIndexToPosition(laneIndex);
             transform.localPosition = targetPosition;
-
-            animator = GetComponentInChildren<Animator>();
             Debug.Log("PlayerMove Initialized in Start: WayIndex = " + laneIndex);
         }
         else
