@@ -14,51 +14,59 @@ public class ItemPenaltyCoin : ItemBase
     private const long ScoreToAddSkullCoin = -300;
     private const long ScoreToAddFireCoin = -400;
     private const long ScoreToAddBlackHoleCoin = -500;
+    [SerializeField] private int itemID;
+    private ItemDataTable.ItemData itemStatData;
+
+    public int Score => itemStatData?.Score ?? 0;
 
     public void Initialize(PenaltyCoinItemType penaltyCoinItemType)
     {
-        if (penaltyCoinItemType == PenaltyCoinItemType.None || penaltyCoinItemType == PenaltyCoinItemType.Count)
-        {
-            Debug.Assert(false, "Invalid PenaltyCoinItemType");
+        // if (penaltyCoinItemType == PenaltyCoinItemType.None || penaltyCoinItemType == PenaltyCoinItemType.Count)
+        // {
+        //     Debug.Assert(false, "Invalid PenaltyCoinItemType");
 
-            return;
-        }
+        //     return;
+        // }
 
         ObjectType = ObjectType.Item;
 
         ItemType = ItemType.PenaltyCoin;
 
-        PenaltyCoinItemType = penaltyCoinItemType;
+        // PenaltyCoinItemType = penaltyCoinItemType;
 
-        CollisionBehaviour = CollisionBehaviourFactory.GetPenaltyCoinBehaviour(penaltyCoinItemType);
+        // CollisionBehaviour = CollisionBehaviourFactory.GetPenaltyCoinBehaviour(penaltyCoinItemType);
 
-        switch (penaltyCoinItemType)
-        {
-            case PenaltyCoinItemType.GhostCoin:
-                {
-                    CollisionBehaviour.SetScoreToAdd(ScoreToAddGhostCoin);
-                }
-                break;
-            case PenaltyCoinItemType.PoisonCoin:
-                {
-                    CollisionBehaviour.SetScoreToAdd(ScoreToAddPoisonCoin);
-                }
-                break;
-            case PenaltyCoinItemType.SkullCoin:
-                {
-                    CollisionBehaviour.SetScoreToAdd(ScoreToAddSkullCoin);
-                }
-                break;
-            case PenaltyCoinItemType.FireCoin:
-                {
-                    CollisionBehaviour.SetScoreToAdd(ScoreToAddFireCoin);
-                }
-                break;
-            case PenaltyCoinItemType.BlackHoleCoin:
-                {
-                    CollisionBehaviour.SetScoreToAdd(ScoreToAddBlackHoleCoin);
-                }
-                break;
-        }
+        itemStatData = DataTableManager.itemDataTable.Get(itemID);
+        PenaltyCoinItemType = (PenaltyCoinItemType)itemID;
+        CollisionBehaviour = CollisionBehaviourFactory.GetPenaltyCoinBehaviour((PenaltyCoinItemType)itemID);
+        CollisionBehaviour.SetScoreToAdd(itemStatData.Score);
+
+        // switch (penaltyCoinItemType)
+        // {
+        //     case PenaltyCoinItemType.GhostCoin:
+        //         {
+        //             CollisionBehaviour.SetScoreToAdd(ScoreToAddGhostCoin);
+        //         }
+        //         break;
+        //     case PenaltyCoinItemType.PoisonCoin:
+        //         {
+        //             CollisionBehaviour.SetScoreToAdd(ScoreToAddPoisonCoin);
+        //         }
+        //         break;
+        //     case PenaltyCoinItemType.SkullCoin:
+        //         {
+        //             CollisionBehaviour.SetScoreToAdd(ScoreToAddSkullCoin);
+        //         }
+        //         break;
+        //     case PenaltyCoinItemType.FireCoin:
+        //         {
+        //             CollisionBehaviour.SetScoreToAdd(ScoreToAddFireCoin);
+        //         }
+        //         break;
+        //     case PenaltyCoinItemType.BlackHoleCoin:
+        //         {
+        //             CollisionBehaviour.SetScoreToAdd(ScoreToAddBlackHoleCoin);
+        //         }
+        //         break;
     }
 }
