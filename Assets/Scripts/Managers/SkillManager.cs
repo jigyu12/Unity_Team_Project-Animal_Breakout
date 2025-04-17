@@ -28,15 +28,19 @@ public class SkillManager : InGameManager
     private void Awake()
     {
         BossManager.onSpawnBoss += OnSpawnBossHandler;
-        BossStatus.onBossDead += () => skillTarget = null;
-        
-
+        BossStatus.onBossDead += ResetSkillTarget;
     }
 
 
     private void OnDestroy()
     {
         BossManager.onSpawnBoss -= OnSpawnBossHandler;
+        BossStatus.onBossDead -= ResetSkillTarget;
+    }
+
+    private void ResetSkillTarget()
+    {
+        skillTarget = null;
     }
 
     public override void Initialize()
