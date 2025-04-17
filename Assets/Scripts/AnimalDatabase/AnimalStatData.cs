@@ -1,4 +1,6 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 [CreateAssetMenu(fileName = "AnimalStatData", menuName = "Game/AnimalStatData")]
 public class AnimalStatData : ScriptableObject
@@ -10,4 +12,15 @@ public class AnimalStatData : ScriptableObject
     public int StartSpeed;
     public int MaxSpeed;
     public int Jump;
+
+    public void SetData(AnimalDataTable.AnimalData rawData)
+    {
+        this.AnimalID = rawData.AnimalID;
+        this.StringID = rawData.StringID;
+        this.Grade = rawData.Grade;
+        this.AttackPower = rawData.AttackPower;
+        this.StartSpeed = rawData.StartSpeed;
+        this.MaxSpeed = rawData.MaxSpeed;
+        this.Jump = rawData.Jump;
+    }
 }

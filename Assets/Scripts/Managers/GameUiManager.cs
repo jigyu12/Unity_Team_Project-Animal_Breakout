@@ -23,7 +23,7 @@ public class GameUIManager : InGameManager
     [SerializeField] private Button rightButton;
     [SerializeField] public TMP_Text countdownText;
     
-    public event Action onShowGameOverPanel;
+    public static event Action onShowGameOverPanel;
 
     private void Awake()
     {

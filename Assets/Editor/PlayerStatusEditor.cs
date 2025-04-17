@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 
 [CustomEditor(typeof(PlayerStatus))]
 public class PlayerStatusEditor : Editor
@@ -25,17 +26,20 @@ public class PlayerStatusEditor : Editor
             Debug.Log($"무적 상태 토글: {(playerStatus.IsInvincible ? "ON" : "OFF")}");
         }
 
-        //GUILayout.Label("");
-        //Editor editor = Editor.CreateEditor(playerStatus.statData);
+        //스크립터블 데이터 수정용 
+        GUILayout.Label("Scriptable Data Edit");
 
-        //GUILayout.BeginHorizontal();
-        //GUILayout.Label("Reset to CSV data");
-        ////데이터 테이블 기존 값으로 
-        //if (GUILayout.Button("Revert"))
-        //{
-        //    dataEditor.currentEnemyData.SetData(DataTableManager.EnemyTable.Get(dataEditor.currentEnemyData.Id));
-        //}
-        //GUILayout.EndHorizontal();
+        Editor editor = Editor.CreateEditor(playerStatus.statData);
+        editor.OnInspectorGUI();
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Reset to CSV data");
+        //데이터 테이블 기존 값으로 
+        if (GUILayout.Button("Revert"))
+        {
+            playerStatus.statData.SetData(DataTableManager.animalDataTable.Get(playerStatus.statData.AnimalID));
+        }
+        GUILayout.EndHorizontal();
     }
 }
 
