@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,9 +22,8 @@ public class GameUIManager : InGameManager
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
     [SerializeField] public TMP_Text countdownText;
-
-
-
+    
+    public event Action onShowGameOverPanel;
 
     private void Awake()
     {
@@ -67,6 +67,8 @@ public class GameUIManager : InGameManager
 
     public void ShowGameOverPanel()
     {
+        onShowGameOverPanel?.Invoke();
+        
         GameResultPanel.SetActive(true);
         // gameOverPanel.SetActive(true);
         //Time.timeScale = 0;
