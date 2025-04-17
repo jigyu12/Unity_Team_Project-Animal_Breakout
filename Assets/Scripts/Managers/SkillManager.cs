@@ -19,7 +19,6 @@ public class SkillManager : InGameManager
     public float skillPerformInterval = 1f;
     private Coroutine coSkillPerform = null;
 
-    private bool isBossStage;
 
     [SerializeField]
     private BossStatus skillTarget;
@@ -41,8 +40,6 @@ public class SkillManager : InGameManager
     {
         base.Initialize();
 
-        GameManager.StageManager.onBossStageEnter += () => isBossStage = true;
-        BossStatus.onBossDead+= ()=>isBossStage = false;
     }
 
 
@@ -72,12 +69,12 @@ public class SkillManager : InGameManager
     public float GetSkillInheritedForwardSpeed()
     {
         //절대 수정
-        return GameManager.PlayerManager.playerRoot.GetComponent<MoveForward>().speed;
+        return GameManager.PlayerManager.playerRootGameObject.GetComponent<MoveForward>().speed;
     }
 
     private void Update()
     {
-        if(isBossStage)
+        if(GameManager.StageManager.IsPlayerInBossStage)
         {
             BossStageUpdate();
         }
@@ -119,7 +116,7 @@ public class SkillManager : InGameManager
         while (readySkillQueue.Count != 0)
         {
             var currentSkill = readySkillQueue.Dequeue();
-            currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus.transform, skillTarget.transform, GameManager.PlayerManager.currentPlayerStatus, skillTarget);
+            currentSkill.Perform(GameManager.PlayerManager.playerStatus.transform, skillTarget.transform, GameManager.PlayerManager.playerAttack, skillTarget);
             yield return new WaitForSeconds(skillPerformInterval);
         }
         coSkillPerform = null;

@@ -11,7 +11,7 @@ public class RotateButtonController : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager);
         RotateButton = gameManager.UIManager.RotateButton;
-        playerMove = gameManager.PlayerManager.currentPlayerMove;
+        playerMove = gameManager.PlayerManager.playerMove;
 
         RotateButton.onClick.RemoveAllListeners();
         RotateButton.onClick.AddListener(OnRotateButtonClicked);

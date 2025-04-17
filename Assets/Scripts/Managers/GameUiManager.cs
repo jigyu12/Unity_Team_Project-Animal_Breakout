@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,9 +22,8 @@ public class GameUIManager : InGameManager
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
     [SerializeField] public TMP_Text countdownText;
-
     
-
+    public event Action onShowGameOverPanel;
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class GameUIManager : InGameManager
     {
         base.Initialize();
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, ShowGameOverPanel);
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => CountDown());
+        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => CountDown());
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => SetDirectionButtonsInteractable(false));
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetDirectionButtonsInteractable(true));
     }
@@ -67,6 +67,8 @@ public class GameUIManager : InGameManager
 
     public void ShowGameOverPanel()
     {
+        onShowGameOverPanel?.Invoke();
+        
         GameResultPanel.SetActive(true);
         // gameOverPanel.SetActive(true);
         //Time.timeScale = 0;
@@ -93,7 +95,7 @@ public class GameUIManager : InGameManager
         isPaused = true;
         previousStateBeforePause = GameManager.GetCurrentGameState();
         GameManager.SetGameState(GameManager_new.GameState.GameStop);
-        playerManager.currentPlayerMove.DisableInput();
+        playerManager.playerMove.DisableInput();
         pausePanel.SetActive(true);
         SetDirectionButtonsInteractable(false);
         UnShowRotateButton();
@@ -165,11 +167,11 @@ public class GameUIManager : InGameManager
         if (pausePanel != null)
             pausePanel.SetActive(false);
         countdownText.gameObject.SetActive(true);
-        playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
-        playerManager.currentPlayerAnimator.ResetTrigger("Run");
-        playerManager.currentPlayerAnimator.SetTrigger("idle");
-        playerManager.currentPlayerStatus.isDead = false; // 임시 죽음 처리 해보기
-                                                          // GameManager.SetGameState(GameManager_new.GameState.GameStop);
+        playerManager.playerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        playerManager.playerAnimator.ResetTrigger("Run");
+        playerManager.playerAnimator.SetTrigger("idle");
+        playerManager.playerStatus.isDead = false; // 임시 죽음 처리 해보기
+                                                   // GameManager.SetGameState(GameManager_new.GameState.GameStop);
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
@@ -200,22 +202,28 @@ public class GameUIManager : InGameManager
         // else
 
         SetDirectionButtonsInteractable(true);
-        GameManager.SetGameState(GameManager_new.GameState.GamePlay);
-        playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
+
+        //리스타트로 변경
+        //GameManager.SetGameState(GameManager_new.GameState.GamePlay);
+        GameManager.RestartGameState();
+
+        playerManager.playerAnimator.updateMode = AnimatorUpdateMode.Normal;
         countdownText.gameObject.SetActive(false);
-        playerManager.currentPlayerStatus.SetAlive();
-        playerManager.currentPlayerMove.EnableInput();
+
+        playerManager.playerStatus.SetAlive();
+        playerManager.playerMove.EnableInput();
         // 3초 카운트다운 끝나고 무적 상태일 때 주변 트리거 강제 확인
-        Collider[] hits = Physics.OverlapSphere(playerManager.currentPlayerMove.transform.position, 1f);
+        Collider[] hits = Physics.OverlapSphere(playerManager.playerMove.transform.position, 1f);
         foreach (var hit in hits)
         {
             if (hit.TryGetComponent<SwipeTurnTrigger>(out var trigger))
             {
-                trigger.ForceAutoTurnIfInside(playerManager.currentPlayerMove.gameObject);
+                trigger.ForceAutoTurnIfInside(playerManager.playerMove.gameObject);
             }
         }
-        moveForward.enabled = true;
-        playerManager.currentPlayerAnimator.SetTrigger("Run");
+
+        GameManager.PlayerManager.ResetMoveForward();
+        playerManager.playerAnimator.SetTrigger("Run");
         StartCoroutine(RemoveInvincibilityAfterDelay(2f));
         coCountDown = null;
         playerManager.lastDeathType = DeathType.None;
@@ -251,22 +259,25 @@ public class GameUIManager : InGameManager
         // if (previousStateBeforePause == GameManager_new.GameState.GameReady)
         //     GameManager.SetGameState(GameManager_new.GameState.GameReady);
         // else
-        if (!playerManager.currentPlayerStatus.isDead && !playerManager.isInIntroSequence)
+        if (!playerManager.playerStatus.isDead && !playerManager.isInIntroSequence)
         {
             SetDirectionButtonsInteractable(true);
-            GameManager.SetGameState(GameManager_new.GameState.GamePlay);
+            //GameManager.SetGameState(GameManager_new.GameState.GamePlay);
+            GameManager.RestartGameState();
             countdownText.gameObject.SetActive(false);
-            playerManager.currentPlayerStatus.SetAlive();
-            playerManager.currentPlayerMove.EnableInput();
-            moveForward.enabled = true;
-            playerManager.currentPlayerAnimator.SetTrigger("Run");
+            playerManager.playerStatus.SetAlive();
+            playerManager.playerMove.EnableInput();
+            //moveForward.enabled = true;
+            GameManager.PlayerManager.ResetMoveForward();
+            playerManager.playerAnimator.SetTrigger("Run");
             coCountDown = null;
             StartCoroutine(RemoveInvincibilityAfterDelay(2f));
             // playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
         }
         else
         {
-            GameManager.SetGameState(GameManager_new.GameState.GamePlay);
+            //GameManager.SetGameState(GameManager_new.GameState.GamePlay);
+            GameManager.RestartGameState();
             countdownText.gameObject.SetActive(false);
             coCountDown = null;
         }
@@ -279,9 +290,9 @@ public class GameUIManager : InGameManager
     {
         yield return new WaitForSeconds(delay);
 
-        if (playerManager.currentPlayerStatus != null)
+        if (playerManager.playerStatus != null)
         {
-            playerManager.currentPlayerStatus.SetInvincible(false);
+            playerManager.playerStatus.SetInvincible(false);
             Debug.Log("무적 상태 해제");
         }
     }
