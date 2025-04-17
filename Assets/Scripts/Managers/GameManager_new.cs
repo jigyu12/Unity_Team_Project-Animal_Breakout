@@ -15,14 +15,19 @@ public class GameManager_new : MonoBehaviour
         GameReady,
         GamePlay,
         GameStop,
-        GameReStart,
+        //GameReStart,
         GameOver,
         GameClear,
         Max,
     }
 
+    //enter->start->exit순으로 돈다
     private Action[] gameStateEnterAction;
+    private Action[] gameStateStartAction;
     private Action[] gameStateExitAction;
+
+
+    private GameState previousState;
     private GameState currentState;
 
     #region manager
@@ -58,7 +63,7 @@ public class GameManager_new : MonoBehaviour
     #endregion
 
     public int restartChanceCount = 1;
-    private int restartCount = 0;
+    // private int restartCount = 0;
 
     private void Awake()
     {
@@ -72,12 +77,15 @@ public class GameManager_new : MonoBehaviour
     {
         gameStateEnterAction = new Action[(int)GameState.Max];
         gameStateExitAction = new Action[(int)GameState.Max];
-        AddGameStateEnterAction(GameState.GameOver, OnGameOver);
-        AddGameStateEnterAction(GameState.GameStop, () =>
+        gameStateStartAction = new Action[(int)GameState.Max];
+
+
+        AddGameStateStartAction(GameState.GameOver, OnGameOver);
+        AddGameStateStartAction(GameState.GameStop, () =>
         {
             SetTimeScale(0);
         });
-        AddGameStateEnterAction(GameState.GamePlay, () =>
+        AddGameStateExitAction(GameState.GameStop, () =>
         {
             SetTimeScale(1);
         });
@@ -86,6 +94,10 @@ public class GameManager_new : MonoBehaviour
     public void AddGameStateEnterAction(GameState state, Action action)
     {
         gameStateEnterAction[(int)state] += action;
+    }
+    public void AddGameStateStartAction(GameState state, Action action)
+    {
+        gameStateStartAction[(int)state] += action;
     }
 
     public void AddGameStateExitAction(GameState state, Action action)
@@ -97,11 +109,16 @@ public class GameManager_new : MonoBehaviour
     {
         gameStateEnterAction[(int)state] -= action;
     }
+    public void RemoveGameStateStartAction(GameState state, Action action)
+    {
+        gameStateStartAction[(int)state] -= action;
+    }
 
     public void RemoveGameStateExitAction(GameState state, Action action)
     {
         gameStateExitAction[(int)state] -= action;
     }
+
 
     private void Start()
     {
@@ -205,9 +222,19 @@ public class GameManager_new : MonoBehaviour
 
     public void SetGameState(GameState gameState)
     {
-        gameStateExitAction[(int)currentState]?.Invoke();
+        previousState = currentState;
         currentState = gameState;
+
+        gameStateExitAction[(int)previousState]?.Invoke();
         gameStateEnterAction[(int)currentState]?.Invoke();
+        gameStateStartAction[(int)currentState]?.Invoke();
+    }
+
+    public void RestartGameState()
+    {
+        gameStateExitAction[(int)currentState]?.Invoke();
+        currentState = previousState;
+        gameStateStartAction[(int)currentState]?.Invoke();
     }
 
     public GameState GetCurrentGameState()

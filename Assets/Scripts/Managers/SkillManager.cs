@@ -10,7 +10,7 @@ public class SkillManager : InGameManager
     [SerializeField]
     private int maxSkillCount = 4;
 
-    public int MaxSkillCount=>maxSkillCount;
+    public int MaxSkillCount => maxSkillCount;
 
     private List<SkillPriorityItem> skills = new();
     private SkillQueue readySkillQueue = new SkillQueue();
@@ -19,7 +19,6 @@ public class SkillManager : InGameManager
     public float skillPerformInterval = 1f;
     private Coroutine coSkillPerform = null;
 
-    private bool isBossStage;
 
     [SerializeField]
     private BossStatus skillTarget;
@@ -30,8 +29,8 @@ public class SkillManager : InGameManager
     {
         BossManager.onSpawnBoss += OnSpawnBossHandler;
     }
-    
- 
+
+
     private void OnDestroy()
     {
         BossManager.onSpawnBoss -= OnSpawnBossHandler;
@@ -41,10 +40,9 @@ public class SkillManager : InGameManager
     {
         base.Initialize();
 
-        GameManager.StageManager.onBossStageEnter += () => isBossStage = true;
-        BossStatus.onBossDead+= ()=>isBossStage = false;
+        GameManager.PlayerManager.onPlayerDead += () => enabled = false;
+        GameManager.PlayerManager.playerStatus.onAlive+=()=>enabled = true;
     }
-
 
     public bool IsSkillExist(ISkill skill)
     {
@@ -55,7 +53,7 @@ public class SkillManager : InGameManager
     {
         return skills.Exists((target) => target.skill.Id == skillId);
     }
-   
+
 
     public void AddSkill(int priority, ISkill skill)
     {
@@ -65,19 +63,18 @@ public class SkillManager : InGameManager
 
 
         skill.InitializeSkilManager(this);
-        skill.AddOnReadyAction(()=>readySkillQueue.Enqueue(item));
+        skill.AddOnReadyAction(() => readySkillQueue.Enqueue(item));
         skill.OnReady();
     }
 
     public float GetSkillInheritedForwardSpeed()
     {
-        //절대 수정
-        return GameManager.PlayerManager.playerRoot.GetComponent<MoveForward>().speed;
+        return GameManager.PlayerManager.moveForward.speed;
     }
 
     private void Update()
     {
-        if(isBossStage)
+        if (GameManager.StageManager.IsPlayerInBossStage)
         {
             BossStageUpdate();
         }
@@ -85,6 +82,8 @@ public class SkillManager : InGameManager
         {
             NormalStageUpdate();
         }
+
+        UpdateSkillsCoolDownTime();
     }
 
     private void BossStageUpdate()
@@ -115,26 +114,29 @@ public class SkillManager : InGameManager
         {
             yield break;
         }
-        
+
         while (readySkillQueue.Count != 0)
         {
             var currentSkill = readySkillQueue.Dequeue();
-            currentSkill.Perform(GameManager.PlayerManager.currentPlayerStatus.transform, skillTarget.transform, GameManager.PlayerManager.currentPlayerStatus, skillTarget);
+            currentSkill.Perform(GameManager.PlayerManager.playerStatus.transform, skillTarget.transform, GameManager.PlayerManager.playerAttack, skillTarget);
             yield return new WaitForSeconds(skillPerformInterval);
         }
         coSkillPerform = null;
     }
 
-    public void WaitSkillCoolDownTime(ISkill skill)
+    public void UpdateSkillsCoolDownTime()
     {
-        StartCoroutine(CoWaitCoolTime(skill));
+        foreach (var skillPriorityItem in skills)
+        {
+            skillPriorityItem.skill.UpdateCoolTime();
+        }
     }
 
-    private IEnumerator CoWaitCoolTime(ISkill skill)
-    {
-        yield return new WaitForSeconds(skill.SkillData.coolDownTime);
-        skill.OnReady();
-    }
+    //private IEnumerator CoWaitCoolTime(ISkill skill)
+    //{
+    //    yield return new WaitForSeconds(skill.SkillData.coolDownTime);
+    //    skill.OnReady();
+    //}
 
     private void OnSpawnBossHandler(BossStatus boss)
     {

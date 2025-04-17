@@ -30,6 +30,11 @@ public interface ISkill
         get;
     }
 
+    public float CoolDownRemaining
+    {
+        get;
+    }
+
     public float CoolTimeRatio
     {
         get;
@@ -43,5 +48,8 @@ public interface ISkill
     public void OnReady();
     public void AddOnReadyAction(Action onReady);
     public void UpgradeLevel();
+
+    public void UpdateCoolTime();
+
 
 }

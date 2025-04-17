@@ -10,7 +10,11 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed = 10f;
 
     public int laneIndex = 1;
-    public float jumpHeight = 2f;
+    public float JumpHeight
+    {
+        get => playerStatus.statData.Jump;
+    }
+
     public float gravity = -20f;
     public Lane way;
     private Vector3 targetPosition;
@@ -30,6 +34,7 @@ public class PlayerMove : MonoBehaviour
     private TurnDirection allowedTurn;
     private PlayerStatus playerStatus;
     private Animator animator;
+    private GameUIManager gameUIManager;
 
     private void Awake()
     {
@@ -38,16 +43,12 @@ public class PlayerMove : MonoBehaviour
         {
             actionMap = playerInput.currentActionMap;
         }
-        animator = GetComponentInChildren<Animator>();
-        playerStatus = GetComponent<PlayerStatus>();
-
-        if (playerStatus != null)
-        {
-            jumpHeight = playerStatus.JumpPower;
-            Debug.Log($"Jump height set to {jumpHeight} from PlayerStatus.");
-        }
     }
 
+    public void SetAnimator(Animator animator)
+    {
+        this.animator = animator;
+    }
     private void Start()
     {
         way = FindObjectOfType<Lane>();
@@ -55,14 +56,18 @@ public class PlayerMove : MonoBehaviour
         {
             targetPosition = way.LaneIndexToPosition(laneIndex);
             transform.localPosition = targetPosition;
-
-            animator = GetComponentInChildren<Animator>();
             Debug.Log("PlayerMove Initialized in Start: WayIndex = " + laneIndex);
         }
         else
         {
             Debug.LogError("Lane not found!");
         }
+
+        var GameManager = GameObject.FindGameObjectWithTag(Utils.GameManagerTag);
+        var GameManager_new = GameManager.GetComponent<GameManager_new>();
+        gameUIManager = GameManager_new.UIManager;
+
+        playerStatus = GetComponent<PlayerStatus>();
     }
 
     // public void Initialize(Lane way)
@@ -111,6 +116,14 @@ public class PlayerMove : MonoBehaviour
 
     private void UpdateJump()
     {
+        if (playerStatus.IsDead())
+        {
+            Vector3 pos = transform.localPosition;
+            // pos.y = 0f;
+            transform.localPosition = pos;
+            verticalVelocity = 0f;
+            return;
+        }
         if (isJumping)
         {
             verticalVelocity += gravity * Time.deltaTime;
@@ -152,6 +165,7 @@ public class PlayerMove : MonoBehaviour
 
         if (context.performed)
             Debug.Log("회전");
+        gameUIManager.UnShowRotateButton();
         TryRotateLeft();
     }
 
@@ -160,6 +174,7 @@ public class PlayerMove : MonoBehaviour
 
         if (context.performed)
             Debug.Log("회전");
+        gameUIManager.UnShowRotateButton();
         TryRotateRight();
     }
 
@@ -169,7 +184,7 @@ public class PlayerMove : MonoBehaviour
         if (!isJumping)
         {
             isJumping = true;
-            verticalVelocity = Mathf.Sqrt(-2f * gravity * jumpHeight);
+            verticalVelocity = Mathf.Sqrt(-2f * gravity * JumpHeight);
             animator?.SetBool("Jump", true);
         }
     }
