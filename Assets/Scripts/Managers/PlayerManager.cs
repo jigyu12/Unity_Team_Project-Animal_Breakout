@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using System;
 public enum DeathType
 {
     None,
@@ -36,6 +37,8 @@ public class PlayerManager : InGameManager
     public Animator playerAnimator;
     #endregion
 
+    public Action onPlayerDead;
+    public Action onPlayerRespawn;
 
     public RelayContinueUI relayContinueUI;
     private PlayerRotator playerRotator;
@@ -127,7 +130,9 @@ public class PlayerManager : InGameManager
 
     public void ActivatePlayer()
     {
-        moveForward.enabled = true;
+        ResetMoveForward();
+
+        
     }
 
     public void OnPlayerDied(PlayerStatus status)
@@ -149,6 +154,7 @@ public class PlayerManager : InGameManager
         DisablePlayer(status);
         PlayDeathAnimation();
         StartCoroutine(DieAndSwitch(status));
+        onPlayerDead?.Invoke();
     }
 
 
