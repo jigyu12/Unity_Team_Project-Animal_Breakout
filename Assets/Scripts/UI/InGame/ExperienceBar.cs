@@ -14,25 +14,25 @@ public class ExperienceBar : MonoBehaviour
 
         experienceStatus.onAddValue += UpdateExperienceValue;
         experienceStatus.onLevelChange += UpdateExperienceLevel;
+
+        experienceStatus.InitializeValue();
     }
 
     private void UpdateExperienceValue(int value, int sum)
     {
         gageBar.SetValue(sum);
+
+        if (experienceStatus.IsMaxLevel)
+        {
+            gageBar.SetMaxValue(1);
+            gageBar.SetValue(1);
+            gageBar.SetText("MAX");
+        }
     }
 
     private void UpdateExperienceLevel(int level, int maxValue)
     {
-        if (experienceStatus.IsMaxLevel)
-        {
-            gageBar.SetValue(maxValue);
-            gageBar.SetMaxValue(maxValue);
-            gageBar.SetText("MAX");
-        }
-        else
-        {
-            gageBar.SetMaxValue(maxValue);
-        }
+        gageBar.SetMaxValue(maxValue);
     }
 
 }

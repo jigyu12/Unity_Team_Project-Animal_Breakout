@@ -36,7 +36,6 @@ public class GageBar : MonoBehaviour
     public void OnValueChange(float value)
     {
         SetColor();
-        gageText.text = ((int)slider.value).ToString();
     }
 
     public void SetMaxValue(int max)
@@ -47,6 +46,7 @@ public class GageBar : MonoBehaviour
     public void SetValue(int value)
     {
         slider.value = (float)value;
+        gageText.text = ((int)slider.value).ToString();
     }
 
     public void SetText(string text)
