@@ -63,7 +63,7 @@ public class GameManager_new : MonoBehaviour
     #endregion
 
     public int restartChanceCount = 1;
-    private int restartCount = 0;
+    // private int restartCount = 0;
 
     private void Awake()
     {

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +14,7 @@ public class BossHpSlider : MonoBehaviour
         BossManager.onSpawnBoss += OnSpawnBossHandler;
         BossStatus.onBossDead += OnBossDeadHandler;
         BossStatus.onBossCurrentHpChanged += OnBossCurrentHpChangedHandler;
+        GameUIManager.onShowGameOverPanel += OnShowGameOverPanelHandler;
     }
 
     private void OnEnable()
@@ -27,11 +27,17 @@ public class BossHpSlider : MonoBehaviour
         BossManager.onSpawnBoss -= OnSpawnBossHandler;
         BossStatus.onBossDead -= OnBossDeadHandler;
         BossStatus.onBossCurrentHpChanged -= OnBossCurrentHpChangedHandler;
+        GameUIManager.onShowGameOverPanel -= OnShowGameOverPanelHandler;
     }
 
     private void OnSpawnBossHandler(BossStatus boss)
     {
         gameObject.SetActive(true);
+    }
+
+    private void OnShowGameOverPanelHandler()
+    {
+        gameObject.SetActive(false);
     }
     
     private void OnBossDeadHandler()
