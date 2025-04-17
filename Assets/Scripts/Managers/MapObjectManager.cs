@@ -62,7 +62,7 @@ public class MapObjectManager : InGameManager
     public int MinRewardItemId { get; private set; } = 0;
     public int MaxMapObjectId { get; private set; } = 0;
     public int MaxRewardItemId { get; private set; } = 0;
-    
+
     private readonly Queue<int> nextMapObjectsPrefabIdQueue = new();
     private readonly List<int> mapObjectsPrefabIds = new();
     public const int maxPrefabIdQueueSize = 9; // Original value is 12
@@ -136,12 +136,12 @@ public class MapObjectManager : InGameManager
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
     }
-    
+
     private void SetMaxMapObjectId(int maxMapObjectCount)
     {
         MaxMapObjectId = maxMapObjectCount;
     }
-    
+
     private void SetMinMapObjectId(int minMapObjectCount)
     {
         MinMapObjectId = minMapObjectCount;
@@ -155,7 +155,7 @@ public class MapObjectManager : InGameManager
     {
         MinRewardItemId = minRewardItemCount;
     }
-    
+
     public struct MapObjectsBlueprint
     {
         public ObjectType[,] objectsTypes;
@@ -639,7 +639,7 @@ public class MapObjectManager : InGameManager
         itemPenaltyCoinComponent.SetPool(itemPenaltyCoinPool);
         return itemPenaltyCoinComponent;
     }
-    
+
     public int GetNextRandomMapObjectsPrefabId()
     {
         if ((MinMapObjectId != MinRewardItemId) || (MaxMapObjectId != MaxRewardItemId))
@@ -648,7 +648,7 @@ public class MapObjectManager : InGameManager
 
             return -1;
         }
-        
+
         if (nextMapObjectsPrefabIdQueue.Count == 0)
         {
             mapObjectsPrefabIds.Clear();

@@ -30,6 +30,7 @@ public class PlayerMove : MonoBehaviour
     private TurnDirection allowedTurn;
     private PlayerStatus playerStatus;
     private Animator animator;
+    private GameUIManager gameUIManager;
 
     private void Awake()
     {
@@ -63,6 +64,11 @@ public class PlayerMove : MonoBehaviour
         {
             Debug.LogError("Lane not found!");
         }
+
+        var GameManager = GameObject.FindGameObjectWithTag(Utils.GameManagerTag);
+        var GameManager_new = GameManager.GetComponent<GameManager_new>();
+        gameUIManager = GameManager_new.UIManager;
+
     }
 
     // public void Initialize(Lane way)
@@ -152,6 +158,7 @@ public class PlayerMove : MonoBehaviour
 
         if (context.performed)
             Debug.Log("회전");
+        gameUIManager.UnShowRotateButton();
         TryRotateLeft();
     }
 
@@ -160,6 +167,7 @@ public class PlayerMove : MonoBehaviour
 
         if (context.performed)
             Debug.Log("회전");
+        gameUIManager.UnShowRotateButton();
         TryRotateRight();
     }
 
