@@ -10,7 +10,11 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed = 10f;
 
     public int laneIndex = 1;
-    public float jumpHeight = 2f;
+    public float JumpHeight
+    {
+        get => playerStatus.statData.Jump;
+    }
+
     public float gravity = -20f;
     public Lane way;
     private Vector3 targetPosition;
@@ -40,13 +44,6 @@ public class PlayerMove : MonoBehaviour
             actionMap = playerInput.currentActionMap;
         }
         animator = GetComponentInChildren<Animator>();
-        playerStatus = GetComponent<PlayerStatus>();
-
-        if (playerStatus != null)
-        {
-            jumpHeight = playerStatus.JumpPower;
-            Debug.Log($"Jump height set to {jumpHeight} from PlayerStatus.");
-        }
     }
 
     private void Start()
@@ -69,6 +66,7 @@ public class PlayerMove : MonoBehaviour
         var GameManager_new = GameManager.GetComponent<GameManager_new>();
         gameUIManager = GameManager_new.UIManager;
 
+        playerStatus = GetComponent<PlayerStatus>();
     }
 
     // public void Initialize(Lane way)
@@ -177,7 +175,7 @@ public class PlayerMove : MonoBehaviour
         if (!isJumping)
         {
             isJumping = true;
-            verticalVelocity = Mathf.Sqrt(-2f * gravity * jumpHeight);
+            verticalVelocity = Mathf.Sqrt(-2f * gravity * JumpHeight);
             animator?.SetBool("Jump", true);
         }
     }

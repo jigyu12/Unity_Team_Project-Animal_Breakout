@@ -25,8 +25,8 @@ public class PlayerStatus : MonoBehaviour
     public int invincibleLayer;
     public bool IsInvincible => isInvincible;
     //public int AttackPower => statData != null ? statData.AttackPower : 0;
-    public int MoveSpeed => statData != null ? statData.StartSpeed : 0;
-    public int JumpPower => statData != null ? statData.Jump : 0;
+    public float MoveSpeed => statData != null ? statData.StartSpeed : 0;
+    public float JumpPower => statData != null ? statData.Jump : 0;
     private PlayerManager playerManager;
 
 

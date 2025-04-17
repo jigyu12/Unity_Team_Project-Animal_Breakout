@@ -13,9 +13,9 @@ public class AnimalDataTable : DataTable
         public string StringID { get; set; }
         public int Grade { get; set; }
         public int AttackPower { get; set; }
-        public int StartSpeed { get; set; }
-        public int MaxSpeed { get; set; }
-        public int Jump { get; set; }
+        public float StartSpeed { get; set; }
+        public float MaxSpeed { get; set; }
+        public float Jump { get; set; }
         //public int PassiveType { get; set; }
     }
 
