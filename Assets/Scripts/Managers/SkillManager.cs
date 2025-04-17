@@ -19,7 +19,6 @@ public class SkillManager : InGameManager
     public float skillPerformInterval = 1f;
     private Coroutine coSkillPerform = null;
 
-    private bool isBossStage;
 
     [SerializeField]
     private BossStatus skillTarget;
@@ -41,8 +40,6 @@ public class SkillManager : InGameManager
     {
         base.Initialize();
 
-        GameManager.StageManager.onBossStageEnter += () => isBossStage = true;
-        BossStatus.onBossDead+= ()=>isBossStage = false;
     }
 
 
@@ -77,7 +74,7 @@ public class SkillManager : InGameManager
 
     private void Update()
     {
-        if(isBossStage)
+        if(GameManager.StageManager.IsPlayerInBossStage)
         {
             BossStageUpdate();
         }
