@@ -110,7 +110,11 @@ public class PlayerStatus : MonoBehaviour
         }
         if (isInvincible) return;
         isDead = true;
+<<<<<<< Updated upstream
         playerManager.playerStatus.SetInvincible(true);
+=======
+        // playerManager.currentPlayerStatus.SetInvincible(true);
+>>>>>>> Stashed changes
         playerManager.OnPlayerDied(this);
     }
     public bool IsDead()

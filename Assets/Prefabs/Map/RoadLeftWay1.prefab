@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2780960391853826809}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 40}
+  m_LocalPosition: {x: 0, y: 0, z: 39.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53,8 +53,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 3, z: 2.631958}
-  m_Center: {x: 0, y: 0, z: 1.184021}
+  m_Size: {x: 3, y: 4.656264, z: 2.631958}
+  m_Center: {x: 0, y: 0.8281307, z: 1.184021}
 --- !u!114 &2331182675039178264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,7 +92,7 @@ Transform:
   m_GameObject: {fileID: 6644319110505771968}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -3, y: 0, z: -2}
+  m_LocalPosition: {x: -3, y: 0, z: -1.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -224,6 +224,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2deb738456a4184081aad9e2c628653, type: 3}
+--- !u!114 &733529733283621659 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 589949673504813040, guid: a2deb738456a4184081aad9e2c628653, type: 3}
+  m_PrefabInstance: {fileID: 144653389422265579}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71bc6324d9d2ba4c86f726e21a909c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3261609257691505587 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3405417494184322904, guid: a2deb738456a4184081aad9e2c628653, type: 3}
@@ -296,6 +307,18 @@ PrefabInstance:
       propertyPath: allowedDirection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5658506879532396698, guid: 7b12c1f30495df844abbe5ebc140cba3, type: 3}
+      propertyPath: m_Size.z
+      value: 2.8644257
+      objectReference: {fileID: 0}
+    - target: {fileID: 5658506879532396698, guid: 7b12c1f30495df844abbe5ebc140cba3, type: 3}
+      propertyPath: m_Center.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8339452156338563620, guid: 7b12c1f30495df844abbe5ebc140cba3, type: 3}
+      propertyPath: decoration
+      value: 
+      objectReference: {fileID: 733529733283621659}
     - target: {fileID: 8971852585116485145, guid: 7b12c1f30495df844abbe5ebc140cba3, type: 3}
       propertyPath: m_Layer
       value: 10
