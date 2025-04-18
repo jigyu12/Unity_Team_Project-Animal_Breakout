@@ -354,6 +354,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 394073991581889800, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 427011758239836117, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -396,11 +400,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2518186357084559059, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.95089287
+      value: 0.9443128
       objectReference: {fileID: 0}
     - target: {fileID: 2518186357084559059, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.03794643
+      value: 0.04028436
       objectReference: {fileID: 0}
     - target: {fileID: 2551144635590096995, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -758,7 +762,7 @@ PrefabInstance:
       addedObject: {fileID: 724418576}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5411708913653479215, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      insertIndex: -1
+      insertIndex: 4
       addedObject: {fileID: 1010786672}
   m_SourcePrefab: {fileID: 100100000, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
 --- !u!114 &254480821 stripped
