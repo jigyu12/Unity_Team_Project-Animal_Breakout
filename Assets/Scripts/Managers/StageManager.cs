@@ -28,15 +28,14 @@ public class StageManager : InGameManager
 
     private void Awake()
     {
-        BossStatus.onBossDead += OnCurrentStageClear;
-        BossStatus.onBossDead += () => IsPlayerInBossStage = false;
+        BossStatus.onBossDead += OnBossStageClear;
 
         onBossStageEnter += () => IsPlayerInBossStage = true;
     }
 
     private void OnDestroy()
     {
-        BossStatus.onBossDead -= OnCurrentStageClear;
+        BossStatus.onBossDead -= OnBossStageClear;
     }
 
     public override void Initialize()
@@ -67,7 +66,6 @@ public class StageManager : InGameManager
     [ContextMenu("Boss Stage Exit")]
     private void OnCurrentStageClear()
     {
-        GameManager.PlayerManager.ActivatePlayer();
         OnSetRoadMode();
     }
 
@@ -76,5 +74,12 @@ public class StageManager : InGameManager
         Debug.Log("Boss Stage Enter");
         GameManager.PlayerManager.StopAllMovements();
         onBossStageEnter?.Invoke();
+    }
+
+    public void OnBossStageClear()
+    {
+        IsPlayerInBossStage = false;
+        GameManager.PlayerManager.ActivatePlayer();
+        OnCurrentStageClear();
     }
 }

@@ -19,7 +19,7 @@ public class SkillIcon : MonoBehaviour
 
     private void Update()
     {
-        UpdateFillTimer(targetSkill.CoolTimeRatio, targetSkill.CoolTime);
+        UpdateFillTimer(targetSkill.CoolTimeRatio, targetSkill.CoolDownRemaining);
     }
 
     public void SetTargetSkill(ISkill skill)
@@ -41,6 +41,6 @@ public class SkillIcon : MonoBehaviour
             timerText.text = time.ToString("F1");
 
         }
-        fillTimerImage.fillAmount = ratio;
+        fillTimerImage.fillAmount = 1f - ratio;
     }
 }

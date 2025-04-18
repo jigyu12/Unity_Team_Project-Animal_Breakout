@@ -27,7 +27,7 @@ public class ResultPanelUI : MonoBehaviour
         //gameManager.RestartGameState();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        GameResultPanel.SetActive(false);
+        //     GameResultPanel.SetActive(false);
 
         // Time.timeScale = 1;
 

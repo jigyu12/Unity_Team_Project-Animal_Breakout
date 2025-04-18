@@ -10,7 +10,7 @@ public class SkillManager : InGameManager
     [SerializeField]
     private int maxSkillCount = 4;
 
-    public int MaxSkillCount=>maxSkillCount;
+    public int MaxSkillCount => maxSkillCount;
 
     private List<SkillPriorityItem> skills = new();
     private SkillQueue readySkillQueue = new SkillQueue();
@@ -28,20 +28,28 @@ public class SkillManager : InGameManager
     private void Awake()
     {
         BossManager.onSpawnBoss += OnSpawnBossHandler;
+        BossStatus.onBossDead += ResetSkillTarget;
     }
-    
- 
+
+
     private void OnDestroy()
     {
         BossManager.onSpawnBoss -= OnSpawnBossHandler;
+        BossStatus.onBossDead -= ResetSkillTarget;
+    }
+
+    private void ResetSkillTarget()
+    {
+        skillTarget = null;
     }
 
     public override void Initialize()
     {
         base.Initialize();
 
+        GameManager.PlayerManager.onPlayerDead += () => enabled = false;
+        GameManager.PlayerManager.playerStatus.onAlive+=()=>enabled = true;
     }
-
 
     public bool IsSkillExist(ISkill skill)
     {
@@ -52,7 +60,7 @@ public class SkillManager : InGameManager
     {
         return skills.Exists((target) => target.skill.Id == skillId);
     }
-   
+
 
     public void AddSkill(int priority, ISkill skill)
     {
@@ -62,19 +70,18 @@ public class SkillManager : InGameManager
 
 
         skill.InitializeSkilManager(this);
-        skill.AddOnReadyAction(()=>readySkillQueue.Enqueue(item));
+        skill.AddOnReadyAction(() => readySkillQueue.Enqueue(item));
         skill.OnReady();
     }
 
     public float GetSkillInheritedForwardSpeed()
     {
-        //절대 수정
-        return GameManager.PlayerManager.playerRootGameObject.GetComponent<MoveForward>().speed;
+        return GameManager.PlayerManager.moveForward.speed;
     }
 
     private void Update()
     {
-        if(GameManager.StageManager.IsPlayerInBossStage)
+        if (GameManager.StageManager.IsPlayerInBossStage)
         {
             BossStageUpdate();
         }
@@ -82,6 +89,8 @@ public class SkillManager : InGameManager
         {
             NormalStageUpdate();
         }
+
+        UpdateSkillsCoolDownTime();
     }
 
     private void BossStageUpdate()
@@ -112,7 +121,7 @@ public class SkillManager : InGameManager
         {
             yield break;
         }
-        
+
         while (readySkillQueue.Count != 0)
         {
             var currentSkill = readySkillQueue.Dequeue();
@@ -122,19 +131,27 @@ public class SkillManager : InGameManager
         coSkillPerform = null;
     }
 
-    public void WaitSkillCoolDownTime(ISkill skill)
+    public void UpdateSkillsCoolDownTime()
     {
-        StartCoroutine(CoWaitCoolTime(skill));
+        foreach (var skillPriorityItem in skills)
+        {
+            skillPriorityItem.skill.UpdateCoolTime();
+        }
     }
 
-    private IEnumerator CoWaitCoolTime(ISkill skill)
-    {
-        yield return new WaitForSeconds(skill.SkillData.coolDownTime);
-        skill.OnReady();
-    }
+    //private IEnumerator CoWaitCoolTime(ISkill skill)
+    //{
+    //    yield return new WaitForSeconds(skill.SkillData.coolDownTime);
+    //    skill.OnReady();
+    //}
 
     private void OnSpawnBossHandler(BossStatus boss)
     {
         skillTarget = boss;
+    }
+
+    public bool IsSkillTargetValid()
+    {
+        return skillTarget != null;
     }
 }

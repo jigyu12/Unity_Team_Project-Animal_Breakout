@@ -43,9 +43,12 @@ public class PlayerMove : MonoBehaviour
         {
             actionMap = playerInput.currentActionMap;
         }
-        animator = GetComponentInChildren<Animator>();
     }
 
+    public void SetAnimator(Animator animator)
+    {
+        this.animator = animator;
+    }
     private void Start()
     {
         way = FindObjectOfType<Lane>();
@@ -53,8 +56,6 @@ public class PlayerMove : MonoBehaviour
         {
             targetPosition = way.LaneIndexToPosition(laneIndex);
             transform.localPosition = targetPosition;
-
-            animator = GetComponentInChildren<Animator>();
             Debug.Log("PlayerMove Initialized in Start: WayIndex = " + laneIndex);
         }
         else
@@ -115,6 +116,14 @@ public class PlayerMove : MonoBehaviour
 
     private void UpdateJump()
     {
+        if (playerStatus.IsDead())
+        {
+            Vector3 pos = transform.localPosition;
+            // pos.y = 0f;
+            transform.localPosition = pos;
+            verticalVelocity = 0f;
+            return;
+        }
         if (isJumping)
         {
             verticalVelocity += gravity * Time.deltaTime;
@@ -167,6 +176,7 @@ public class PlayerMove : MonoBehaviour
             Debug.Log("회전");
         gameUIManager.UnShowRotateButton();
         TryRotateRight();
+
     }
 
     private void TryJump()
@@ -212,8 +222,11 @@ public class PlayerMove : MonoBehaviour
         if (canTurn && (allowedTurn == TurnDirection.Left || allowedTurn == TurnDirection.Both))
         {
             onRotate?.Invoke(turnPivot.transform.position, -90f);
+            // StartCoroutine(RemoveInvincibleAfterDelay(0.5f));
             canTurn = false;
         }
+
+
     }
 
     private void TryRotateRight()
@@ -221,10 +234,17 @@ public class PlayerMove : MonoBehaviour
         if (canTurn && (allowedTurn == TurnDirection.Right || allowedTurn == TurnDirection.Both))
         {
             onRotate?.Invoke(turnPivot.transform.position, 90f);
+            // StartCoroutine(RemoveInvincibleAfterDelay(0.5f));
             canTurn = false;
         }
-    }
 
+    }
+    private IEnumerator RemoveInvincibleAfterDelay(float delay)
+    {
+        playerStatus.SetInvincible(true);
+        yield return new WaitForSeconds(delay);
+        playerStatus.SetInvincible(false);
+    }
     public void SetCanTurn(bool value, GameObject turnPivot, TurnDirection direction)
     {
         canTurn = value;
@@ -251,6 +271,7 @@ public class PlayerMove : MonoBehaviour
 
     public void OnTouchPress(InputAction.CallbackContext context)
     {
+
         if (context.started)
         {
             swipeStart = Touchscreen.current.primaryTouch.position.ReadValue();
@@ -259,7 +280,10 @@ public class PlayerMove : MonoBehaviour
         {
             Vector2 current = Touchscreen.current.primaryTouch.position.ReadValue();
             Vector2 delta = current - swipeStart;
-
+            if (playerStatus.IsDead())
+            {
+                return;
+            }
             if (delta.y > 30f && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
             {
                 TryJump();
