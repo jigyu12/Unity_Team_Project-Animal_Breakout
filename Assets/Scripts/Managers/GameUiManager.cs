@@ -11,7 +11,7 @@ public class GameUIManager : InGameManager
     public GameObject GameResultPanel;
     public GameObject pausePanel;
     public Button mainTitleButton;
-    public Button RotateButton;
+
 
     public Button pauseButton;
     public PlayerManager playerManager;
@@ -20,6 +20,8 @@ public class GameUIManager : InGameManager
     private GameManager_new.GameState previousStateBeforePause;
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
+    public Button RotateButton;
+
     [SerializeField] public TMP_Text countdownText;
 
     public static event Action onShowGameOverPanel;
@@ -58,6 +60,8 @@ public class GameUIManager : InGameManager
 
         leftButton.GetComponent<DirectionButton>().Initialize(move, leftButton, rotateButtonController);
         rightButton.GetComponent<DirectionButton>().Initialize(move, rightButton, rotateButtonController);
+        RotateButton.GetComponent<DirectionButton>().Initialize(move, RotateButton, rotateButtonController);
+
     }
 
     //private void OnDestroy()

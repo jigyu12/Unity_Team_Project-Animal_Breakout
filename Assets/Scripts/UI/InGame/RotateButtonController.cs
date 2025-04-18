@@ -13,8 +13,8 @@ public class RotateButtonController : MonoBehaviour
         RotateButton = gameManager.UIManager.RotateButton;
         playerMove = gameManager.PlayerManager.playerMove;
 
-        RotateButton.onClick.RemoveAllListeners();
-        RotateButton.onClick.AddListener(OnRotateButtonClicked);
+        // RotateButton.onClick.RemoveAllListeners();
+        // RotateButton.onClick.AddListener(OnRotateButtonClicked);
     }
     public void OnRotateButtonClicked()
     {
@@ -33,7 +33,6 @@ public class RotateButtonController : MonoBehaviour
                 playerMove.TryAutoRotateLeft();
                 break;
         }
-
         RotateButton.gameObject.SetActive(false);
     }
     public void SetCurrentTurnTrigger(SwipeTurnTrigger trigger)
