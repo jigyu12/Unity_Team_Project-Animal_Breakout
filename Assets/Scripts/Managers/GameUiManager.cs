@@ -7,27 +7,21 @@ using TMPro;
 
 public class GameUIManager : InGameManager
 {
-    public GameObject gameOverPanel;
-    public GameObject GameResultPanel;
-    public GameObject pausePanel;
-    public Button mainTitleButton;
-
-
-    public Button pauseButton;
     public PlayerManager playerManager;
     public RotateButtonController rotateButtonController;
     private bool isPaused = false;
     private GameManager_new.GameState previousStateBeforePause;
-    [SerializeField] private Button leftButton;
-    [SerializeField] private Button rightButton;
-    public Button RotateButton;
-
-    [SerializeField] public TMP_Text countdownText;
 
     public static event Action onShowGameOverPanel;
 
+    private PauseHandler pauseHandler;
+    private ReviveHandler reviveHandler;
 
-
+    [SerializeField] private PausePanelUI pausePanelUI;
+    [SerializeField] private ResultPanelUI resultPanelUI;
+    [SerializeField] private PauseButtonUI pauseButtonUI;
+    [SerializeField] private RotateButtonUI rotateButtonUI;
+    [SerializeField] private InputUIBinder inputUIBinder;
 
     private void Awake()
     {
@@ -37,282 +31,88 @@ public class GameUIManager : InGameManager
     {
         base.Initialize();
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, ShowGameOverPanel);
-        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => CountDown());
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => SetDirectionButtonsInteractable(false));
+        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => CountDown());
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetDirectionButtonsInteractable(true));
-    }
 
-    private void Start()
-    {
-        //gameManager = FindObjectOfType<GameManager>();
-        //gameManager.onGameOver += ShowGameOverPanel;
+        pauseHandler = new PauseHandler(GameManager, playerManager, pausePanelUI, this);
+        reviveHandler = new ReviveHandler(GameManager, playerManager, pausePanelUI, this, pauseHandler, this);
+        inputUIBinder.Bind(playerManager.playerMove);
 
-        mainTitleButton.onClick.RemoveAllListeners();
-        mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
-        pauseButton.onClick.RemoveAllListeners();
-        pauseButton.onClick.AddListener(OnPauseButtonClicked);
+        rotateButtonUI.Initialize(rotateButtonController);
+        pausePanelUI.Initialize(this);
+        resultPanelUI.Initialize(this);
+        pauseButtonUI.Initialize(this);
     }
 
     public void ConnectPlayerMove(PlayerMove move)
     {
-        leftButton.onClick.RemoveAllListeners();
-        rightButton.onClick.RemoveAllListeners();
-
-        leftButton.GetComponent<DirectionButton>().Initialize(move, leftButton, rotateButtonController);
-        rightButton.GetComponent<DirectionButton>().Initialize(move, rightButton, rotateButtonController);
-        RotateButton.GetComponent<DirectionButton>().Initialize(move, RotateButton, rotateButtonController);
-
+        inputUIBinder.Bind(move);
     }
-
-    //private void OnDestroy()
-    //{
-    //    //if (gameManager != null)
-    //    //{
-    //    //    gameManager.onGameOver -= ShowGameOverPanel;
-    //    //}
-    //}
-
     public void ShowGameOverPanel()
     {
         onShowGameOverPanel?.Invoke();
-
-        GameResultPanel.SetActive(true);
-        // gameOverPanel.SetActive(true);
-        //Time.timeScale = 0;
+        resultPanelUI.Show();
     }
 
     public void RestartGame()
     {
-        // Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        // OnMainTitleButtonClicked();
     }
 
     private void OnMainTitleButtonClicked()
     {
-        SceneManager.LoadScene("MainTitleSceneCopy");
-        // Time.timeScale = 1;
+        SceneManager.LoadScene("MainTitleScene");
     }
     private void OnPauseButtonClicked()
     {
-        if (isPaused)
-        {
-            return;
-        }
-        isPaused = true;
-        previousStateBeforePause = GameManager.GetCurrentGameState();
-        GameManager.SetGameState(GameManager_new.GameState.GameStop);
-        playerManager.playerMove.DisableInput();
-        pausePanel.SetActive(true);
-        SetDirectionButtonsInteractable(false);
-        // UnShowRotateButton();
+        pauseHandler.TogglePause();
     }
     public void SetPauseButtonInteractable(bool interactable)
     {
-        pauseButton.interactable = interactable;
+        pauseButtonUI.SetInteractable(interactable);
+    }
+
+    public void Pause()
+    {
+        pauseHandler.TogglePause();
     }
     public void SetDirectionButtonsInteractable(bool interactable)
     {
-        leftButton.interactable = interactable;
-        rightButton.interactable = interactable;
-        pauseButton.interactable = interactable;
-        RotateButton.interactable = interactable;
-
-
+        inputUIBinder.SetInteractable(interactable);
+        pauseButtonUI.SetInteractable(interactable);
+        rotateButtonUI.SetInteractable(interactable);
     }
-    public void ShowRotateButton()
-    {
-        RotateButton.gameObject.SetActive(true);
-    }
-    public void UnShowRotateButton()
-    {
-        RotateButton.gameObject.SetActive(false);
-    }
-
-
-
-
-
+    public void ShowRotateButton() => rotateButtonUI.Show();
+    public void UnShowRotateButton() => rotateButtonUI.Hide();
     private Coroutine coCountDown = null;
 
     public void CountDown()
     {
-        if (coCountDown == null)
-        {
-            coCountDown = StartCoroutine(ResumeAfterCountdown(countdownText, playerManager.moveForward));
-        }
-        else
-        {
-            StopCoroutine(coCountDown);
-            coCountDown = StartCoroutine(ResumeAfterCountdown(countdownText, playerManager.moveForward));
-        }
+        reviveHandler.StartReviveCountdown();
     }
 
     public void InGameCountDown()
     {
-        if (coCountDown == null)
-        {
-            coCountDown = StartCoroutine(InGameResumeAfterCountdown(countdownText, playerManager.moveForward));
-        }
-        else
-        {
-            StopCoroutine(coCountDown);
-            coCountDown = StartCoroutine(InGameResumeAfterCountdown(countdownText, playerManager.moveForward));
-        }
+        reviveHandler.StartInGameReviveCountdown();
     }
     public void SetLastDeathType(DeathType type)
     {
         playerManager.lastDeathType = type;
     }
-    public IEnumerator ResumeAfterCountdown(TMP_Text countdownText, MoveForward moveForward)
+    public void GoToMainTitle()
     {
-
-        // GameManager.UIManager?.SetDirectionButtonsInteractable(false);
-        if (playerManager.lastDeathType == DeathType.DeathZone)
-        {
-            moveForward.transform.SetPositionAndRotation(playerManager.pendingRespawnPosition, playerManager.pendingRespawnRotation);
-            moveForward.SetDirectionByRotation();
-        }
-        SetPauseButtonInteractable(false);
-        if (pausePanel != null)
-            pausePanel.SetActive(false);
-        countdownText.gameObject.SetActive(true);
-
-        playerManager.playerStatus.SetInvincible(true);
-        var pos = playerManager.playerMove.transform.localPosition;
-        pos.y = 0f;
-        playerManager.playerMove.transform.localPosition = pos;
-
-        playerManager.playerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
-        playerManager.playerAnimator.ResetTrigger("Run");
-        playerManager.playerAnimator.SetTrigger("idle");
-        playerManager.playerStatus.isDead = false; // 임시 죽음 처리 해보기
-        playerManager.playerStatus.SetReviving(true);
-        // GameManager.SetGameState(GameManager_new.GameState.GameStop);
-
-        for (int i = 3; i > 0; i--)
-        {
-            countdownText.text = i.ToString();
-            yield return new WaitForSecondsRealtime(1);
-            // GameManager.SetGameState(GameManager_new.GameState.GameReStart);
-        }
-        // currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
-        // currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
-
-
-        // GameManager.SetTimeScale(1);
-
-        // 이동 및 입력 복원
-        // GameManager.UIManager?.SetDirectionButtonsInteractable(true);
-
-        // 무적 해제는 따로 2초 후
-        SetPauseButtonInteractable(true);
-        isPaused = false;
-        if (isPaused == true)
-        {
-            Debug.Log("Pause 상태라 부활 보류");
-            countdownText.gameObject.SetActive(false);
-            coCountDown = null;
-            yield break;
-        }
-        // if (previousStateBeforePause == GameManager_new.GameState.GameReady)
-        //     GameManager.SetGameState(GameManager_new.GameState.GameReady);
-        // else
-
-        SetDirectionButtonsInteractable(true);
-
-        //리스타트로 변경
-        //GameManager.SetGameState(GameManager_new.GameState.GamePlay);
-        GameManager.RestartGameState();
-
-        playerManager.playerAnimator.updateMode = AnimatorUpdateMode.Normal;
-        countdownText.gameObject.SetActive(false);
-
-        playerManager.playerStatus.SetAlive();
-        playerManager.playerMove.EnableInput();
-        // 3초 카운트다운 끝나고 무적 상태일 때 주변 트리거 강제 확인
-        Collider[] hits = Physics.OverlapSphere(playerManager.playerMove.transform.position, 1f);
-        foreach (var hit in hits)
-        {
-            if (hit.TryGetComponent<SwipeTurnTrigger>(out var trigger))
-            {
-                trigger.ForceAutoTurnIfInside(playerManager.playerMove.gameObject);
-            }
-        }
-
-        GameManager.PlayerManager.ResetMoveForward();
-        playerManager.playerAnimator.SetTrigger("Run");
-        StartCoroutine(RemoveInvincibilityAfterDelay(2f));
-        coCountDown = null;
-        playerManager.lastDeathType = DeathType.None;
-        playerManager.playerStatus.SetReviving(false);
-        Debug.Log("플레이어 3초 후 부활 처리 완료");
+        SceneManager.LoadScene("MainTitleScene");
     }
 
-    public IEnumerator InGameResumeAfterCountdown(TMP_Text countdownText, MoveForward moveForward)
+    public void RequestContinue()
     {
-
-        // GameManager.UIManager?.SetDirectionButtonsInteractable(false);
-        if (pausePanel != null)
-            pausePanel.SetActive(false);
-        countdownText.gameObject.SetActive(true);
-        SetDirectionButtonsInteractable(false);
-
-        // playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
-        // playerManager.currentPlayerAnimator.SetTrigger("idle");
-        // GameManager.SetGameState(GameManager_new.GameState.GameStop);
-        for (int i = 3; i > 0; i--)
-        {
-            countdownText.text = i.ToString();
-            yield return new WaitForSecondsRealtime(1);
-            // GameManager.SetGameState(GameManager_new.GameState.GameReStart);
-        }
-        // currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
-        // currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
-        // GameManager.SetTimeScale(1);
-
-        // 이동 및 입력 복원
-        // GameManager.UIManager?.SetDirectionButtonsInteractable(true);
-        // 무적 해제는 따로 2초 후
-        isPaused = false;
-        // if (previousStateBeforePause == GameManager_new.GameState.GameReady)
-        //     GameManager.SetGameState(GameManager_new.GameState.GameReady);
-        // else
-        if (!playerManager.playerStatus.isDead && !playerManager.isInIntroSequence)
-        {
-            SetDirectionButtonsInteractable(true);
-            //GameManager.SetGameState(GameManager_new.GameState.GamePlay);
-            GameManager.RestartGameState();
-            countdownText.gameObject.SetActive(false);
-            playerManager.playerStatus.SetAlive();
-            playerManager.playerMove.EnableInput();
-            //moveForward.enabled = true;
-            GameManager.PlayerManager.ResetMoveForward();
-            playerManager.playerAnimator.SetTrigger("Run");
-            coCountDown = null;
-            // StartCoroutine(RemoveInvincibilityAfterDelay(2f));
-            // playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
-        }
-        else
-        {
-            //GameManager.SetGameState(GameManager_new.GameState.GamePlay);
-            GameManager.RestartGameState();
-            countdownText.gameObject.SetActive(false);
-            coCountDown = null;
-        }
-        // StartCoroutine(RemoveInvincibilityAfterDelay(2f));
-
-        // playerManager.lastDeathType = DeathType.None;
+        CountDown(); // 부활 시작
     }
 
-    private IEnumerator RemoveInvincibilityAfterDelay(float delay)
+    public void RequestGiveUp()
     {
-        yield return new WaitForSeconds(delay);
-
-        if (playerManager.playerStatus != null)
-        {
-            playerManager.playerStatus.SetInvincible(false);
-            Debug.Log("무적 상태 해제");
-        }
+        GameManager.SetGameState(GameManager_new.GameState.GameOver);
     }
+
 }

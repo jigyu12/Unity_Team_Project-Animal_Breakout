@@ -1632,6 +1632,7 @@ GameObject:
   - component: {fileID: 8926794948681037411}
   - component: {fileID: 2496770725574280407}
   - component: {fileID: 9096657156217102774}
+  - component: {fileID: 6194002925491211064}
   m_Layer: 5
   m_Name: PauseButton (1)
   m_TagString: Untagged
@@ -1753,13 +1754,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c78a8a0a68a4741018d26a290e304acc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManager: {fileID: 0}
-  pausePanel: {fileID: 4072084577278961329}
-  RealGiveUpPanel: {fileID: 7847180627451531586}
   resumeButton: {fileID: 2750575393478229562}
-  GiveUpButton: {fileID: 48885522587893330}
+  giveUpButton: {fileID: 48885522587893330}
   settingsButton: {fileID: 34311752053951941}
-  gameUIManager: {fileID: 5052352571859111027}
+  realGiveUpPanel: {fileID: 7847180627451531586}
+  pausePanelRoot: {fileID: 4072084577278961329}
+--- !u!114 &6194002925491211064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2256473197534503411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae32764a50d540ca8b899b120b40607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseButton: {fileID: 2496770725574280407}
 --- !u!1 &2303779639286362981
 GameObject:
   m_ObjectHideFlags: 0
@@ -2763,10 +2775,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ceff92950dcd4f86bb1db3894c635ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameResultPanel: {fileID: 4305505788017151221}
-  ReStartButton: {fileID: 7334470601922353752}
-  GoMainButton: {fileID: 6129085113648762610}
-  gameManager: {fileID: 0}
+  panelRoot: {fileID: 0}
+  restartButton: {fileID: 7334470601922353752}
+  goMainButton: {fileID: 5078117912836810013}
 --- !u!1 &4374399446332422455
 GameObject:
   m_ObjectHideFlags: 0
@@ -3440,7 +3451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 232.15}
+  m_AnchoredPosition: {x: 0, y: 89.45}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6022448005442274783
@@ -5627,17 +5638,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d04b19c6eb047609a474357314942b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverPanel: {fileID: 4263800583295098505}
-  GameResultPanel: {fileID: 4305505788017151221}
-  pausePanel: {fileID: 4072084577278961329}
-  mainTitleButton: {fileID: 5078117912836810013}
-  pauseButton: {fileID: 2496770725574280407}
   playerManager: {fileID: 0}
   rotateButtonController: {fileID: 7114362194326912354}
   leftButton: {fileID: 7559202798799397068}
   rightButton: {fileID: 6440762035289693497}
   RotateButton: {fileID: 4407535251018433778}
   countdownText: {fileID: 2752588065350292869}
+  pausePanelUI: {fileID: 9096657156217102774}
+  resultPanelUI: {fileID: 3841398152097245727}
+  pauseButtonUI: {fileID: 6194002925491211064}
 --- !u!114 &5725109582612319284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6084,10 +6093,5 @@ PrefabInstance:
 --- !u!224 &3245000247165915810 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5628585011600035144, guid: 081251eeb9df748e0a96616ab7e6612a, type: 3}
-  m_PrefabInstance: {fileID: 7139417857861033962}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4263800583295098505 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6356935040152846691, guid: 081251eeb9df748e0a96616ab7e6612a, type: 3}
   m_PrefabInstance: {fileID: 7139417857861033962}
   m_PrefabAsset: {fileID: 0}

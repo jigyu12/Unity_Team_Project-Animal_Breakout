@@ -40,7 +40,7 @@ public class PlayerManager : InGameManager
     public Action onPlayerDead;
     public Action onPlayerRespawn;
 
-    public RelayContinueUI relayContinueUI;
+    public ReviveContinueUI reviveContinueUI;
     private PlayerRotator playerRotator;
     private GameUIManager gameUIManager;
 
@@ -211,13 +211,13 @@ public class PlayerManager : InGameManager
         gameUIManager.SetDirectionButtonsInteractable(false);
         yield return new WaitForSeconds(1.5f);
         GameManager.SetGameState(GameManager_new.GameState.GameStop);
-        if (relayContinueUI != null)
+        if (reviveContinueUI != null)
         {
-            relayContinueUI.Show();
+            reviveContinueUI.Show();
         }
         else
         {
-            Debug.LogError("RelayContinueUI를 찾을 수 없습니다!");
+            Debug.LogError("ReviveContinueUI를 찾을 수 없습니다!");
             GameManager.OnGameOver();
         }
         //  Destroy(playerStatus.gameObject);
