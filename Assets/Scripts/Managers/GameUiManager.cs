@@ -187,7 +187,8 @@ public class GameUIManager : InGameManager
         playerManager.playerAnimator.ResetTrigger("Run");
         playerManager.playerAnimator.SetTrigger("idle");
         playerManager.playerStatus.isDead = false; // 임시 죽음 처리 해보기
-                                                   // GameManager.SetGameState(GameManager_new.GameState.GameStop);
+        playerManager.playerStatus.SetReviving(true);
+        // GameManager.SetGameState(GameManager_new.GameState.GameStop);
 
         for (int i = 3; i > 0; i--)
         {
@@ -244,6 +245,7 @@ public class GameUIManager : InGameManager
         StartCoroutine(RemoveInvincibilityAfterDelay(2f));
         coCountDown = null;
         playerManager.lastDeathType = DeathType.None;
+        playerManager.playerStatus.SetReviving(false);
         Debug.Log("플레이어 3초 후 부활 처리 완료");
     }
 

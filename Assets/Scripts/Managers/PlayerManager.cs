@@ -63,7 +63,7 @@ public class PlayerManager : InGameManager
         base.Initialize();
 
         InitializePlayerComponents();
-
+        GameManager.AddGameStateStartAction(GameManager_new.GameState.WaitLoading, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GameReady, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(playerStatus));
         GameManager.AddGameStateExitAction(GameManager_new.GameState.GamePlay, () => DisablePlayer(playerStatus));
@@ -132,7 +132,7 @@ public class PlayerManager : InGameManager
     {
         ResetMoveForward();
 
-        
+
     }
 
     public void OnPlayerDied(PlayerStatus status)
@@ -160,7 +160,7 @@ public class PlayerManager : InGameManager
 
     public void ResetMoveForward()
     {
-        if(GameManager.StageManager.IsPlayerInBossStage)
+        if (GameManager.StageManager.IsPlayerInBossStage)
         {
             moveForward.enabled = false;
         }
