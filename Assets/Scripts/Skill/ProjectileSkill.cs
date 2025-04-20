@@ -65,7 +65,7 @@ public class ProjectileSkill : ISkill
         this.skillManager = skillManager;
     }
 
-    public void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker, IDamageable target)
+    public void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker, DamageableStatus target)
     {
         //DoSomeThing;
         var projectile = UnityEngine.Object.Instantiate(ProjectileSkillData.projectileBehaviourPrefab.gameObject, skillManager.transform).GetComponent<ProjectileBehaviour>();
@@ -73,19 +73,42 @@ public class ProjectileSkill : ISkill
 
         projectile.onArrival += () => ApplyDamage(attacker, target);
         projectile.Fire(attackerTrs, targetTrs, ProjectileSkillData.speed);
-       
+
         lastPerformedTime = Time.time;
         CoolTime = 0f;
     }
 
-    public void ApplyDamage(IAttacker attacker, IDamageable target)
+    public void ApplyDamage(IAttacker attacker, DamageableStatus target)
     {
         if (!skillManager.IsSkillTargetValid())
         {
             return;
         }
+        ApplyElementalEffect(target, ProjectileSkillData.skillElemental);
         //임시
-        target.OnDamage(attacker.AttackPower * ProjectileSkillData.damageRate);
+        target.OnDamage(attacker.AttackPower * ProjectileSkillData.damageRate, ProjectileSkillData.skillElemental);
+    }
+
+    public void ApplyElementalEffect(DamageableStatus target, SkillElemental elemental)
+    {
+        switch (elemental)
+        {
+            case SkillElemental.Fire:
+                {
+                    target.gameObject.GetComponent<BurnStatusEffect>().Perform();
+                    break;
+                }
+            case SkillElemental.Ice:
+                {
+                    target.gameObject.GetComponent<FrozenStatusEffect>().Perform();
+                    break;
+                }
+            case SkillElemental.Electricity:
+                {
+                    target.gameObject.GetComponent<ElectricStatusEffect>().Perform();
+                    break;
+                }
+        }
     }
 
     public void UpgradeLevel()

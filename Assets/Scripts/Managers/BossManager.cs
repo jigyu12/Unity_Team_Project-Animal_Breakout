@@ -46,7 +46,7 @@ public class BossManager : InGameManager
         var boss = Instantiate(bossPrefab, parentGameObjectToSpawnBoss.transform);
         boss.transform.localPosition = spawnLocalPosition;
         boss.TryGetComponent(out bossStatus);
-        bossStatus.InitializeStatus(100f);
+        bossStatus.InitializeStatus(500f);
 
         //bossStatus.SetPool(bossPool);
         onSpawnBoss?.Invoke(bossStatus);
