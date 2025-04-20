@@ -35,7 +35,7 @@ public class StageManager : InGameManager
 
     private void OnDestroy()
     {
-        BossStatus.onBossDead -= OnCurrentStageClear;
+        BossStatus.onBossDead -= OnBossStageClear;
     }
 
     public override void Initialize()

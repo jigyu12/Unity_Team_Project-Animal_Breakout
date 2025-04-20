@@ -11,7 +11,7 @@ public class GameUIManager : InGameManager
     public GameObject GameResultPanel;
     public GameObject pausePanel;
     public Button mainTitleButton;
-    public Button RotateButton;
+
 
     public Button pauseButton;
     public PlayerManager playerManager;
@@ -20,9 +20,14 @@ public class GameUIManager : InGameManager
     private GameManager_new.GameState previousStateBeforePause;
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
+    public Button RotateButton;
+
     [SerializeField] public TMP_Text countdownText;
-    
+
     public static event Action onShowGameOverPanel;
+
+
+
 
     private void Awake()
     {
@@ -47,15 +52,18 @@ public class GameUIManager : InGameManager
         pauseButton.onClick.RemoveAllListeners();
         pauseButton.onClick.AddListener(OnPauseButtonClicked);
     }
+
     public void ConnectPlayerMove(PlayerMove move)
     {
         leftButton.onClick.RemoveAllListeners();
         rightButton.onClick.RemoveAllListeners();
 
-        leftButton.GetComponent<DirectionButton>().Initialize(move, leftButton);
-        rightButton.GetComponent<DirectionButton>().Initialize(move, rightButton);
+        leftButton.GetComponent<DirectionButton>().Initialize(move, leftButton, rotateButtonController);
+        rightButton.GetComponent<DirectionButton>().Initialize(move, rightButton, rotateButtonController);
+        RotateButton.GetComponent<DirectionButton>().Initialize(move, RotateButton, rotateButtonController);
 
     }
+
     //private void OnDestroy()
     //{
     //    //if (gameManager != null)
@@ -67,7 +75,7 @@ public class GameUIManager : InGameManager
     public void ShowGameOverPanel()
     {
         onShowGameOverPanel?.Invoke();
-        
+
         GameResultPanel.SetActive(true);
         // gameOverPanel.SetActive(true);
         //Time.timeScale = 0;
@@ -97,7 +105,7 @@ public class GameUIManager : InGameManager
         playerManager.playerMove.DisableInput();
         pausePanel.SetActive(true);
         SetDirectionButtonsInteractable(false);
-        UnShowRotateButton();
+        // UnShowRotateButton();
     }
     public void SetPauseButtonInteractable(bool interactable)
     {
@@ -107,7 +115,10 @@ public class GameUIManager : InGameManager
     {
         leftButton.interactable = interactable;
         rightButton.interactable = interactable;
-        //   pauseButton.interactable = interactable;
+        pauseButton.interactable = interactable;
+        RotateButton.interactable = interactable;
+
+
     }
     public void ShowRotateButton()
     {
@@ -166,11 +177,18 @@ public class GameUIManager : InGameManager
         if (pausePanel != null)
             pausePanel.SetActive(false);
         countdownText.gameObject.SetActive(true);
+
+        playerManager.playerStatus.SetInvincible(true);
+        var pos = playerManager.playerMove.transform.localPosition;
+        pos.y = 0f;
+        playerManager.playerMove.transform.localPosition = pos;
+
         playerManager.playerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         playerManager.playerAnimator.ResetTrigger("Run");
         playerManager.playerAnimator.SetTrigger("idle");
         playerManager.playerStatus.isDead = false; // 임시 죽음 처리 해보기
                                                    // GameManager.SetGameState(GameManager_new.GameState.GameStop);
+
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
@@ -270,7 +288,7 @@ public class GameUIManager : InGameManager
             GameManager.PlayerManager.ResetMoveForward();
             playerManager.playerAnimator.SetTrigger("Run");
             coCountDown = null;
-            StartCoroutine(RemoveInvincibilityAfterDelay(2f));
+            // StartCoroutine(RemoveInvincibilityAfterDelay(2f));
             // playerManager.currentPlayerAnimator.updateMode = AnimatorUpdateMode.Normal;
         }
         else

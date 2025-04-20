@@ -110,7 +110,9 @@ public class PlayerStatus : MonoBehaviour
         }
         if (isInvincible) return;
         isDead = true;
-        playerManager.playerStatus.SetInvincible(true);
+
+        // playerManager.currentPlayerStatus.SetInvincible(true);
+
         playerManager.OnPlayerDied(this);
     }
     public bool IsDead()

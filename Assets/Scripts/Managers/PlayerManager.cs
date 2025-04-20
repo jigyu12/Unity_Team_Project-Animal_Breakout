@@ -115,7 +115,7 @@ public class PlayerManager : InGameManager
 
             GameObject character = Instantiate(prefab, playerGameObject.transform);
             playerAnimator = character.GetComponent<Animator>();
-
+            playerMove.SetAnimator(playerAnimator);
 
             GameManager.UIManager?.ConnectPlayerMove(this.playerMove); // 버튼 연결
 

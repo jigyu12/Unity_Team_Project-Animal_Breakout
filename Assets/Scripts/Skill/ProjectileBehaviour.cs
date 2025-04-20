@@ -10,11 +10,12 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private float speed;
     private Vector3 direction;
-    private Transform target;
+    private Vector3 target;
 
     private SkillManager skillManager;
 
     public Action onArrival; //도착후 실행할 함수
+    public Action targetGone;
 
 
     public void InitializeSkilManager(SkillManager skillManager)
@@ -24,7 +25,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
     public void Fire(Transform attacker, Transform target, float speed)
     {
-        this.target = target;
+        this.target = target.position;
         this.speed = speed;
 
 
@@ -34,15 +35,25 @@ public class ProjectileBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if ((target.transform.position - transform.position).magnitude <= arrivalThreshold)
+        if ((target - transform.position).magnitude <= arrivalThreshold)
         {
-            onArrival?.Invoke();
-            Destroy(gameObject);
+            OnArrival();
+            return;
         }
 
-        direction = (target.transform.position - transform.position).normalized;
+        direction = (target - transform.position).normalized;
         transform.position += direction * (speed + skillManager?.GetSkillInheritedForwardSpeed() ?? 0f) * Time.deltaTime;
         transform.LookAt(this.target);
     }
 
+    public void OnArrival()
+    {
+        onArrival?.Invoke();
+        Destroy(gameObject);
+    }
+    
+    public void OnTargetGone()
+    {
+        Destroy(gameObject);
+    }
 }

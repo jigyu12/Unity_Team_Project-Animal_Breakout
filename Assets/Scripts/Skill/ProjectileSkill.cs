@@ -73,13 +73,17 @@ public class ProjectileSkill : ISkill
 
         projectile.onArrival += () => ApplyDamage(attacker, target);
         projectile.Fire(attackerTrs, targetTrs, ProjectileSkillData.speed);
-
+       
         lastPerformedTime = Time.time;
         CoolTime = 0f;
     }
 
     public void ApplyDamage(IAttacker attacker, IDamageable target)
     {
+        if (!skillManager.IsSkillTargetValid())
+        {
+            return;
+        }
         //임시
         target.OnDamage(attacker.AttackPower * ProjectileSkillData.damageRate);
     }
@@ -114,5 +118,4 @@ public class ProjectileSkill : ISkill
     {
         onReady?.Invoke();
     }
-
 }
