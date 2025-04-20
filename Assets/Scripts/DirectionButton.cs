@@ -4,17 +4,21 @@ using UnityEngine.UI;
 
 public class DirectionButton : MonoBehaviour, IPointerDownHandler
 {
-    public enum Direction { Left, Right }
+    public enum Direction { Left, Right, Rotate }
     public Direction direction;
 
     private PlayerMove playerMove;
+    private RotateButtonController rotateButtonController;
+
     private Button button;
 
-    public void Initialize(PlayerMove move, Button button)
+    public void Initialize(PlayerMove move, Button button, RotateButtonController rotateController)
     {
         playerMove = move;
         this.button = button;
+        rotateButtonController = rotateController;
     }
+
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -28,6 +32,9 @@ public class DirectionButton : MonoBehaviour, IPointerDownHandler
                 break;
             case Direction.Right:
                 playerMove.MoveRight();
+                break;
+            case Direction.Rotate:
+                rotateButtonController?.OnRotateButtonClicked();
                 break;
         }
     }

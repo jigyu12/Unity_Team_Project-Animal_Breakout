@@ -11,7 +11,7 @@ public class GameUIManager : InGameManager
     public GameObject GameResultPanel;
     public GameObject pausePanel;
     public Button mainTitleButton;
-    public Button RotateButton;
+
 
     public Button pauseButton;
     public PlayerManager playerManager;
@@ -20,6 +20,8 @@ public class GameUIManager : InGameManager
     private GameManager_new.GameState previousStateBeforePause;
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
+    public Button RotateButton;
+
     [SerializeField] public TMP_Text countdownText;
 
     public static event Action onShowGameOverPanel;
@@ -50,15 +52,18 @@ public class GameUIManager : InGameManager
         pauseButton.onClick.RemoveAllListeners();
         pauseButton.onClick.AddListener(OnPauseButtonClicked);
     }
+
     public void ConnectPlayerMove(PlayerMove move)
     {
         leftButton.onClick.RemoveAllListeners();
         rightButton.onClick.RemoveAllListeners();
 
-        leftButton.GetComponent<DirectionButton>().Initialize(move, leftButton);
-        rightButton.GetComponent<DirectionButton>().Initialize(move, rightButton);
+        leftButton.GetComponent<DirectionButton>().Initialize(move, leftButton, rotateButtonController);
+        rightButton.GetComponent<DirectionButton>().Initialize(move, rightButton, rotateButtonController);
+        RotateButton.GetComponent<DirectionButton>().Initialize(move, RotateButton, rotateButtonController);
 
     }
+
     //private void OnDestroy()
     //{
     //    //if (gameManager != null)
@@ -100,7 +105,7 @@ public class GameUIManager : InGameManager
         playerManager.playerMove.DisableInput();
         pausePanel.SetActive(true);
         SetDirectionButtonsInteractable(false);
-        UnShowRotateButton();
+        // UnShowRotateButton();
     }
     public void SetPauseButtonInteractable(bool interactable)
     {
@@ -111,6 +116,9 @@ public class GameUIManager : InGameManager
         leftButton.interactable = interactable;
         rightButton.interactable = interactable;
         pauseButton.interactable = interactable;
+        RotateButton.interactable = interactable;
+
+
     }
     public void ShowRotateButton()
     {
