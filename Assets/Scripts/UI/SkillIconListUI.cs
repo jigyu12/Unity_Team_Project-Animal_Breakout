@@ -17,10 +17,7 @@ public class SkillIconListUI : UIElement
 
         maxSkillCount = gameManager.SkillManager.MaxSkillCount;
         gameManager.SkillManager.onSkillListUpdated += OnSkillListUpdated;
-    }
 
-    private void Start()
-    {
         for (int i = 0; i < maxSkillCount; i++)
         {
             var skillIcon = Instantiate(skillIconPrefab, transform).GetComponent<SkillIcon>();
