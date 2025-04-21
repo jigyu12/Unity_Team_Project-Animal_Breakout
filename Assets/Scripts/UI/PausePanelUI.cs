@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class PausePanelUI : MonoBehaviour
+public class PausePanelUI : UIElement
 {
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button giveUpButton;
@@ -12,11 +12,9 @@ public class PausePanelUI : MonoBehaviour
     [SerializeField] private TMP_Text countdownText;
 
 
-    private GameUIManager gameUIManager;
-
     public void Initialize(GameUIManager uiManager)
     {
-        gameUIManager = uiManager;
+        //gameUIManager = uiManager;
 
         resumeButton.onClick.RemoveAllListeners();
         resumeButton.onClick.AddListener(OnResumeClicked);
