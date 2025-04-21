@@ -42,7 +42,6 @@ public class PlayerManager : InGameManager
 
     public ReviveContinueUI reviveContinueUI;
     private PlayerRotator playerRotator;
-    private GameUIManager gameUIManager;
 
     public Vector3 pendingRespawnPosition;
     public Quaternion pendingRespawnRotation;
@@ -55,7 +54,6 @@ public class PlayerManager : InGameManager
     private void Awake()
     {
         playerRotator = GetComponent<PlayerRotator>();
-        gameUIManager = GetComponent<GameUIManager>();
 
     }
     public override void Initialize()
@@ -71,9 +69,6 @@ public class PlayerManager : InGameManager
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
 
-
-        gameUIManager = GameManager.UIManager;
-        gameUIManager.playerManager = this;
 
     }
 
@@ -149,7 +144,7 @@ public class PlayerManager : InGameManager
         {
             playerMove.canTurn = false;
         }
-        gameUIManager.UnShowRotateButton();
+        GameManager.UIManager.UnShowRotateButton();
         StopAllMovements();
         DisablePlayer(status);
         PlayDeathAnimation();
@@ -208,7 +203,7 @@ public class PlayerManager : InGameManager
 
     private IEnumerator DieAndSwitch(PlayerStatus playerStatus)
     {
-        gameUIManager.SetDirectionButtonsInteractable(false);
+        GameManager.UIManager.SetDirectionButtonsInteractable(false);
         yield return new WaitForSeconds(1.5f);
         GameManager.SetGameState(GameManager_new.GameState.GameStop);
         if (reviveContinueUI != null)
