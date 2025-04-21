@@ -12,10 +12,10 @@ public class PausePanelUI : UIElement
     [SerializeField] private TMP_Text countdownText;
 
 
-    public void Initialize(GameUIManager uiManager)
+    public override void Initialize()
     {
         //gameUIManager = uiManager;
-
+        base.Initialize();
         resumeButton.onClick.RemoveAllListeners();
         resumeButton.onClick.AddListener(OnResumeClicked);
 

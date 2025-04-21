@@ -37,9 +37,9 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
     public List<RoadWay> NextRoadWays => nextRoadways;
 
     private List<CollidableMapObject> mapObjects = new();
-    
-    private readonly Vector3 yOffsetItem = new Vector3(0, 0.5f, 0); 
-    private readonly Vector3 yOffsetBomb = new Vector3(0, 1f, 0); 
+
+    private readonly Vector3 yOffsetItem = new Vector3(0, 0.5f, 0);
+    private readonly Vector3 yOffsetBomb = new Vector3(0, 1f, 0);
 
     public void Awake()
     {
@@ -174,4 +174,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
         }
         release.Invoke();
     }
+
+
+
 }

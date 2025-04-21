@@ -25,6 +25,8 @@ public class StageManager : InGameManager
     private List<StageData> stageDatas = new List<StageData>();
 
     public Action onBossStageEnter;
+    private bool isTrackingStarted = false;
+
 
     private void Awake()
     {
@@ -42,6 +44,7 @@ public class StageManager : InGameManager
     {
         base.Initialize();
         GameManager.RoadMaker.onCurrentRoadWayEmpty += OnSetRoadMode;
+
     }
 
     public void SetInitialRoadMode()
@@ -61,7 +64,21 @@ public class StageManager : InGameManager
 
         var currStageData = stageDatas[currentStageDataIndex];
         GameManager.RoadMaker.PushNextStageRoadWayData(CurrentStageData);
+        // StartCoroutine(WaitForBossRoadwayAndTrack());
     }
+
+
+    public void RoadWayDistanceTracking()
+    {
+        if (isTrackingStarted) return; // 이미 시작했으면 무시
+        isTrackingStarted = true;
+
+        GameManager.UIManager.runStageUI.Reset();
+        GameManager.UIManager.runStageUI.StartBossWayTracking();
+        GameManager.UIManager.runStageUI.Show();
+        GameManager.UIManager.bossWayUI.Hide();
+    }
+
 
     [ContextMenu("Boss Stage Exit")]
     private void OnCurrentStageClear()
@@ -72,6 +89,9 @@ public class StageManager : InGameManager
     public void OnBossStageEnter()
     {
         Debug.Log("Boss Stage Enter");
+        GameManager.UIManager.runStageUI.StopBossWayTracking(); //추가
+        GameManager.UIManager.runStageUI.Hide();
+        GameManager.UIManager.bossWayUI.Show();
         GameManager.PlayerManager.StopAllMovements();
         onBossStageEnter?.Invoke();
     }
@@ -80,6 +100,12 @@ public class StageManager : InGameManager
     {
         IsPlayerInBossStage = false;
         GameManager.PlayerManager.ActivatePlayer();
+        GameManager.UIManager.bossWayUI.Hide();
+        GameManager.UIManager.runStageUI.Show();
+        isTrackingStarted = false;
+        RoadWayDistanceTracking();
         OnCurrentStageClear();
     }
+
+
 }

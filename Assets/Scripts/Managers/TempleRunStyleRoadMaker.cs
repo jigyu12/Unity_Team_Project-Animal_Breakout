@@ -39,7 +39,12 @@ public class TempleRunStyleRoadMaker : InGameManager
     public Action onCurrentRoadWayEmpty;
 
     public int precreateRoadWayCount;
+    //민재 추가
+    private RoadWay bossEntryRoadWay;
+    public bool HasBossEntryRoad => bossEntryRoadWay != null;
+    public Transform BossEntryRoadTransform => bossEntryRoadWay?.transform;
 
+    //
     public struct NextRoadWayData
     {
         public int roadWayIndex;
@@ -163,7 +168,7 @@ public class TempleRunStyleRoadMaker : InGameManager
 
         foreach (var trs in startPoints)
         {
-            var roadWay = CreateRoadWay(previousRoadWay.index + 1, nextRoadWayData.roadWayIndex, nextRoadWayData.isBossEnter ? GameManager.StageManager.OnBossStageEnter : null);
+            var roadWay = CreateRoadWay(previousRoadWay.index + 1, nextRoadWayData.roadWayIndex, nextRoadWayData.isBossEnter ? GameManager.StageManager.OnBossStageEnter : GameManager.StageManager.RoadWayDistanceTracking );
             roadWay.transform.SetPositionAndRotation(trs.position, trs.rotation);
 
             if (nextRoadWayData.itemMode == ItemSetMode.TrapAndReward)
@@ -238,6 +243,7 @@ public class TempleRunStyleRoadMaker : InGameManager
         {
             CreateNNextRoadWay(next - 1, n);
         }
+
     }
 
 

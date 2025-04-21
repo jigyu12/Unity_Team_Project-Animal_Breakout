@@ -2,19 +2,27 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class ReviveContinueUI : MonoBehaviour
+public class ReviveContinueUI : UIElement
 {
     [SerializeField] private GameObject panel;
-    [SerializeField] private Slider slider;
-    [SerializeField] private GameUIManager gameUIManager;
+    [SerializeField] private Button ReviveButton;
 
+    [SerializeField] private Slider slider;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        ReviveButton.onClick.RemoveAllListeners();
+        ReviveButton.onClick.AddListener(() => OnClickContinue());
+    }
     private Coroutine countdown;
     private bool isDisplayed = false;
     private int deathCount = 0;
 
     public void Show()
     {
-        if (deathCount > 0)
+        if (deathCount >= gameManager.restartChanceCount)
         {
             gameUIManager.RequestGiveUp(); // GameManager 접근 제거
             return;
@@ -35,7 +43,6 @@ public class ReviveContinueUI : MonoBehaviour
     public void OnClickContinue()
     {
         Hide();
-
         gameUIManager.RequestContinue(); // CountDown 대신 요청 방식
     }
 

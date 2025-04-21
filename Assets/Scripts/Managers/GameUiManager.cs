@@ -23,7 +23,8 @@ public class GameUIManager : InGameManager
     [SerializeField] private PauseButtonUI pauseButtonUI;
     [SerializeField] private RotateButtonUI rotateButtonUI;
     [SerializeField] private InputUIBinder inputUIBinder;
-
+    [SerializeField] public RunStageUI runStageUI;
+    [SerializeField] public BossWayUI bossWayUI;
 
 
     public override void Initialize()
@@ -39,21 +40,13 @@ public class GameUIManager : InGameManager
         inputUIBinder.Bind(GameManager.PlayerManager.playerMove);
 
         //자식으로 딸린 모든 UIElements들을 탐색한다.
-        var elements = gameObject.GetComponentsInChildren<UIElement>();
+        var elements = gameObject.GetComponentsInChildren<UIElement>(true);
         uiElements = elements.ToList();
-
         //UIElements들에 매니저를 세팅
         foreach (var element in uiElements)
         {
             element.SetUIManager(GameManager, this);
         }
-
-        //수정필요
-        rotateButtonUI.Initialize(rotateButtonController);
-        pausePanelUI.Initialize(this);
-        resultPanelUI.Initialize(this);
-        pauseButtonUI.Initialize(this);
-
         //Start보다 이전에 값을 세팅해야하는 UI들의 UIElements은 Initialze에서 해주면 된다
         foreach (var element in uiElements)
         {
@@ -76,7 +69,7 @@ public class GameUIManager : InGameManager
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private void OnMainTitleButtonClicked()
+    public void OnMainTitleButtonClicked()
     {
         SceneManager.LoadScene("MainTitleScene");
     }
@@ -116,10 +109,7 @@ public class GameUIManager : InGameManager
     {
         GameManager.PlayerManager.lastDeathType = type;
     }
-    public void GoToMainTitle()
-    {
-        SceneManager.LoadScene("MainTitleScene");
-    }
+
 
     public void RequestContinue()
     {
