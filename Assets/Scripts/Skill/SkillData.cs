@@ -10,7 +10,7 @@ public enum SkillType
     Utility,
 }
 
-public enum SkillAttribute
+public enum SkillElemental
 {
     Fire,
     Ice,
@@ -31,7 +31,7 @@ public class SkillData : ScriptableObject
 
 public class AttackSkillData : SkillData
 {
-    public SkillAttribute skillAttribute;
+    public SkillElemental skillElemental;
 }
 
 public class UtilitySkillData : SkillData

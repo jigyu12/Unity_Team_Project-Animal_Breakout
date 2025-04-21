@@ -12,6 +12,7 @@ public class BossStatus : DamageableStatus
     public static event Action onBossDead;
     public static event Action<float, float> onBossCurrentHpChanged;
 
+
     public override void InitializeStatus(float maxHp)
     {
         this.maxHp = maxHp;
@@ -19,7 +20,7 @@ public class BossStatus : DamageableStatus
         isDead = false;
     }
 
-    public override void OnDamage(float damage)
+    public override void OnDamage(float damage, SkillElemental attribute = SkillElemental.None)
     {
         if (damage < 0)
         {
@@ -31,7 +32,8 @@ public class BossStatus : DamageableStatus
         currentHp -= damage;
         currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
         onBossCurrentHpChanged?.Invoke(currentHp, maxHp);
-        
+        onDamaged?.Invoke(damage, attribute);
+
         Debug.Log($"Boss HP : {currentHp}/{maxHp}");
 
         if (Mathf.Approximately(0f, currentHp))

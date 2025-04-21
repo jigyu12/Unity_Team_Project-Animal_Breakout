@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class DamageableStatus : MonoBehaviour, IDamageable
@@ -8,6 +9,8 @@ public abstract class DamageableStatus : MonoBehaviour, IDamageable
     public abstract bool isDead { get; protected set; }
 
     public abstract void InitializeStatus(float maxHp);
-    public abstract void OnDamage(float damage);
+
+    public Action<float, SkillElemental> onDamaged;
+    public abstract void OnDamage(float damage, SkillElemental attribute = SkillElemental.None);
     protected abstract void OnDead();
 }

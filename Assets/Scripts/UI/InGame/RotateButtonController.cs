@@ -32,6 +32,7 @@ public class RotateButtonController : MonoBehaviour
                 break;
         }
     }
+    
     public void SetCurrentTurnTrigger(SwipeTurnTrigger trigger)
     {
         currentTurnTrigger = trigger;
