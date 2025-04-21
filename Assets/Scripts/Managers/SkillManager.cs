@@ -156,5 +156,3 @@ public class SkillManager : InGameManager
         return skillTarget != null;
     }
 
-    
-}

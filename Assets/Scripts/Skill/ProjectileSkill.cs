@@ -73,7 +73,7 @@ public class ProjectileSkill : ISkill
 
         projectile.onArrival += () => ApplyDamage(attacker, target);
         projectile.Fire(attackerTrs, targetTrs, ProjectileSkillData.speed);
-
+       
         lastPerformedTime = Time.time;
         CoolTime = 0f;
     }
@@ -85,6 +85,7 @@ public class ProjectileSkill : ISkill
             return;
         }
         ApplyElementalEffect(target, ProjectileSkillData.skillElemental);
+
         //임시
         target.OnDamage(attacker.AttackPower * ProjectileSkillData.damageRate, ProjectileSkillData.skillElemental);
     }
