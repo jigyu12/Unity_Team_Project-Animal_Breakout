@@ -28,7 +28,12 @@ public class PlayerStatus : MonoBehaviour
     public float MoveSpeed => statData != null ? statData.StartSpeed : 0;
     public float JumpPower => statData != null ? statData.Jump : 0;
     private PlayerManager playerManager;
+    public bool IsReviving { get; private set; }
 
+    public void SetReviving(bool value)
+    {
+        IsReviving = value;
+    }
 
     private void Start()
     {

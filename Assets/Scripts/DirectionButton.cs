@@ -12,12 +12,14 @@ public class DirectionButton : MonoBehaviour, IPointerDownHandler
 
     private Button button;
 
-    public void Initialize(PlayerMove move, Button button, RotateButtonController rotateController)
+    public void Initialize(PlayerMove move, Button button, RotateButtonController rotateController, Direction dir)
     {
         playerMove = move;
         this.button = button;
         rotateButtonController = rotateController;
+        direction = dir;
     }
+
 
 
     public void OnPointerDown(PointerEventData eventData)

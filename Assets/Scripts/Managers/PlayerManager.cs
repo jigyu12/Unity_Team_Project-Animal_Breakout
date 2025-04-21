@@ -40,9 +40,8 @@ public class PlayerManager : InGameManager
     public Action onPlayerDead;
     public Action onPlayerRespawn;
 
-    public RelayContinueUI relayContinueUI;
+    public ReviveContinueUI reviveContinueUI;
     private PlayerRotator playerRotator;
-    private GameUIManager gameUIManager;
 
     public Vector3 pendingRespawnPosition;
     public Quaternion pendingRespawnRotation;
@@ -55,7 +54,6 @@ public class PlayerManager : InGameManager
     private void Awake()
     {
         playerRotator = GetComponent<PlayerRotator>();
-        gameUIManager = GetComponent<GameUIManager>();
 
     }
     public override void Initialize()
@@ -63,7 +61,7 @@ public class PlayerManager : InGameManager
         base.Initialize();
 
         InitializePlayerComponents();
-
+        GameManager.AddGameStateStartAction(GameManager_new.GameState.WaitLoading, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GameReady, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(playerStatus));
         GameManager.AddGameStateExitAction(GameManager_new.GameState.GamePlay, () => DisablePlayer(playerStatus));
@@ -71,9 +69,6 @@ public class PlayerManager : InGameManager
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
 
-
-        gameUIManager = GameManager.UIManager;
-        gameUIManager.playerManager = this;
 
     }
 
@@ -132,7 +127,7 @@ public class PlayerManager : InGameManager
     {
         ResetMoveForward();
 
-        
+
     }
 
     public void OnPlayerDied(PlayerStatus status)
@@ -149,7 +144,7 @@ public class PlayerManager : InGameManager
         {
             playerMove.canTurn = false;
         }
-        gameUIManager.UnShowRotateButton();
+        GameManager.UIManager.UnShowRotateButton();
         StopAllMovements();
         DisablePlayer(status);
         PlayDeathAnimation();
@@ -160,7 +155,7 @@ public class PlayerManager : InGameManager
 
     public void ResetMoveForward()
     {
-        if(GameManager.StageManager.IsPlayerInBossStage)
+        if (GameManager.StageManager.IsPlayerInBossStage)
         {
             moveForward.enabled = false;
         }
@@ -208,16 +203,16 @@ public class PlayerManager : InGameManager
 
     private IEnumerator DieAndSwitch(PlayerStatus playerStatus)
     {
-        gameUIManager.SetDirectionButtonsInteractable(false);
+        GameManager.UIManager.SetDirectionButtonsInteractable(false);
         yield return new WaitForSeconds(1.5f);
         GameManager.SetGameState(GameManager_new.GameState.GameStop);
-        if (relayContinueUI != null)
+        if (reviveContinueUI != null)
         {
-            relayContinueUI.Show();
+            reviveContinueUI.Show();
         }
         else
         {
-            Debug.LogError("RelayContinueUI를 찾을 수 없습니다!");
+            Debug.LogError("ReviveContinueUI를 찾을 수 없습니다!");
             GameManager.OnGameOver();
         }
         //  Destroy(playerStatus.gameObject);
