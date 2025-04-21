@@ -7,10 +7,7 @@ using TMPro;
 
 public class GameUIManager : InGameManager
 {
-    public PlayerManager playerManager;
     public RotateButtonController rotateButtonController;
-    private bool isPaused = false;
-    private GameManager_new.GameState previousStateBeforePause;
 
     public static event Action onShowGameOverPanel;
 
@@ -35,9 +32,9 @@ public class GameUIManager : InGameManager
         //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => CountDown());
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetDirectionButtonsInteractable(true));
 
-        pauseHandler = new PauseHandler(GameManager, playerManager, pausePanelUI, this);
-        reviveHandler = new ReviveHandler(GameManager, playerManager, pausePanelUI, this, pauseHandler, this);
-        inputUIBinder.Bind(playerManager.playerMove);
+        pauseHandler = new PauseHandler(GameManager, GameManager.PlayerManager, pausePanelUI, this);
+        reviveHandler = new ReviveHandler(GameManager, GameManager.PlayerManager, pausePanelUI, this, pauseHandler, this);
+        inputUIBinder.Bind(GameManager.PlayerManager.playerMove);
 
         rotateButtonUI.Initialize(rotateButtonController);
         pausePanelUI.Initialize(this);
@@ -98,7 +95,7 @@ public class GameUIManager : InGameManager
     }
     public void SetLastDeathType(DeathType type)
     {
-        playerManager.lastDeathType = type;
+        GameManager.PlayerManager.lastDeathType = type;
     }
     public void GoToMainTitle()
     {
