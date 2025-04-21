@@ -6,9 +6,9 @@ public class BossStatus : DamageableStatus
     public override float currentHp { get; protected set; }
     public override float maxHp { get; protected set; }
     public override bool isDead { get; protected set; }
-    
+
     //private ObjectPool<GameObject> bossPool;
-    
+
     public static event Action onBossDead;
     public static event Action<float, float> onBossCurrentHpChanged;
 
@@ -20,36 +20,43 @@ public class BossStatus : DamageableStatus
         isDead = false;
     }
 
-    public override void OnDamage(float damage, SkillElemental attribute = SkillElemental.None)
+    public override void OnDamage(float damage, SkillElemental attribute)
+    {
+        onElementalDamaged?.Invoke(damage, attribute);
+        OnDamage(damage);
+    }
+
+    public override void OnDamage(float damage)
     {
         if (damage < 0)
         {
             Debug.Assert(false, "Invalid Damage value");
-            
+
             return;
         }
-        
+
         currentHp -= damage;
         currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
         onBossCurrentHpChanged?.Invoke(currentHp, maxHp);
-        onDamaged?.Invoke(damage, attribute);
+        onDamaged?.Invoke(damage);
 
         Debug.Log($"Boss HP : {currentHp}/{maxHp}");
 
         if (Mathf.Approximately(0f, currentHp))
         {
             Debug.Log("Boss is dead.");
-            
+
             OnDead();
         }
     }
+
 
     protected override void OnDead()
     {
         isDead = true;
 
         onBossDead?.Invoke();
-        
+
         //bossPool.Release(gameObject);
         Destroy(gameObject);
     }

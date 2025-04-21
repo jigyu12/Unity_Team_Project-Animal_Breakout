@@ -31,7 +31,7 @@ public class FrozenStatusEffect : StatusEffect
     public override void SetDamagerableTarget(DamageableStatus damageable)
     {
         target = damageable;
-        target.onDamaged += PerformFrozenEffect;
+        target.onElementalDamaged += PerformFrozenEffect;
     }
 
     //냉기 상태에서는 얼음 속성을 제외한 다른 속성 스킬로 공격을 했을 때 얼음 속성 1회 추가 데미지를 주는 효과를 갖고 있다.
@@ -54,7 +54,7 @@ public class FrozenStatusEffect : StatusEffect
         currentCount++;
 
         Debug.Log($"얼음 효과 damage : {this.damage}");
-        target.OnDamage(this.damage, SkillElemental.Ice);
+        target.OnDamage(this.damage);
 
         if (currentCount >= effectCount)
         {

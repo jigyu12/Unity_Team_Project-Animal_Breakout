@@ -26,7 +26,7 @@ public class ProjectileSkill : AttackSkill
     private float lastPerformedTime = 0;
 
 
-    public override void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker, DamageableStatus target)
+    public override void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker, DamageableStatus target)
     {
         //간격이라던지 그런건 일단 차치하고 작성
         for (int i = 0; i < ProjectileSkillData.projectileCount; i++)
@@ -48,7 +48,7 @@ public class ProjectileSkill : AttackSkill
         CoolTime = 0f;
     }
 
-    public void ApplyOnlyDamage(IAttacker attacker, DamageableStatus target, int count)
+    public void ApplyOnlyDamage(AttackPowerStatus attacker, DamageableStatus target, int count)
     {
         if (!skillManager.IsSkillTargetValid())
         {
@@ -57,11 +57,11 @@ public class ProjectileSkill : AttackSkill
 
         for (int i = 0; i < count; i++)
         {
-            AttackDamage(attacker.AttackPower * ProjectileSkillData.damageRate, target);
+            AttackDamage(attacker.GetElementalAdditionalAttackPower(ProjectileSkillData.skillElemental) * ProjectileSkillData.damageRate, target);
         }
     }
 
-    public void ApplyDamageAndElementalEffect(IAttacker attacker, DamageableStatus target, int count)
+    public void ApplyDamageAndElementalEffect(AttackPowerStatus attacker, DamageableStatus target, int count)
     {
         if (!skillManager.IsSkillTargetValid())
         {
@@ -71,7 +71,7 @@ public class ProjectileSkill : AttackSkill
         ApplyElementalEffect(target, ProjectileSkillData.skillElemental);
         for (int i = 0; i < count; i++)
         {
-            AttackDamage(attacker.AttackPower * ProjectileSkillData.damageRate, target);
+            AttackDamage(attacker.GetElementalAdditionalAttackPower(ProjectileSkillData.skillElemental) * ProjectileSkillData.damageRate, target);
         }
     }
 }

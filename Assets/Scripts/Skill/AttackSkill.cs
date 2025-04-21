@@ -64,7 +64,7 @@ public abstract class AttackSkill : ISkill
         this.skillManager = skillManager;
     }
 
-    public abstract void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker, DamageableStatus target);
+    public abstract void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker, DamageableStatus target);
 
     protected virtual void AttackDamage(float damage, DamageableStatus target)
     {

@@ -34,7 +34,7 @@ public class ElectricStatusEffect : StatusEffect
     public override void SetDamagerableTarget(DamageableStatus damageable)
     {
         target = damageable;
-        target.onDamaged += AddElectricStack;
+        target.onElementalDamaged += AddElectricStack;
     }
 
     //스택은 번개 속성 스킬을 맞췄을 때 1스택씩 쌓이고 6스택을 쌓으면 번개 속성 타겟팅 추가 스킬이 발동된다.
@@ -66,7 +66,7 @@ public class ElectricStatusEffect : StatusEffect
     {
         isPerforming = false;
         Debug.Log($"전기 효과 damage : {damage}");
-        target.OnDamage(damage, SkillElemental.Electricity);
+        target.OnDamage(damage);
     }
 
 }

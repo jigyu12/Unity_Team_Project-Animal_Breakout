@@ -10,9 +10,9 @@ public class ExperienceSupportSkill : SupportSkill
     {
     }
 
-    public override void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker = null, DamageableStatus target = null)
+    public override void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null)
     {
-        targetStatus = attackerTrs.gameObject.GetComponent<ExperienceStatus>();
+        targetStatus = attacker.gameObject.GetComponent<ExperienceStatus>();
         targetStatus.SetAdditionalExperienceRateValue(SupportSkillData.rate);
     }
 

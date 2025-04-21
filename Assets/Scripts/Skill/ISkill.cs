@@ -42,7 +42,7 @@ public interface ISkill
 
     public void InitializeSkilManager(SkillManager skillManager);
 
-    void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker = null, DamageableStatus target = null);
+    void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null);
 
     //public void OnReady();
     //public void AddOnReadyAction(Action onReady);

@@ -57,7 +57,7 @@ public abstract class SupportSkill : ISkill
         SupportSkillData = supportSkillData;
     }
 
-    public virtual void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker = null, DamageableStatus target = null)
+    public virtual void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null)
     {
         throw new NotImplementedException();
     }
@@ -71,4 +71,5 @@ public abstract class SupportSkill : ISkill
     {
         
     }
+
 }

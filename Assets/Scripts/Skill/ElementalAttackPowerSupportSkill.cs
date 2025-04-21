@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackPowerSupportSkill : SupportSkill
+public class ElementalAttackPowerSupportSkill : SupportSkill
 {
     private AttackPowerStatus targetStatus;
-
-    public AttackPowerSupportSkill(SupportSkillData supportSkillData) : base(supportSkillData)
+    private SkillElemental elemental;
+    public ElementalAttackPowerSupportSkill(SupportSkillData supportSkillData, SkillElemental elemental) : base(supportSkillData)
     {
+        this.elemental = elemental;
     }
+
 
     public override void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null)
     {
         targetStatus = attacker;
-        targetStatus.SetAdditionalAttackPowerRateValue(SupportSkillData.rate);
+        targetStatus.SetElementalAdditionalAttackPowerRateValue(elemental, SupportSkillData.rate);
     }
 
     public override void UpgradeLevel()

@@ -8,7 +8,7 @@ public class CoolDownSupportSkill : SupportSkill
     {
     }
 
-    public override void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker = null, DamageableStatus target = null)
+    public override void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null)
     {
         float previousValue = skillManager.GlobalCoolDownTimeRate;
         skillManager.SetGlobalCoolDownRate(previousValue + previousValue * SupportSkillData.rate);
