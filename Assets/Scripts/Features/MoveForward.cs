@@ -9,6 +9,8 @@ public class MoveForward : MonoBehaviour
     public float speed;
     private Lane lane;
 
+    public float moveForwardSum;
+
     private void Awake()
     {
         direction.Normalize();
@@ -37,7 +39,9 @@ public class MoveForward : MonoBehaviour
 
     private void Update()
     {
-        var nextPosition = transform.position + direction * Time.deltaTime * speed;
+        var nextPosition = transform.position + direction * Time.deltaTime * speed; //이거의 길이 얼마나갓나 이걸 더해 총 얼마나갔는가 
+        moveForwardSum += Time.deltaTime * speed;
+
         transform.position = nextPosition;
     }
     public void RotateForwardDirection(float angle)

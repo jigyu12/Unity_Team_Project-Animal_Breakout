@@ -7,12 +7,12 @@ public class ResultPanelUI : UIElement
     [SerializeField] private Button restartButton;
     [SerializeField] private Button goMainButton;
 
-    
 
-    public void Initialize(GameUIManager uiManager)
+
+    public override void Initialize()
     {
         //gameUIManager = uiManager;
-
+        base.Initialize();
         restartButton.onClick.RemoveAllListeners();
         restartButton.onClick.AddListener(OnRestartClicked);
 
@@ -27,11 +27,13 @@ public class ResultPanelUI : UIElement
     }
     private void OnRestartClicked()
     {
+        Debug.Log("!");
         gameUIManager.RestartGame();
     }
 
     private void OnGoMainClicked()
     {
-        gameUIManager.GoToMainTitle();
+        Debug.Log("!!!!");
+        gameUIManager.OnMainTitleButtonClicked();
     }
 }

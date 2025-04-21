@@ -17,5 +17,6 @@ public class UIElement : MonoBehaviour
     public virtual void Initialize()
     {
 
+
     }
 }
