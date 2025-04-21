@@ -2,12 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillIconListUI : MonoBehaviour
+public class SkillIconListUI : UIElement
 {
-    //임시로 스킬매니저에서 받아온다
-    [SerializeField]
-    private SkillManager skillManager;
-
     private int maxSkillCount;
 
     [SerializeField]
@@ -15,17 +11,19 @@ public class SkillIconListUI : MonoBehaviour
 
     private List<SkillIcon> skillIcons = new();
 
-    private void Start()
+    public override void Initialize()
     {
-        maxSkillCount = skillManager.MaxSkillCount;
+        base.Initialize();
+
+        maxSkillCount = gameManager.SkillManager.MaxSkillCount;
+        gameManager.SkillManager.onSkillListUpdated += OnSkillListUpdated;
+
         for (int i = 0; i < maxSkillCount; i++)
         {
             var skillIcon = Instantiate(skillIconPrefab, transform).GetComponent<SkillIcon>();
             skillIcon.gameObject.SetActive(false);
             skillIcons.Add(skillIcon);
         }
-
-        skillManager.onSkillListUpdated += OnSkillListUpdated;
     }
 
     private void OnSkillListUpdated(List<SkillPriorityItem> skills)

@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     public Lane way;
     private Vector3 targetPosition;
     private float verticalVelocity;
-    private bool isJumping;
+    public bool isJumping;
     private PlayerInput playerInput;
     private InputActionMap actionMap;
     private bool canMove = true;
@@ -66,7 +66,7 @@ public class PlayerMove : MonoBehaviour
         var GameManager = GameObject.FindGameObjectWithTag(Utils.GameManagerTag);
         var GameManager_new = GameManager.GetComponent<GameManager_new>();
         gameUIManager = GameManager_new.UIManager;
-
+        DisableInput();
         playerStatus = GetComponent<PlayerStatus>();
     }
 

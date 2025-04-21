@@ -48,7 +48,7 @@ public class SkillManager : InGameManager
         base.Initialize();
 
         GameManager.PlayerManager.onPlayerDead += () => enabled = false;
-        GameManager.PlayerManager.playerStatus.onAlive+=()=>enabled = true;
+        GameManager.PlayerManager.playerStatus.onAlive += () => enabled = true;
     }
 
     public bool IsSkillExist(ISkill skill)
@@ -76,7 +76,8 @@ public class SkillManager : InGameManager
 
     public float GetSkillInheritedForwardSpeed()
     {
-        return GameManager.PlayerManager.moveForward.speed;
+        var moveforward = GameManager.PlayerManager.moveForward;
+        return moveforward.enabled ? moveforward.speed : 0f;
     }
 
     private void Update()
@@ -154,4 +155,5 @@ public class SkillManager : InGameManager
     {
         return skillTarget != null;
     }
+
 }

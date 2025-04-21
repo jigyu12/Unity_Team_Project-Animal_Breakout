@@ -1,42 +1,39 @@
-using UnityEngine.UI;
 using UnityEngine;
-using TMPro;
-using UnityEngine.SceneManagement;
-public class ResultPanelUI : MonoBehaviour
+using UnityEngine.UI;
+
+public class ResultPanelUI : UIElement
 {
-    public GameObject GameResultPanel;
-    public Button ReStartButton;
-    public Button GoMainButton;
+    [SerializeField] private GameObject panelRoot;
+    [SerializeField] private Button restartButton;
+    [SerializeField] private Button goMainButton;
 
-    //private GameManager gameManager;
-    //UI매니저를 통해 게임매니저를 접근하는 방식으로 바꾸세요
-    [SerializeField]
-    private GameManager_new gameManager;
 
-    void Start()
+
+    public override void Initialize()
     {
-        ReStartButton.onClick.RemoveAllListeners();
-        ReStartButton.onClick.AddListener(OnReStartButtonClicked);
+        //gameUIManager = uiManager;
+        base.Initialize();
+        restartButton.onClick.RemoveAllListeners();
+        restartButton.onClick.AddListener(OnRestartClicked);
 
-        GoMainButton.onClick.RemoveAllListeners();
-        GoMainButton.onClick.AddListener(OnGoMainButtonClicked);
+        goMainButton.onClick.RemoveAllListeners();
+        goMainButton.onClick.AddListener(OnGoMainClicked);
+        // panelRoot.SetActive(false);
     }
 
-    private void OnReStartButtonClicked()
+    public void Show()
     {
-        //gameManager.RestartGameState();
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        //     GameResultPanel.SetActive(false);
-
-        // Time.timeScale = 1;
-
+        panelRoot.SetActive(true);
     }
-    private void OnGoMainButtonClicked()
+    private void OnRestartClicked()
     {
-        SceneManager.LoadScene("MainTitleScene");
+        Debug.Log("!");
+        gameUIManager.RestartGame();
+    }
 
-        // GameResultPanel.SetActive(false);
-        // Time.timeScale = 1;
+    private void OnGoMainClicked()
+    {
+        Debug.Log("!!!!");
+        gameUIManager.OnMainTitleButtonClicked();
     }
 }

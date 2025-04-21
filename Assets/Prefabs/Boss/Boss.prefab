@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 6859994337108081977}
   - component: {fileID: 4777194514123302758}
   - component: {fileID: 905433818746019682}
+  - component: {fileID: 8155932664021251250}
+  - component: {fileID: 5760225535858838046}
+  - component: {fileID: 7007696889748874606}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -132,3 +135,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tempBossProjectilePrefab: {fileID: 5954293359110444456, guid: b59aedf7227f583458f1f30d8a907b3b, type: 3}
+--- !u!114 &8155932664021251250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703314917513068788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deb64dc42083c934ba586cb0eaa068b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectInterval: 2
+  damageCount: 5
+  damage: 10
+--- !u!114 &5760225535858838046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703314917513068788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f5bbbb0c773e2e498bc9e8ccd69bde6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  damageCount: 1
+--- !u!114 &7007696889748874606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703314917513068788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d0da9cc743f6b4dafad2377f6237fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectInterval: 2
+  stackMax: 6
+  damage: 10

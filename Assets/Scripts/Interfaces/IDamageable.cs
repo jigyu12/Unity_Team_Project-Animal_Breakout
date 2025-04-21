@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDamageable 
 {
-    void OnDamage(float damage);
+    void OnDamage(float damage, SkillElemental attribute = SkillElemental.None);
 }

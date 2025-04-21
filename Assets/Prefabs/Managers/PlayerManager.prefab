@@ -45,11 +45,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af69be6ab6672644ebda07e4b02d2dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRoot: {fileID: 0}
-  relayContinueUI: {fileID: 0}
-  currentPlayerStatus: {fileID: 0}
-  currentPlayerMove: {fileID: 0}
-  animalID: 100301
+  playerRootGameObject: {fileID: 0}
+  playerGameObject: {fileID: 0}
+  moveForward: {fileID: 0}
+  playerExperience: {fileID: 0}
+  playerStatus: {fileID: 0}
+  playerAttack: {fileID: 0}
+  playerMove: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  reviveContinueUI: {fileID: 0}
+  pendingRespawnPosition: {x: 0, y: 0, z: 0}
+  pendingRespawnRotation: {x: 0, y: 0, z: 0, w: 0}
+  lastDeathType: 0
 --- !u!114 &3564255205945087500
 MonoBehaviour:
   m_ObjectHideFlags: 0
