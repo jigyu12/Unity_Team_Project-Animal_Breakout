@@ -11,17 +11,22 @@ public class SkillIconListUI : UIElement
 
     private List<SkillIcon> skillIcons = new();
 
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        maxSkillCount = gameManager.SkillManager.MaxSkillCount;
+        gameManager.SkillManager.onSkillListUpdated += OnSkillListUpdated;
+    }
+
     private void Start()
     {
-        maxSkillCount = gameManager.SkillManager.MaxSkillCount;
         for (int i = 0; i < maxSkillCount; i++)
         {
             var skillIcon = Instantiate(skillIconPrefab, transform).GetComponent<SkillIcon>();
             skillIcon.gameObject.SetActive(false);
             skillIcons.Add(skillIcon);
         }
-
-        gameManager.SkillManager.onSkillListUpdated += OnSkillListUpdated;
     }
 
     private void OnSkillListUpdated(List<SkillPriorityItem> skills)

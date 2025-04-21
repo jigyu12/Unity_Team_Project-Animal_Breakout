@@ -25,7 +25,6 @@ public class ExperienceBar : UIElement
 
         experienceStatus.onAddValue += UpdateExperienceValue;
         experienceStatus.onLevelChange += UpdateExperienceLevel;
-        experienceStatus.InitializeValue();
     }
 
     private void UpdateExperienceValue(int value, int sum)

@@ -30,6 +30,11 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
     public Action<int, int> onLevelChange; //level, maxexp
     public Action<int, int> onAddValue; //add, sum
 
+    private void Start()
+    {
+        InitializeValue();
+    }
+
     public void InitializeValue()
     {
         onLevelChange(level, experienceToNextLevel);
