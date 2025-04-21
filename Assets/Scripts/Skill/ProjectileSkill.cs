@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ProjectileSkill : ISkill
+public class ProjectileSkill : AttackSkill
 {
     public ProjectileSkill(ProjectileSkillData data)
     {
@@ -12,7 +12,7 @@ public class ProjectileSkill : ISkill
         CoolTime = data.coolDownTime;
     }
 
-    public SkillData SkillData
+    public override AttackSkillData AttackSkillData
     {
         get => ProjectileSkillData;
     }
@@ -23,123 +23,55 @@ public class ProjectileSkill : ISkill
         private set;
     }
 
-    public bool IsReady
-    {
-        get => (CoolTime >= SkillData.coolDownTime);
-    }
-
-
-    public float CoolTime
-    {
-        //get => SkillData.coolDownTime - Mathf.Clamp((Time.time - lastPerformedTime), 0, SkillData.coolDownTime);
-        get;
-        private set;
-    }
-    public float CoolDownRemaining
-    {
-        get => SkillData.coolDownTime - CoolTime;
-    }
-
-    public float CoolTimeRatio
-    {
-        get => Mathf.Clamp01(CoolTime / SkillData.coolDownTime);
-    }
-
-    public int Id
-    {
-        get => SkillData.skillID;
-    }
-    public int Level
-    {
-        get => SkillData.level;
-    }
-
-
     private float lastPerformedTime = 0;
-    private Action onReady;
 
-    private SkillManager skillManager;
 
-    public void InitializeSkilManager(SkillManager skillManager)
+    public override void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker, DamageableStatus target)
     {
-        this.skillManager = skillManager;
-    }
+        //간격이라던지 그런건 일단 차치하고 작성
+        for (int i = 0; i < ProjectileSkillData.projectileCount; i++)
+        {
+            var projectile = UnityEngine.Object.Instantiate(ProjectileSkillData.projectileBehaviourPrefab.gameObject, skillManager.transform).GetComponent<ProjectileBehaviour>();
+            projectile.InitializeSkilManager(skillManager);
+            if (i != ProjectileSkillData.elementalEffectAttackIndex)
+            {
+                projectile.onArrival += () => ApplyOnlyDamage(attacker, target, ProjectileSkillData.attackCount);
+            }
+            else
+            {
+                projectile.onArrival += () => ApplyDamageAndElementalEffect(attacker, target, ProjectileSkillData.attackCount);
+            }
+            projectile.Fire(attackerTrs, targetTrs, ProjectileSkillData.speed);
+        }
 
-    public void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker, DamageableStatus target)
-    {
-        //DoSomeThing;
-        var projectile = UnityEngine.Object.Instantiate(ProjectileSkillData.projectileBehaviourPrefab.gameObject, skillManager.transform).GetComponent<ProjectileBehaviour>();
-        projectile.InitializeSkilManager(skillManager);
-
-        projectile.onArrival += () => ApplyDamage(attacker, target);
-        projectile.Fire(attackerTrs, targetTrs, ProjectileSkillData.speed);
-       
         lastPerformedTime = Time.time;
         CoolTime = 0f;
     }
 
-    public void ApplyDamage(IAttacker attacker, DamageableStatus target)
+    public void ApplyOnlyDamage(IAttacker attacker, DamageableStatus target, int count)
     {
         if (!skillManager.IsSkillTargetValid())
         {
             return;
         }
+
+        for (int i = 0; i < count; i++)
+        {
+            AttackDamage(attacker.AttackPower * ProjectileSkillData.damageRate, target);
+        }
+    }
+
+    public void ApplyDamageAndElementalEffect(IAttacker attacker, DamageableStatus target, int count)
+    {
+        if (!skillManager.IsSkillTargetValid())
+        {
+            return;
+        }
+
         ApplyElementalEffect(target, ProjectileSkillData.skillElemental);
-
-        //임시
-        target.OnDamage(attacker.AttackPower * ProjectileSkillData.damageRate, ProjectileSkillData.skillElemental);
-    }
-
-    public void ApplyElementalEffect(DamageableStatus target, SkillElemental elemental)
-    {
-        switch (elemental)
+        for (int i = 0; i < count; i++)
         {
-            case SkillElemental.Fire:
-                {
-                    target.gameObject.GetComponent<BurnStatusEffect>().Perform();
-                    break;
-                }
-            case SkillElemental.Ice:
-                {
-                    target.gameObject.GetComponent<FrozenStatusEffect>().Perform();
-                    break;
-                }
-            case SkillElemental.Electricity:
-                {
-                    target.gameObject.GetComponent<ElectricStatusEffect>().Perform();
-                    break;
-                }
+            AttackDamage(attacker.AttackPower * ProjectileSkillData.damageRate, target);
         }
-    }
-
-    public void UpgradeLevel()
-    {
-        // Level++;
-
-        //?좎룞?쇿뜝?숈삕 clamp?좎뙥怨ㅼ삕
-    }
-
-    public void UpdateCoolTime()
-    {
-        if (CoolTimeRatio < 1f)
-        {
-            CoolTime += Time.deltaTime;
-            CoolTime = Mathf.Clamp(CoolTime, 0, SkillData.coolDownTime);
-
-            if (CoolTimeRatio >= 1f)
-            {
-                OnReady();
-            }
-        }
-    }
-
-    public void AddOnReadyAction(Action onReady)
-    {
-        this.onReady += onReady;
-    }
-
-    public void OnReady()
-    {
-        onReady?.Invoke();
     }
 }

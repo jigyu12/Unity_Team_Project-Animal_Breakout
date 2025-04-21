@@ -13,6 +13,7 @@ public class BurnStatusEffect : StatusEffect
 
     private Coroutine coPreformBurnEffect = null;
 
+    private int previousSkillId = -1;
     public override bool CanPerform
     {
         get => true;
@@ -33,8 +34,20 @@ public class BurnStatusEffect : StatusEffect
         target = damageable;
     }
 
-    public override void Perform()
+    private bool CanPerformID(int skillID)
     {
+        return previousSkillId != skillID;
+    }
+
+    public override void Perform(int skillID)
+    {
+        if (!CanPerformID(skillID))
+        {
+            return;
+        }
+
+        previousSkillId = skillID;
+
         if (coPreformBurnEffect != null)
         {
             StopCoroutine(coPreformBurnEffect);
@@ -49,7 +62,7 @@ public class BurnStatusEffect : StatusEffect
     {
         for (int i = 0; i < damageCount; i++)
         {
-            Debug.Log($"화상 효과 damage : {damage}");
+            Debug.Log($"화상 효과 damage {i}번째 : {damage}");
 
             target.OnDamage(damage);
             yield return new WaitForSeconds(effectInterval);

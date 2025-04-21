@@ -13,7 +13,7 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
         get => Mathf.Clamp01(ExperienceValue / experienceToNextLevel);
     }
 
-    public int ExperienceValue
+    public float ExperienceValue
     {
         get;
         private set;
@@ -23,6 +23,8 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
     {
         get => level >= maxLevel;
     }
+
+    private float additionalExperienceRate = 0f;
 
     //임시
     private int experienceToNextLevel = 10;
@@ -38,7 +40,12 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
     public void InitializeValue()
     {
         onLevelChange(level, experienceToNextLevel);
-        onAddValue(0, ExperienceValue);
+        onAddValue(0, (int)ExperienceValue);
+    }
+
+    public void SetAdditionalExperienceRateValue(float value)
+    {
+        additionalExperienceRate += value;
     }
 
     public void AddValue(int value)
@@ -48,7 +55,7 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
             return;
         }
 
-        ExperienceValue += value;
+        ExperienceValue += value + value * additionalExperienceRate;
 
 
         if (ExperienceValue >= experienceToNextLevel)
@@ -56,7 +63,7 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
             ExperienceValue -= experienceToNextLevel;
             LevelUp();
         }
-        onAddValue?.Invoke(value, ExperienceValue);
+        onAddValue?.Invoke(value, (int)ExperienceValue);
     }
 
     private void LevelUp()

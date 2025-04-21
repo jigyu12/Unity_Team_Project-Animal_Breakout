@@ -14,7 +14,7 @@ public class FrozenStatusEffect : StatusEffect
 
     public override bool CanPerform
     {
-        get => true;
+        get => !IsPerforming;
     }
     public override bool IsPerforming
     {
@@ -35,7 +35,7 @@ public class FrozenStatusEffect : StatusEffect
     }
 
     //냉기 상태에서는 얼음 속성을 제외한 다른 속성 스킬로 공격을 했을 때 얼음 속성 1회 추가 데미지를 주는 효과를 갖고 있다.
-    public override void Perform()
+    public override void Perform(int skillID)
     {
         if (CanPerform)
         {
@@ -53,12 +53,12 @@ public class FrozenStatusEffect : StatusEffect
 
         currentCount++;
 
+        Debug.Log($"얼음 효과 damage : {this.damage}");
+        target.OnDamage(this.damage, SkillElemental.Ice);
+
         if (currentCount >= effectCount)
         {
             isPerforming = false;
         }
-
-        Debug.Log($"얼음 효과 damage : {this.damage}");
-        target.OnDamage(this.damage, SkillElemental.Ice);
     }
 }

@@ -12,5 +12,6 @@ public class ProjectileSkillData : AttackSkillData
     public float speed;
     public int attackCount;
     public int projectileCount;
+    public int elementalEffectAttackIndex;
 
 }

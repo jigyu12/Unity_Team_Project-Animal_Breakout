@@ -43,13 +43,12 @@ public interface ISkill
     public void InitializeSkilManager(SkillManager skillManager);
 
     void Perform(Transform attackerTrs, Transform targetTrs, IAttacker attacker = null, DamageableStatus target = null);
-    public void ApplyDamage(IAttacker attacker, DamageableStatus target);
 
-    public void OnReady();
-    public void AddOnReadyAction(Action onReady);
+    //public void OnReady();
+    //public void AddOnReadyAction(Action onReady);
     public void UpgradeLevel();
 
-    public void UpdateCoolTime();
+    public void Update();
 
 
 }

@@ -16,5 +16,5 @@ public abstract class StatusEffect : MonoBehaviour
         get;
     }
 
-    public abstract void Perform();
+    public abstract void Perform(int skillID);
 }

@@ -1,18 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml;
+
 using UnityEditor;
 using UnityEngine;
 
-[Serializable]
-public class Test
-{
-    public int PrefabID { get; set; }
-    public int Obj_Type { get; set; }
-    public int Coor1 { get; set; }
-    public int Coor2 { get; set; }
-}
 
 public class GoogleSheetCSVWindow : EditorWindow
 {
@@ -42,6 +31,47 @@ public class GoogleSheetCSVWindow : EditorWindow
                 AssetDatabase.Refresh();
             }
         }
+
+        GUILayout.Label("");
+
+        LoadDataTableGUI(animalDataTableURL, Utils.AnimalTableName);
+
+        LoadDataTableGUI(itemDataTableURL, Utils.ItemTableName);
+    }
+
+    private void UpdateDataTableCSV(string url, string path)
+    {
+        GoogleSheetManager.Load(url, path);
+        AssetDatabase.Refresh();
+    }
+
+    private string animalDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1280379651#gid=1280379651";
+    private string itemDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=100321918#gid=100321918";
+
+    //private void UpdateAnimalDataTable()
+    //{
+    //    var path = System.IO.Path.Combine(Application.dataPath, "Resources/") + string.Format(DataTable.FormatPath, Utils.AnimalTableName) + ".csv";
+
+    //    GUILayout.BeginHorizontal();
+    //    GUILayout.Label(Utils.AnimalTableName);
+    //    if (GUILayout.Button("Load"))
+    //    {
+    //        UpdateDataTableCSV(animalDataTableURL, path);
+    //    }
+    //    GUILayout.EndHorizontal();
+    //}
+
+    private void LoadDataTableGUI(string url, string dataTableFileName)
+    {
+        var path = System.IO.Path.Combine(Application.dataPath, "Resources/") + string.Format(DataTable.FormatPath, dataTableFileName) + ".csv";
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label(dataTableFileName);
+        if (GUILayout.Button("Load"))
+        {
+            UpdateDataTableCSV(url, path);
+        }
+        GUILayout.EndHorizontal();
     }
 }
 

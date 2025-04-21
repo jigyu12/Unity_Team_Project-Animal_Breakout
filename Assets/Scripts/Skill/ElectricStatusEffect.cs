@@ -38,7 +38,7 @@ public class ElectricStatusEffect : StatusEffect
     }
 
     //스택은 번개 속성 스킬을 맞췄을 때 1스택씩 쌓이고 6스택을 쌓으면 번개 속성 타겟팅 추가 스킬이 발동된다.
-    public override void Perform()
+    public override void Perform(int skillID)
     {
         if (CanPerform)
         {
@@ -55,6 +55,7 @@ public class ElectricStatusEffect : StatusEffect
         }
 
         currentStackCount++;
+        Debug.Log($"전기스택 {currentStackCount}번째");
         if (currentStackCount >= stackMaxCount)
         {
             PerformElectricEffect();

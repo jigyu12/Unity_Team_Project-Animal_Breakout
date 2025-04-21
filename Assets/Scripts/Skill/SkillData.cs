@@ -7,7 +7,7 @@ using UnityEngine;
 public enum SkillType
 {
     Attack,
-    Utility,
+    Support,
 }
 
 public enum SkillElemental
@@ -16,6 +16,14 @@ public enum SkillElemental
     Ice,
     Electricity,
     None,
+}
+
+public enum SupportSkillTarget
+{
+    AttackPower,
+    ElementAttackPower,
+    CoolDown,
+    Experience,
 }
 
 
@@ -34,7 +42,10 @@ public class AttackSkillData : SkillData
     public SkillElemental skillElemental;
 }
 
-public class UtilitySkillData : SkillData
+public class SupportSkillData : SkillData
 {
+    public SupportSkillTarget skillTarget;
+    public float rate;
+
 
 }
