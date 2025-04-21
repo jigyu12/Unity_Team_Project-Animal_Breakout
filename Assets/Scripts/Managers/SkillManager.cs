@@ -76,7 +76,8 @@ public class SkillManager : InGameManager
 
     public float GetSkillInheritedForwardSpeed()
     {
-        return GameManager.PlayerManager.moveForward.speed;
+        var moveforward = GameManager.PlayerManager.moveForward;
+        return moveforward.enabled? moveforward.speed : 0f;
     }
 
     private void Update()
@@ -154,4 +155,4 @@ public class SkillManager : InGameManager
     {
         return skillTarget != null;
     }
-}
+
