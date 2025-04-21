@@ -1,12 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseButtonUI : MonoBehaviour
+public class PauseButtonUI : UIElement
 {
     [SerializeField] private Button pauseButton;
 
-    private GameUIManager gameUIManager;
-
+    
     public void Initialize(GameUIManager uiManager)
     {
         gameUIManager = uiManager;

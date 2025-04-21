@@ -15,8 +15,8 @@ public class SkillManagerTest : MonoBehaviour
 
     private void Start()
     {
-        //진짜 개최악코드 절대 수정할것임 진짜 잠깐 보여주는 용도임 김희정이 진짜 눈물흘리면서 임시로 쓴거임 한번만 봐주셈
-        Invoke("AddTempSkill", 5f);
+
+        AddTempSkill();
     }
 
     [ContextMenu("AddSkill")]
