@@ -1,17 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResultPanelUI : MonoBehaviour
+public class ResultPanelUI : UIElement
 {
     [SerializeField] private GameObject panelRoot;
     [SerializeField] private Button restartButton;
     [SerializeField] private Button goMainButton;
 
-    private GameUIManager gameUIManager;
+    
 
     public void Initialize(GameUIManager uiManager)
     {
-        gameUIManager = uiManager;
+        //gameUIManager = uiManager;
 
         restartButton.onClick.RemoveAllListeners();
         restartButton.onClick.AddListener(OnRestartClicked);

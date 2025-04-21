@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class RotateButtonUI : MonoBehaviour
+public class RotateButtonUI : UIElement
 {
     [SerializeField] private Button rotateButton;
     private RotateButtonController controller;

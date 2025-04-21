@@ -2,19 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExperienceBar : MonoBehaviour
+public class ExperienceBar : UIElement
 {
     public ExperienceStatus experienceStatus;
 
     private GageBar gageBar;
 
-    private void Start()
+    //private void Start()
+    //{
+    //    gageBar = GetComponent<GageBar>();
+
+    //    experienceStatus.onAddValue += UpdateExperienceValue;
+    //    experienceStatus.onLevelChange += UpdateExperienceLevel;
+
+    //    experienceStatus.InitializeValue();
+    //}
+
+    public override void Initialize()
     {
+        base.Initialize();
         gageBar = GetComponent<GageBar>();
 
         experienceStatus.onAddValue += UpdateExperienceValue;
         experienceStatus.onLevelChange += UpdateExperienceLevel;
-
         experienceStatus.InitializeValue();
     }
 

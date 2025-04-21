@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using System.Collections.Generic;
+using System.Linq;
 
 public class GameUIManager : InGameManager
 {
@@ -14,15 +16,15 @@ public class GameUIManager : InGameManager
     private PauseHandler pauseHandler;
     private ReviveHandler reviveHandler;
 
+    private List<UIElement> uiElements;
+
     [SerializeField] private PausePanelUI pausePanelUI;
     [SerializeField] private ResultPanelUI resultPanelUI;
     [SerializeField] private PauseButtonUI pauseButtonUI;
     [SerializeField] private RotateButtonUI rotateButtonUI;
     [SerializeField] private InputUIBinder inputUIBinder;
 
-    private void Awake()
-    {
-    }
+
 
     public override void Initialize()
     {
@@ -36,10 +38,27 @@ public class GameUIManager : InGameManager
         reviveHandler = new ReviveHandler(GameManager, GameManager.PlayerManager, pausePanelUI, this, pauseHandler, this);
         inputUIBinder.Bind(GameManager.PlayerManager.playerMove);
 
+        //자식으로 딸린 모든 UIElements들을 탐색한다.
+        var elements = gameObject.GetComponentsInChildren<UIElement>();
+        uiElements = elements.ToList();
+
+        //UIElements들에 매니저를 세팅
+        foreach (var element in uiElements)
+        {
+            element.SetUIManager(GameManager, this);
+        }
+
+        //수정필요
         rotateButtonUI.Initialize(rotateButtonController);
         pausePanelUI.Initialize(this);
         resultPanelUI.Initialize(this);
         pauseButtonUI.Initialize(this);
+
+        //Start보다 이전에 값을 세팅해야하는 UI들의 UIElements은 Initialze에서 해주면 된다
+        foreach (var element in uiElements)
+        {
+            element.Initialize();
+        }
     }
 
     public void ConnectPlayerMove(PlayerMove move)
