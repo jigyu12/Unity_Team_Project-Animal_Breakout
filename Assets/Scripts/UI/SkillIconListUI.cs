@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillIconListUI : MonoBehaviour
 {
-    //ÀÓ½Ã·Î ½ºÅ³¸Å´ÏÀú¿¡¼­ ¹Þ¾Æ¿Â´Ù
+    //ï¿½Ó½Ã·ï¿½ ï¿½ï¿½Å³ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿Â´ï¿½
     [SerializeField]
     private SkillManager skillManager;
 
