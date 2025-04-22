@@ -55,6 +55,10 @@ public class SkillManager : InGameManager
         BossStatus.onBossDead += ResetSkillTarget;
     }
 
+    private void OnEnable()
+    {
+        coSkillPerform = null;
+    }
 
     private void OnDestroy()
     {
@@ -65,6 +69,12 @@ public class SkillManager : InGameManager
     private void ResetSkillTarget()
     {
         skillTarget = null;
+
+        if (coSkillPerform != null)
+        {
+            StopCoroutine(coSkillPerform);
+            coSkillPerform = null;
+        }
     }
 
     public override void Initialize()
@@ -117,15 +127,6 @@ public class SkillManager : InGameManager
     private void NormalStageUpdate()
     {
 
-    }
-
-    private void OnDisable()
-    {
-        if (coSkillPerform != null)
-        {
-            StopCoroutine(coSkillPerform);
-            coSkillPerform = null;
-        }
     }
 
     private IEnumerator CoroutinePerformSkill()

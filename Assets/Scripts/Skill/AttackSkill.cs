@@ -63,12 +63,12 @@ public abstract class AttackSkill : ISkill
     public void InitializeSkilManager(SkillManager skillManager)
     {
         this.skillManager = skillManager;
+        CoolTime = CoolDownTime;
     }
 
     public AttackSkill(AttackSkillData attackSkillData)
     {
         AttackSkillData = attackSkillData;
-        CoolTime = CoolDownTime;
     }
 
     public abstract void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker, DamageableStatus target);
