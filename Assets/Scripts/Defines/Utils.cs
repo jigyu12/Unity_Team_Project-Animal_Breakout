@@ -50,4 +50,45 @@ public static class Utils
 
         throw new System.ArgumentException("The sum of input chances must be equal to 1f.", nameof(chances));
     }
+
+    public static List<float> ToCumulativeChanceList(List<float> chances)
+    {
+        if (chances == null || chances.Count == 0)
+        {
+            throw new System.ArgumentException("The chances list is null or empty.", nameof(chances));
+        }
+        
+        List<float> cumulativeChances = new(chances.Count);
+        
+        float cumulativeChance = 0f;
+
+        for (int i = 0; i < chances.Count; i++)
+        {
+            cumulativeChance += chances[i];
+            cumulativeChances.Add(cumulativeChance);
+        }
+
+        if (!Mathf.Approximately(cumulativeChance, 1f))
+        {
+            Debug.Assert(false, "The sum of input chances must be equal to 1f.");
+        }
+
+        return cumulativeChances;
+    }
+
+    public static int GetIndexRandomChanceHitInList(List<float> chances)
+    {
+        List<float> cumulativeChances = ToCumulativeChanceList(chances);
+        float randValue = Random.value;
+        
+        for(int i = 0; i < cumulativeChances.Count; i++)
+        {
+            if (randValue <= cumulativeChances[i])
+            {
+                return i;
+            }
+        }
+        
+        throw new System.ArgumentException("The sum of input chances must be equal to 1f.", nameof(chances));
+    }
 }

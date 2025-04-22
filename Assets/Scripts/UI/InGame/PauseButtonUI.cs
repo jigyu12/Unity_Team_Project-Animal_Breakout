@@ -5,10 +5,10 @@ public class PauseButtonUI : UIElement
 {
     [SerializeField] private Button pauseButton;
 
-    
-    public void Initialize(GameUIManager uiManager)
+
+    public override void Initialize()
     {
-        gameUIManager = uiManager;
+        base.Initialize();
 
         pauseButton.onClick.RemoveAllListeners();
         pauseButton.onClick.AddListener(() => gameUIManager.Pause());

@@ -5,11 +5,11 @@ using UnityEngine.UI;
 public class RotateButtonUI : UIElement
 {
     [SerializeField] private Button rotateButton;
-    private RotateButtonController controller;
+    [SerializeField] private RotateButtonController controller;
 
-    public void Initialize(RotateButtonController controller)
+    public override void Initialize()
     {
-        this.controller = controller;
+        base.Initialize();
         rotateButton.onClick.RemoveAllListeners();
         rotateButton.onClick.AddListener(() =>
         {

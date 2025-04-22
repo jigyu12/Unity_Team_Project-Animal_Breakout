@@ -375,6 +375,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1620663765396872304, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: moveForward
+      value: 
+      objectReference: {fileID: 1161090863}
     - target: {fileID: 4298661696958081221, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: skillManager
       value: 
@@ -384,9 +388,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5052352571859111027, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: bossWayUI
+      value: 
+      objectReference: {fileID: 415230067}
+    - target: {fileID: 5052352571859111027, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: runStageUI
+      value: 
+      objectReference: {fileID: 789443375}
+    - target: {fileID: 5052352571859111027, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 7557261376287445144}
+    - target: {fileID: 5162127379346163367, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5394412714568851649, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -436,9 +452,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 722160177}
     - target: {fileID: 5725109582612319284, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 722160177}
+    - target: {fileID: 5725109582612319284, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 7557261376287445144}
+    - target: {fileID: 6615414480800436979, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7305301020904001154, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -609,10 +633,8 @@ RectTransform:
   - {fileID: 640685188}
   m_Father: {fileID: 346278932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-
-  m_AnchorMin: {x: 0, y: 0.03794643}
-  m_AnchorMax: {x: 1, y: 0.95089287}
-
+  m_AnchorMin: {x: 0, y: 0.03671706}
+  m_AnchorMax: {x: 1, y: 0.9492441}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -702,6 +724,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73a4ddf153933474fb9581b84f1676c7, type: 3}
+--- !u!114 &415230067 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 79773151483833030, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+  m_PrefabInstance: {fileID: 254480820}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93387068dfb0a4df0a6e71497413a269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &446697020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1326,6 +1359,17 @@ Transform:
   - {fileID: 1785003765}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &789443375 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1620663765396872304, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+  m_PrefabInstance: {fileID: 254480820}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 973b0314826214197bdf41d863204a69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &792352055
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,6 +1702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 1}
   speed: 5
+  moveForwardSum: 0
 --- !u!114 &1161090864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2779,6 +2824,10 @@ PrefabInstance:
       propertyPath: playerGameObject
       value: 
       objectReference: {fileID: 548022639}
+    - target: {fileID: 7443011005958144452, guid: 4077a71e48d780844a0c0f2bcb38947d, type: 3}
+      propertyPath: reviveContinueUI
+      value: 
+      objectReference: {fileID: 1085884923}
     - target: {fileID: 7443011005958144452, guid: 4077a71e48d780844a0c0f2bcb38947d, type: 3}
       propertyPath: playerRootGameObject
       value: 
