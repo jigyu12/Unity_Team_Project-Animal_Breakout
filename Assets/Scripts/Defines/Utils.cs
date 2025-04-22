@@ -72,4 +72,20 @@ public static class Utils
 
         return cumulativeChances;
     }
+
+    public static int GetIndexRandomChanceHitInList(List<float> chances)
+    {
+        List<float> cumulativeChances = ToCumulativeChanceList(chances);
+        float randValue = Random.value;
+        
+        for(int i = 0; i < cumulativeChances.Count; i++)
+        {
+            if (randValue <= cumulativeChances[i])
+            {
+                return i;
+            }
+        }
+        
+        throw new System.ArgumentException("The sum of input chances must be equal to 1f.", nameof(chances));
+    }
 }

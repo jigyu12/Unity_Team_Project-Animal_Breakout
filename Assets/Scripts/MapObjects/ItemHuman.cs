@@ -9,15 +9,12 @@ public class ItemHuman : ItemBase
 
     public HumanItemType HumanItemType { get; private set; } = HumanItemType.None; // 인간 타입
 
-    private const long ScoreToAddJuniorResearcher = 100;
-    private const long ScoreToAddResearcher = 150;
-    private const long ScoreToAddSeniorResearcher = 200;
-    [SerializeField] private int itemID;
+    [SerializeField] private HumanItemType humanItemType;
     private ItemDataTable.ItemData itemStatData;
 
     public int Score => itemStatData?.Score ?? 0;
 
-    public void Initialize(HumanItemType humanItemType)
+    public void Initialize()
     {
         // if (humanItemType == HumanItemType.None || humanItemType == HumanItemType.Count)
         // {
@@ -33,9 +30,9 @@ public class ItemHuman : ItemBase
         // HumanItemType = humanItemType;
         // CollisionBehaviour = CollisionBehaviourFactory.GetHumanBehaviour(humanItemType);
 
-        itemStatData = DataTableManager.itemDataTable.Get(itemID);
-        HumanItemType = (HumanItemType)itemID;
-        CollisionBehaviour = CollisionBehaviourFactory.GetHumanBehaviour((HumanItemType)itemID);
+        itemStatData = DataTableManager.itemDataTable.Get((int)this.humanItemType);
+        HumanItemType = this.humanItemType;
+        CollisionBehaviour = CollisionBehaviourFactory.GetHumanBehaviour(this.humanItemType);
         CollisionBehaviour.SetScoreToAdd(itemStatData.Score);
 
 
