@@ -11,14 +11,15 @@ public abstract class AttackSkill : ISkill
         get=> AttackSkillData;
     }
 
-    public abstract AttackSkillData AttackSkillData
+    public  AttackSkillData AttackSkillData
     {
         get;
+        private set;
     }
 
     public bool IsReady
     {
-        get => (CoolTime >= SkillData.coolDownTime);
+        get => (CoolTime >= AttackSkillData.coolDownTime);
     }
 
     #region cooldownTime
@@ -41,7 +42,7 @@ public abstract class AttackSkill : ISkill
 
     public float CoolDownTime
     {
-        get=> SkillData.coolDownTime * skillManager.GlobalCoolDownTimeRate;
+        get=> AttackSkillData.coolDownTime - AttackSkillData.coolDownTime * skillManager.GlobalCoolDownTimeRate;
     }
 
     #endregion
@@ -62,6 +63,12 @@ public abstract class AttackSkill : ISkill
     public void InitializeSkilManager(SkillManager skillManager)
     {
         this.skillManager = skillManager;
+    }
+
+    public AttackSkill(AttackSkillData attackSkillData)
+    {
+        AttackSkillData = attackSkillData;
+        CoolTime = CoolDownTime;
     }
 
     public abstract void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker, DamageableStatus target);
@@ -85,9 +92,9 @@ public abstract class AttackSkill : ISkill
                     target.gameObject.GetComponent<FrozenStatusEffect>().Perform(Id);
                     break;
                 }
-            case SkillElemental.Electricity:
+            case SkillElemental.Thunder:
                 {
-                    target.gameObject.GetComponent<ElectricStatusEffect>().Perform(Id);
+                    target.gameObject.GetComponent<ElectricShockStatusEffect>().Perform(Id);
                     break;
                 }
         }
@@ -110,7 +117,7 @@ public abstract class AttackSkill : ISkill
 
             if (CoolTimeRatio >= 1f)
             {
-                CoolTime = Mathf.Clamp(CoolTime, 0, SkillData.coolDownTime);
+                CoolTime = Mathf.Clamp(CoolTime, 0, AttackSkillData.coolDownTime);
                 OnReady();
             }
         }

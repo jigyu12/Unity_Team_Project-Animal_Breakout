@@ -12,18 +12,21 @@ public enum SkillType
 
 public enum SkillElemental
 {
+    None,
     Fire,
     Ice,
-    Electricity,
-    None,
+    Thunder,
 }
 
 public enum SupportSkillTarget
 {
-    AttackPower,
-    ElementAttackPower,
-    CoolDown,
+    None,
     Experience,
+    AttackPower,
+    CoolDownTime,
+    ElementalFirePower,
+    ElementalIcePower,
+    ElementalThunderPower,
 }
 
 
@@ -31,21 +34,9 @@ public class SkillData : ScriptableObject
 {
     public int skillID;
     public SkillType skillType;
-
     public int level;
-    public float coolDownTime;
-
+    public string skillGroup;
 }
 
-public class AttackSkillData : SkillData
-{
-    public SkillElemental skillElemental;
-}
-
-public class SupportSkillData : SkillData
-{
-    public SupportSkillTarget skillTarget;
-    public float rate;
 
 
-}

@@ -12,12 +12,21 @@ public class AttackPowerSupportSkill : SupportSkill
 
     public override void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null)
     {
+        base.Perform(attackerTrs, targetTrs, attacker, target);
+
         targetStatus = attacker;
-        targetStatus.SetAdditionalAttackPowerRateValue(SupportSkillData.rate);
+        targetStatus.AddAdditionalAttackPowerRateValue(SupportSkillData.rate);
     }
 
     public override void UpgradeLevel()
     {
-        //기존 additional 값을 지우고 수정해야한다.
+        if (Level >= ISkill.maxLevel)
+        {
+            return;
+        }
+
+        targetStatus.AddAdditionalAttackPowerRateValue(-SupportSkillData.rate);
+        base.UpgradeLevel();
+        targetStatus.AddAdditionalAttackPowerRateValue(SupportSkillData.rate);
     }
 }

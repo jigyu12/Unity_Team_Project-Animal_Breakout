@@ -21,20 +21,20 @@ public abstract class SupportSkill : ISkill
         get => true;
     }
 
-    public float CoolTime
-    {
-        get => 0f;
-    }
+    //public float CoolTime
+    //{
+    //    get => 0f;
+    //}
 
-    public float CoolDownRemaining
-    {
-        get => 0f;
-    }
+    //public float CoolDownRemaining
+    //{
+    //    get => 0f;
+    //}
 
-    public float CoolTimeRatio
-    {
-        get => 1f;
-    }
+    //public float CoolTimeRatio
+    //{
+    //    get => 1f;
+    //}
 
     public int Id
     {
@@ -59,7 +59,7 @@ public abstract class SupportSkill : ISkill
 
     public virtual void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null)
     {
-        throw new NotImplementedException();
+        Debug.Log($"{SupportSkillData.skillTarget} : rate {SupportSkillData.rate * 100f}%");
     }
 
     public virtual void Update()
@@ -69,7 +69,7 @@ public abstract class SupportSkill : ISkill
 
     public virtual void UpgradeLevel()
     {
-        
+        var nextSkillData = skillManager.SkillFactory.GetSkillData(SkillData.skillGroup, Level + 1);
     }
 
 }

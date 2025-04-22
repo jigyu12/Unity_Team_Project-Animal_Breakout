@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FrozenStatusEffect : StatusEffect
 {
+    private readonly int effectId = 1602;
     private DamageableStatus target;
 
     //임시
@@ -24,6 +25,7 @@ public class FrozenStatusEffect : StatusEffect
 
     private void Start()
     {
+        SetEffectData(effectId);
         SetDamagerableTarget(GetComponent<DamageableStatus>());
         isPerforming = false;
     }

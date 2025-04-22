@@ -10,12 +10,20 @@ public class CoolDownSupportSkill : SupportSkill
 
     public override void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null)
     {
-        float previousValue = skillManager.GlobalCoolDownTimeRate;
-        skillManager.SetGlobalCoolDownRate(previousValue + previousValue * SupportSkillData.rate);
+        base.Perform(attackerTrs, targetTrs, attacker, target);
+
+        skillManager.AddGlobalCoolDownRate(SupportSkillData.rate);
     }
 
     public override void UpgradeLevel()
     {
-        //기존 additional 값을 지우고 수정해야한다.
+        if (Level >= ISkill.maxLevel)
+        {
+            return;
+        }
+
+        skillManager.AddGlobalCoolDownRate(-SupportSkillData.rate);
+        base.UpgradeLevel();
+        skillManager.AddGlobalCoolDownRate(SupportSkillData.rate);
     }
 }

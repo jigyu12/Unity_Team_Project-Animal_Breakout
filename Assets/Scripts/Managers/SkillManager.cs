@@ -49,7 +49,7 @@ public class SkillManager : InGameManager
         SkillSelectionSystem = new SkillSelectionSystem(this, skills);
         SkillFactory = new SkillFactory();
 
-        GlobalCoolDownTimeRate = 1f;
+        GlobalCoolDownTimeRate = 0f;
 
         BossManager.onSpawnBoss += OnSpawnBossHandler;
         BossStatus.onBossDead += ResetSkillTarget;
@@ -154,12 +154,12 @@ public class SkillManager : InGameManager
 
     public void PerformSkill(ISkill skill)
     {
-        skill.Perform(GameManager.PlayerManager.playerStatus.transform, skillTarget.transform, GameManager.PlayerManager.playerAttack, skillTarget);
+        skill.Perform(GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null, GameManager.PlayerManager.playerAttack, skillTarget);
     }
 
-    public void SetGlobalCoolDownRate(float rate)
+    public void AddGlobalCoolDownRate(float rate)
     {
-        GlobalCoolDownTimeRate = rate;
+        GlobalCoolDownTimeRate += rate;
     }
 
     private void OnSpawnBossHandler(BossStatus boss)

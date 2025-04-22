@@ -43,7 +43,7 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
         onAddValue(0, (int)ExperienceValue);
     }
 
-    public void SetAdditionalExperienceRateValue(float value)
+    public void AddAdditionalExperienceRateValue(float value)
     {
         additionalExperienceRate += value;
     }

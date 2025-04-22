@@ -12,12 +12,21 @@ public class ExperienceSupportSkill : SupportSkill
 
     public override void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null)
     {
+        base.Perform(attackerTrs, targetTrs, attacker, target);
+
         targetStatus = attacker.gameObject.GetComponent<ExperienceStatus>();
-        targetStatus.SetAdditionalExperienceRateValue(SupportSkillData.rate);
+        targetStatus.AddAdditionalExperienceRateValue(SupportSkillData.rate);
     }
 
     public override void UpgradeLevel()
     {
-        //기존 additional 값을 지우고 수정해야한다.
+        if (Level >= ISkill.maxLevel)
+        {
+            return;
+        }
+
+        targetStatus.AddAdditionalExperienceRateValue(-SupportSkillData.rate);
+        base.UpgradeLevel();
+        targetStatus.AddAdditionalExperienceRateValue(SupportSkillData.rate);
     }
 }

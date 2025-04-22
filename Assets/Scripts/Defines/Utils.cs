@@ -10,6 +10,9 @@ public static class Utils
     public const string RewardItemsTableName = "RewardItems_Table";
     public const string AnimalTableName = "Animal_Table";
     public const string ItemTableName = "Item_Table";
+    public const string AttackSkillTableName = "AttackSkill_Table";
+    public const string SupportSkillTableName = "SupportSkill_Table";
+    public const string AdditionalStatusEffectTableName= "AdditionalStatusEffect_Table";
     public const string GameManagerTag = "GameManager";
 
     public const string AnimalSelectedString = "선택됨";

@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElectricStatusEffect : StatusEffect
+public class ElectricShockStatusEffect : StatusEffect
 {
+    private readonly int effectId = 1603;
 
     private DamageableStatus target;
 
@@ -26,6 +27,7 @@ public class ElectricStatusEffect : StatusEffect
 
     private void Start()
     {
+        SetEffectData(effectId);
         SetDamagerableTarget(GetComponent<DamageableStatus>());
         isPerforming = false;
         currentStackCount = stackMaxCount;
@@ -49,7 +51,7 @@ public class ElectricStatusEffect : StatusEffect
 
     private void AddElectricStack(float damage, SkillElemental attribute)
     {
-        if (attribute != SkillElemental.Electricity || !IsPerforming)
+        if (attribute != SkillElemental.Thunder || !IsPerforming)
         {
             return;
         }

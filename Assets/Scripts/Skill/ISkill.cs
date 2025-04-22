@@ -5,6 +5,8 @@ using UnityEngine;
 
 public interface ISkill
 {
+    public static readonly int maxLevel = 5;
+
     public SkillData SkillData
     {
         get;
@@ -19,26 +21,25 @@ public interface ISkill
         get;
     }
 
-
     public bool IsReady
     {
         get;
     }
 
-    public float CoolTime
-    {
-        get;
-    }
+    //public float CoolTime
+    //{
+    //    get;
+    //}
 
-    public float CoolDownRemaining
-    {
-        get;
-    }
+    //public float CoolDownRemaining
+    //{
+    //    get;
+    //}
 
-    public float CoolTimeRatio
-    {
-        get;
-    }
+    //public float CoolTimeRatio
+    //{
+    //    get;
+    //}
 
     public void InitializeSkilManager(SkillManager skillManager);
 

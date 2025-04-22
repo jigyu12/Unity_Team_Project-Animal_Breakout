@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BurnStatusEffect : StatusEffect
 {
+    private readonly int effectId = 1601;
+
     private DamageableStatus target;
 
     //임시
@@ -18,6 +20,7 @@ public class BurnStatusEffect : StatusEffect
     {
         get => true;
     }
+
     public override bool IsPerforming
     {
         get => isPerforming;
@@ -26,6 +29,7 @@ public class BurnStatusEffect : StatusEffect
 
     private void Start()
     {
+        SetEffectData(effectId);
         SetDamagerableTarget(GetComponent<DamageableStatus>());
     }
 
@@ -60,7 +64,7 @@ public class BurnStatusEffect : StatusEffect
 
     private IEnumerator CoPerformBurnEffect()
     {
-        for (int i = 0; i < damageCount; i++)
+        for (int i = 0; i < AdditionalStatusEffectData.AttackCount; i++)
         {
             Debug.Log($"화상 효과 damage {i}번째 : {damage}");
 

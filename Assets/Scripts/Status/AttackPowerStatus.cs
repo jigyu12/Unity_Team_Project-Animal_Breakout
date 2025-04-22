@@ -37,12 +37,12 @@ public class AttackPowerStatus : MonoBehaviour, IAttacker, IItemTaker
         }
     }
 
-    public void SetAdditionalAttackPowerRateValue(float value)
+    public void AddAdditionalAttackPowerRateValue(float value)
     {
         additionalAttackPowerRate += value;
     }
 
-    public void SetElementalAdditionalAttackPowerRateValue(SkillElemental elemental,  float value)
+    public void AddElementalAdditionalAttackPowerRateValue(SkillElemental elemental,  float value)
     {
         additionalElementalAttackPowerRates[(int)elemental] += value;
     }
