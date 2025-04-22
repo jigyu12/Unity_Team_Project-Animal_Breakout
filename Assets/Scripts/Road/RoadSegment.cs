@@ -19,22 +19,14 @@ public class RoadSegment : MonoBehaviour
     {
         tileVerticalCount = tiles.GetTileVerticalCount();
     }
-    
+
     [SerializeField]
     private RoadEnterTrigger enterTrigger;
 
-    public Vector3 NextPosition
-    {
-        get => GetTilePosition(tileVerticalCount, 1);
-    }
-    public Vector3 NextLeftPosition
-    {
-        get => GetTilePosition(tileVerticalCount - 2, 3);
-    }
-    public Vector3 NextRightPosition
-    {
-        get => GetTilePosition(tileVerticalCount - 2, -1);
-    }
+    [SerializeField]
+    private Transform nextRoadSegmentTransform;
+
+    public Transform NextTransform => nextRoadSegmentTransform.transform;
 
 
     public void Reset()
@@ -44,13 +36,19 @@ public class RoadSegment : MonoBehaviour
 
     public Vector3 GetTilePosition(int rowIndex, int colIndex)
     {
-        Vector3 forward = Vector3.zero;
-        forward.z = tiles.TileSize.z;
-        Vector3 right = Vector3.zero;
-        right.x = -tiles.TileSize.x;
+        //Vector3 forward = Vector3.zero;
+        //forward.z = tiles.TileSize.z;
+        //Vector3 right = Vector3.zero;
+        //right.x = -tiles.TileSize.x;
 
-        Vector3 position = transform.position + (rowIndex * forward) + ((colIndex - 1) * right);
-        return tiles.transform.rotation* (position- tiles.transform.position) + tiles.transform.position;
+        //Vector3 position = transform.position + (rowIndex * forward) + ((colIndex - 1) * right);
+        //return tiles.transform.rotation * (position - tiles.transform.position) + tiles.transform.position;
+        return tiles.GetTileTrasnform(rowIndex, colIndex).position;
+    }
+
+    public Vector3 GetTileRotation()
+    {
+        return tiles.transform.forward;
     }
 
     public void SetEnterTriggerAction(Action action)

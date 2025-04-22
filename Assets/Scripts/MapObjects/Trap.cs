@@ -28,16 +28,16 @@ public class Trap : CollidableMapObject
         
         TrapType = trapType;
         
-        // ToDo : Load Asset
-        TryGetComponent(out MeshRenderer meshRenderer);
-        switch (trapType)
-        {
-            case TrapType.Bomb:
-                meshRenderer.material.color = Color.black;
-                break;
-            case TrapType.Hole:
-                meshRenderer.material.color = Color.red;
-                break;
-        }
+        // // ToDo : Load Asset
+        // TryGetComponent(out MeshRenderer meshRenderer);
+        // switch (trapType)
+        // {
+        //     case TrapType.Bomb:
+        //         meshRenderer.material.color = Color.black;
+        //         break;
+        //     case TrapType.Hole:
+        //         meshRenderer.material.color = Color.red;
+        //         break;
+        // }
     }
 }

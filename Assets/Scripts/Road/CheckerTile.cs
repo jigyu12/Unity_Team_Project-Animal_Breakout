@@ -20,8 +20,14 @@ public class CheckerTile : MonoBehaviour
     {
         for (int i = 0; i < tileMeshFilters.Length; i++)
         {
-            tileMeshFilters[i].transform.position = new Vector3(-(i % 3) * tileSize.x + tileSize.x, 0, (i / 3) * tileSize.z);
+            tileMeshFilters[i].transform.position = new Vector3((i % 3) * tileSize.x - tileSize.x, 0, (i / 3) * tileSize.z);
         }
+    }
+
+    public Transform GetTileTrasnform(int colIndex, int rowIndex)
+    {
+        int index = colIndex * 3 + rowIndex;
+        return tileMeshFilters[index].transform;
     }
 
     [ContextMenu("Update TileMesh")]

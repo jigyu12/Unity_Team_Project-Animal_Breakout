@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class MapObjectManager : MonoBehaviour
+public class MapObjectManager : InGameManager
 {
-    [SerializeField] private GameObject wallPrefab;
+    //[SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject trapBombPrefab;
     [SerializeField] private GameObject trapHolePrefab;
     [SerializeField] private GameObject itemRewardCoinPrefab;
     [SerializeField] private GameObject itemHumanPrefab;
     [SerializeField] private GameObject itemPenaltyCoinPrefab;
-    
+
     private ObjectPool<GameObject> wallPool;
     private ObjectPool<GameObject> trapBombPool;
     private ObjectPool<GameObject> trapHolePool;
@@ -52,7 +52,43 @@ public class MapObjectManager : MonoBehaviour
     [SerializeField][ReadOnly] private float fireCoinSpawnChance = 0.1f;
     [SerializeField][ReadOnly] private float blackHoleCoinSpawnChance = 0.05f;
 
+    private Dictionary<int, MapObjectsBlueprint> generateMapObjectInformationDictionary = new();
+    private Dictionary<int, List<RewardItemBlueprint>> generateRewardItemInformationDictionary = new();
+
+    [SerializeField]
+    private GameObject roadTransformRoot;
+
+    public int MinMapObjectId { get; private set; } = 0;
+    public int MinRewardItemId { get; private set; } = 0;
+    public int MaxMapObjectId { get; private set; } = 0;
+    public int MaxRewardItemId { get; private set; } = 0;
+
+    private readonly Queue<int> nextMapObjectsPrefabIdQueue = new();
+    private readonly List<int> mapObjectsPrefabIds = new();
+    public const int maxPrefabIdQueueSize = 9; // Original value is 12
+
     private void Awake()
+    {
+        SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
+        SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
+        SetMaxRewardItemId(DataTableManager.rewardItemsDataTable.maxId);
+        SetMinRewardItemId(DataTableManager.rewardItemsDataTable.minId);
+    }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        InitializeMapObjectObjectPools();
+    }
+
+    private void Start()
+    {
+        GenerateMapObjectInformation(20, 3);
+        GenerateRewardItemInformation();
+    }
+
+    private void InitializeMapObjectObjectPools()
     {
         rewardItemSpawnChances.Add(bronzeCoinSpawnChance);
         rewardItemSpawnChances.Add(sliverCoinSpawnChance);
@@ -69,59 +105,74 @@ public class MapObjectManager : MonoBehaviour
         penaltyCoinSpawnChances.Add(skullCoinSpawnChance);
         penaltyCoinSpawnChances.Add(fireCoinSpawnChance);
         penaltyCoinSpawnChances.Add(blackHoleCoinSpawnChance);
-        
-        wallPool = ObjectPoolManager.Instance.CreateObjectPool(wallPrefab,
-            () => Instantiate(wallPrefab),
-            obj => { obj.SetActive(true); },
-            obj => { obj.SetActive(false); });
 
-        trapBombPool = ObjectPoolManager.Instance.CreateObjectPool(trapBombPrefab,
+        // wallPool = GameManager.ObjectPoolManager.CreateObjectPool(wallPrefab,
+        //     () => Instantiate(wallPrefab, roadTransformRoot.transform),
+        //     obj => { obj.SetActive(true); },
+        //     obj => { obj.SetActive(false); });
+
+        trapBombPool = GameManager.ObjectPoolManager.CreateObjectPool(trapBombPrefab,
             () => Instantiate(trapBombPrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
-        
-        trapHolePool = ObjectPoolManager.Instance.CreateObjectPool(trapHolePrefab,
+
+        trapHolePool = GameManager.ObjectPoolManager.CreateObjectPool(trapHolePrefab,
             () => Instantiate(trapHolePrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        itemRewardCoinPool = ObjectPoolManager.Instance.CreateObjectPool(itemRewardCoinPrefab,
+        itemRewardCoinPool = GameManager.ObjectPoolManager.CreateObjectPool(itemRewardCoinPrefab,
             () => Instantiate(itemRewardCoinPrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        itemHumanPool = ObjectPoolManager.Instance.CreateObjectPool(itemHumanPrefab,
+        itemHumanPool = GameManager.ObjectPoolManager.CreateObjectPool(itemHumanPrefab,
             () => Instantiate(itemHumanPrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        itemPenaltyCoinPool = ObjectPoolManager.Instance.CreateObjectPool(itemPenaltyCoinPrefab,
+        itemPenaltyCoinPool = GameManager.ObjectPoolManager.CreateObjectPool(itemPenaltyCoinPrefab,
             () => Instantiate(itemPenaltyCoinPrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
     }
-    
+
+    private void SetMaxMapObjectId(int maxMapObjectCount)
+    {
+        MaxMapObjectId = maxMapObjectCount;
+    }
+
+    private void SetMinMapObjectId(int minMapObjectCount)
+    {
+        MinMapObjectId = minMapObjectCount;
+    }
+
+    private void SetMaxRewardItemId(int maxRewardItemCount)
+    {
+        MaxRewardItemId = maxRewardItemCount;
+    }
+    private void SetMinRewardItemId(int minRewardItemCount)
+    {
+        MinRewardItemId = minRewardItemCount;
+    }
+
     public struct MapObjectsBlueprint
     {
         public ObjectType[,] objectsTypes;
-        public Action<Vector3>[,] objectsConstructors;
-
-        public int wallIndex;
+        public Func<Vector3, CollidableMapObject>[,] objectsConstructors;
     }
 
-    public Dictionary<int, MapObjectsBlueprint> GenerateMapObjectInformation(int rows, int cols)
+    private void GenerateMapObjectInformation(int rows, int cols)
     {
-        Dictionary<int, MapObjectsBlueprint> generateMapObjectInformationDictionary = new();
-
         foreach (var entry in DataTableManager.mapObjectsDataTable.GetTableEntries())
         {
             MapObjectsBlueprint mapObjectsBlueprint = new MapObjectsBlueprint();
             mapObjectsBlueprint.objectsTypes = new ObjectType[rows, cols];
-            
+
             int prefabID = entry.Key;
             List<MapObjectData> dataList = entry.Value;
 
-            
+
             for (int i = 0; i < rows; ++i)
             {
                 for (int j = 0; j < cols; j++)
@@ -129,74 +180,68 @@ public class MapObjectManager : MonoBehaviour
                     mapObjectsBlueprint.objectsTypes[i, j] = ObjectType.None;
                 }
             }
-            
-            mapObjectsBlueprint.wallIndex = rows - 1;
-            
-            mapObjectsBlueprint.objectsConstructors= new Action<Vector3>[rows, cols];
-            
-            SetCreateWallAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
+
+            //mapObjectsBlueprint.wallIndex = rows - 1;
+            mapObjectsBlueprint.objectsConstructors = new Func<Vector3, CollidableMapObject>[rows, cols];
+
+            //SetCreateWallAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors);
             for (int i = 0; i < dataList.Count; ++i)
             {
                 var data = dataList[i];
-                
+
                 switch (data.Obj_Type)
                 {
                     case MapObjectCSVType.Bomb:
-                    {
-                        SetCreateBombAction(mapObjectsBlueprint.objectsTypes,  mapObjectsBlueprint.objectsConstructors, 
-                            data.Coor2, data.Coor1);
-                    }
+                        {
+                            SetCreateBombAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors,
+                                data.Coor2, data.Coor1);
+                        }
                         break;
                     case MapObjectCSVType.Hole:
-                    {
-                        SetCreateHoleAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors,
-                        data.Coor2, data.Coor1);
-                    }
+                        {
+                            SetCreateHoleAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors,
+                            data.Coor2, data.Coor1);
+                        }
                         break;
                     case MapObjectCSVType.Human:
-                    {
-                        SetCreateRandomHumanAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors,
-                            data.Coor2, data.Coor1);
-                    }
+                        {
+                            SetCreateRandomHumanAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors,
+                                data.Coor2, data.Coor1);
+                        }
                         break;
                     case MapObjectCSVType.PenaltyCoin:
-                    {
-                        SetCreateRandomPenaltyCoinAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors,
-                            data.Coor2, data.Coor1);
-
-                    }
+                        {
+                            SetCreateRandomPenaltyCoinAction(mapObjectsBlueprint.objectsTypes, mapObjectsBlueprint.objectsConstructors,
+                                data.Coor2, data.Coor1);
+                        }
                         break;
                 }
             }
-            
+
             generateMapObjectInformationDictionary.Add(prefabID, mapObjectsBlueprint);
         }
-        
-        return generateMapObjectInformationDictionary;
     }
-    
+
     public struct RewardItemBlueprint
     {
         public (int, int)[] startEndCoordinate; // Size : 2
         public int itemGroupCount; // Reward Item Count In Same Group
-        
-        public Action<Vector3, Vector3, int> rewardItemConstructors;
-    }
-    
-    public Dictionary<int, List<RewardItemBlueprint>> GenerateRewardItemInformation()
-    {
-        Dictionary<int, List<RewardItemBlueprint>> generateRewardItemInformationDictionary = new();
 
+        public Func<Vector3, Vector3, int, CollidableMapObject[]> rewardItemConstructors;
+    }
+
+    private void GenerateRewardItemInformation()
+    {
         foreach (var entry in DataTableManager.rewardItemsDataTable.GetTableEntries())
         {
             int prefabID = entry.Key;
             var dataList = entry.Value;
-            
+
             for (int i = 0; i < dataList.Count; ++i)
             {
                 RewardItemBlueprint rewardItemBlueprint = new RewardItemBlueprint();
                 rewardItemBlueprint.startEndCoordinate = new (int, int)[2];
-                
+
                 var data = dataList[i];
                 rewardItemBlueprint.startEndCoordinate[0] = (data.Start_Coor2, data.Start_Coor1);
                 rewardItemBlueprint.startEndCoordinate[1] = (data.End_Coor2, data.End_Coor1);
@@ -205,11 +250,11 @@ public class MapObjectManager : MonoBehaviour
                 {
                     rewardItemBlueprint.rewardItemConstructors = CreateRandomRewardCoin;
                 }
-                else if(data.Pattern == RewardCoinPatternCSVType.Hill)
+                else if (data.Pattern == RewardCoinPatternCSVType.Hill)
                 {
-                    rewardItemBlueprint.rewardItemConstructors = CreateRandomRewardCoinWithHill; 
+                    rewardItemBlueprint.rewardItemConstructors = CreateRandomRewardCoinWithHill;
                 }
-                
+
                 if (i == 0)
                 {
                     List<RewardItemBlueprint> rewardItemBlueprints = new();
@@ -218,41 +263,62 @@ public class MapObjectManager : MonoBehaviour
                 }
                 else
                 {
-                    
                     generateRewardItemInformationDictionary[prefabID].Add(rewardItemBlueprint);
                 }
             }
         }
-        
-        return generateRewardItemInformationDictionary;
     }
 
-    private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
+    public MapObjectsBlueprint GetMapObjectsBlueprint(int id)
     {
-        int rows = objectTypes.GetLength(0);
-        int cols = objectTypes.GetLength(1);
-
-        int lastRowIndex = rows - 1;
-        int middleColIndex = cols / 2;
-
-        for (int i = 0; i < cols; ++i)
+        if (generateMapObjectInformationDictionary.TryGetValue(id, out MapObjectsBlueprint blueprint))
         {
-            objectTypes[lastRowIndex, i] = ObjectType.Wall;
+            return blueprint;
         }
-
-        createMapObjectActionArray[lastRowIndex, middleColIndex] = CreateNormalWall;
+        else
+        {
+            throw new KeyNotFoundException($" 맵 오브젝트 키 '{id}' 를 찾을 수 없습니다.");
+        }
     }
 
-    private void CreateNormalWall(Vector3 position)
+    public List<RewardItemBlueprint> GetRewardItemBlueprint(int id)
     {
-        var wall = wallPool.Get();
-        wall.transform.SetPositionAndRotation(position, Quaternion.identity);
-        wall.TryGetComponent(out Wall wallComponent);
-        wallComponent.Initialize(WallType.NormalWall);
-        wallComponent.SetPool(wallPool);
+        if (generateRewardItemInformationDictionary.TryGetValue(id, out List<RewardItemBlueprint> blueprints))
+        {
+            return blueprints;
+        }
+        else
+        {
+            throw new KeyNotFoundException($" 리워드 아이템 '{id}' 를 찾을 수 없습니다.");
+        }
     }
 
-    private void SetCreateBombAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray, int row, int col)
+    // private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
+    // {
+    //     int rows = objectTypes.GetLength(0);
+    //     int cols = objectTypes.GetLength(1);
+    //
+    //     int lastRowIndex = rows - 1;
+    //     int middleColIndex = cols / 2;
+    //
+    //     for (int i = 0; i < cols; ++i)
+    //     {
+    //         objectTypes[lastRowIndex, i] = ObjectType.Wall;
+    //     }
+    //
+    //     createMapObjectActionArray[lastRowIndex, middleColIndex] = CreateNormalWall;
+    // }
+    //
+    // private void CreateNormalWall(Vector3 position)
+    // {
+    //     var wall = wallPool.Get();
+    //     wall.transform.SetPositionAndRotation(position, Quaternion.identity);
+    //     wall.TryGetComponent(out Wall wallComponent);
+    //     wallComponent.Initialize(WallType.NormalWall);
+    //     wallComponent.SetPool(wallPool);
+    // }
+
+    private void SetCreateBombAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
         // int rows = objectTypes.GetLength(0);
         // int cols = objectTypes.GetLength(1);
@@ -271,7 +337,7 @@ public class MapObjectManager : MonoBehaviour
         if (objectTypes[row, col] != ObjectType.None)
         {
             Debug.Assert(false, $"Object {objectTypes[row, col].ToString()} is Already Exist in : [{row}, {col}]");
-        
+
             return;
         }
 
@@ -279,16 +345,18 @@ public class MapObjectManager : MonoBehaviour
         createMapObjectActionArray[row, col] = CreateBomb;
     }
 
-    private void CreateBomb(Vector3 position)
+    private CollidableMapObject CreateBomb(Vector3 position)
     {
         var bomb = trapBombPool.Get();
+        bomb.SetActive(true);
         bomb.transform.SetPositionAndRotation(position, Quaternion.identity);
         bomb.TryGetComponent(out Trap trapComponent);
         trapComponent.Initialize(TrapType.Bomb);
         trapComponent.SetPool(trapBombPool);
+        return trapComponent;
     }
 
-    private void SetCreateHoleAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray, int row, int col)
+    private void SetCreateHoleAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
         // int rows = objectTypes.GetLength(0);
         // int cols = objectTypes.GetLength(1);
@@ -316,25 +384,27 @@ public class MapObjectManager : MonoBehaviour
         //     objectTypes[i, randCol] = ObjectType.TrapHole;
         //     createMapObjectActionArray[i, randCol] = CreateHole;
         // }
-        
+
         if (objectTypes[row, col] != ObjectType.None)
         {
             Debug.Assert(false, $"Object {objectTypes[row, col].ToString()} is Already Exist in : [{row}, {col}]");
-        
+
             return;
         }
-        
+
         objectTypes[row, col] = ObjectType.TrapHole;
         createMapObjectActionArray[row, col] = CreateHole;
     }
 
-    private void CreateHole(Vector3 position)
+    private CollidableMapObject CreateHole(Vector3 position)
     {
         var hole = trapHolePool.Get();
+        hole.SetActive(true);
         hole.transform.SetPositionAndRotation(position, Quaternion.identity);
         hole.TryGetComponent(out Trap trapComponent);
         trapComponent.Initialize(TrapType.Hole);
         trapComponent.SetPool(trapHolePool);
+        return trapComponent;
     }
 
     private void SetCreateRandomRewardCoinAction(ObjectType[,] objectTypes,
@@ -427,39 +497,47 @@ public class MapObjectManager : MonoBehaviour
         return canSpawn;
     }
 
-    private void CreateRandomRewardCoin(Vector3 startPosition, Vector3 endPosition, int itemCount)
+    private CollidableMapObject[] CreateRandomRewardCoin(Vector3 startPosition, Vector3 endPosition, int itemCount)
     {
+        var array = new CollidableMapObject[itemCount];
         for (int i = 0; i < itemCount; ++i)
         {
             var rewardCoin = itemRewardCoinPool.Get();
+            rewardCoin.SetActive(true);
             rewardCoin.transform.SetPositionAndRotation(Vector3.Lerp(startPosition, endPosition, (float)i / (itemCount - 1)), Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Initialize((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
             itemRewardCoinComponent.SetPool(itemRewardCoinPool);
+            array[i] = itemRewardCoinComponent;
         }
+        return array;
     }
 
-    private void CreateRandomRewardCoinWithHill(Vector3 startPosition, Vector3 endPosition, int itemCount)
+    private CollidableMapObject[] CreateRandomRewardCoinWithHill(Vector3 startPosition, Vector3 endPosition, int itemCount)
     {
         float maxHeight = maxHillHeight;
         int middleIndex = itemCount / 2;
 
+        var array = new CollidableMapObject[itemCount];
         for (int i = 0; i < itemCount; ++i)
         {
             Vector3 spawnPosition = Vector3.Lerp(startPosition, endPosition, (float)i / (itemCount - 1));
             float distanceFromMiddle = Mathf.Abs(i - middleIndex);
             float heightOffset = maxHeight - (distanceFromMiddle / middleIndex * maxHeight);
             spawnPosition.y += heightOffset;
-            
+
             var rewardCoin = itemRewardCoinPool.Get();
+            rewardCoin.SetActive(true);
             rewardCoin.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
             itemRewardCoinComponent.Initialize((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
             itemRewardCoinComponent.SetPool(itemRewardCoinPool);
+            array[i] = itemRewardCoinComponent;
         }
+        return array;
     }
 
-    private void SetCreateRandomHumanAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray, int row, int col)
+    private void SetCreateRandomHumanAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
         // int rows = objectTypes.GetLength(0);
         // int cols = objectTypes.GetLength(1);
@@ -487,29 +565,31 @@ public class MapObjectManager : MonoBehaviour
         //     objectTypes[i, randCol] = ObjectType.Item;
         //     createMapObjectActionArray[i, randCol] = CreateRandomHuman;
         // }
-        
-        
+
+
         if (objectTypes[row, col] != ObjectType.None)
         {
             Debug.Assert(false, $"Object {objectTypes[row, col].ToString()} is Already Exist in : [{row}, {col}]");
-        
+
             return;
         }
-        
+
         objectTypes[row, col] = ObjectType.Item;
         createMapObjectActionArray[row, col] = CreateRandomHuman;
     }
 
-    private void CreateRandomHuman(Vector3 position)
+    private CollidableMapObject CreateRandomHuman(Vector3 position)
     {
         var human = itemHumanPool.Get();
+        human.SetActive(true);
         human.transform.SetPositionAndRotation(position, Quaternion.identity);
         human.TryGetComponent(out ItemHuman itemHumanComponent);
         itemHumanComponent.Initialize((HumanItemType)Utils.GetEnumIndexByChance(humanSpawnChances));
         itemHumanComponent.SetPool(itemHumanPool);
+        return itemHumanComponent;
     }
 
-    private void SetCreateRandomPenaltyCoinAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray, int row, int col)
+    private void SetCreateRandomPenaltyCoinAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
         // int rows = objectTypes.GetLength(0);
         // int cols = objectTypes.GetLength(1);
@@ -537,24 +617,67 @@ public class MapObjectManager : MonoBehaviour
         //     objectTypes[i, randCol] = ObjectType.Item;
         //     createMapObjectActionArray[i, randCol] = CreateRandomPenaltyCoin;
         // }
-        
+
         if (objectTypes[row, col] != ObjectType.None)
         {
             Debug.Assert(false, $"Object {objectTypes[row, col].ToString()} is Already Exist in : [{row}, {col}]");
-        
+
             return;
         }
-        
+
         objectTypes[row, col] = ObjectType.Item;
         createMapObjectActionArray[row, col] = CreateRandomPenaltyCoin;
     }
 
-    private void CreateRandomPenaltyCoin(Vector3 position)
+    private CollidableMapObject CreateRandomPenaltyCoin(Vector3 position)
     {
         var penaltyCoin = itemPenaltyCoinPool.Get();
+        penaltyCoin.SetActive(true);
         penaltyCoin.transform.SetPositionAndRotation(position, Quaternion.identity);
         penaltyCoin.TryGetComponent(out ItemPenaltyCoin itemPenaltyCoinComponent);
         itemPenaltyCoinComponent.Initialize((PenaltyCoinItemType)Utils.GetEnumIndexByChance(penaltyCoinSpawnChances));
         itemPenaltyCoinComponent.SetPool(itemPenaltyCoinPool);
+        return itemPenaltyCoinComponent;
+    }
+
+    public int GetNextRandomMapObjectsPrefabId()
+    {
+        if ((MinMapObjectId != MinRewardItemId) || (MaxMapObjectId != MaxRewardItemId))
+        {
+            Debug.Assert(false, "MapObjectId is different from RewardItemId");
+
+            return -1;
+        }
+
+        if (nextMapObjectsPrefabIdQueue.Count == 0)
+        {
+            mapObjectsPrefabIds.Clear();
+            for (int i = MinMapObjectId; i <= MaxMapObjectId; ++i)
+            {
+                mapObjectsPrefabIds.Add(i);
+            }
+
+            if (mapObjectsPrefabIds.Count < maxPrefabIdQueueSize)
+            {
+                Debug.Assert(false, "PrefabId Count is smaller than maxPrefabIdQueueSize");
+
+                return -1;
+            }
+
+            while (mapObjectsPrefabIds.Count > maxPrefabIdQueueSize)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, mapObjectsPrefabIds.Count);
+                mapObjectsPrefabIds.RemoveAt(randomIndex);
+            }
+
+            while (mapObjectsPrefabIds.Count > 0)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, mapObjectsPrefabIds.Count);
+                nextMapObjectsPrefabIdQueue.Enqueue(mapObjectsPrefabIds[randomIndex]);
+                mapObjectsPrefabIds.RemoveAt(randomIndex);
+            }
+        }
+
+        return nextMapObjectsPrefabIdQueue.Dequeue();
     }
 }

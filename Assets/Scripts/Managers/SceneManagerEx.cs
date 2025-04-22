@@ -4,31 +4,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneManagerEx : Singleton<SceneManagerEx>, IManager
+public class SceneManagerEx : Singleton<SceneManagerEx>
 {
-    public Action onReleaseScene;
-    public Action onLoadScene;
+    public Action onLoadComplete;
 
-    public void LoadScene(string sceneName)
+    private void Awake()
     {
-        onReleaseScene?.Invoke();
-
-        SceneManager.LoadScene(sceneName);
-        onLoadScene?.Invoke();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void LoadCurrentScene()
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        LoadScene(SceneManager.GetActiveScene().name);
+        if (scene.name.Contains("Run") || scene.name.Contains("InGame"))
+        {
+            StartCoroutine(LoadInGameResources());
+        }
     }
 
-    public void Initialize()
+    private IEnumerator LoadInGameResources()
     {
-        
-    }
+        // 로딩씬 Additive로 로드
+        yield return SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
 
-    public void Clear()
-    {
+        // Addressables를 사용하여 비동기 로드 시작
+        bool isLoadingComplete = false;
+        LoadManager.Instance.LoadInGameResource(() =>
+        {
+            isLoadingComplete = true;
+        });
 
+        // 로딩 중 상태 표시
+        while (!isLoadingComplete)
+        {
+            yield return null;
+        }
+
+        Debug.Log("Game Resources Loaded!");
+
+        // 로딩 씬 언로드
+        yield return SceneManager.UnloadSceneAsync("LoadingScene");
+
+        // 로딩 완료 이벤트 호출
+        onLoadComplete?.Invoke();
     }
 }

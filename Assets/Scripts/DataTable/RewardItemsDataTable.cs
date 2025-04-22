@@ -6,6 +6,9 @@ using UnityEngine;
 public class RewardItemsDataTable : DataTable
 {
     private static readonly Dictionary<int, List<RewardItemData>> table = new();
+ 
+    public int maxId { get; private set; } = -1;
+    public int minId { get; private set; } = int.MaxValue;
     
     public override void Load(string filename)
     {
@@ -18,6 +21,16 @@ public class RewardItemsDataTable : DataTable
             RewardItemData data = new RewardItemData();
             data.CSVDataToData(csvData);
             int id = data.PrefabID;
+            
+            if (id < minId)
+            {
+                minId = id;
+            }
+
+            if (id > maxId)
+            {
+                maxId = id;
+            }
             
             if (!table.ContainsKey(id))
             {

@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 921e1f845d5f3274990b63bf78e2cb77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curvature: 2
-  trimming: 0.1
+  curvature: 0
+  trimming: 0
 --- !u!1 &4160796323777910873
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,12 +55,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1002950731021501532}
-  - component: {fileID: 596636777274713853}
-  - component: {fileID: 3875611926903960002}
-  - component: {fileID: 5475774335596289907}
+  - component: {fileID: 7795362620459781778}
   m_Layer: 0
   m_Name: RoadManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,7 +79,7 @@ Transform:
   - {fileID: 5962223096739644789}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &596636777274713853
+--- !u!114 &7795362620459781778
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,39 +88,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4160796323777910873}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a03e36a85c3da243b13e21a0c18d290, type: 3}
+  m_Script: {fileID: 11500000, guid: 52317ea1129da2b4daad6dc3761d1452, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roadSegmentPrefabs:
-  - {fileID: 4392002336861150956, guid: a2deb738456a4184081aad9e2c628653, type: 3}
-  - {fileID: 4392002336861150956, guid: 7b12c1f30495df844abbe5ebc140cba3, type: 3}
-  - {fileID: 4392002336861150956, guid: 0eb71f579de613f489d6dae4479f7219, type: 3}
-  - {fileID: 0}
-  mapObjectManager: {fileID: 0}
---- !u!114 &3875611926903960002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4160796323777910873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9b10e5750a9dc2439ecff6793e949f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minX: -1.5
-  maxX: 1.5
---- !u!114 &5475774335596289907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4160796323777910873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8be3a5c991f1b14987278c36f993d98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotateDuration: 0.2
+  roadWayPrefabs:
+  - {fileID: 5444199048451139359, guid: 73a4ddf153933474fb9581b84f1676c7, type: 3}
+  - {fileID: 8590565346342507532, guid: 050c9fd062ea6dc4cb642370d7b29506, type: 3}
+  - {fileID: 5444199048451139359, guid: 680fb78f51a40a645bc8e482fe3048ba, type: 3}
+  initialRoadWay: {fileID: 0}
+  currentRoadWayCount: 10
+  precreateRoadWayCount: 2
