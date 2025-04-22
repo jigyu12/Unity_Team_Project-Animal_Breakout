@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ItemHuman : ItemBase
 {
@@ -9,53 +11,85 @@ public class ItemHuman : ItemBase
 
     public HumanItemType HumanItemType { get; private set; } = HumanItemType.None; // 인간 타입
 
-    private const long ScoreToAddJuniorResearcher = 100;
-    private const long ScoreToAddResearcher = 150;
-    private const long ScoreToAddSeniorResearcher = 200;
-    [SerializeField] private int itemID;
+    [SerializeField] private HumanItemType humanItemType;
     private ItemDataTable.ItemData itemStatData;
+    private bool onCollision;
+    private const float inActiveTimeDelay = 5f;
+    
+    private float inActiveTimer;
+    private const float rotationSpeed = 540f;
+    private const float moveSpeed = 15f;
+
+    private Animator animator;
 
     public int Score => itemStatData?.Score ?? 0;
 
-    public void Initialize(HumanItemType humanItemType)
+    private void Awake()
     {
-        // if (humanItemType == HumanItemType.None || humanItemType == HumanItemType.Count)
-        // {
-        //     Debug.Assert(false, "Invalid HumanItemType");
+        TryGetComponent(out animator);
+    }
 
-        //     return;
-        // }
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && !onCollision)
+        {
+            onCollision = true;
+            
+            StartCoroutine(OnCollisionCoroutine());
+            
+            base.OnTriggerEnter(other);
+        }
+    }
+
+    private IEnumerator OnCollisionCoroutine()
+    {
+        animator.Play("Dead", 1);
+
+        int randomDir = Random.value < 0.5f ? -1 : 1;
+
+        Vector3 moveDirection = transform.rotation * ((Vector3.back) + (Vector3.up / 2f) + ((Vector3.right / 6f) * randomDir)).normalized;
+      
+        while (inActiveTimer < inActiveTimeDelay)
+        {
+            float delta = Time.deltaTime;
+            inActiveTimer += delta;
+
+            transform.Rotate(rotationSpeed * delta, 0f, 0f);
+
+            transform.position += moveDirection * (moveSpeed * delta);
+
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+    }
+    
+    public void Initialize()
+    {
+        if (humanItemType == HumanItemType.None || humanItemType == HumanItemType.Count)
+        {
+             Debug.Assert(false, "Invalid HumanItemType");
+
+             return;
+        }
 
         ObjectType = ObjectType.Item;
 
         ItemType = ItemType.Human;
 
-        // HumanItemType = humanItemType;
-        // CollisionBehaviour = CollisionBehaviourFactory.GetHumanBehaviour(humanItemType);
-
-        itemStatData = DataTableManager.itemDataTable.Get(itemID);
-        HumanItemType = (HumanItemType)itemID;
-        CollisionBehaviour = CollisionBehaviourFactory.GetHumanBehaviour((HumanItemType)itemID);
+        itemStatData = DataTableManager.itemDataTable.Get((int)this.humanItemType);
+        HumanItemType = this.humanItemType;
+        CollisionBehaviour = CollisionBehaviourFactory.GetHumanBehaviour(this.humanItemType);
         CollisionBehaviour.SetScoreToAdd(itemStatData.Score);
+        
+        animator.Play("Default", 1);
 
-
-        // switch (humanItemType)
-        // {
-        //     case HumanItemType.JuniorResearcher:
-        //         {
-        //             CollisionBehaviour.SetScoreToAdd(ScoreToAddJuniorResearcher);
-        //         }
-        //         break;
-        //     case HumanItemType.Researcher:
-        //         {
-        //             CollisionBehaviour.SetScoreToAdd(ScoreToAddResearcher);
-        //         }
-        //         break;
-        //     case HumanItemType.SeniorResearcher:
-        //         {
-        //             CollisionBehaviour.SetScoreToAdd(ScoreToAddSeniorResearcher);
-        //         }
-        //         break;
-        // }
+        inActiveTimer = 0f;
+        onCollision = false;
+    }
+    
+    public void SetOnCollisionTrue()
+    {
+        onCollision = true;
     }
 }
