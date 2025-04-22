@@ -18,6 +18,9 @@ public static class Utils
     public const string AnimalSelectedString = "선택됨";
     public const string AnimalSelectableString = "선택하기";
 
+    public const string ItemHumanAnimatorDefaultString = "Default";
+    public const string ItemHumanAnimatorDeadString = "Dead";
+
     public const float GameStartWaitTime = 1f;
 
     public static bool IsChanceHit(float chance)

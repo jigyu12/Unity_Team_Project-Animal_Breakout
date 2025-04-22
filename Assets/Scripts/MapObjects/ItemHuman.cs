@@ -43,7 +43,7 @@ public class ItemHuman : ItemBase
 
     private IEnumerator OnCollisionCoroutine()
     {
-        animator.Play("Dead", 1);
+        animator.Play(Utils.ItemHumanAnimatorDeadString, 1);
 
         int randomDir = Random.value < 0.5f ? -1 : 1;
 
@@ -82,7 +82,7 @@ public class ItemHuman : ItemBase
         CollisionBehaviour = CollisionBehaviourFactory.GetHumanBehaviour(this.humanItemType);
         CollisionBehaviour.SetScoreToAdd(itemStatData.Score);
         
-        animator.Play("Default", 1);
+        animator.Play(Utils.ItemHumanAnimatorDefaultString, 1);
 
         inActiveTimer = 0f;
         onCollision = false;
