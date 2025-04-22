@@ -57,6 +57,4 @@ public abstract class DataTable
 
         File.WriteAllText(path, text);
     }
-
-
 }

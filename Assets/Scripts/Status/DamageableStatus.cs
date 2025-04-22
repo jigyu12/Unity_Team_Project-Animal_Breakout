@@ -10,7 +10,11 @@ public abstract class DamageableStatus : MonoBehaviour, IDamageable
 
     public abstract void InitializeStatus(float maxHp);
 
-    public Action<float, SkillElemental> onDamaged;
-    public abstract void OnDamage(float damage, SkillElemental attribute = SkillElemental.None);
+    public Action<float, SkillElemental> onElementalDamaged;
+    public Action<float> onDamaged;
+    public abstract void OnDamage(float damage);
+    public abstract void OnDamage(float damage, SkillElemental attribute );
+
+    
     protected abstract void OnDead();
 }
