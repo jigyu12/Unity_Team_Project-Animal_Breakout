@@ -92,7 +92,7 @@ public static class BossPatternFuncFactory
             bossBehaviourController.ProjectileReleaseParent.transform);
         bossBehaviourController.TempBossProjectileList.Add(tempBossProjectile);
 
-        bossBehaviourController.AddPatternUseCount();
+        AfterUsingNormalPattern(bossBehaviourController);
         
         return BTNodeState.Success;
     }
@@ -111,7 +111,7 @@ public static class BossPatternFuncFactory
             bossBehaviourController.ProjectileReleaseParent.transform);
         bossBehaviourController.TempBossProjectileList.Add(tempBossProjectile);
         
-        bossBehaviourController.AddPatternUseCount();
+        AfterUsingNormalPattern(bossBehaviourController);
         
         return BTNodeState.Success;
     }
@@ -130,8 +130,20 @@ public static class BossPatternFuncFactory
             bossBehaviourController.ProjectileReleaseParent.transform);
         bossBehaviourController.TempBossProjectileList.Add(tempBossProjectile);
         
-        bossBehaviourController.ClearPatternUseCount();
+        AfterUsingSpecialPattern(bossBehaviourController);
         
         return BTNodeState.Success;
+    }
+
+    private static void AfterUsingNormalPattern(BossBehaviourController bossBehaviourController)
+    {
+        bossBehaviourController.AddPatternUseCount();
+        bossBehaviourController.SetBossPatternSelectRandomValue();
+    }
+
+    private static void AfterUsingSpecialPattern(BossBehaviourController bossBehaviourController)
+    {
+        bossBehaviourController.ClearPatternUseCount();
+        bossBehaviourController.SetBossPatternSelectRandomValue();
     }
 }
