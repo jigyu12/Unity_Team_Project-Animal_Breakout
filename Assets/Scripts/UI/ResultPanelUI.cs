@@ -56,17 +56,17 @@ public class ResultPanelUI : UIElement
         int coinCount = inGameCountManager.coinCount;
         coinCountText.text = $"{coinCount}";
     }
-    private void SetScoreCount()
+    public void SetScoreCount()
     {
         long scoreCount = inGameCountManager.ScoreCount;
         scoreCountText.text = $"{scoreCount}";
     }
-    private void SetExpCount()
+    public void SetExpCount()
     {
         long expCount = inGameCountManager.ScoreCount;
         expCountText.text = $"{expCount}";
     }
-    private void SetTimeCount()
+    public void SetTimeCount()
     {
         playTimeText.text = trackingTime.GetFormattedPlayTime();
     }

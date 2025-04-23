@@ -11,6 +11,7 @@ public class PausePanelUI : UIElement
     [SerializeField] private GameObject pausePanelRoot;
     [SerializeField] private TMP_Text countdownText;
 
+    [SerializeField] private ResultPanelUI resultPanelUI;
 
     public override void Initialize()
     {
@@ -35,6 +36,10 @@ public class PausePanelUI : UIElement
     private void OnGiveUpClicked()
     {
         realGiveUpPanel.SetActive(true);
+        resultPanelUI.SetScoreCount();
+        resultPanelUI.SetCoinCount();
+        resultPanelUI.SetExpCount();
+        resultPanelUI.SetTimeCount();
     }
 
     private void OnSettingsClicked()
