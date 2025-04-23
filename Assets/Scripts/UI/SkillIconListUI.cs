@@ -16,7 +16,7 @@ public class SkillIconListUI : UIElement
         base.Initialize();
 
         maxSkillCount = gameManager.SkillManager.MaxSkillCount;
-        gameManager.SkillManager.onSkillListUpdated += OnSkillListUpdated;
+        gameManager.SkillManager.SkillSelectionSystem.onSkillListUpdated += OnSkillListUpdated;
 
         for (int i = 0; i < maxSkillCount; i++)
         {
@@ -26,11 +26,11 @@ public class SkillIconListUI : UIElement
         }
     }
 
-    private void OnSkillListUpdated(List<SkillPriorityItem> skills)
+    private void OnSkillListUpdated(List<ISkill> skills)
     {
         for (int i = 0; i < skills.Count; i++)
         {
-            skillIcons[i].SetTargetSkill(skills[i].skill);
+            skillIcons[i].SetTargetSkill(skills[i]);
             skillIcons[i].gameObject.SetActive(true);
         }
 
