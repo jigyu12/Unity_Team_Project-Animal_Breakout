@@ -32,7 +32,10 @@ public class InGameCountManager : InGameManager
     {
         ScoreCount += amount;
         Debug.Log(ScoreCount);
+    }
+    private void OnReviveAcquiredHandler(int amount)
+    {
+
 
     }
-
 }
