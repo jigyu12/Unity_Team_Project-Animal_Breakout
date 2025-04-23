@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public abstract class BaseCollisionBehaviour : ICollisionBehaviour
 {
     public static Action<long> OnScoreChanged;
+
+    public static Action<int> OnCoinAcquired;
+    
     protected long scoreToAdd;
     
     public void OnCollision(GameObject self, Collider other)

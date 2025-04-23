@@ -348,8 +348,8 @@ public class MapObjectManager : InGameManager
         var bomb = trapBombPool.Get();
         bomb.SetActive(true);
         bomb.transform.SetPositionAndRotation(position, Quaternion.identity);
-        bomb.TryGetComponent(out Trap trapComponent);
-        trapComponent.Initialize(TrapType.Bomb);
+        bomb.TryGetComponent(out TrapBomb trapComponent);
+        trapComponent.Initialize();
         trapComponent.SetPool(trapBombPool);
         return trapComponent;
     }
@@ -399,8 +399,8 @@ public class MapObjectManager : InGameManager
         var hole = trapHolePool.Get();
         hole.SetActive(true);
         hole.transform.SetPositionAndRotation(position, Quaternion.identity);
-        hole.TryGetComponent(out Trap trapComponent);
-        trapComponent.Initialize(TrapType.Hole);
+        hole.TryGetComponent(out TrapHole trapComponent);
+        trapComponent.Initialize();
         trapComponent.SetPool(trapHolePool);
         return trapComponent;
     }
