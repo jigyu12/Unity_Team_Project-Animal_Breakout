@@ -293,48 +293,9 @@ public class MapObjectManager : InGameManager
             throw new KeyNotFoundException($" 리워드 아이템 '{id}' 를 찾을 수 없습니다.");
         }
     }
-
-    // private void SetCreateWallAction(ObjectType[,] objectTypes, Action<Vector3>[,] createMapObjectActionArray)
-    // {
-    //     int rows = objectTypes.GetLength(0);
-    //     int cols = objectTypes.GetLength(1);
-    //
-    //     int lastRowIndex = rows - 1;
-    //     int middleColIndex = cols / 2;
-    //
-    //     for (int i = 0; i < cols; ++i)
-    //     {
-    //         objectTypes[lastRowIndex, i] = ObjectType.Wall;
-    //     }
-    //
-    //     createMapObjectActionArray[lastRowIndex, middleColIndex] = CreateNormalWall;
-    // }
-    //
-    // private void CreateNormalWall(Vector3 position)
-    // {
-    //     var wall = wallPool.Get();
-    //     wall.transform.SetPositionAndRotation(position, Quaternion.identity);
-    //     wall.TryGetComponent(out Wall wallComponent);
-    //     wallComponent.Initialize(WallType.NormalWall);
-    //     wallComponent.SetPool(wallPool);
-    // }
-
+    
     private void SetCreateBombAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
-        // int rows = objectTypes.GetLength(0);
-        // int cols = objectTypes.GetLength(1);
-        //
-        // for (int i = 0 + nonObjectTileCount; i < rows - nonObjectTileCount; i += trapGenerateTileOffset)
-        // {
-        //     int randCol = Random.Range(0, cols);
-        //
-        //     if (objectTypes[i, randCol] != ObjectType.None)
-        //         continue;
-        //
-        //     objectTypes[i, randCol] = ObjectType.TrapBomb;
-        //     createMapObjectActionArray[i, randCol] = CreateBomb;
-        // }
-
         if (objectTypes[row, col] != ObjectType.None)
         {
             Debug.Assert(false, $"Object {objectTypes[row, col].ToString()} is Already Exist in : [{row}, {col}]");
@@ -359,33 +320,6 @@ public class MapObjectManager : InGameManager
 
     private void SetCreateHoleAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
-        // int rows = objectTypes.GetLength(0);
-        // int cols = objectTypes.GetLength(1);
-        //
-        // for (int i = 0 + nonObjectTileCount; i < rows - nonObjectTileCount; i += trapGenerateTileOffset)
-        // {
-        //     if (!Utils.IsChanceHit(spawnHoleChance))
-        //         continue;
-        //
-        //     List<int> colIndexes = new();
-        //     for (int j = 0; j < cols; ++j)
-        //     {
-        //         if (objectTypes[i, j] != ObjectType.None)
-        //             continue;
-        //
-        //         colIndexes.Add(j);
-        //     }
-        //
-        //     if (colIndexes.Count == 0)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     int randCol = colIndexes[Random.Range(0, colIndexes.Count)];
-        //     objectTypes[i, randCol] = ObjectType.TrapHole;
-        //     createMapObjectActionArray[i, randCol] = CreateHole;
-        // }
-
         if (objectTypes[row, col] != ObjectType.None)
         {
             Debug.Assert(false, $"Object {objectTypes[row, col].ToString()} is Already Exist in : [{row}, {col}]");
@@ -407,96 +341,6 @@ public class MapObjectManager : InGameManager
         trapComponent.SetPool(trapHolePool);
         return trapComponent;
     }
-
-    private void SetCreateRandomRewardCoinAction(ObjectType[,] objectTypes,
-        Action<Vector3>[,] createMapObjectActionArray)
-    {
-        // int rows = objectTypes.GetLength(0);
-        // int cols = objectTypes.GetLength(1);
-        //
-        // for (int i = 0 + nonObjectTileCount; i < rows - nonObjectTileCount; ++i)
-        // {
-        //     for (int j = 0; j < cols; ++j)
-        //     {
-        //         if (CanSpawnRewardCoin(objectTypes, i, j, out var isMiddleHoleExist))
-        //         {
-        //             if (isMiddleHoleExist)
-        //             {
-        //                 createMapObjectActionArray[i, j] = CreateRandomRewardCoinWithHill;
-        //             }
-        //             else
-        //             {
-        //                 createMapObjectActionArray[i, j] = CreateRandomRewardCoin;
-        //             }
-        //         }
-        //     }
-        // }
-    }
-
-    // private bool CanSpawnRewardCoin(ObjectType[,] objectTypes, int row, int col, out bool isMiddleHoleExist)
-    // {
-    //     if (!Utils.IsChanceHit(spawnRewardCoinChance))
-    //     {
-    //         isMiddleHoleExist = false;
-    //
-    //         return false;
-    //     }
-    //
-    //     bool canSpawn = true;
-    //
-    //     int middleIndex = itemGenerateTileCount / 2;
-    //
-    //     isMiddleHoleExist = false;
-    //
-    //     for (int rowOffset = 0; rowOffset < itemGenerateTileCount; ++rowOffset)
-    //     {
-    //         var objectType = objectTypes[row + rowOffset, col];
-    //
-    //         if (rowOffset == middleIndex)
-    //         {
-    //             if (objectType == ObjectType.TrapHole)
-    //             {
-    //                 isMiddleHoleExist = true;
-    //             }
-    //             else if (objectType == ObjectType.None)
-    //             {
-    //                 continue;
-    //             }
-    //             else
-    //             {
-    //                 canSpawn = false;
-    //
-    //                 break;
-    //             }
-    //         }
-    //         else
-    //         {
-    //             if (objectType != ObjectType.None)
-    //             {
-    //                 canSpawn = false;
-    //
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //
-    //     if (canSpawn)
-    //     {
-    //         for (int rowOffset = 0; rowOffset < itemGenerateTileCount; ++rowOffset)
-    //         {
-    //             if (isMiddleHoleExist && rowOffset == middleIndex)
-    //             {
-    //                 objectTypes[row + rowOffset, col] = ObjectType.ItemTrapMixed;
-    //             }
-    //             else
-    //             {
-    //                 objectTypes[row + rowOffset, col] = ObjectType.Item;
-    //             }
-    //         }
-    //     }
-    //
-    //     return canSpawn;
-    // }
 
     private CollidableMapObject[] CreateRandomRewardCoin(Vector3 startPosition, Vector3 endPosition, int itemCount)
     {
@@ -548,34 +392,6 @@ public class MapObjectManager : InGameManager
 
     private void SetCreateRandomHumanAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
-        // int rows = objectTypes.GetLength(0);
-        // int cols = objectTypes.GetLength(1);
-        //
-        // for (int i = 0 + nonObjectTileCount; i < rows - nonObjectTileCount; ++i)
-        // {
-        //     if (!Utils.IsChanceHit(spawnHumanChance))
-        //         continue;
-        //
-        //     List<int> colIndexes = new();
-        //     for (int j = 0; j < cols; ++j)
-        //     {
-        //         if (objectTypes[i, j] != ObjectType.None)
-        //             continue;
-        //
-        //         colIndexes.Add(j);
-        //     }
-        //
-        //     if (colIndexes.Count == 0)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     int randCol = colIndexes[Random.Range(0, colIndexes.Count)];
-        //     objectTypes[i, randCol] = ObjectType.Item;
-        //     createMapObjectActionArray[i, randCol] = CreateRandomHuman;
-        // }
-
-
         if (objectTypes[row, col] != ObjectType.None)
         {
             Debug.Assert(false, $"Object {objectTypes[row, col].ToString()} is Already Exist in : [{row}, {col}]");
@@ -597,45 +413,10 @@ public class MapObjectManager : InGameManager
         itemHumanComponent.Initialize();
         itemHumanComponent.SetPool(itemHumanPoolList[humanPrefabIndex]);
         return itemHumanComponent;
-
-        // var human = itemHumanPool.Get();
-        // human.SetActive(true);
-        // human.transform.SetPositionAndRotation(position, Quaternion.identity);
-        // human.TryGetComponent(out ItemHuman itemHumanComponent);
-        // itemHumanComponent.Initialize((HumanItemType)Utils.GetEnumIndexByChance(humanSpawnChances));
-        // itemHumanComponent.SetPool(itemHumanPool);
-        // return itemHumanComponent;
     }
 
     private void SetCreateRandomPenaltyCoinAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)
     {
-        // int rows = objectTypes.GetLength(0);
-        // int cols = objectTypes.GetLength(1);
-        //
-        // for (int i = 0 + nonObjectTileCount; i < rows - nonObjectTileCount; ++i)
-        // {
-        //     if (!Utils.IsChanceHit(spawnPenaltyCoinChance))
-        //         continue;
-        //
-        //     List<int> colIndexes = new();
-        //     for (int j = 0; j < cols; ++j)
-        //     {
-        //         if (objectTypes[i, j] != ObjectType.None)
-        //             continue;
-        //
-        //         colIndexes.Add(j);
-        //     }
-        //
-        //     if (colIndexes.Count == 0)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     int randCol = colIndexes[Random.Range(0, colIndexes.Count)];
-        //     objectTypes[i, randCol] = ObjectType.Item;
-        //     createMapObjectActionArray[i, randCol] = CreateRandomPenaltyCoin;
-        // }
-
         if (objectTypes[row, col] != ObjectType.None)
         {
             Debug.Assert(false, $"Object {objectTypes[row, col].ToString()} is Already Exist in : [{row}, {col}]");
