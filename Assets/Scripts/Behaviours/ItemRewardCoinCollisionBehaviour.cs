@@ -13,6 +13,8 @@ public class BronzeCoinCollisionBehaviour : BaseCollisionBehaviour
         }
         
         self.SetActive(false);
+        
+        OnCoinAcquired?.Invoke(1);
     }
 }
 
@@ -29,6 +31,8 @@ public class SilverCoinCollisionBehaviour : BaseCollisionBehaviour
         }
         
         self.SetActive(false);
+        
+        OnCoinAcquired?.Invoke(1);
     }
 }
 
@@ -45,6 +49,8 @@ public class GoldCoinCollisionBehaviour : BaseCollisionBehaviour
         }
         
         self.SetActive(false);
+        
+        OnCoinAcquired?.Invoke(1);
     }
 }
 
