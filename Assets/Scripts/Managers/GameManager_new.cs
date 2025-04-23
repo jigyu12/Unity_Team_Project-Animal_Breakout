@@ -60,6 +60,8 @@ public class GameManager_new : MonoBehaviour
     private BossManager bossManager;
     public BossManager BossManager => bossManager;
 
+    private InGameCountManager inGameCountManager;
+    public InGameCountManager InGameCountManager => inGameCountManager;
     #endregion
 
     public int restartChanceCount = 1;
@@ -181,6 +183,8 @@ public class GameManager_new : MonoBehaviour
         //bossManager.SetGameManager(this);
         //managers.Add(bossManager);
         bossManager = AddManagerToManagers<BossManager>(findManagers);
+
+        inGameCountManager = AddManagerToManagers<InGameCountManager>(findManagers);
 
 
         foreach (var manager in managers)
