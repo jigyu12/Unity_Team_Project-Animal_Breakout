@@ -7,17 +7,17 @@ public class MapObjectManager : InGameManager
 {
     [SerializeField] private GameObject trapBombPrefab;
     [SerializeField] private GameObject trapHolePrefab;
-    [SerializeField] private GameObject itemRewardCoinPrefab;
     
-    [SerializeField] private GameObject itemHumanPrefab;
+    [SerializeField] private List<GameObject> itemRewardCoinPrefabs;
+    
     [SerializeField] private List<GameObject> itemHumanPrefabs;
     
     [SerializeField] private GameObject itemPenaltyCoinPrefab;
 
     private ObjectPool<GameObject> trapBombPool;
     private ObjectPool<GameObject> trapHolePool;
-    private ObjectPool<GameObject> itemRewardCoinPool;
     
+    private List<ObjectPool<GameObject>> itemRewardCoinPoolList = new();
     private List<ObjectPool<GameObject>> itemHumanPoolList = new();
     
     private ObjectPool<GameObject> itemPenaltyCoinPool;
@@ -25,11 +25,9 @@ public class MapObjectManager : InGameManager
     private const float maxHillHeight = 1.5f;
 
     private List<float> rewardItemSpawnChances = new();
-    private float bronzeCoinSpawnChance = 0.5f;
-    private float sliverCoinSpawnChance = 0.2f;
-    private float goldCoinSpawnChance = 0.15f;
-    private float platinumCoinSpawnChance = 0.1f;
-    private float diamondCoinSpawnChance = 0.05f;
+    private float bronzeCoinSpawnChance = 0.6f;
+    private float sliverCoinSpawnChance = 0.3f;
+    private float goldCoinSpawnChance = 0.1f;
 
     private List<float> humanSpawnChances = new();
     private float juniorResearcherSpawnChance = 0.6f;
@@ -84,8 +82,6 @@ public class MapObjectManager : InGameManager
         rewardItemSpawnChances.Add(bronzeCoinSpawnChance);
         rewardItemSpawnChances.Add(sliverCoinSpawnChance);
         rewardItemSpawnChances.Add(goldCoinSpawnChance);
-        rewardItemSpawnChances.Add(platinumCoinSpawnChance);
-        rewardItemSpawnChances.Add(diamondCoinSpawnChance);
 
         humanSpawnChances.Add(juniorResearcherSpawnChance);
         humanSpawnChances.Add(researcherSpawnChance);
@@ -112,10 +108,17 @@ public class MapObjectManager : InGameManager
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        itemRewardCoinPool = GameManager.ObjectPoolManager.CreateObjectPool(itemRewardCoinPrefab,
-            () => Instantiate(itemRewardCoinPrefab),
-            obj => { obj.SetActive(true); },
-            obj => { obj.SetActive(false); });
+        for (int i = 0; i < itemRewardCoinPrefabs.Count; ++i)
+        {
+            int index = i;
+            
+            ObjectPool<GameObject> itemRewardCoinPool = GameManager.ObjectPoolManager.CreateObjectPool(itemRewardCoinPrefabs[index],
+                () => Instantiate(itemRewardCoinPrefabs[index]),
+                obj => { obj.SetActive(true); },
+                obj => { obj.SetActive(false); });
+            
+            itemRewardCoinPoolList.Add(itemRewardCoinPool);       
+        }
 
         for (int i = 0; i < itemHumanPrefabs.Count; ++i)
         {
@@ -498,16 +501,20 @@ public class MapObjectManager : InGameManager
     private CollidableMapObject[] CreateRandomRewardCoin(Vector3 startPosition, Vector3 endPosition, int itemCount)
     {
         var array = new CollidableMapObject[itemCount];
+        
         for (int i = 0; i < itemCount; ++i)
         {
-            var rewardCoin = itemRewardCoinPool.Get();
+            var rewardItemPrefabIndex = Utils.GetIndexRandomChanceHitInList(rewardItemSpawnChances);
+            
+            var rewardCoin = itemRewardCoinPoolList[rewardItemPrefabIndex].Get();
             rewardCoin.SetActive(true);
             rewardCoin.transform.SetPositionAndRotation(Vector3.Lerp(startPosition, endPosition, (float)i / (itemCount - 1)), Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
-            itemRewardCoinComponent.Initialize((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
-            itemRewardCoinComponent.SetPool(itemRewardCoinPool);
+            itemRewardCoinComponent.Initialize();
+            itemRewardCoinComponent.SetPool(itemRewardCoinPoolList[rewardItemPrefabIndex]);
             array[i] = itemRewardCoinComponent;
         }
+        
         return array;
     }
 
@@ -517,6 +524,7 @@ public class MapObjectManager : InGameManager
         int middleIndex = itemCount / 2;
 
         var array = new CollidableMapObject[itemCount];
+        
         for (int i = 0; i < itemCount; ++i)
         {
             Vector3 spawnPosition = Vector3.Lerp(startPosition, endPosition, (float)i / (itemCount - 1));
@@ -524,14 +532,17 @@ public class MapObjectManager : InGameManager
             float heightOffset = maxHeight - (distanceFromMiddle / middleIndex * maxHeight);
             spawnPosition.y += heightOffset;
 
-            var rewardCoin = itemRewardCoinPool.Get();
+            var rewardItemPrefabIndex = Utils.GetIndexRandomChanceHitInList(rewardItemSpawnChances);
+            
+            var rewardCoin = itemRewardCoinPoolList[rewardItemPrefabIndex].Get();
             rewardCoin.SetActive(true);
             rewardCoin.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
             rewardCoin.TryGetComponent(out ItemRewardCoin itemRewardCoinComponent);
-            itemRewardCoinComponent.Initialize((RewardCoinItemType)Utils.GetEnumIndexByChance(rewardItemSpawnChances));
-            itemRewardCoinComponent.SetPool(itemRewardCoinPool);
+            itemRewardCoinComponent.Initialize();
+            itemRewardCoinComponent.SetPool(itemRewardCoinPoolList[rewardItemPrefabIndex]);
             array[i] = itemRewardCoinComponent;
         }
+        
         return array;
     }
 
