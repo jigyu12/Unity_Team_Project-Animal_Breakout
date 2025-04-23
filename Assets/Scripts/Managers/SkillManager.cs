@@ -43,7 +43,7 @@ public class SkillManager : InGameManager
 
     private void Awake()
     {
-        SkillFactory = new SkillFactory();
+        SkillFactory = new SkillFactory();  //스킬팩토리가 스킬셀렉션시스템보다 먼저 생성되야 함
         SkillSelectionSystem = new SkillSelectionSystem(this, skills);
 
         GlobalCoolDownTimeRate = 0f;
