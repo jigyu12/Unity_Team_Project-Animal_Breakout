@@ -515,6 +515,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4305505788017151221, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4423780263934058711, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -994,7 +998,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af435a31f60984ab19987997a00af0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreUI: {fileID: 0}
   coinCount: 0
+  ScoreCount: 0
+  ExpCount: 0
 --- !u!1 &446697020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1695,6 +1702,22 @@ PrefabInstance:
       propertyPath: roadTransformRoot
       value: 
       objectReference: {fileID: 921321387}
+    - target: {fileID: 1831342740007593670, guid: 49a30c5f7ef6bb947975024cd3e46382, type: 3}
+      propertyPath: itemRewardCoinPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1831342740007593670, guid: 49a30c5f7ef6bb947975024cd3e46382, type: 3}
+      propertyPath: itemRewardCoinPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1882746680347725972, guid: d89343be02b79c144afc1902098b9a5d, type: 3}
+    - target: {fileID: 1831342740007593670, guid: 49a30c5f7ef6bb947975024cd3e46382, type: 3}
+      propertyPath: itemRewardCoinPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 1882746680347725972, guid: f5971f427d2705c4f9cf890b9b348806, type: 3}
+    - target: {fileID: 1831342740007593670, guid: 49a30c5f7ef6bb947975024cd3e46382, type: 3}
+      propertyPath: itemRewardCoinPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 1882746680347725972, guid: fea8fa377bed10e4185a531a5138dec9, type: 3}
     - target: {fileID: 3648270879298841218, guid: 49a30c5f7ef6bb947975024cd3e46382, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
