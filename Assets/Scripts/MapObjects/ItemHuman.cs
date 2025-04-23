@@ -87,9 +87,4 @@ public class ItemHuman : ItemBase
         inActiveTimer = 0f;
         onCollision = false;
     }
-    
-    public void SetOnCollisionTrue()
-    {
-        onCollision = true;
-    }
 }

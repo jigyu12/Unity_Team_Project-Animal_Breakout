@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public abstract class BaseCollisionBehaviour : ICollisionBehaviour
 {
