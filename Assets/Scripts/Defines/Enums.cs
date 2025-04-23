@@ -53,6 +53,8 @@ public enum RewardCoinItemType
     BronzeCoin = 110101,
     SilverCoin,
     GoldCoin,
+    
+    
     PlatinumCoin,
     DiamondCoin,
 
