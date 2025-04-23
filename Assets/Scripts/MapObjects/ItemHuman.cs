@@ -15,18 +15,23 @@ public class ItemHuman : ItemBase
     private ItemDataTable.ItemData itemStatData;
     private bool onCollision;
     private const float inActiveTimeDelay = 5f;
-    
+
     private float inActiveTimer;
     private const float rotationSpeed = 540f;
     private const float moveSpeed = 15f;
 
     private Animator animator;
+    private InGameCountManager inGameCountManager;
 
     public int Score => itemStatData?.Score ?? 0;
 
     private void Awake()
     {
         TryGetComponent(out animator);
+
+        var GameManager = GameObject.FindGameObjectWithTag(Utils.GameManagerTag);
+        var GameManager_new = GameManager.GetComponent<GameManager_new>();
+        inGameCountManager = GameManager_new.InGameCountManager;
     }
 
     protected override void OnTriggerEnter(Collider other)
@@ -34,9 +39,9 @@ public class ItemHuman : ItemBase
         if (other.CompareTag("Player") && !onCollision)
         {
             onCollision = true;
-            
+
             StartCoroutine(OnCollisionCoroutine());
-            
+
             base.OnTriggerEnter(other);
         }
     }
@@ -48,7 +53,7 @@ public class ItemHuman : ItemBase
         int randomDir = Random.value < 0.5f ? -1 : 1;
 
         Vector3 moveDirection = transform.rotation * ((Vector3.back) + (Vector3.up / 2f) + ((Vector3.right / 6f) * randomDir)).normalized;
-      
+
         while (inActiveTimer < inActiveTimeDelay)
         {
             float delta = Time.deltaTime;
@@ -63,14 +68,14 @@ public class ItemHuman : ItemBase
 
         gameObject.SetActive(false);
     }
-    
+
     public void Initialize()
     {
         if (humanItemType == HumanItemType.None || humanItemType == HumanItemType.Count)
         {
-             Debug.Assert(false, "Invalid HumanItemType");
+            Debug.Assert(false, "Invalid HumanItemType");
 
-             return;
+            return;
         }
 
         ObjectType = ObjectType.Item;
@@ -81,10 +86,11 @@ public class ItemHuman : ItemBase
         HumanItemType = this.humanItemType;
         CollisionBehaviour = CollisionBehaviourFactory.GetHumanBehaviour(this.humanItemType);
         CollisionBehaviour.SetScoreToAdd(itemStatData.Score);
-        
+
         animator.Play(Utils.ItemHumanAnimatorDefaultString, 1);
 
         inActiveTimer = 0f;
         onCollision = false;
     }
+
 }

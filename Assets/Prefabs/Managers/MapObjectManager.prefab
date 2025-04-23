@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1831342740007593670}
   m_Layer: 0
   m_Name: MapObjectManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,18 +48,6 @@ MonoBehaviour:
   trapHolePrefab: {fileID: 1637446126582564, guid: 7a7f2ab7c74a5404f9dd8240ae8f8a75, type: 3}
   itemRewardCoinPrefab: {fileID: 8975035450620130412, guid: 9870caf9645a4b74ab5925e867173907, type: 3}
   itemHumanPrefab: {fileID: 1353977574298584, guid: f28a5a3141c071847b4b4750d56b40f2, type: 3}
+  itemHumanPrefabs: []
   itemPenaltyCoinPrefab: {fileID: 1202365330914209433, guid: c2eb562b7fe71994a93e4ec3a62df15a, type: 3}
-  bronzeCoinSpawnChance: 0.5
-  sliverCoinSpawnChance: 0.2
-  goldCoinSpawnChance: 0.15
-  platinumCoinSpawnChance: 0.1
-  diamondCoinSpawnChance: 0.05
-  juniorResearcherSpawnChance: 0.6
-  researcherSpawnChance: 0.3
-  seniorResearcherSpawnChance: 0.1
-  ghostCoinSpawnChance: 0.5
-  poisonCoinSpawnChance: 0.2
-  skullCoinSpawnChance: 0.15
-  fireCoinSpawnChance: 0.1
-  blackHoleCoinSpawnChance: 0.05
   roadTransformRoot: {fileID: 0}
