@@ -4,7 +4,7 @@ using TMPro;
 public class ScoreUI : MonoBehaviour
 {
     public TMP_Text scoreText;
-    private long currentScore;
+    public long currentScore;
 
     private void Start()
     {
