@@ -17,7 +17,8 @@ public class AttackSkillData : SkillData
 
     public int elementalEffectAttackIndex=0;
     public ProjectileBehaviour projectileBehaviourPrefab;
-
+    
+#if UNITY_EDITOR    
     private string prefabPath = "Assets/Resources/Prefab/Skill/Projectile{0}.prefab";
     public void SetData(AttackSkillRawData rawData)
     {
@@ -40,5 +41,5 @@ public class AttackSkillData : SkillData
         var projectile = prefab.GetComponent<ProjectileBehaviour>();
         projectileBehaviourPrefab =projectile;
     }
-
+#endif
 }

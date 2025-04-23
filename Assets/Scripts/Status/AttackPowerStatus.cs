@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 
@@ -25,7 +24,7 @@ public class AttackPowerStatus : MonoBehaviour, IAttacker, IItemTaker
     //}
     //private List<AdditionalElementalAttackPowerRate> additionalElementalAttackPowerRates = new();
 
-    private List<float> additionalElementalAttackPowerRates = new ();
+    private List<float> additionalElementalAttackPowerRates = new();
     public void InitializeValue(int initialAttackPower)
     {
         attackPower = initialAttackPower;
@@ -42,14 +41,14 @@ public class AttackPowerStatus : MonoBehaviour, IAttacker, IItemTaker
         additionalAttackPowerRate += value;
     }
 
-    public void AddElementalAdditionalAttackPowerRateValue(SkillElemental elemental,  float value)
+    public void AddElementalAdditionalAttackPowerRateValue(SkillElemental elemental, float value)
     {
         additionalElementalAttackPowerRates[(int)elemental] += value;
     }
 
     public int GetElementalAdditionalAttackPower(SkillElemental elemental)
     {
-       return (int)(attackPower + attackPower * (additionalAttackPowerRate+ additionalElementalAttackPowerRates[(int)elemental]));
+        return (int)(attackPower + attackPower * (additionalAttackPowerRate + additionalElementalAttackPowerRates[(int)elemental]));
     }
 
     public void AddValue(int value)
