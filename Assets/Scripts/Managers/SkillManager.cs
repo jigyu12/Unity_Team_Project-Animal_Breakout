@@ -28,6 +28,11 @@ public class SkillManager : InGameManager
     [SerializeField]
     private BossStatus skillTarget;
 
+    public SkillFactory SkillFactory
+    {
+        get;
+        private set;
+    }
 
     public SkillSelectionSystem SkillSelectionSystem
     {
@@ -35,16 +40,11 @@ public class SkillManager : InGameManager
         private set;
     }
 
-    public SkillFactory SkillFactory
-    {
-        get;
-        private set;
-    }
 
     private void Awake()
     {
-        SkillSelectionSystem = new SkillSelectionSystem(this, skills);
         SkillFactory = new SkillFactory();
+        SkillSelectionSystem = new SkillSelectionSystem(this, skills);
 
         GlobalCoolDownTimeRate = 0f;
 

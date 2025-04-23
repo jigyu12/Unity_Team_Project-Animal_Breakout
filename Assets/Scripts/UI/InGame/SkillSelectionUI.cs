@@ -14,11 +14,9 @@ public class SkillSelectionUI : UIElement
     private GameObject skillListGameObject;
 
     private List<SkillButton> skillButtons=new();
+    private List<SkillData> skillDatas=new();
 
-
-    //임시로 확인용
-    [SerializeField]
-    private List<SkillData> skillDatas = new();
+    private int priority = 1;
 
     public override void Initialize()
     {
@@ -28,6 +26,12 @@ public class SkillSelectionUI : UIElement
         {
             var skillButton = Instantiate(skillButtonPrefab, skillListGameObject.transform).GetComponent<SkillButton>();
             skillButtons.Add(skillButton);
+
+            skillButton.InitializeButtonAction(() =>
+            {
+                int index = i;
+                SelectSkill(index);
+            });
         }
     }
 
@@ -36,13 +40,27 @@ public class SkillSelectionUI : UIElement
         gameObject.SetActive(false);    
     }
 
+    [ContextMenu("OnShowSkillSelectionPanel")]
     public void OnShowSkillSelectionPanel()
     {
         gameObject.SetActive(true);
 
-        for (int i = 0; i < skillButtons.Count; i++)
+        UpdateRandomSkillDatas();
+    }
+
+    private void UpdateRandomSkillDatas()
+    {
+        skillDatas.Clear();
+        gameManager.SkillManager.SkillSelectionSystem.GetRandomSkillDatas(skillButtonCount, skillDatas);
+
+        for (int i = 0; i < skillButtonCount; i++)
         {
             skillButtons[i].UpdateSkillButton(skillDatas[i]);
         }
+    }
+
+    private void SelectSkill(int index)
+    {
+        gameManager.SkillManager.SkillSelectionSystem.AddSkill(priority++, skillDatas[index]);
     }
 }

@@ -51,10 +51,16 @@ public abstract class AttackSkill : ISkill
         get => SkillData.skillID;
     }
 
+    public string SkillGroup
+    {
+        get => SkillData.skillGroup;
+    }
+
     public int Level
     {
         get => SkillData.level;
     }
+
 
     protected SkillManager skillManager;
     public void InitializeSkilManager(SkillManager skillManager)

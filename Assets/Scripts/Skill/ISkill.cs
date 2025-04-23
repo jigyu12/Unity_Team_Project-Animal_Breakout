@@ -16,6 +16,11 @@ public interface ISkill
         get;
     }
 
+    public string SkillGroup
+    {
+        get;
+    }
+
     public int Level
     {
         get;

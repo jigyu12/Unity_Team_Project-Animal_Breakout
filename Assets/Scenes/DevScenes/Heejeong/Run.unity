@@ -247,15 +247,15 @@ PrefabInstance:
       objectReference: {fileID: 1161090863}
     - target: {fileID: 3612961042289590281, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3612961042289590281, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.9443128
+      value: 0.9491228
       objectReference: {fileID: 0}
     - target: {fileID: 3612961042289590281, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.04028436
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5027242160684952144, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_SizeDelta.x
@@ -351,15 +351,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9154763438929502054, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9154763438929502054, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.9443128
+      value: 0.9491228
       objectReference: {fileID: 0}
     - target: {fileID: 9154763438929502054, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.04028436
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -422,10 +422,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillButtonPrefab: {fileID: 8710877275925512442, guid: 22d659bf01177ac4f9ae1dbdf4e46f85, type: 3}
   skillListGameObject: {fileID: 478719414}
-  skillDatas:
-  - {fileID: 11400000, guid: d896e4b7e0c34b844a9821c809c2b1dd, type: 2}
-  - {fileID: 11400000, guid: ad829e1e4e50ee549bc24fb03a4f5732, type: 2}
-  - {fileID: 11400000, guid: 395827e6aa2a7df4bb01b63bb351def7, type: 2}
 --- !u!114 &152836073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,8 +730,8 @@ RectTransform:
   - {fileID: 2091200664}
   m_Father: {fileID: 346278932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.03671706}
-  m_AnchorMax: {x: 1, y: 0.9492441}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.9491228}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
