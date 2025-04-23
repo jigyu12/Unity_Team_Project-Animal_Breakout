@@ -104,6 +104,7 @@ public class StageManager : InGameManager
         GameManager.UIManager.runStageUI.Show();
         isTrackingStarted = false;
         RoadWayDistanceTracking();
+        GameManager.UIManager.runStageUI.total = 100f;
         OnCurrentStageClear();
     }
 
