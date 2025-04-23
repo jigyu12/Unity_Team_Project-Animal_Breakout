@@ -87,7 +87,7 @@ Transform:
   m_GameObject: {fileID: 1450937713231727362}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7254758, y: -0.008224896, z: 0.030044122, w: 0.68754244}
-  m_LocalPosition: {x: -0.0026598268, y: -0.002943247, z: -0.0021}
+  m_LocalPosition: {x: -0.0026598268, y: -0.002943247, z: -0.0035}
   m_LocalScale: {x: 0.99999994, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -181,7 +181,7 @@ Transform:
   m_GameObject: {fileID: 5293737034214145828}
   serializedVersion: 2
   m_LocalRotation: {x: 0.6871184, y: 0.014001296, z: 0.024994286, w: 0.7259804}
-  m_LocalPosition: {x: -0.0008524899, y: 0.0029441048, z: -0.0021}
+  m_LocalPosition: {x: -0.0008524899, y: 0.0029441048, z: -0.0035}
   m_LocalScale: {x: 1, y: 1.0000001, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -198,8 +198,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4650075042196678930}
   - component: {fileID: 5116893883438436091}
-  - component: {fileID: -5474653081498018240}
   - component: {fileID: 6142856281614714773}
+  - component: {fileID: 702430524487411463}
   m_Layer: 3
   m_Name: TrapSpike
   m_TagString: Untagged
@@ -245,18 +245,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-5474653081498018240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5459403099103474600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec1f3af61d367d24b8c266fce4ed9209, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &6142856281614714773
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -276,8 +264,20 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0251906, y: 0.77122724, z: 0.9893215}
-  m_Center: {x: 0.012929767, y: 0.08580285, z: -0.0016336441}
+  m_Size: {x: 1.0251906, y: 0.65482366, z: 0.9893215}
+  m_Center: {x: 0.012929797, y: 0.027601048, z: -0.0016336441}
+--- !u!114 &702430524487411463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5459403099103474600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d139cad33c13e9044b6e2f84f851e00e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5814242831539800678
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,7 +303,7 @@ Transform:
   m_GameObject: {fileID: 5814242831539800678}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7218032, y: 0.08648327, z: 0.0790179, w: 0.68211216}
-  m_LocalPosition: {x: 0.00080811884, y: -0.0029441048, z: -0.0021}
+  m_LocalPosition: {x: 0.00080811884, y: -0.0029441048, z: -0.0035}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -524,7 +524,7 @@ Transform:
   m_GameObject: {fileID: 9114862154379126703}
   serializedVersion: 2
   m_LocalRotation: {x: 0.6858227, y: -0.01335448, z: -0.04928873, w: 0.72597486}
-  m_LocalPosition: {x: 0.00299, y: 0.00343, z: -0.0021}
+  m_LocalPosition: {x: 0.00299, y: 0.00343, z: -0.0035}
   m_LocalScale: {x: 0.99999994, y: 1, z: 0.9999999}
   m_ConstrainProportionsScale: 0
   m_Children:

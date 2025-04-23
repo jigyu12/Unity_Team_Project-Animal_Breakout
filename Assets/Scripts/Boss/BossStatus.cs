@@ -11,7 +11,7 @@ public class BossStatus : DamageableStatus
 
     public static event Action onBossDead;
     public static event Action<float, float> onBossCurrentHpChanged;
-
+    private static int BossKillCount = 0;
 
     public override void InitializeStatus(float maxHp)
     {
@@ -56,7 +56,8 @@ public class BossStatus : DamageableStatus
         isDead = true;
 
         onBossDead?.Invoke();
-
+        BossKillCount++;
+        Debug.Log(BossKillCount);
         //bossPool.Release(gameObject);
         Destroy(gameObject);
     }

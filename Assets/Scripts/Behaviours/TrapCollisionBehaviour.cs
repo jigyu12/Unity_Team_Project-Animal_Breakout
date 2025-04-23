@@ -11,8 +11,6 @@ public class BombCollisionBehaviour : BaseCollisionBehaviour
             {
                 playerStatus.TakeDamage(1);
             }
-        
-            self.SetActive(false);
         }
     }
 }
@@ -28,8 +26,6 @@ public class HoleCollisionBehaviour : BaseCollisionBehaviour
             {
                 playerStatus.TakeDamage(1);
             }
-        
-            self.SetActive(false);
         }
     }
 }

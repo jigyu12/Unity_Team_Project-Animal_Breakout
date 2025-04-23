@@ -10,7 +10,7 @@ public class RunStageUI : UIElement
 
     [SerializeField] MoveForward moveForward;
     [SerializeField] private GameObject panel;
-    private float total = 100f;
+    public float total = 180f;
     private bool tracking = false;
 
     public void StartBossWayTracking()
