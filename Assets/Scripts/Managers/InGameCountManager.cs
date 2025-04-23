@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class InGameCountManager : InGameManager
 {
-    [SerializeField] private ScoreUI scoreUI;
     public int coinCount;
     public long ScoreCount;
     public long ExpCount;
+    public int ReviveCount;
 
     public override void Initialize()
     {
@@ -32,7 +32,10 @@ public class InGameCountManager : InGameManager
     {
         ScoreCount += amount;
         Debug.Log(ScoreCount);
+    }
+    private void OnReviveAcquiredHandler(int amount)
+    {
+
 
     }
-
 }
