@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Localization.Plugins.Google.Columns;
 using UnityEngine;
 
 public class InGameCountManager : InGameManager
