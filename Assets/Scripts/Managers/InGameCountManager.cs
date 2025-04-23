@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class InGameCountManager : InGameManager
 {
-    private PlayerMove playerMove;
 
-    private void UpdateJumpCoount()
-    {
-        GameManager.PlayerManager.playerMove.isJumping = true;
-    }
+    public int coinCount;
+
+
 }
