@@ -8,7 +8,13 @@ public class ResultPanelUI : UIElement
     [SerializeField] private Button goMainButton;
 
     [SerializeField] private TMP_Text coinCountText;
+    [SerializeField] private TMP_Text scoreCountText;
+    [SerializeField] private TMP_Text expCountText;
+
+    [SerializeField] private TMP_Text playTimeText;
     [SerializeField] InGameCountManager inGameCountManager;
+    [SerializeField] TrackingTime trackingTime;
+
 
 
     public override void Initialize()
@@ -21,7 +27,12 @@ public class ResultPanelUI : UIElement
         goMainButton.onClick.RemoveAllListeners();
         goMainButton.onClick.AddListener(OnGoMainClicked);
         gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, SetCoinCount);
-
+        gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, SetScoreCount);
+        gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, SetExpCount);
+        // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, trackingTime.StartTracking);
+        // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameStop, trackingTime.StopTracking);
+        // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, trackingTime.StopTracking);
+        gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, SetTimeCount);
         // panelRoot.SetActive(false);
     }
 
@@ -45,4 +56,19 @@ public class ResultPanelUI : UIElement
         int coinCount = inGameCountManager.coinCount;
         coinCountText.text = $"{coinCount}";
     }
+    private void SetScoreCount()
+    {
+        long scoreCount = inGameCountManager.ScoreCount;
+        scoreCountText.text = $"{scoreCount}";
+    }
+    private void SetExpCount()
+    {
+        long expCount = inGameCountManager.ScoreCount;
+        expCountText.text = $"{expCount}";
+    }
+    private void SetTimeCount()
+    {
+        playTimeText.text = trackingTime.GetFormattedPlayTime();
+    }
 }
+

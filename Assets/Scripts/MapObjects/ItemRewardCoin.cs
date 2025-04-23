@@ -17,7 +17,6 @@ public class ItemRewardCoin : ItemBase
 
     [SerializeField] private int itemID;
     private ItemDataTable.ItemData itemStatData;
-    private InGameCountManager inGameCountManager;
     public int Score => itemStatData?.Score ?? 0;
 
     public void Initialize(RewardCoinItemType rewardCoinItemType)
