@@ -5,52 +5,43 @@ using UnityEngine.Pool;
 
 public class MapObjectManager : InGameManager
 {
-    //[SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject trapBombPrefab;
     [SerializeField] private GameObject trapHolePrefab;
     [SerializeField] private GameObject itemRewardCoinPrefab;
+    
     [SerializeField] private GameObject itemHumanPrefab;
+    [SerializeField] private List<GameObject> itemHumanPrefabs;
+    
     [SerializeField] private GameObject itemPenaltyCoinPrefab;
 
-    private ObjectPool<GameObject> wallPool;
     private ObjectPool<GameObject> trapBombPool;
     private ObjectPool<GameObject> trapHolePool;
     private ObjectPool<GameObject> itemRewardCoinPool;
-    private ObjectPool<GameObject> itemHumanPool;
+    
+    private List<ObjectPool<GameObject>> itemHumanPoolList = new();
+    
     private ObjectPool<GameObject> itemPenaltyCoinPool;
 
-    private const int nonObjectTileCount = 6;
-    private const int itemCount = 5;
-    private const int itemGenerateTileCount = 3;
-
-    private const int trapGenerateTileOffset = 3;
-
-    private const float tileSize = 1f;
     private const float maxHillHeight = 1.5f;
 
-    private const float spawnHoleChance = 0.3f; // 구덩이 스폰 확률
-
-    private const float spawnRewardCoinChance = 0.3f; // 좋은 코인 스폰 확률
     private List<float> rewardItemSpawnChances = new();
-    [SerializeField][ReadOnly] private float bronzeCoinSpawnChance = 0.5f;
-    [SerializeField][ReadOnly] private float sliverCoinSpawnChance = 0.2f;
-    [SerializeField][ReadOnly] private float goldCoinSpawnChance = 0.15f;
-    [SerializeField][ReadOnly] private float platinumCoinSpawnChance = 0.1f;
-    [SerializeField][ReadOnly] private float diamondCoinSpawnChance = 0.05f;
+    private float bronzeCoinSpawnChance = 0.5f;
+    private float sliverCoinSpawnChance = 0.2f;
+    private float goldCoinSpawnChance = 0.15f;
+    private float platinumCoinSpawnChance = 0.1f;
+    private float diamondCoinSpawnChance = 0.05f;
 
-    private const float spawnHumanChance = 0.4f; // 인간 아이템 스폰 확률
     private List<float> humanSpawnChances = new();
-    [SerializeField][ReadOnly] private float juniorResearcherSpawnChance = 0.6f;
-    [SerializeField][ReadOnly] private float researcherSpawnChance = 0.3f;
-    [SerializeField][ReadOnly] private float seniorResearcherSpawnChance = 0.1f;
+    private float juniorResearcherSpawnChance = 0.6f;
+    private float researcherSpawnChance = 0.3f;
+    private float seniorResearcherSpawnChance = 0.1f;
 
-    private const float spawnPenaltyCoinChance = 0.3f; // 안좋은 코인 스폰 확률
     private List<float> penaltyCoinSpawnChances = new();
-    [SerializeField][ReadOnly] private float ghostCoinSpawnChance = 0.5f;
-    [SerializeField][ReadOnly] private float poisonCoinSpawnChance = 0.2f;
-    [SerializeField][ReadOnly] private float skullCoinSpawnChance = 0.15f;
-    [SerializeField][ReadOnly] private float fireCoinSpawnChance = 0.1f;
-    [SerializeField][ReadOnly] private float blackHoleCoinSpawnChance = 0.05f;
+    private float ghostCoinSpawnChance = 0.5f;
+    private float poisonCoinSpawnChance = 0.2f;
+    private float skullCoinSpawnChance = 0.15f;
+    private float fireCoinSpawnChance = 0.1f;
+    private float blackHoleCoinSpawnChance = 0.05f;
 
     private Dictionary<int, MapObjectsBlueprint> generateMapObjectInformationDictionary = new();
     private Dictionary<int, List<RewardItemBlueprint>> generateRewardItemInformationDictionary = new();
@@ -126,10 +117,17 @@ public class MapObjectManager : InGameManager
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        itemHumanPool = GameManager.ObjectPoolManager.CreateObjectPool(itemHumanPrefab,
-            () => Instantiate(itemHumanPrefab),
-            obj => { obj.SetActive(true); },
-            obj => { obj.SetActive(false); });
+        for (int i = 0; i < itemHumanPrefabs.Count; ++i)
+        {
+            int index = i;
+            
+            ObjectPool<GameObject> itemHumanPool = GameManager.ObjectPoolManager.CreateObjectPool(itemHumanPrefabs[index],
+                () => Instantiate(itemHumanPrefabs[index]),
+                obj => { obj.SetActive(true); },
+                obj => { obj.SetActive(false); });
+            
+            itemHumanPoolList.Add(itemHumanPool);
+        }            
 
         itemPenaltyCoinPool = GameManager.ObjectPoolManager.CreateObjectPool(itemPenaltyCoinPrefab,
             () => Instantiate(itemPenaltyCoinPrefab),
@@ -432,70 +430,70 @@ public class MapObjectManager : InGameManager
         // }
     }
 
-    private bool CanSpawnRewardCoin(ObjectType[,] objectTypes, int row, int col, out bool isMiddleHoleExist)
-    {
-        if (!Utils.IsChanceHit(spawnRewardCoinChance))
-        {
-            isMiddleHoleExist = false;
-
-            return false;
-        }
-
-        bool canSpawn = true;
-
-        int middleIndex = itemGenerateTileCount / 2;
-
-        isMiddleHoleExist = false;
-
-        for (int rowOffset = 0; rowOffset < itemGenerateTileCount; ++rowOffset)
-        {
-            var objectType = objectTypes[row + rowOffset, col];
-
-            if (rowOffset == middleIndex)
-            {
-                if (objectType == ObjectType.TrapHole)
-                {
-                    isMiddleHoleExist = true;
-                }
-                else if (objectType == ObjectType.None)
-                {
-                    continue;
-                }
-                else
-                {
-                    canSpawn = false;
-
-                    break;
-                }
-            }
-            else
-            {
-                if (objectType != ObjectType.None)
-                {
-                    canSpawn = false;
-
-                    break;
-                }
-            }
-        }
-
-        if (canSpawn)
-        {
-            for (int rowOffset = 0; rowOffset < itemGenerateTileCount; ++rowOffset)
-            {
-                if (isMiddleHoleExist && rowOffset == middleIndex)
-                {
-                    objectTypes[row + rowOffset, col] = ObjectType.ItemTrapMixed;
-                }
-                else
-                {
-                    objectTypes[row + rowOffset, col] = ObjectType.Item;
-                }
-            }
-        }
-
-        return canSpawn;
-    }
+    // private bool CanSpawnRewardCoin(ObjectType[,] objectTypes, int row, int col, out bool isMiddleHoleExist)
+    // {
+    //     if (!Utils.IsChanceHit(spawnRewardCoinChance))
+    //     {
+    //         isMiddleHoleExist = false;
+    //
+    //         return false;
+    //     }
+    //
+    //     bool canSpawn = true;
+    //
+    //     int middleIndex = itemGenerateTileCount / 2;
+    //
+    //     isMiddleHoleExist = false;
+    //
+    //     for (int rowOffset = 0; rowOffset < itemGenerateTileCount; ++rowOffset)
+    //     {
+    //         var objectType = objectTypes[row + rowOffset, col];
+    //
+    //         if (rowOffset == middleIndex)
+    //         {
+    //             if (objectType == ObjectType.TrapHole)
+    //             {
+    //                 isMiddleHoleExist = true;
+    //             }
+    //             else if (objectType == ObjectType.None)
+    //             {
+    //                 continue;
+    //             }
+    //             else
+    //             {
+    //                 canSpawn = false;
+    //
+    //                 break;
+    //             }
+    //         }
+    //         else
+    //         {
+    //             if (objectType != ObjectType.None)
+    //             {
+    //                 canSpawn = false;
+    //
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //
+    //     if (canSpawn)
+    //     {
+    //         for (int rowOffset = 0; rowOffset < itemGenerateTileCount; ++rowOffset)
+    //         {
+    //             if (isMiddleHoleExist && rowOffset == middleIndex)
+    //             {
+    //                 objectTypes[row + rowOffset, col] = ObjectType.ItemTrapMixed;
+    //             }
+    //             else
+    //             {
+    //                 objectTypes[row + rowOffset, col] = ObjectType.Item;
+    //             }
+    //         }
+    //     }
+    //
+    //     return canSpawn;
+    // }
 
     private CollidableMapObject[] CreateRandomRewardCoin(Vector3 startPosition, Vector3 endPosition, int itemCount)
     {
@@ -580,13 +578,22 @@ public class MapObjectManager : InGameManager
 
     private CollidableMapObject CreateRandomHuman(Vector3 position)
     {
-        var human = itemHumanPool.Get();
+        var humanPrefabIndex = Utils.GetIndexRandomChanceHitInList(humanSpawnChances);
+        var human = itemHumanPoolList[humanPrefabIndex].Get();
         human.SetActive(true);
         human.transform.SetPositionAndRotation(position, Quaternion.identity);
         human.TryGetComponent(out ItemHuman itemHumanComponent);
-        itemHumanComponent.Initialize((HumanItemType)Utils.GetEnumIndexByChance(humanSpawnChances));
-        itemHumanComponent.SetPool(itemHumanPool);
+        itemHumanComponent.Initialize();
+        itemHumanComponent.SetPool(itemHumanPoolList[humanPrefabIndex]);
         return itemHumanComponent;
+
+        // var human = itemHumanPool.Get();
+        // human.SetActive(true);
+        // human.transform.SetPositionAndRotation(position, Quaternion.identity);
+        // human.TryGetComponent(out ItemHuman itemHumanComponent);
+        // itemHumanComponent.Initialize((HumanItemType)Utils.GetEnumIndexByChance(humanSpawnChances));
+        // itemHumanComponent.SetPool(itemHumanPool);
+        // return itemHumanComponent;
     }
 
     private void SetCreateRandomPenaltyCoinAction(ObjectType[,] objectTypes, Func<Vector3, CollidableMapObject>[,] createMapObjectActionArray, int row, int col)

@@ -11,6 +11,9 @@ public class JuniorResearcherCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+
+        self.TryGetComponent(out ItemHuman itemHuman);
+        itemHuman.SetOnCollisionTrue();
     }
 }
 
@@ -25,6 +28,9 @@ public class ResearcherCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+        
+        self.TryGetComponent(out ItemHuman itemHuman);
+        itemHuman.SetOnCollisionTrue();
     }
 }
 
@@ -39,5 +45,8 @@ public class SeniorResearcherCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+        
+        self.TryGetComponent(out ItemHuman itemHuman);
+        itemHuman.SetOnCollisionTrue();
     }
 }

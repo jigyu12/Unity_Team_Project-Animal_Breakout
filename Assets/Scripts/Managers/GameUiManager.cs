@@ -94,7 +94,7 @@ public class GameUIManager : InGameManager
     }
     public void ShowRotateButton() => rotateButtonUI.Show();
     public void UnShowRotateButton() => rotateButtonUI.Hide();
-    private Coroutine coCountDown = null;
+    // private Coroutine coCountDown = null;
 
     public void CountDown()
     {

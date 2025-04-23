@@ -119,3 +119,63 @@ public enum SwitchableCanvasType
     Lobby,
     Animal,
 }
+
+public enum BTNodeState
+{
+    Success,
+    Failure,
+    Running
+}
+
+public enum BossHpConditionType
+{
+    HpRatioLessThan,
+}
+
+public enum BossPatternUseCountConditionType
+{ 
+    PatternUseCountAtLeast,
+}
+
+public enum BossRandomPatternSelectConditionType
+{
+    RandomValue,
+}
+
+public enum BossAttackPatternActionType
+{
+    TestAttackToLane0 = -3,
+    TestAttackToLane1 = -2,
+    TestAttackToLane2 = -1,
+}
+
+public enum BossConditionNodeType
+{
+    Boss1PhaseChangeHpCondition,
+    Boss1Phase1Pattern3UseCountCondition,
+    Boss1Phase2Pattern3UseCountCondition,
+    Boss1Phase1Pattern1ChanceCondition,
+    Boss1Phase1Pattern2ChanceCondition,
+    Boss1Phase2Pattern1ChanceCondition,
+    Boss1Phase2Pattern2ChanceCondition,
+}
+
+public enum BossTimerNodeType
+{
+    Boss1Phase1AttackTimeDelayTimer,
+    Boss1Phase2AttackTimeDelayTimer,
+}
+
+public enum BossActionNodeType
+{
+    Boss1AttackPattern1,
+    Boss1AttackPattern2,
+    Boss1AttackPattern3,
+}
+
+public enum BossBehaviourTreeType
+{
+    Boss1BehaviourTree,
+    Boss2BehaviourTree,
+    Boss3BehaviourTree,
+}
