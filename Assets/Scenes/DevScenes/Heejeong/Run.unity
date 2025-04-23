@@ -206,72 +206,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5027242160684952144, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
   m_PrefabInstance: {fileID: 278148589}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152836070}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 478719415}
-  m_Father: {fileID: 1881941236}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &152836072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152836070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2956b0a3abba014495028fc5595a8ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillButtonPrefab: {fileID: 8710877275925512442, guid: 22d659bf01177ac4f9ae1dbdf4e46f85, type: 3}
-  skillListGameObject: {fileID: 478719414}
---- !u!114 &152836073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152836070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.54901963}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &152836074
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152836070}
-  m_CullTransparentMesh: 1
 --- !u!1 &232857441
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,10 +761,11 @@ PrefabInstance:
       value: -277.1759
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4119059325976337886, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5027242160684952144, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      insertIndex: 1
+      insertIndex: -1
       addedObject: {fileID: 1122954259}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
@@ -992,8 +927,8 @@ RectTransform:
   - {fileID: 2091200664}
   m_Father: {fileID: 346278932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.04028436}
-  m_AnchorMax: {x: 1, y: 0.9443128}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.9491228}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1808,6 +1743,7 @@ GameObject:
   - component: {fileID: 1122954262}
   - component: {fileID: 1122954261}
   - component: {fileID: 1122954260}
+  - component: {fileID: 1122954263}
   m_Layer: 0
   m_Name: ScoreText
   m_TagString: ScoreUI
@@ -1945,6 +1881,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122954258}
   m_CullTransparentMesh: 1
+--- !u!114 &1122954263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122954258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 200
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1001 &1141435267
 PrefabInstance:
   m_ObjectHideFlags: 0

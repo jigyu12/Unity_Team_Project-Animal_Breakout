@@ -40,11 +40,11 @@ public class SkillSelectionUI : UIElement
         gameObject.SetActive(false);    
     }
 
-    [ContextMenu("OnShowSkillSelectionPanel")]
-    public void OnShowSkillSelectionPanel()
+    public override void Show()
     {
-        gameObject.SetActive(true);
+        base.Show();
 
+        gameObject.SetActive(true);
         UpdateRandomSkillDatas();
     }
 

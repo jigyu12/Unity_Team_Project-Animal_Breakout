@@ -16,7 +16,7 @@ public class GameUIManager : InGameManager
     private PauseHandler pauseHandler;
     private ReviveHandler reviveHandler;
 
-    private List<UIElement> uiElements;
+    public List<UIElement> uiElements = new();
 
     [SerializeField] private PausePanelUI pausePanelUI;
     [SerializeField] private ResultPanelUI resultPanelUI;
@@ -40,8 +40,10 @@ public class GameUIManager : InGameManager
         inputUIBinder.Bind(GameManager.PlayerManager.playerMove);
 
         //자식으로 딸린 모든 UIElements들을 탐색한다.
-        var elements = gameObject.GetComponentsInChildren<UIElement>(true);
-        uiElements = elements.ToList();
+        //var elements = gameObject.GetComponentsInChildren<UIElement>(true);
+        //uiElements = elements.ToList();
+        //UIManager Editor상으로 UIElementsEnum을 Generate해주면서 uiElements리스트를 채워준다.
+
         //UIElements들에 매니저를 세팅
         foreach (var element in uiElements)
         {
@@ -52,6 +54,11 @@ public class GameUIManager : InGameManager
         {
             element.Initialize();
         }
+    }
+
+    public void ShowUIElement(UIElementEnums uIElementsEnum)
+    {
+        uiElements[(int)uIElementsEnum].Show();
     }
 
     public void ConnectPlayerMove(PlayerMove move)

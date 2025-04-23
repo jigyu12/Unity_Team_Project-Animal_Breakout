@@ -6,6 +6,7 @@ public class SkillSelectionSystem
     private SkillManager skillManager;
     private List<ISkill> skills;
 
+ 
     public Action<List<ISkill>> onSkillListUpdated;
 
     //없는 스킬 LV0, 있는 스킬 LV1~maxLV
