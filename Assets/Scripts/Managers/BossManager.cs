@@ -48,7 +48,7 @@ public class BossManager : InGameManager
         boss.transform.localPosition = spawnLocalPosition;
         boss.TryGetComponent(out bossStatus);
 
-        bossStatus.InitializeStatus(500f);
+        bossStatus.InitializeStatus(50000f);
         boss.TryGetComponent(out BossBehaviourController bossBehaviourController);
         bossBehaviourController.InitBehaviorTree(BossBehaviourTreeType.Boss1BehaviourTree);
 

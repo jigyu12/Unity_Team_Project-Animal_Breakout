@@ -24,6 +24,7 @@ public enum SupportSkillTarget
     Experience,
     AttackPower,
     CoolDownTime,
+    ElementalStart,
     ElementalFirePower,
     ElementalIcePower,
     ElementalThunderPower,

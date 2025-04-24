@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +26,7 @@ public class SkillIcon : MonoBehaviour
         {
             UpdateFillTimer(attackSkill.CoolTimeRatio, attackSkill.CoolDownRemaining);
         }
+        levelText.text = targetSkill.Level.ToString();
     }
 
     public void SetTargetSkill(ISkill skill)
