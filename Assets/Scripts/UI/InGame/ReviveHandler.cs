@@ -1,11 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class ReviveHandler
 {
     GameManager_new gameManager;
     private PlayerManager playerManager;
+    public static Action<int> OnReviveCounting;
 
     private GameUIManager uiManager;
     private MonoBehaviour coroutineHost;
@@ -93,6 +95,7 @@ public class ReviveHandler
 
         playerManager.lastDeathType = DeathType.None;
         playerManager.playerStatus.SetReviving(false);
+        OnReviveCounting?.Invoke(1);
         countdownCoroutine = null;
         pauseHandler.Resume();
     }

@@ -1,10 +1,23 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SkillFactory
 {
     private Dictionary<string, SkillDataLevelGroup> skillDataTable = new();
+
+    public IReadOnlyList<string> SkillGroupKeys
+    {
+        get => skillListGroupKeys;
+    }
+    private List<string> skillListGroupKeys;
+
+    public int SkillGroupCount
+    {
+        get => SkillGroupKeys.Count;
+    }
+
+
     public class SkillDataLevelGroup
     {
         public SkillDataLevelGroup()
@@ -37,12 +50,13 @@ public class SkillFactory
 
     private void InitializeSkillData()
     {
-        AttackSkillData[] attackSkillDatas = Resources.LoadAll<AttackSkillData>("Skill/");
-        SupportSkillData[] supportSkillDatas = Resources.LoadAll<SupportSkillData>("Skill/");
+        //Resources폴더에 있는 스킬데이터들을 가져온다
+        AttackSkillData[] attackSkillDatas = Resources.LoadAll<AttackSkillData>("ScriptableData/Skill/");
+        SupportSkillData[] supportSkillDatas = Resources.LoadAll<SupportSkillData>("ScriptableData/Skill/");
 
-        foreach(var skillData in supportSkillDatas)
+        foreach (var skillData in supportSkillDatas)
         {
-            if(skillDataTable.ContainsKey(skillData.skillGroup))
+            if (skillDataTable.ContainsKey(skillData.skillGroup))
             {
                 skillDataTable[skillData.skillGroup].AddToGroup(skillData);
             }
@@ -68,10 +82,13 @@ public class SkillFactory
             }
         }
 
+        //데이터가 항상 순서대로 있을거라 확신할 수 없어 한번 정렬
         foreach (var item in skillDataTable)
         {
             item.Value.LevelSort();
         }
+
+        skillListGroupKeys = skillDataTable.Keys.ToList();
     }
 
     public SkillData GetSkillData(string skillGroup, int level)
@@ -79,11 +96,17 @@ public class SkillFactory
         return skillDataTable[skillGroup].GetSkill(level);
     }
 
+    public SkillData GetSkillData(int index, int level)
+    {
+        return GetSkillData(SkillGroupKeys[index], level);
+    }
+
+
     public ISkill CreateSkill(SkillData skillData)
     {
         if (skillData.skillType == SkillType.Attack)
         {
-            return CreateProjectileSkill(skillData as AttackSkillData);
+            return CreateAttackSkill(skillData as AttackSkillData);
 
         }
         else if (skillData.skillType == SkillType.Support)
@@ -96,7 +119,7 @@ public class SkillFactory
         }
     }
 
-    public ProjectileSkill CreateProjectileSkill(AttackSkillData skillData)
+    public ProjectileSkill CreateAttackSkill(AttackSkillData skillData)
     {
         return new ProjectileSkill(skillData);
     }

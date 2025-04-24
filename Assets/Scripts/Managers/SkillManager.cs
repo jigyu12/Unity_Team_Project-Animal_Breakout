@@ -28,6 +28,11 @@ public class SkillManager : InGameManager
     [SerializeField]
     private BossStatus skillTarget;
 
+    public SkillFactory SkillFactory
+    {
+        get;
+        private set;
+    }
 
     public SkillSelectionSystem SkillSelectionSystem
     {
@@ -35,16 +40,11 @@ public class SkillManager : InGameManager
         private set;
     }
 
-    public SkillFactory SkillFactory
-    {
-        get;
-        private set;
-    }
 
     private void Awake()
     {
+        SkillFactory = new SkillFactory();  //스킬팩토리가 스킬셀렉션시스템보다 먼저 생성되야 함
         SkillSelectionSystem = new SkillSelectionSystem(this, skills);
-        SkillFactory = new SkillFactory();
 
         GlobalCoolDownTimeRate = 0f;
 
@@ -170,4 +170,9 @@ public class SkillManager : InGameManager
         return skillTarget != null;
     }
 
+    public void SkillSelection()
+    {
+      //GameManager.UIManager.ShowUIElement(UIElementEnums.)
+
+    }
 }

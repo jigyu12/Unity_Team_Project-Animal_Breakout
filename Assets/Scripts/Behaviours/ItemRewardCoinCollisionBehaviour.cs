@@ -32,7 +32,7 @@ public class SilverCoinCollisionBehaviour : BaseCollisionBehaviour
         
         self.SetActive(false);
         
-        OnCoinAcquired?.Invoke(1);
+        OnCoinAcquired?.Invoke(1); 
     }
 }
 

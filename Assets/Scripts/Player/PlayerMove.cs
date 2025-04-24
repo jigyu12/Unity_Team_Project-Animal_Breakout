@@ -30,6 +30,7 @@ public class PlayerMove : MonoBehaviour
 
     public Action<Vector3, float> onRotate;
 
+    public static Action<int> OnJumpCounting;
     public bool canTurn = false;
     private TurnDirection allowedTurn;
     private PlayerStatus playerStatus;
@@ -187,6 +188,7 @@ public class PlayerMove : MonoBehaviour
             isJumping = true;
             verticalVelocity = Mathf.Sqrt(-2f * gravity * JumpHeight);
             animator?.SetBool("Jump", true);
+            OnJumpCounting?.Invoke(1);
         }
     }
 
