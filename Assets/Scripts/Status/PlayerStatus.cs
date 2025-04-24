@@ -11,27 +11,36 @@ public class PlayerStatus : MonoBehaviour
     //기존 방식인 애니멀데이터 전체를 스크립터블 오브젝트화하는 것은 일반적이지 않습니다
     //각 AnimalData를 스크립터블 오브젝트화 하여 런타임전에 미리 장착하는 방법을 추천합니다.
     public AnimalStatData statData;
-    public UnityAction<PlayerStatus> onPlayerDied;
 
     //public AnimalDatabase animalDB;
     //public int currentAnimalID;
     //private bool isGameOver;
     //private AnimalStatus currentAnimal;
+    //public Action<PlayerStatus> onDie;
 
-    public Action<PlayerStatus> onDie;
     private bool isInvincible = false;
-    private bool isDead;
+    public bool isDead;
+    public Action onAlive;
     public int defaultLayer;
     public int invincibleLayer;
     public bool IsInvincible => isInvincible;
-    public int AttackPower => statData != null ? statData.AttackPower : 0;
-    public int MoveSpeed => statData != null ? statData.StartSpeed : 0;
-    public int JumpPower => statData != null ? statData.Jump : 0;
+    //public int AttackPower => statData != null ? statData.AttackPower : 0;
+    public float MoveSpeed => statData != null ? statData.StartSpeed : 0;
+    public float JumpPower => statData != null ? statData.Jump : 0;
     private PlayerManager playerManager;
+    public bool IsReviving { get; private set; }
+
+    public void SetReviving(bool value)
+    {
+        IsReviving = value;
+    }
 
     private void Start()
     {
-        playerManager = FindObjectOfType<PlayerManager>();
+        var GameManager = GameObject.FindGameObjectWithTag(Utils.GameManagerTag);
+        var GameManager_new = GameManager.GetComponent<GameManager_new>();
+        playerManager = GameManager_new.PlayerManager;
+
         //if (animalDB == null)
         //{
         //    animalDB = FindObjectOfType<AnimalDatabase>();
@@ -83,6 +92,7 @@ public class PlayerStatus : MonoBehaviour
         SetInvincible(!isInvincible);
     }
 
+
     //임시로 고쳐놓은 것이라 수정이 필요합니다.
     // public float GetMoveSpeed() => animalData?.StartSpeed ?? 0f;
     // public float GetJumpPower() => animalData?.Jump ?? 0f;
@@ -104,9 +114,11 @@ public class PlayerStatus : MonoBehaviour
             return;
         }
         if (isInvincible) return;
+        isDead = true;
+
+        // playerManager.currentPlayerStatus.SetInvincible(true);
 
         playerManager.OnPlayerDied(this);
-        isDead = true;
     }
     public bool IsDead()
     {
@@ -115,6 +127,7 @@ public class PlayerStatus : MonoBehaviour
     public void SetAlive()
     {
         isDead = false;
+        onAlive?.Invoke();
     }
     // private void OnDie()
     // {

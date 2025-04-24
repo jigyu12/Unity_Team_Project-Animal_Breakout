@@ -4,33 +4,30 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
+public enum RoadMakeMode
+{
+    RandomWay,
+    Vertical,
+}
+
+public enum ItemSetMode
+{
+    None,
+    TrapAndReward,
+}
 
 public class TempleRunStyleRoadMaker : InGameManager
 {
-    public enum RoadMakeMode
-    {
-        RandomWay,
-        InfinityVertical,
-    }
-
-    public enum ItemSetMode
-    {
-        None,
-        TrapAndReward,
-    }
-
-    private RoadMakeMode currentRoadMakeMode;
-    private ItemSetMode currentMapObjectsMode;
+    //private RoadMakeMode currentRoadMakeMode;
+    //private ItemSetMode currentMapObjectsMode;
 
     public GameObject[] roadWayPrefabs;
     private List<ObjectPool<GameObject>> roadWayPools = new();
 
-    private GameObject player;
-
     private List<RoadWay> activeRoadWays = new();
     private RoadWay currentRoad;
 
-    public Action<RoadWay, RoadWay> onCurrentWayChanged; //previous, current ��
+    public Action<RoadWay, RoadWay> onCurrentWayChanged; //previous, current 占쏙옙
 
     [SerializeField]
     private RoadWay initialRoadWay;
@@ -38,16 +35,25 @@ public class TempleRunStyleRoadMaker : InGameManager
     //[SerializeField]
     //private RoadWayRotator roadWayRotator;
 
-    public int roadChunkSize = 10;
+    public int currentRoadWayCount = 10;
+    public Action onCurrentRoadWayEmpty;
+
     public int precreateRoadWayCount;
+    //민재 추가
+    private RoadWay bossEntryRoadWay;
+    public bool HasBossEntryRoad => bossEntryRoadWay != null;
+    public Transform BossEntryRoadTransform => bossEntryRoadWay?.transform;
 
-    private Queue<int> nextRoadWayType = new();
-
-
-    private void Awake()
+    //
+    public struct NextRoadWayData
     {
-        SetRoadMakeMode(RoadMakeMode.RandomWay);
+        public int roadWayIndex;
+        public ItemSetMode itemMode;
+        public bool isBossEnter;
     }
+
+    private Queue<int> nextRoadWayTypeQueue = new();
+    private Queue<NextRoadWayData> stageRoadWayDataQueue = new();
 
     public override void Initialize()
     {
@@ -71,10 +77,8 @@ public class TempleRunStyleRoadMaker : InGameManager
         currentRoad = initialRoadWay;
         onCurrentWayChanged += RemoveInitialRoadWay;
 
-        SetMapObjectMakeMode(ItemSetMode.TrapAndReward);
-
-        PushNextRoadType();
-        CreateNNextRoadWay(precreateRoadWayCount, initialRoadWay, currentMapObjectsMode != ItemSetMode.None);
+        GameManager.StageManager.SetInitialRoadMode();
+        CreateNNextRoadWay(precreateRoadWayCount, initialRoadWay);
     }
 
     private void RemoveInitialRoadWay(RoadWay previous, RoadWay current)
@@ -96,13 +100,14 @@ public class TempleRunStyleRoadMaker : InGameManager
         roadWay.GetComponent<RoadWay>().OnRelease();
     }
 
-    private RoadWay CreateRoadWay(int index, int randomIndex)
+    private RoadWay CreateRoadWay(int index, int randomIndex, Action onEnterRoadWay = null)
     {
         //var roadWay = Instantiate(roadWayPrefab, gameObject.transform).GetComponent<RoadWay>();
         var roadWay = roadWayPools[randomIndex].Get().GetComponent<RoadWay>();
         roadWay.release = () => roadWayPools[randomIndex].Release(roadWay.gameObject);
 
-        roadWay.SetEntryTriggerAction(() => SetCurrentRoadWay(roadWay));
+        onEnterRoadWay += () => SetCurrentRoadWay(roadWay);
+        roadWay.SetEntryTriggerAction(onEnterRoadWay);
         roadWay.index = index;
         activeRoadWays.Add(roadWay);
 
@@ -115,60 +120,78 @@ public class TempleRunStyleRoadMaker : InGameManager
         currentRoad = roadWay;
         onCurrentWayChanged?.Invoke(previousRoad, currentRoad);
 
-        CreateNNextRoadWay(precreateRoadWayCount, currentRoad, currentMapObjectsMode != ItemSetMode.None);
+        CreateNNextRoadWay(precreateRoadWayCount, currentRoad);
         ReleasePassedRoadWay();
     }
 
-    public void CreateNextRoadWay(RoadWay previousRoadWay, bool createMapObject = true)
+    //public void CreateNextRoadWay(RoadWay previousRoadWay, bool createMapObject = true)
+    //{
+    //    if (previousRoadWay.NextRoadWays.Count != 0)
+    //        return;
+
+    //    var startPoints = previousRoadWay.GetNextRoadWayPoints();
+    //    int wayTypeIndex = GetNextRoadWayType();
+
+    //    foreach (var trs in startPoints)
+    //    {
+    //        var roadWay = CreateRoadWay(previousRoadWay.index + 1, wayTypeIndex);
+    //        roadWay.transform.SetPositionAndRotation(trs.position, trs.rotation);
+
+    //        //占십울옙占쏙옙占쏙옙트 占쏙옙占쏙옙
+    //        if (createMapObject)
+    //        {
+    //            int randomIndex1 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+    //            int randomIndex2 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+    //            int randomIndex3 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+
+    //            roadWay.SetMapObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex1));
+    //            roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex1));
+
+    //            roadWay.SetMapObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex2));
+    //            roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex2));
+
+    //            roadWay.SetMapObjects(RoadWay.RoadSegmentType.Exit, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex3));
+    //            roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Exit, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex3));
+    //        }
+
+    //        previousRoadWay.AddNextRoadWay(roadWay);
+    //    }
+    //}
+
+    public void CreateNextRoadWay(RoadWay previousRoadWay)
     {
         if (previousRoadWay.NextRoadWays.Count != 0)
             return;
 
         var startPoints = previousRoadWay.GetNextRoadWayPoints();
-        int wayTypeIndex = GetNextRoadWayType();
+        var nextRoadWayData = GetNextRoadWayData();
 
         foreach (var trs in startPoints)
         {
-            var roadWay = CreateRoadWay(previousRoadWay.index + 1, wayTypeIndex);
+            var roadWay = CreateRoadWay(previousRoadWay.index + 1, nextRoadWayData.roadWayIndex, nextRoadWayData.isBossEnter ? GameManager.StageManager.OnBossStageEnter : GameManager.StageManager.RoadWayDistanceTracking );
             roadWay.transform.SetPositionAndRotation(trs.position, trs.rotation);
 
-            //�ʿ�����Ʈ ����
-            if (createMapObject)
+            if (nextRoadWayData.itemMode == ItemSetMode.TrapAndReward)
             {
-                int randomIndex1 = UnityEngine.Random.Range(GameDataManager.Instance.MinMapObjectId, GameDataManager.Instance.MaxMapObjectId + 1);
-                int randomIndex2 = UnityEngine.Random.Range(GameDataManager.Instance.MinRewardItemId, GameDataManager.Instance.MaxRewardItemId + 1);
+                //吏洹쒓? ?섏젙??肄붾뱶濡?蹂寃?duim
+                int randomIndex1 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+                int randomIndex2 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+                int randomIndex3 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+
                 roadWay.SetMapObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex1));
                 roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex1));
 
                 roadWay.SetMapObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex2));
                 roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.None, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex2));
+
+                roadWay.SetMapObjects(RoadWay.RoadSegmentType.Exit, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex3));
+                roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Exit, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex3));
             }
 
             previousRoadWay.AddNextRoadWay(roadWay);
         }
     }
 
-    //public void CreateLastRoadWay()
-    //{
-    //    if (activeRoadWays.Count == 0)
-    //    {
-    //        return;
-    //    }
-
-    //    int lastIndex = activeRoadWays.Last().index;
-    //    int count = activeRoadWays.Count;
-    //    for (int i = count - 1; i >= 0; i--)
-    //    {
-    //        if (lastIndex == activeRoadWays[i].index)
-    //        {
-    //            CreateNextRoadWay(activeRoadWays[i]);
-    //        }
-    //        else
-    //        {
-    //            break;
-    //        }
-    //    }
-    //}
 
     private Queue<RoadWay> releaseQueue = new();
 
@@ -178,12 +201,12 @@ public class TempleRunStyleRoadMaker : InGameManager
         {
             if (nowRoadWay.index < currentRoad.index)
             {
-                //������ �� ����
+                //占쏙옙占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙
                 releaseQueue.Enqueue(nowRoadWay);
             }
             else if (nowRoadWay.index == currentRoad.index && nowRoadWay != currentRoad)
             {
-                //���� Way�� ������ ��� ������� ����ȱ� ����
+                //占쏙옙占쏙옙 Way占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占?占쏙옙占쏙옙占쏙옙占?占쏙옙占쏙옙홧占?占쏙옙占쏙옙
                 AddToReleaseQueueLinkedRoadWay(nowRoadWay);
             }
         }
@@ -205,91 +228,122 @@ public class TempleRunStyleRoadMaker : InGameManager
         }
     }
 
-    //n�� ���� �ʿ��� ����
-    private void CreateNNextRoadWay(int next, RoadWay previous, bool createMapObject = true)
+    //n占쏙옙 占쏙옙占쏙옙 占십울옙占쏙옙 占쏙옙占쏙옙
+    private void CreateNNextRoadWay(int next, RoadWay previous)
     {
         if (next <= 0)
             return;
 
         if (previous.NextRoadWays.Count == 0)
         {
-            CreateNextRoadWay(previous, createMapObject);
+            CreateNextRoadWay(previous);
         }
 
         foreach (var n in previous.NextRoadWays)
         {
-            CreateNNextRoadWay(next - 1, n, createMapObject);
+            CreateNNextRoadWay(next - 1, n);
         }
+
     }
+
+
 
     #region mapObjectsMode
-
-    private void SetMapObjectMakeMode(ItemSetMode mode)
-    {
-        if (currentMapObjectsMode == mode)
-        {
-            return;
-        }
-        currentMapObjectsMode = mode;
-    }
+    //public void SetMapObjectMakeMode(ItemSetMode mode)
+    //{
+    //    Debug.Log("Road MapObject Mode : " + mode.ToString());
+    //    //if (currentMapObjectsMode == mode)
+    //    //{
+    //    //    return;
+    //    //}
+    //    currentMapObjectsMode = mode;
+    //}
 
     #endregion
 
     #region roadMakeMode
-    public void SetRoadMakeMode(RoadMakeMode mode)
+    //public void SetRoadMakeMode(RoadMakeMode mode, int roadWayCount)
+    //{
+    //    Debug.Log("Road Make Mode : " + mode.ToString());
+    //    currentRoadMakeMode = mode;
+    //    currentRoadWayCount = roadWayCount;
+    //    nextRoadWayTypeQueue.Clear();
+    //    PushNextRoadTypes(currentRoadMakeMode);
+    //}
+
+    //public void SetRoadMakeModeImmediate(RoadMakeMode mode)
+    //{
+    //    if (currentRoadMakeMode == mode)
+    //    {
+    //        return;
+    //    }
+    //    currentRoadMakeMode = mode;
+    //    nextRoadWayType.Clear();
+    //    PushNextRoadTypes();
+    //}
+
+    //private int GetNextRoadWayType()
+    //{
+    //    if (nextRoadWayTypeQueue.Count == 0)
+    //    {
+    //        onCurrentRoadWayEmpty?.Invoke();
+    //    }
+
+    //    if (currentRoadWayCount == -1)
+    //    {
+    //        return nextRoadWayTypeQueue.Peek();
+    //    }
+    //    else
+    //    {
+    //        return nextRoadWayTypeQueue.Dequeue();
+    //    }
+    //}
+
+    //private void PushNextRoadTypes(RoadMakeMode roadMakeMode)
+    //{
+    //    if (roadMakeMode == RoadMakeMode.RandomWay)
+    //    {
+    //        for (int i = 0; i < Mathf.Abs(currentRoadWayCount); i++)
+    //        {
+    //            nextRoadWayTypeQueue.Enqueue(UnityEngine.Random.Range(1, roadWayPrefabs.Count()));
+    //        }
+    //    }
+    //    else if (roadMakeMode == RoadMakeMode.Vertical)
+    //    {
+    //        for (int i = 0; i < Mathf.Abs(currentRoadWayCount); i++)
+    //        {
+    //            nextRoadWayTypeQueue.Enqueue(0);
+    //        }
+    //    }
+    //}
+
+    public void PushNextStageRoadWayData(StageData stageData)
     {
-        if (currentRoadMakeMode == mode)
+        if (stageData.roadMode == RoadMakeMode.RandomWay)
         {
-            return;
+            for (int i = 0; i < stageData.roadWayCount; i++)
+            {
+                stageRoadWayDataQueue.Enqueue(new NextRoadWayData { roadWayIndex = UnityEngine.Random.Range(1, roadWayPrefabs.Count()), itemMode = stageData.itemSetMode, isBossEnter = stageData.isBossStage });
+            }
         }
-        currentRoadMakeMode = mode;
-        PushNextRoadType();
+        else if (stageData.roadMode == RoadMakeMode.Vertical)
+        {
+            for (int i = 0; i < stageData.roadWayCount; i++)
+            {
+                stageRoadWayDataQueue.Enqueue(new NextRoadWayData { roadWayIndex = 0, itemMode = stageData.itemSetMode, isBossEnter = stageData.isBossStage });
+            }
+        }
     }
 
-    public void SetRoadMakeModeImmediate(RoadMakeMode mode)
+    private NextRoadWayData GetNextRoadWayData()
     {
-        if (currentRoadMakeMode == mode)
+        if (stageRoadWayDataQueue.Count == 0)
         {
-            return;
-        }
-        currentRoadMakeMode = mode;
-        nextRoadWayType.Clear();
-        PushNextRoadType();
-    }
-
-    private int GetNextRoadWayType()
-    {
-        if (nextRoadWayType.Count == 0)
-        {
-            if (currentRoadMakeMode == RoadMakeMode.RandomWay)
-            {
-                SetRoadMakeMode(RoadMakeMode.InfinityVertical);
-            }
-            else if (currentRoadMakeMode == RoadMakeMode.InfinityVertical)
-            {
-                SetRoadMakeMode(RoadMakeMode.RandomWay);
-            }
+            onCurrentRoadWayEmpty?.Invoke();
         }
 
-        return nextRoadWayType.Dequeue();
-    }
+        return stageRoadWayDataQueue.Dequeue();
 
-    private void PushNextRoadType()
-    {
-        if (currentRoadMakeMode == RoadMakeMode.RandomWay)
-        {
-            for (int i = 0; i < roadChunkSize; i++)
-            {
-                nextRoadWayType.Enqueue(UnityEngine.Random.Range(1, roadWayPrefabs.Count()));
-            }
-        }
-        else if (currentRoadMakeMode == RoadMakeMode.InfinityVertical)
-        {
-            for (int i = 0; i < roadChunkSize; i++)
-            {
-                nextRoadWayType.Enqueue(0);
-            }
-        }
     }
 
     #endregion

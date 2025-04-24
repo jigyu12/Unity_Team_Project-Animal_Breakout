@@ -10,12 +10,16 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed = 10f;
 
     public int laneIndex = 1;
-    public float jumpHeight = 2f;
+    public float JumpHeight
+    {
+        get => playerStatus.statData.Jump;
+    }
+
     public float gravity = -20f;
     public Lane way;
     private Vector3 targetPosition;
     private float verticalVelocity;
-    private bool isJumping;
+    public bool isJumping;
     private PlayerInput playerInput;
     private InputActionMap actionMap;
     private bool canMove = true;
@@ -26,10 +30,12 @@ public class PlayerMove : MonoBehaviour
 
     public Action<Vector3, float> onRotate;
 
+    public static Action<int> OnJumpCounting;
     public bool canTurn = false;
     private TurnDirection allowedTurn;
     private PlayerStatus playerStatus;
     private Animator animator;
+    private GameUIManager gameUIManager;
 
     private void Awake()
     {
@@ -38,15 +44,12 @@ public class PlayerMove : MonoBehaviour
         {
             actionMap = playerInput.currentActionMap;
         }
-        animator = GetComponentInChildren<Animator>();
-        playerStatus = GetComponent<PlayerStatus>();
-        if (playerStatus != null)
-        {
-            jumpHeight = playerStatus.JumpPower;
-            Debug.Log($"Jump height set to {jumpHeight} from PlayerStatus.");
-        }
     }
 
+    public void SetAnimator(Animator animator)
+    {
+        this.animator = animator;
+    }
     private void Start()
     {
         way = FindObjectOfType<Lane>();
@@ -54,14 +57,18 @@ public class PlayerMove : MonoBehaviour
         {
             targetPosition = way.LaneIndexToPosition(laneIndex);
             transform.localPosition = targetPosition;
-
-            animator = GetComponentInChildren<Animator>();
             Debug.Log("PlayerMove Initialized in Start: WayIndex = " + laneIndex);
         }
         else
         {
             Debug.LogError("Lane not found!");
         }
+
+        var GameManager = GameObject.FindGameObjectWithTag(Utils.GameManagerTag);
+        var GameManager_new = GameManager.GetComponent<GameManager_new>();
+        gameUIManager = GameManager_new.UIManager;
+        DisableInput();
+        playerStatus = GetComponent<PlayerStatus>();
     }
 
     // public void Initialize(Lane way)
@@ -110,6 +117,14 @@ public class PlayerMove : MonoBehaviour
 
     private void UpdateJump()
     {
+        if (playerStatus.IsDead())
+        {
+            Vector3 pos = transform.localPosition;
+            // pos.y = 0f;
+            transform.localPosition = pos;
+            verticalVelocity = 0f;
+            return;
+        }
         if (isJumping)
         {
             verticalVelocity += gravity * Time.deltaTime;
@@ -151,6 +166,7 @@ public class PlayerMove : MonoBehaviour
 
         if (context.performed)
             Debug.Log("회전");
+        gameUIManager.UnShowRotateButton();
         TryRotateLeft();
     }
 
@@ -159,16 +175,20 @@ public class PlayerMove : MonoBehaviour
 
         if (context.performed)
             Debug.Log("회전");
+        gameUIManager.UnShowRotateButton();
         TryRotateRight();
+
     }
 
     private void TryJump()
     {
-        if (!isJumping && transform.position.y <= 0.01f)
+        // if (!isJumping && transform.position.y <= 0.01f)
+        if (!isJumping)
         {
             isJumping = true;
-            verticalVelocity = Mathf.Sqrt(-2f * gravity * jumpHeight);
+            verticalVelocity = Mathf.Sqrt(-2f * gravity * JumpHeight);
             animator?.SetBool("Jump", true);
+            OnJumpCounting?.Invoke(1);
         }
     }
 
@@ -204,8 +224,11 @@ public class PlayerMove : MonoBehaviour
         if (canTurn && (allowedTurn == TurnDirection.Left || allowedTurn == TurnDirection.Both))
         {
             onRotate?.Invoke(turnPivot.transform.position, -90f);
+            // StartCoroutine(RemoveInvincibleAfterDelay(0.5f));
             canTurn = false;
         }
+
+
     }
 
     private void TryRotateRight()
@@ -213,10 +236,17 @@ public class PlayerMove : MonoBehaviour
         if (canTurn && (allowedTurn == TurnDirection.Right || allowedTurn == TurnDirection.Both))
         {
             onRotate?.Invoke(turnPivot.transform.position, 90f);
+            // StartCoroutine(RemoveInvincibleAfterDelay(0.5f));
             canTurn = false;
         }
-    }
 
+    }
+    private IEnumerator RemoveInvincibleAfterDelay(float delay)
+    {
+        playerStatus.SetInvincible(true);
+        yield return new WaitForSeconds(delay);
+        playerStatus.SetInvincible(false);
+    }
     public void SetCanTurn(bool value, GameObject turnPivot, TurnDirection direction)
     {
         canTurn = value;
@@ -243,6 +273,7 @@ public class PlayerMove : MonoBehaviour
 
     public void OnTouchPress(InputAction.CallbackContext context)
     {
+
         if (context.started)
         {
             swipeStart = Touchscreen.current.primaryTouch.position.ReadValue();
@@ -251,20 +282,33 @@ public class PlayerMove : MonoBehaviour
         {
             Vector2 current = Touchscreen.current.primaryTouch.position.ReadValue();
             Vector2 delta = current - swipeStart;
-
+            if (playerStatus.IsDead())
+            {
+                return;
+            }
             if (delta.y > 30f && Mathf.Abs(delta.y) > Mathf.Abs(delta.x))
             {
                 TryJump();
             }
-            else if (Mathf.Abs(delta.x) > 50f && Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+            // 왼쪽 스와이프
+            else if (delta.x < -30f && Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
             {
-                if (delta.x < 0f)
-                    TryRotateLeft();
-                else
-                    TryRotateRight();
+                // if (canTurn)
+                //     TryRotateLeft();
+                // else
+                MoveLeft();
+            }
+            // 오른쪽 스와이프
+            else if (delta.x > 30f && Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+            {
+                // if (canTurn)
+                //     TryRotateRight();
+                // else
+                MoveRight();
             }
         }
     }
+
 
 
     public void DisableInput()
@@ -290,4 +334,26 @@ public class PlayerMove : MonoBehaviour
             animator?.SetBool("Jump", false);
         }
     }
+
+
+
+    // 자동 회전
+    public void TryAutoRotateLeft()
+    {
+        if (canTurn && (allowedTurn == TurnDirection.Left || allowedTurn == TurnDirection.Both))
+        {
+            onRotate?.Invoke(turnPivot.transform.position, -90f);
+            canTurn = false;
+        }
+    }
+
+    public void TryAutoRotateRight()
+    {
+        if (canTurn && (allowedTurn == TurnDirection.Right || allowedTurn == TurnDirection.Both))
+        {
+            onRotate?.Invoke(turnPivot.transform.position, 90f);
+            canTurn = false;
+        }
+    }
+
 }

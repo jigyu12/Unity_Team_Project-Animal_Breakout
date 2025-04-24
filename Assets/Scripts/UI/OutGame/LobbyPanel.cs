@@ -42,8 +42,8 @@ public class LobbyPanel : MonoBehaviour
 
         gameStartButton.onClick.AddListener(() =>
         {
-            gameStartButton.interactable = false;
             onGameStartButtonClicked?.Invoke(staminaRequiredToStartGame);
+            gameStartButton.interactable = false;
             StartCoroutine(OnGameStartButtonClicked());
         }
             );
@@ -53,7 +53,7 @@ public class LobbyPanel : MonoBehaviour
     {
         yield return waitTime;
 
-        SceneManager.LoadScene("Run_new");
+        SceneManager.LoadScene("Run");
     }
 
     private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID, int currentStamina)

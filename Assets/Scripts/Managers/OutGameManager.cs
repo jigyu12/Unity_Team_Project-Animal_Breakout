@@ -14,6 +14,12 @@ public class OutGameManager : MonoBehaviour
     public OutGameUIManager OutGameUIManager => outGameUIManager;
     
     #endregion
+
+    private void Awake()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 9999;
+    }
     
     private void Start()
     {

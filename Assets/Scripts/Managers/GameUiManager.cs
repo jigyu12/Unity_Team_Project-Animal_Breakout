@@ -1,86 +1,135 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
+using System.Collections.Generic;
+using System.Linq;
 
 public class GameUIManager : InGameManager
 {
-    public GameObject gameOverPanel;
-    public GameObject GameResultPanel;
-    public GameObject pausePanel;
-    public Button mainTitleButton;
-    public Button pauseButton;
-    [SerializeField] private Button leftButton;
-    [SerializeField] private Button rightButton;
+    public RotateButtonController rotateButtonController;
 
-    private void Awake()
-    {
-    }
+    public static event Action onShowGameOverPanel;
+    private PauseHandler pauseHandler;
+    private ReviveHandler reviveHandler;
+
+
+    public static Action<int> OnGamePlayCounting;
+
+    public List<UIElement> uiElements = new();
+
+    [SerializeField] private PausePanelUI pausePanelUI;
+    [SerializeField] private ResultPanelUI resultPanelUI;
+    [SerializeField] private PauseButtonUI pauseButtonUI;
+    [SerializeField] private RotateButtonUI rotateButtonUI;
+    [SerializeField] private InputUIBinder inputUIBinder;
+    [SerializeField] public RunStageUI runStageUI;
+    [SerializeField] public BossWayUI bossWayUI;
+
 
     public override void Initialize()
     {
         base.Initialize();
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, ShowGameOverPanel);
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => SetDirectionButtonsInteractable(false));
+        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => CountDown());
+        // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetDirectionButtonsInteractable(true));
+
+        pauseHandler = new PauseHandler(GameManager, GameManager.PlayerManager, pausePanelUI, this);
+        reviveHandler = new ReviveHandler(GameManager, GameManager.PlayerManager, pausePanelUI, this, pauseHandler, this);
+        inputUIBinder.Bind(GameManager.PlayerManager.playerMove);
+
+        //자식으로 딸린 모든 UIElements들을 탐색한다.
+        //var elements = gameObject.GetComponentsInChildren<UIElement>(true);
+        //uiElements = elements.ToList();
+        //UIManager Editor상으로 UIElementsEnum을 Generate해주면서 uiElements리스트를 채워준다.
+
+        //UIElements들에 매니저를 세팅
+        foreach (var element in uiElements)
+        {
+            element.SetUIManager(GameManager, this);
+        }
+        //Start보다 이전에 값을 세팅해야하는 UI들의 UIElements은 Initialze에서 해주면 된다
+        foreach (var element in uiElements)
+        {
+            element.Initialize();
+        }
     }
 
-    private void Start()
+    public void ShowUIElement(UIElementEnums uIElementsEnum)
     {
-        //gameManager = FindObjectOfType<GameManager>();
-        //gameManager.onGameOver += ShowGameOverPanel;
-
-        mainTitleButton.onClick.RemoveAllListeners();
-        mainTitleButton.onClick.AddListener(OnMainTitleButtonClicked);
-        pauseButton.onClick.RemoveAllListeners();
-        pauseButton.onClick.AddListener(OnPauseButtonClicked);
+        uiElements[(int)uIElementsEnum].Show();
     }
+
     public void ConnectPlayerMove(PlayerMove move)
     {
-        leftButton.onClick.RemoveAllListeners();
-        rightButton.onClick.RemoveAllListeners();
-
-
-        leftButton.GetComponent<DirectionButton>().Initialize(move, leftButton);
-        rightButton.GetComponent<DirectionButton>().Initialize(move, rightButton);
-
+        inputUIBinder.Bind(move);
     }
-    //private void OnDestroy()
-    //{
-    //    //if (gameManager != null)
-    //    //{
-    //    //    gameManager.onGameOver -= ShowGameOverPanel;
-    //    //}
-    //}
-
     public void ShowGameOverPanel()
     {
-        GameResultPanel.SetActive(true);
-        // gameOverPanel.SetActive(true);
-        //Time.timeScale = 0;
+        onShowGameOverPanel?.Invoke();
+        resultPanelUI.Show();
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        // OnMainTitleButtonClicked();
     }
 
-    private void OnMainTitleButtonClicked()
+    public void OnMainTitleButtonClicked()
     {
-        SceneManager.LoadScene("MainTitleSceneCopy");
-        Time.timeScale = 1;
+        SceneManager.LoadScene("MainTitleScene");
     }
     private void OnPauseButtonClicked()
     {
-        pausePanel.SetActive(true);
-        SetDirectionButtonsInteractable(false);
-        Time.timeScale = 0;
+        pauseHandler.TogglePause();
+    }
+    public void SetPauseButtonInteractable(bool interactable)
+    {
+        pauseButtonUI.SetInteractable(interactable);
+    }
+
+    public void Pause()
+    {
+        pauseHandler.TogglePause();
     }
     public void SetDirectionButtonsInteractable(bool interactable)
     {
-        leftButton.interactable = interactable;
-        rightButton.interactable = interactable;
-        pauseButton.interactable = interactable;
+        inputUIBinder.SetInteractable(interactable);
+        pauseButtonUI.SetInteractable(interactable);
+        rotateButtonUI.SetInteractable(interactable);
+    }
+    public void ShowRotateButton() => rotateButtonUI.Show();
+    public void UnShowRotateButton() => rotateButtonUI.Hide();
+    // private Coroutine coCountDown = null;
+
+    public void CountDown()
+    {
+        reviveHandler.StartReviveCountdown();
+    }
+
+    public void InGameCountDown()
+    {
+        reviveHandler.StartInGameReviveCountdown();
+    }
+    public void SetLastDeathType(DeathType type)
+    {
+        GameManager.PlayerManager.lastDeathType = type;
+    }
+
+
+    public void RequestContinue()
+    {
+        CountDown(); // 부활 시작
+    }
+
+    public void RequestGiveUp()
+    {
+        GameManager.SetGameState(GameManager_new.GameState.GameOver);
+        OnGamePlayCounting?.Invoke(1);
+
     }
 
 }

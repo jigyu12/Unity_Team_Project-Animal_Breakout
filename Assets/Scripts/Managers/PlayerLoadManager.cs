@@ -18,7 +18,7 @@ public class PlayerLoadManager
 
         foreach (int animalID in animalIDs)
         {
-            LoadCharacterModel(animalID, (status) =>
+            LoadCharacterModel(animalID, () =>
             {
                 loadedCount++;
                 if (loadedCount >= totalToLoad)
@@ -30,7 +30,7 @@ public class PlayerLoadManager
     }
 
     // 캐릭터 모델 로드 (비동기)
-    public void LoadCharacterModel(int animalID, UnityAction<PlayerStatus> onLoaded = null)
+    public void LoadCharacterModel(int animalID, UnityAction onLoaded = null)
     {
         Addressables.LoadAssetAsync<GameObject>(animalID.ToString()).Completed += (handle) =>
         {
@@ -39,18 +39,9 @@ public class PlayerLoadManager
                 GameObject characterPrefab = handle.Result;
                 loadedCharacters[animalID] = characterPrefab;
 
-                PlayerStatus status = characterPrefab.GetComponent<PlayerStatus>();
 
-                if (status != null && status.statData != null)
-                {
-                    Debug.Log($"Loaded pre-configured character: {status.statData.StringID}");
-                    onLoaded?.Invoke(status);
-                }
-                else
-                {
-                    Debug.LogError($"Character prefab for ID {animalID} does not contain pre-configured stat data.");
-                    return;
-                }
+                Debug.Log($"Loaded pre-configured character: {animalID}");
+                onLoaded?.Invoke();
             }
             else
             {
