@@ -80,7 +80,7 @@ public static class BossPatternFuncFactory
     
     private static BTNodeState TestAttackToLane0(BossBehaviourController bossBehaviourController)
     {
-        Vector3 attackPosition = bossBehaviourController.Lane.LaneIndexToPosition(0);
+        Vector3 attackPosition = bossBehaviourController.GetLaneAttackPosition(0);
         var tempBossProjectile = bossBehaviourController.TempBossProjectilePool.Get();
         tempBossProjectile.TryGetComponent(out TempBossProjectile tempBossProjectileComponent);
         tempBossProjectile.transform.SetParent(bossBehaviourController.transform);
@@ -99,7 +99,7 @@ public static class BossPatternFuncFactory
     
     private static BTNodeState TestAttackToLane1(BossBehaviourController bossBehaviourController)
     {
-        Vector3 attackPosition = bossBehaviourController.Lane.LaneIndexToPosition(1);
+        Vector3 attackPosition = bossBehaviourController.GetLaneAttackPosition(1);
         var tempBossProjectile = bossBehaviourController.TempBossProjectilePool.Get();
         tempBossProjectile.TryGetComponent(out TempBossProjectile tempBossProjectileComponent);
         tempBossProjectile.transform.SetParent(bossBehaviourController.transform);
@@ -118,7 +118,7 @@ public static class BossPatternFuncFactory
     
     private static BTNodeState TestAttackToLane2(BossBehaviourController bossBehaviourController)
     {
-        Vector3 attackPosition = bossBehaviourController.Lane.LaneIndexToPosition(2);
+        Vector3 attackPosition = bossBehaviourController.GetLaneAttackPosition(2);
         var tempBossProjectile = bossBehaviourController.TempBossProjectilePool.Get();
         tempBossProjectile.TryGetComponent(out TempBossProjectile tempBossProjectileComponent);
         tempBossProjectile.transform.SetParent(bossBehaviourController.transform);

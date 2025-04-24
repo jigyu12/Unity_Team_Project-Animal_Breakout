@@ -35,12 +35,6 @@ public class BossBehaviourController : MonoBehaviour
     
     private BehaviorTree<BossBehaviourController> behaviorTree;
     
-    //private Vector3 attackSpawnLocalPosition;
-    
-    //private bool isAttacked;
-    
-    //private WaitForSeconds attackWaitTime = new(3f);
-    
     private void Start()
     {
         playerRoot = GameObject.FindGameObjectWithTag("PlayerParent");
@@ -51,13 +45,6 @@ public class BossBehaviourController : MonoBehaviour
         LocalDirectionToPlayer = localDirectionToPlayer;
         
         transform.localPosition = BossManager.spawnLocalPosition;
-        
-        // attackSpawnLocalPosition = new Vector3(
-        //     BossManager.spawnLocalPosition.x, 
-        //     BossManager.spawnLocalPosition.y,
-        //     BossManager.spawnLocalPosition.z - 1f);
-
-        //isAttacked = false;
         
         GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager);
         tempBossProjectilePool = gameManager.ObjectPoolManager.CreateObjectPool(tempBossProjectilePrefab,
@@ -98,11 +85,6 @@ public class BossBehaviourController : MonoBehaviour
         {
             behaviorTree.Update();
         }
-
-        // if (!isAttacked)
-        // {
-        //     StartCoroutine(TestAttack());
-        // }
     }
 
     public void InitBehaviorTree(BossBehaviourTreeType bossBehaviourTreeType)
@@ -125,26 +107,16 @@ public class BossBehaviourController : MonoBehaviour
         BossPatternSelectRandomValue = Random.value;
     }
 
-    // private IEnumerator TestAttack()
-    // {
-    //     isAttacked = true;
-    //
-    //     // temp code //
-    //     
-    //     //TryGetComponent(out BossStatus bossStatus); 
-    //     //bossStatus.OnDamage(20f);
-    //     
-    //     // temp code //
-    //     
-    //     Vector3 attackPosition = lane.LaneIndexToPosition(Random.Range(0, 3));
-    //     var tempBossProjectile = tempBossProjectilePool.Get();
-    //     tempBossProjectile.TryGetComponent(out TempBossProjectile tempBossProjectileComponent);
-    //     tempBossProjectile.transform.SetParent(transform);
-    //     tempBossProjectileComponent.Initialize(attackPosition, localDirectionToPlayer, 5f, tempBossProjectilePool, tempBossProjectileList, projectileReleaseParent.transform);
-    //     tempBossProjectileList.Add(tempBossProjectile);
-    //     
-    //     yield return attackWaitTime;
-    //
-    //     isAttacked = false;
-    // }
+    public Vector3 GetLaneAttackPosition(int laneIndex)
+    {
+        Vector3 lanePosition = Lane.LaneIndexToPosition(laneIndex);
+
+        bool isYFlipped = Mathf.Approximately(Mathf.Repeat(transform.eulerAngles.y, 360f), 180f);
+
+        float fixedX = isYFlipped ? lanePosition.x : -lanePosition.x;
+
+        return new Vector3(fixedX / transform.localScale.x, 
+            lanePosition.y / transform.localScale.y, 
+            lanePosition.z / transform.localScale.z);
+    }
 }

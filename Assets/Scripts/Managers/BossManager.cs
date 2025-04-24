@@ -8,7 +8,7 @@ public class BossManager : InGameManager
     //private ObjectPool<GameObject> bossPool;
     
     [SerializeField] private GameObject parentGameObjectToSpawnBoss;
-    public static readonly Vector3 spawnLocalPosition = new Vector3(0f, 1f, 10f);
+    public static readonly Vector3 spawnLocalPosition = new Vector3(0f, 0.25f, 10f);
     
     private GameManager_new gameManager;
     
@@ -47,6 +47,7 @@ public class BossManager : InGameManager
         var boss = Instantiate(bossPrefab, parentGameObjectToSpawnBoss.transform);
         boss.transform.localPosition = spawnLocalPosition;
         boss.TryGetComponent(out bossStatus);
+        boss.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
         bossStatus.InitializeStatus(500f);
         boss.TryGetComponent(out BossBehaviourController bossBehaviourController);
