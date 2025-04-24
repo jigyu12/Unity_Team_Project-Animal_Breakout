@@ -27,6 +27,8 @@ public class GameUIManager : InGameManager
     [SerializeField] private InputUIBinder inputUIBinder;
     [SerializeField] public RunStageUI runStageUI;
     [SerializeField] public BossWayUI bossWayUI;
+    [SerializeField] public BossTimeLimit bossTimeLimit;
+
 
 
     public override void Initialize()
