@@ -3,19 +3,30 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - SwipeArea
+  - Ground
+  - Trap
+  - OutGameUIManager
+  - GameManager
+  - ScoreUI
+  - PlayerParent
+  - Manager
+  - OutGameManager
+  - Animal
+  - ProjectileParent
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Item
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - InvinciblePlayer
+  - Player
+  - Decoration
+  - ObjectOverUI
+  - Ground
   - 
   - 
   - 

@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1612362942065241673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3648270879298841218}
+  - component: {fileID: 1831342740007593670}
+  m_Layer: 0
+  m_Name: MapObjectManager
+  m_TagString: Manager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3648270879298841218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612362942065241673}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1831342740007593670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1612362942065241673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87a055d4eb3375488ad7972aea4cff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trapBombPrefab: {fileID: 7037138832937157945, guid: 9c22a3b9b0274c7489fc15c6c77fde25, type: 3}
+  trapHolePrefab: {fileID: 5459403099103474600, guid: 24dbbdcd47d35fb4abb7490ecfac0caa, type: 3}
+  itemRewardCoinPrefab: {fileID: 8975035450620130412, guid: 9870caf9645a4b74ab5925e867173907, type: 3}
+  itemHumanPrefab: {fileID: 1353977574298584, guid: f28a5a3141c071847b4b4750d56b40f2, type: 3}
+  itemHumanPrefabs:
+  - {fileID: 6063029925804153583, guid: 363338a3ebd7d4a46871ce814a8286c6, type: 3}
+  - {fileID: 9112743492322944808, guid: 5bc1da6b0f96b394ab0a2949e08de2a5, type: 3}
+  - {fileID: 7073298571239309061, guid: c6ea452815d5d4d438e58e447bad0cdb, type: 3}
+  itemPenaltyCoinPrefab: {fileID: 1202365330914209433, guid: c2eb562b7fe71994a93e4ec3a62df15a, type: 3}
+  roadTransformRoot: {fileID: 0}
