@@ -18,7 +18,7 @@ public class GameUIManager : InGameManager
 
     public static Action<int> OnGamePlayCounting;
 
-    public List<UIElement> uiElements = new();
+    public List<UIElement> uiElements;
 
     [SerializeField] private PausePanelUI pausePanelUI;
     [SerializeField] private ResultPanelUI resultPanelUI;
