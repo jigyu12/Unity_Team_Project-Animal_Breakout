@@ -125,6 +125,7 @@ public class GoogleSheetCSVWindow : EditorWindow
             AssetDatabase.CreateAsset(scriptableData, string.Format(dataPath, dataFileName));
             AssetDatabase.SaveAssets();
         }
+        AssetDatabase.Refresh();
     }
 
     private void CreateSupportSkillScriptableData()
@@ -148,7 +149,9 @@ public class GoogleSheetCSVWindow : EditorWindow
             AssetDatabase.CreateAsset(scriptableData, string.Format(dataPath, dataFileName));
             AssetDatabase.SaveAssets();
         }
+        AssetDatabase.Refresh();
     }
 
 }
+
 
