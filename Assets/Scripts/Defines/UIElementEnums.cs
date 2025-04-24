@@ -1,6 +1,5 @@
 public enum UIElementEnums
 {
-	GmUiManager,
 	ExperienceBar,
 	SkillList,
 	RunStageUIElements,
@@ -8,4 +7,5 @@ public enum UIElementEnums
 	PauseButton,
 	PauseButton2,
 	GameResultPanel ,
+	RevivalPanel,
 }
