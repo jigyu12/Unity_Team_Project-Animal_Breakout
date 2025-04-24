@@ -19,16 +19,30 @@ public class SkillIcon : MonoBehaviour
     private Image fillTimerImage;
 
     private ISkill targetSkill;
+    private AttackSkill attackSkill;
+
 
     private void Update()
     {
-        UpdateFillTimer(targetSkill.CoolTimeRatio, targetSkill.CoolDownRemaining);
+        if (targetSkill.SkillData.skillType == SkillType.Attack)
+        {
+            UpdateFillTimer(attackSkill.CoolTimeRatio, attackSkill.CoolDownRemaining);
+        }
     }
 
     public void SetTargetSkill(ISkill skill)
     {
         targetSkill = skill;
         levelText.text = skill.Level.ToString();
+
+        if (targetSkill.SkillData.skillType == SkillType.Attack)
+        {
+            attackSkill = skill as AttackSkill;
+        }
+        else if (targetSkill.SkillData.skillType == SkillType.Support)
+        {
+            UpdateFillTimer(1f, 0f);
+        }
     }
 
     //private static readonly string timeFormatString = $"{}";

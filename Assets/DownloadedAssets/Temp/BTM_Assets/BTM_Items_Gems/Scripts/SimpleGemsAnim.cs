@@ -46,7 +46,7 @@ namespace Benjathemaker
                     rotateY ? 1 : 0,
                     rotateZ ? 1 : 0
                 );
-                transform.Rotate(rotationVector * rotationSpeed * Time.deltaTime);
+                transform.Rotate(rotationVector * (rotationSpeed * Time.deltaTime));
             }
 
             if (isFloating)

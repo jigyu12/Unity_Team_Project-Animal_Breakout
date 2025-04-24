@@ -11,6 +11,10 @@ public class BronzeCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+        
+        self.SetActive(false);
+        
+        OnCoinAcquired?.Invoke(1);
     }
 }
 
@@ -25,6 +29,10 @@ public class SilverCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+        
+        self.SetActive(false);
+        
+        OnCoinAcquired?.Invoke(1);
     }
 }
 
@@ -39,6 +47,10 @@ public class GoldCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+        
+        self.SetActive(false);
+        
+        OnCoinAcquired?.Invoke(1);
     }
 }
 
@@ -53,6 +65,8 @@ public class PlatinumCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+        
+        self.SetActive(false);
     }
 }
 
@@ -67,5 +81,7 @@ public class DiamondCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+        
+        self.SetActive(false);
     }
 }

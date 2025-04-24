@@ -25,6 +25,7 @@ public class ResearcherCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+
     }
 }
 
@@ -39,5 +40,6 @@ public class SeniorResearcherCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+
     }
 }

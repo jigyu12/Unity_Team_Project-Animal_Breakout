@@ -94,7 +94,10 @@ public class BossBehaviourController : MonoBehaviour
     
     private void Update()
     {
-        behaviorTree.Update();
+        if (behaviorTree is not null)
+        {
+            behaviorTree.Update();
+        }
 
         // if (!isAttacked)
         // {

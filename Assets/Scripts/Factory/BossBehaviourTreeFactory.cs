@@ -49,7 +49,7 @@ public static class BossBehaviourTreeFactory
 
                     var hpRatioCondition = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
                         BossConditionNodeType.Boss1PhaseChangeHpCondition);
-                    var bossPatternSelector1 = new BossPatternSelectorNode(bossBehaviourController);
+                    var bossPatternSelector1 = new SelectorNode<BossBehaviourController>(bossBehaviourController);
                     bossPatternSelector1.AddChild(phase2Pattern3Sequence);
                     bossPatternSelector1.AddChild(phase2Pattern1Sequence);
                     bossPatternSelector1.AddChild(phase2Pattern2Sequence);
@@ -91,7 +91,7 @@ public static class BossBehaviourTreeFactory
                     phase1Pattern2Sequence.AddChild(phase1Pattern2Condition);
                     phase1Pattern2Sequence.AddChild(phase1Pattern2Timer);
                     
-                    var bossPatternSelector2 = new BossPatternSelectorNode(bossBehaviourController);
+                    var bossPatternSelector2 = new SelectorNode<BossBehaviourController>(bossBehaviourController);
                     bossPatternSelector2.AddChild(phase1Pattern3Sequence);
                     bossPatternSelector2.AddChild(phase1Pattern1Sequence);
                     bossPatternSelector2.AddChild(phase1Pattern2Sequence);

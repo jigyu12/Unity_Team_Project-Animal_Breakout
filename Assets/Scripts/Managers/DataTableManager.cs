@@ -25,6 +25,10 @@ public static class DataTableManager
         var itemDataTable = new ItemDataTable();
         itemDataTable.Load(Utils.ItemTableName);
         tables.Add(Utils.ItemTableName, itemDataTable);
+
+        var additionalStatusEffectTable = new AdditionalStatusEffectDataTable();
+        additionalStatusEffectTable.Load(Utils.AdditionalStatusEffectTableName);
+        tables.Add(Utils.AdditionalStatusEffectTableName, additionalStatusEffectTable);
     }
 
     public static MapObjectsDataTable mapObjectsDataTable => Get<MapObjectsDataTable>(Utils.MapObjectsTableName);
@@ -33,6 +37,7 @@ public static class DataTableManager
     public static AnimalDataTable animalDataTable => Get<AnimalDataTable>(Utils.AnimalTableName);
     public static ItemDataTable itemDataTable => Get<ItemDataTable>(Utils.ItemTableName);
 
+    public static AdditionalStatusEffectDataTable additionalStatusEffectDataTable => Get<AdditionalStatusEffectDataTable>(Utils.AdditionalStatusEffectTableName);
 
     public static T Get<T>(string id) where T : DataTable
     {

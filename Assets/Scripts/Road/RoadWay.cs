@@ -66,11 +66,7 @@ public class RoadWay : MonoBehaviour, IObjectPoolable
                         if (blueprint.objectsConstructors[i, j] != null)
                         {
                             var mapObject = blueprint.objectsConstructors[i, j].Invoke(roadSegmentWithType.roadSegment.GetTilePosition(i, j));
-                            if (mapObject.TryGetComponent(out Trap trap) && trap.TrapType == TrapType.Bomb)
-                            {
-                                mapObject.transform.position += yOffsetBomb;
-                            }
-                            else if (mapObject.TryGetComponent(out ItemPenaltyCoin penaltyCoin))
+                            if (mapObject.TryGetComponent(out ItemPenaltyCoin penaltyCoin))
                             {
                                 mapObject.transform.position += yOffsetItem;
                             }

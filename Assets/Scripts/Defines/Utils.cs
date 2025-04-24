@@ -10,10 +10,16 @@ public static class Utils
     public const string RewardItemsTableName = "RewardItems_Table";
     public const string AnimalTableName = "Animal_Table";
     public const string ItemTableName = "Item_Table";
+    public const string AttackSkillTableName = "AttackSkill_Table";
+    public const string SupportSkillTableName = "SupportSkill_Table";
+    public const string AdditionalStatusEffectTableName= "AdditionalStatusEffect_Table";
     public const string GameManagerTag = "GameManager";
 
     public const string AnimalSelectedString = "선택됨";
     public const string AnimalSelectableString = "선택하기";
+
+    public const string ItemHumanAnimatorDefaultString = "Default";
+    public const string ItemHumanAnimatorDeadString = "Dead";
 
     public const float GameStartWaitTime = 1f;
 
@@ -71,5 +77,21 @@ public static class Utils
         }
 
         return cumulativeChances;
+    }
+
+    public static int GetIndexRandomChanceHitInList(List<float> chances)
+    {
+        List<float> cumulativeChances = ToCumulativeChanceList(chances);
+        float randValue = Random.value;
+        
+        for(int i = 0; i < cumulativeChances.Count; i++)
+        {
+            if (randValue <= cumulativeChances[i])
+            {
+                return i;
+            }
+        }
+        
+        throw new System.ArgumentException("The sum of input chances must be equal to 1f.", nameof(chances));
     }
 }
