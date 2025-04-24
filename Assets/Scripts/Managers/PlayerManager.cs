@@ -39,6 +39,7 @@ public class PlayerManager : InGameManager
 
     public Action onPlayerDead;
     public Action onPlayerRespawn;
+    public static Action<int> OnDeadCounting;
 
     public ReviveContinueUI reviveContinueUI;
     private PlayerRotator playerRotator;
@@ -149,7 +150,9 @@ public class PlayerManager : InGameManager
         DisablePlayer(status);
         PlayDeathAnimation();
         StartCoroutine(DieAndSwitch(status));
+        OnDeadCounting?.Invoke(1);
         onPlayerDead?.Invoke();
+
     }
 
 
