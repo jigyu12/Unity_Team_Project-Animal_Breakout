@@ -9,6 +9,11 @@ public class ProjectileBehaviour : MonoBehaviour
     private float arrivalThreshold = 1f; //도착했다 치는 거리
 
     private float speed;
+    private static float gloablSpeed = 5f;
+    private float Speed
+    {
+        get => speed * gloablSpeed;
+    }
     private Vector3 direction;
     private Vector3 target;
 
@@ -42,7 +47,7 @@ public class ProjectileBehaviour : MonoBehaviour
         }
 
         direction = (target - transform.position).normalized;
-        transform.position += direction * (speed + skillManager?.GetSkillInheritedForwardSpeed() ?? 0f) * Time.deltaTime;
+        transform.position += direction * (Speed + skillManager?.GetSkillInheritedForwardSpeed() ?? 0f) * Time.deltaTime;
         transform.LookAt(this.target);
     }
 
@@ -51,7 +56,7 @@ public class ProjectileBehaviour : MonoBehaviour
         onArrival?.Invoke();
         Destroy(gameObject);
     }
-    
+
     public void OnTargetGone()
     {
         Destroy(gameObject);

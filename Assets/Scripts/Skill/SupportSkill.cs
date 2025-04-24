@@ -40,6 +40,10 @@ public abstract class SupportSkill : ISkill
     {
         get => SkillData.skillID;
     }
+    public string SkillGroup
+    {
+        get => SkillData.skillGroup;
+    }
 
     public int Level
     {
