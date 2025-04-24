@@ -6,7 +6,7 @@ using UnityEngine;
 public class SkillManager : InGameManager
 {
     [SerializeField]
-    private int maxSkillCount = 4;
+    private List<int> maxSkillTypeCount = new();
 
     public float GlobalCoolDownTimeRate
     {
@@ -15,9 +15,18 @@ public class SkillManager : InGameManager
     }
 
 
-    public int MaxSkillCount => maxSkillCount;
+    public int MaxSkillCount
+    {
+        get;
+        private set;
+    }
 
     private List<ISkill> skills = new();
+    public IReadOnlyList<ISkill> Skills
+    {
+        get => skills;
+    }
+
     private SkillQueue readySkillQueue = new SkillQueue();
 
 
@@ -50,6 +59,11 @@ public class SkillManager : InGameManager
 
         BossManager.onSpawnBoss += OnSpawnBossHandler;
         BossStatus.onBossDead += ResetSkillTarget;
+
+        foreach(int count in maxSkillTypeCount)
+        {
+            MaxSkillCount += count;
+        }
     }
 
     private void OnEnable()
@@ -175,5 +189,10 @@ public class SkillManager : InGameManager
 
         GameManager.UIManager.ShowUIElement(UIElementEnums.SkillSelectionPanel);
         GameManager.SetGameState(GameManager_new.GameState.GameStop);
+    }
+
+    public int GetSkillTypeMaxCount(SkillType type)
+    {
+        return maxSkillTypeCount[(int)type];
     }
 }
