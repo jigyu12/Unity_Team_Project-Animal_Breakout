@@ -5,7 +5,7 @@ public enum UIElementEnums
 	RunStageUIElements,
 	RotateButton,
 	PauseButton,
-	PauseButton2,
+	PausePanel,
 	GameResultPanel ,
 	RevivalPanel,
 }
