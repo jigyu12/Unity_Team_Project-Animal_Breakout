@@ -27,17 +27,13 @@ public class SkillSelectionUI : UIElement
             var skillButton = Instantiate(skillButtonPrefab, skillListGameObject.transform).GetComponent<SkillButton>();
             skillButtons.Add(skillButton);
 
+            var index = i;
             skillButton.InitializeButtonAction(() =>
             {
-                int index = i;
                 SelectSkill(index);
             });
         }
-    }
-
-    private void Start()
-    {
-        gameObject.SetActive(false);    
+        gameObject.SetActive(false);
     }
 
     public override void Show()
@@ -62,5 +58,8 @@ public class SkillSelectionUI : UIElement
     private void SelectSkill(int index)
     {
         gameManager.SkillManager.SkillSelectionSystem.AddSkill(priority++, skillDatas[index]);
+
+        gameObject.SetActive(false);
+        gameManager.RestartGameState();
     }
 }
