@@ -45,10 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af435a31f60984ab19987997a00af0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreUI: {fileID: 0}
   coinCount: 0
   ScoreCount: 0
   ExpCount: 0
+  ReviveCount: 0
+  DeadCount: 0
+  JumpCount: 0
+  PlayGameCount: 0
+  BossDeadCount: 0
 --- !u!114 &5063948233960059232
 MonoBehaviour:
   m_ObjectHideFlags: 0
