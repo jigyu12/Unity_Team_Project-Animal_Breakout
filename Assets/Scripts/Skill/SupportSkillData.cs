@@ -15,7 +15,7 @@ public class SupportSkillData : SkillData
         skillID = rawData.SupportID;
         level = rawData.Level;
         skillGroup = rawData.SupportGroup;
-        
+        iconPrefab = rawData.Prefab;
         skillTarget = (SupportSkillTarget)rawData.SupportType;
         rate = rawData.Value;
     }
