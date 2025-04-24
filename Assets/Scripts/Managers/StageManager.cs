@@ -93,7 +93,6 @@ public class StageManager : InGameManager
         GameManager.UIManager.runStageUI.Hide();
         GameManager.UIManager.bossWayUI.Show();
         GameManager.PlayerManager.StopAllMovements();
-        GameManager.UIManager.bossTimeLimit.StartTimeOut();
         onBossStageEnter?.Invoke();
     }
 
@@ -106,7 +105,6 @@ public class StageManager : InGameManager
         isTrackingStarted = false;
         RoadWayDistanceTracking();
         GameManager.UIManager.runStageUI.total = 100f;
-        GameManager.UIManager.bossTimeLimit.StopTimeOut();
         OnCurrentStageClear();
     }
 
