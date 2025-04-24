@@ -12,9 +12,11 @@ public class GameUIManager : InGameManager
     public RotateButtonController rotateButtonController;
 
     public static event Action onShowGameOverPanel;
-
     private PauseHandler pauseHandler;
     private ReviveHandler reviveHandler;
+
+
+    public static Action<int> OnGamePlayCounting;
 
     public List<UIElement> uiElements = new();
 
@@ -126,6 +128,8 @@ public class GameUIManager : InGameManager
     public void RequestGiveUp()
     {
         GameManager.SetGameState(GameManager_new.GameState.GameOver);
+        OnGamePlayCounting?.Invoke(1);
+
     }
 
 }

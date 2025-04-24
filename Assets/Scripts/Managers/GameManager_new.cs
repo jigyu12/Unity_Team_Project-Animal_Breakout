@@ -262,6 +262,7 @@ public class GameManager_new : MonoBehaviour
     {
         Debug.Log("Game Over!");
         UIManager.ShowGameOverPanel();
+
         SetTimeScale(0);
     }
 }

@@ -10,6 +10,8 @@ public class BossStatus : DamageableStatus
     //private ObjectPool<GameObject> bossPool;
 
     public static event Action onBossDead;
+    public static Action<int> onBossDeadCounting;
+
     public static event Action<float, float> onBossCurrentHpChanged;
     private static int BossKillCount = 0;
 
@@ -56,6 +58,7 @@ public class BossStatus : DamageableStatus
         isDead = true;
 
         onBossDead?.Invoke();
+        onBossDeadCounting?.Invoke(1);
         BossKillCount++;
         Debug.Log(BossKillCount);
         //bossPool.Release(gameObject);
