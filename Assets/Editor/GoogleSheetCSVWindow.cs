@@ -68,7 +68,6 @@ public class GoogleSheetCSVWindow : EditorWindow
     private void UpdateDataTableCSV(string url, string path)
     {
         GoogleSheetManager.Load(url, path);
-        AssetDatabase.Refresh();
     }
 
     private string animalDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1280379651#gid=1280379651";

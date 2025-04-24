@@ -26,9 +26,9 @@ public class SkillManagerTest : MonoBehaviour
 
     private void Start()
     {
-        skillFactory = new SkillFactory();
-        AddSkill();
-  
+        
+        skillManager.SkillSelectionSystem.AddSkill(priority++, fire);
+
     }
 
     [ContextMenu("AddSkill")]
@@ -41,8 +41,8 @@ public class SkillManagerTest : MonoBehaviour
 
     public void AddSkill()
     {
-        var skill = skillFactory.CreateSkill(fire);
-        skillManager.SkillSelectionSystem.AddSkill(priority++, skill);
+        //var skill = skillFactory.CreateSkill(fire);
+        //skillManager.SkillSelectionSystem.AddSkill(priority++, skill);
 
         var skill1 = skillFactory.CreateSkill(ice);
         skillManager.SkillSelectionSystem.AddSkill(priority++, skill1);
