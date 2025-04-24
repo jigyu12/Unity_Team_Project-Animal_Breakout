@@ -1,21 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class SkillFactory
 {
-    private Dictionary<string, SkillDataLevelGroup> skillDataTable = new();
 
-    public IReadOnlyList<string> SkillGroupKeys
-    {
-        get => skillListGroupKeys;
-    }
-    private List<string> skillListGroupKeys;
-
-    public int SkillGroupCount
-    {
-        get => SkillGroupKeys.Count;
-    }
+    private List<Dictionary<string, SkillDataLevelGroup>> skillDataTable = new();
+    private List<List<string>> skillListGroupKeys=new();
 
 
     public class SkillDataLevelGroup
@@ -54,52 +46,69 @@ public class SkillFactory
         AttackSkillData[] attackSkillDatas = Resources.LoadAll<AttackSkillData>("ScriptableData/Skill/");
         SupportSkillData[] supportSkillDatas = Resources.LoadAll<SupportSkillData>("ScriptableData/Skill/");
 
-        foreach (var skillData in supportSkillDatas)
+        for (int i = 0; i < Enum.GetValues(typeof(SkillType)).Length; i++)
         {
-            if (skillDataTable.ContainsKey(skillData.skillGroup))
-            {
-                skillDataTable[skillData.skillGroup].AddToGroup(skillData);
-            }
-            else
-            {
-                var newGroup = new SkillDataLevelGroup();
-                newGroup.AddToGroup(skillData);
-                skillDataTable.Add(skillData.skillGroup, newGroup);
-            }
+            skillDataTable.Add(new Dictionary<string, SkillDataLevelGroup>());
         }
 
         foreach (var skillData in attackSkillDatas)
         {
-            if (skillDataTable.ContainsKey(skillData.skillGroup))
+            if (skillDataTable[(int)SkillType.Attack].ContainsKey(skillData.skillGroup))
             {
-                skillDataTable[skillData.skillGroup].AddToGroup(skillData);
+                skillDataTable[(int)SkillType.Attack][skillData.skillGroup].AddToGroup(skillData);
             }
             else
             {
                 var newGroup = new SkillDataLevelGroup();
                 newGroup.AddToGroup(skillData);
-                skillDataTable.Add(skillData.skillGroup, newGroup);
+                skillDataTable[(int)SkillType.Attack].Add(skillData.skillGroup, newGroup);
+            }
+        }
+
+        foreach (var skillData in supportSkillDatas)
+        {
+            if (skillDataTable[(int)SkillType.Support].ContainsKey(skillData.skillGroup))
+            {
+                skillDataTable[(int)SkillType.Support][skillData.skillGroup].AddToGroup(skillData);
+            }
+            else
+            {
+                var newGroup = new SkillDataLevelGroup();
+                newGroup.AddToGroup(skillData);
+                skillDataTable[(int)SkillType.Support].Add(skillData.skillGroup, newGroup);
             }
         }
 
         //데이터가 항상 순서대로 있을거라 확신할 수 없어 한번 정렬
-        foreach (var item in skillDataTable)
+        foreach (var dic in skillDataTable)
         {
-            item.Value.LevelSort();
+            foreach(var item in dic)
+            {
+                item.Value.LevelSort();
+            }
         }
 
-        skillListGroupKeys = skillDataTable.Keys.ToList();
+        for (int i = 0; i < Enum.GetValues(typeof(SkillType)).Length; i++)
+        {
+            skillListGroupKeys.Add(skillDataTable[i].Keys.ToList());
+        }
     }
 
-    public SkillData GetSkillData(string skillGroup, int level)
+    public IReadOnlyList<string> GetSkillGroupKeys(SkillType type)
     {
-        return skillDataTable[skillGroup].GetSkill(level);
+        return skillListGroupKeys[(int)type];
     }
 
-    public SkillData GetSkillData(int index, int level)
+
+    public SkillData GetSkillData(SkillType type, string skillGroup, int level)
     {
-        return GetSkillData(SkillGroupKeys[index], level);
+        return skillDataTable[(int)type][skillGroup].GetSkill(level);
     }
+
+    //public SkillData GetSkillData(int index, int level)
+    //{
+    //    return GetSkillData(SkillGroupKeys[index], level);
+    //}
 
 
     public ISkill CreateSkill(SkillData skillData)
