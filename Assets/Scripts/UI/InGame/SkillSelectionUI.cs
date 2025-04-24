@@ -33,11 +33,7 @@ public class SkillSelectionUI : UIElement
                 SelectSkill(index);
             });
         }
-    }
-
-    private void Start()
-    {
-        gameObject.SetActive(false);    
+        gameObject.SetActive(false);
     }
 
     public override void Show()
