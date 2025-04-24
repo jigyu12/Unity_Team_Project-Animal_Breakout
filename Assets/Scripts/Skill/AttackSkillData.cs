@@ -35,7 +35,7 @@ public class AttackSkillData : SkillData
         interval = rawData.Interval;
         coolDownTime = rawData.CoolTime;
         effectID = rawData.EffectID;
-        iconPrefab = rawData.Prefab;
+        iconPrefab = rawData.Prefab_Icon;
 
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(string.Format(prefabPath, skillElemental.ToString()));
         var projectile = prefab.GetComponent<ProjectileBehaviour>();
