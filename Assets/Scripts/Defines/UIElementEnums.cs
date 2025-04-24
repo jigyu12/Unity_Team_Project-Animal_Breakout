@@ -4,7 +4,6 @@ public enum UIElementEnums
 	ExperienceBar,
 	SkillList,
 	SkillSelectionPanel,
-	Panel,
 	RotateButton,
 	PauseButton,
 	PausePanel,
