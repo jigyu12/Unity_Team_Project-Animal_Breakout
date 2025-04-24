@@ -102,7 +102,7 @@ public class SkillSelectionSystem
     public void AddUpgradedSkill(ISkill skill)
     {
         UpgradeSkill(skill);
-        if (skill.Level >= ISkill.maxLevel)
+        if (skill.Level >= skillManager.SkillFactory.GetSkillMaxLevel(skill.SkillData.skillType, skill.SkillGroup))
         {
             canSelectSkillCount[(int)skill.SkillData.skillType]--;
         }
@@ -182,7 +182,7 @@ public class SkillSelectionSystem
                 string targetSkillGroup = GetRandomSkillGroup(type);
 
                 int targetSkillLevel = selectableSkillGroupTable[targetSkillGroup];
-                if (targetSkillLevel >= ISkill.maxLevel)
+                if (targetSkillLevel >= skillManager.SkillFactory.GetSkillMaxLevel(type, targetSkillGroup))
                 {
                     continue;
                 }
@@ -208,7 +208,7 @@ public class SkillSelectionSystem
                 string targetSkillGroup = GetExistkillGroup(type);
 
                 int targetSkillLevel = selectableSkillGroupTable[targetSkillGroup];
-                if (targetSkillLevel >= ISkill.maxLevel)
+                if (targetSkillLevel >= skillManager.SkillFactory.GetSkillMaxLevel(type, targetSkillGroup))
                 {
                     continue;
                 }

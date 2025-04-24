@@ -31,14 +31,6 @@ public class SkillManagerTest : MonoBehaviour
 
     }
 
-    [ContextMenu("AddSkill")]
-    public void AddTempSkill()
-    {
-
-        var skill2 = skillFactory.CreateSkill(support);
-        skillManager.SkillSelectionSystem.AddSkill(priority++, skill2);
-    }
-
     public void AddSkill()
     {
         //var skill = skillFactory.CreateSkill(fire);

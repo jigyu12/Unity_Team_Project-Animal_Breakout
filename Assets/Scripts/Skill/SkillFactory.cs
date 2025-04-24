@@ -31,6 +31,11 @@ public class SkillFactory
             return skillDatas[level - 1];
         }
 
+        public int GetSkillMaxLevel()
+        {
+            return skillDatas.Count;
+        }
+
         private List<SkillData> skillDatas;
     }
 
@@ -105,10 +110,10 @@ public class SkillFactory
         return skillDataTable[(int)type][skillGroup].GetSkill(level);
     }
 
-    //public SkillData GetSkillData(int index, int level)
-    //{
-    //    return GetSkillData(SkillGroupKeys[index], level);
-    //}
+    public int GetSkillMaxLevel (SkillType type, string skillGroup)
+    {
+        return skillDataTable[(int)type][skillGroup].GetSkillMaxLevel();
+    }
 
 
     public ISkill CreateSkill(SkillData skillData)
