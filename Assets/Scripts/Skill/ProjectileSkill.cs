@@ -16,6 +16,10 @@ public class ProjectileSkill : AttackSkill
 
     public override void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker, DamageableStatus target)
     {
+        if (!skillManager.IsSkillTargetValid())
+        {
+            return;
+        }
         //간격이라던지 그런건 일단 차치하고 작성
         for (int i = 0; i < AttackSkillData.projectileCount; i++)
         {
