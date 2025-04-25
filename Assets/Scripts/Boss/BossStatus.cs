@@ -42,6 +42,11 @@ public class BossStatus : DamageableStatus
             return;
         }
 
+        if (isDead)
+        {
+            return;
+        }
+
         currentHp -= damage;
         currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
         onBossCurrentHpChanged?.Invoke(currentHp, maxHp);
