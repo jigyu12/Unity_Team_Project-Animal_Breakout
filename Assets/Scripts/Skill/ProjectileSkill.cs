@@ -60,7 +60,7 @@ public class ProjectileSkill : AttackSkill
             return;
         }
 
-        ApplyElementalEffect(target, AttackSkillData.skillElemental);
+        ApplyElementalEffect(attacker,target, AttackSkillData.skillElemental);
         for (int i = 0; i < count; i++)
         {
             AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * AttackSkillData.damageRate, target);
