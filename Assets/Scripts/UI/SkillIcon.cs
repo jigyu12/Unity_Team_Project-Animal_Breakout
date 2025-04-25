@@ -18,7 +18,7 @@ public class SkillIcon : MonoBehaviour
 
     private ISkill targetSkill;
     private AttackSkill attackSkill;
-
+    public Sprite IconSprite => iconImage.sprite;
 
     private void Update()
     {
@@ -62,4 +62,5 @@ public class SkillIcon : MonoBehaviour
         }
         fillTimerImage.fillAmount = 1f - ratio;
     }
+
 }

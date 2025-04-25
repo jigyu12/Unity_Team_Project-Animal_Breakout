@@ -58,7 +58,9 @@ public class BurnStatusEffect : StatusEffect
         }
 
         isPerforming = true;
+
         coPreformBurnEffect = StartCoroutine(CoPerformBurnEffect());
+
     }
 
 

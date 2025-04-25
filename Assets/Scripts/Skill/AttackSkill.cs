@@ -5,10 +5,10 @@ public abstract class AttackSkill : ISkill
 {
     public SkillData SkillData
     {
-        get=> AttackSkillData;
+        get => AttackSkillData;
     }
 
-    public  AttackSkillData AttackSkillData
+    public AttackSkillData AttackSkillData
     {
         get;
         private set;
@@ -39,7 +39,7 @@ public abstract class AttackSkill : ISkill
 
     public float CoolDownTime
     {
-        get=> AttackSkillData.coolDownTime - AttackSkillData.coolDownTime * skillManager.GlobalCoolDownTimeRate;
+        get => AttackSkillData.coolDownTime - AttackSkillData.coolDownTime * skillManager.GlobalCoolDownTimeRate;
     }
 
     #endregion
@@ -60,7 +60,6 @@ public abstract class AttackSkill : ISkill
     {
         get => SkillData.level;
     }
-
 
     protected SkillManager skillManager;
     public void InitializeSkilManager(SkillManager skillManager)
@@ -86,22 +85,31 @@ public abstract class AttackSkill : ISkill
         switch (elemental)
         {
             case SkillElemental.Fire:
-                {
-                    target.gameObject.GetComponent<BurnStatusEffect>().Perform(Id);
-                    break;
-                }
+                target.GetComponent<BurnStatusEffect>().Perform(Id);
+                ShowDebuffIcon(SkillType.Attack, SkillData.iconImage);
+                break;
+
             case SkillElemental.Ice:
-                {
-                    target.gameObject.GetComponent<FrozenStatusEffect>().Perform(Id);
-                    break;
-                }
+                target.GetComponent<FrozenStatusEffect>().Perform(Id);
+                ShowDebuffIcon(SkillType.Attack, SkillData.iconImage);
+                break;
+
             case SkillElemental.Thunder:
-                {
-                    target.gameObject.GetComponent<ElectricShockStatusEffect>().Perform(Id);
-                    break;
-                }
+                target.GetComponent<ElectricShockStatusEffect>().Perform(Id);
+                ShowDebuffIcon(SkillType.Attack, SkillData.iconImage);
+                break;
         }
     }
+    private void ShowDebuffIcon(SkillType type, Sprite icon)
+    {
+        var gameManager = skillManager.gameManager;
+        if (gameManager.StageManager.IsPlayerInBossStage)
+        {
+            gameManager.UIManager.bossDebuffUI.AddDebuff(type, icon);
+        }
+    }
+
+
     public void Update()
     {
         UpdateCoolTime();

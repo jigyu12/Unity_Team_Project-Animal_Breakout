@@ -32,7 +32,7 @@ public class SkillManager : InGameManager
 
     public float skillPerformInterval = 1f;
     private Coroutine coSkillPerform = null;
-
+    public GameManager_new gameManager;
 
     [SerializeField]
     private BossStatus skillTarget;
@@ -56,11 +56,10 @@ public class SkillManager : InGameManager
         SkillSelectionSystem = new SkillSelectionSystem(this, skills);
 
         GlobalCoolDownTimeRate = 0f;
-
         BossManager.onSpawnBoss += OnSpawnBossHandler;
         BossStatus.onBossDead += ResetSkillTarget;
 
-        foreach(int count in maxSkillTypeCount)
+        foreach (int count in maxSkillTypeCount)
         {
             MaxSkillCount += count;
         }
@@ -95,7 +94,7 @@ public class SkillManager : InGameManager
         GameManager.PlayerManager.onPlayerDead += () => enabled = false;
         GameManager.PlayerManager.playerStatus.onAlive += () => enabled = true;
         GameManager.PlayerManager.playerExperience.onLevelChange += SkillSelection;
-
+        gameManager = GameManager;
     }
 
     public void AddSkillToReadyQueue(SkillPriorityItem skillPriorityItem)
@@ -163,6 +162,7 @@ public class SkillManager : InGameManager
     public void PerformSkill(ISkill skill)
     {
         skill.Perform(GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null, GameManager.PlayerManager.playerAttack, skillTarget);
+
     }
 
     public void AddGlobalCoolDownRate(float rate)
@@ -182,7 +182,7 @@ public class SkillManager : InGameManager
 
     public void SkillSelection(int currentLevel, int exp)
     {
-        if(currentLevel==1)
+        if (currentLevel == 1)
         {
             return;
         }
