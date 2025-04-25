@@ -148,8 +148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectInterval: 2
-  damageCount: 5
-  damage: 10
 --- !u!114 &5760225535858838046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,8 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5bbbb0c773e2e498bc9e8ccd69bde6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  effectCount: 1
 --- !u!114 &7007696889748874606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +172,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb98a67cfe5896049a2f025a308f70b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectInterval: 2
+  effectSkillData: {fileID: 11400000, guid: 4caa4f26252d498438480ede8ebed49e, type: 2}
   stackMaxCount: 6
-  damage: 10
