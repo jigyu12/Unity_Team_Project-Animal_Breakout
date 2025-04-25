@@ -171,7 +171,7 @@ public static class BossPatternNodeFactory
             case BossActionNodeType.Boss1DeathAnimation:
                 {
                     return new(bossBehaviourController,
-                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.Boss1DeathAnimation));
+                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.BossDeathAnimation));
                 }
         }
         

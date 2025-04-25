@@ -36,7 +36,7 @@ public static class BossPatternFuncFactory
                 { BossAttackPatternActionType.TestAttackToLane2, TestAttackToLane2},
                 { BossAttackPatternActionType.Boss1AttackAnimation1, PlayBossAttackPattern1Animation},
                 {BossAttackPatternActionType.Boss1AttackAnimation2, PlayBossAttackPattern2Animation},
-                { BossAttackPatternActionType.Boss1DeathAnimation, PlayBossDeathAnimation}
+                { BossAttackPatternActionType.BossDeathAnimation, PlayBossDeathAnimation}
             };
 
     public static Func<BossBehaviourController, bool> GetBossHpCondition(BossHpConditionType type, float hpValue)

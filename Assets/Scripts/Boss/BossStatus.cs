@@ -15,12 +15,16 @@ public class BossStatus : DamageableStatus
 
     public static event Action<float, float> onBossCurrentHpChanged;
     private static int BossKillCount = 0;
+    
+    private BossBehaviourController bossBehaviourController;
 
     public override void InitializeStatus(float maxHp)
     {
         this.maxHp = maxHp;
         currentHp = maxHp;
         isDead = false;
+
+        TryGetComponent(out bossBehaviourController);
     }
 
     public override void OnDamage(float damage, SkillElemental attribute)
@@ -59,6 +63,9 @@ public class BossStatus : DamageableStatus
         onBossDeadCounting?.Invoke(1);
         BossKillCount++;
         Debug.Log(BossKillCount);
+
+        var deathFunc = BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.BossDeathAnimation);
+        deathFunc?.Invoke(bossBehaviourController);
         
         StartCoroutine(DelayDestroy());
     }

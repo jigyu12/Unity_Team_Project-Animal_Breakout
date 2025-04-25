@@ -157,10 +157,12 @@ public enum BossAttackPatternActionType
     
     Boss1AttackAnimation1,
     Boss1AttackAnimation2,
-    Boss1DeathAnimation,
+    
     Boss1AttackPattern1,
     Boss1AttackPattern2,
     Boss1AttackPattern3,
+    
+    BossDeathAnimation,
 }
 
 public enum BossConditionNodeType
