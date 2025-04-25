@@ -16,12 +16,12 @@ public class ElectricShockStatusEffect : StatusEffect
 
     public override bool CanPerform
     {
-        get=> currentStackCount >= stackMaxCount;
+        get => currentStackCount >= stackMaxCount;
     }
 
     public override bool IsPerforming
     {
-        get=> isPerforming;
+        get => isPerforming;
     }
     private bool isPerforming;
 
@@ -67,6 +67,7 @@ public class ElectricShockStatusEffect : StatusEffect
     private void PerformElectricEffect()
     {
         isPerforming = false;
+        // debuffUI.RemoveDebuff("Thunder");
         Debug.Log($"전기 효과 damage : {damage}");
         target.OnDamage(damage);
     }

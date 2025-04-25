@@ -7,23 +7,42 @@ public class BossDebuffUIController : UIElement
     [SerializeField] private Transform debuffIconArea;
     [SerializeField] private GameObject debuffIconPrefab;
 
-    private Dictionary<SkillType, GameObject> activeIcons = new();
+    [SerializeField] private List<DebuffIconInfo> debuffIcons = new(); // 인스펙터에서 등록
 
-    public void AddDebuff(SkillType type, Sprite icon)
+    private Dictionary<string, GameObject> activeIcons = new();
+    private Dictionary<string, Sprite> debuffIconMap = new();
+
+    private void Awake()
     {
-        if (activeIcons.ContainsKey(type)) return;
-
-        GameObject iconObj = Instantiate(debuffIconPrefab, debuffIconArea);
-        iconObj.GetComponent<Image>().sprite = icon;
-        activeIcons[type] = iconObj;
+        foreach (var info in debuffIcons)
+        {
+            if (!debuffIconMap.ContainsKey(info.debuffId))
+            {
+                debuffIconMap.Add(info.debuffId, info.icon);
+            }
+        }
     }
 
-    public void RemoveDebuff(SkillType type)
+    public void AddDebuff(string debuffId)
     {
-        if (!activeIcons.TryGetValue(type, out var icon)) return;
+        if (activeIcons.ContainsKey(debuffId)) return;
+
+        GameObject iconObj = Instantiate(debuffIconPrefab, debuffIconArea);
+
+        if (debuffIconMap.TryGetValue(debuffId, out var icon))
+        {
+            iconObj.GetComponentInChildren<Image>().sprite = icon;
+        }
+
+        activeIcons[debuffId] = iconObj;
+    }
+
+    public void RemoveDebuff(string debuffId)
+    {
+        if (!activeIcons.TryGetValue(debuffId, out var icon)) return;
 
         Destroy(icon);
-        activeIcons.Remove(type);
+        activeIcons.Remove(debuffId);
     }
 
     public void ClearAllDebuffs()
@@ -34,4 +53,11 @@ public class BossDebuffUIController : UIElement
         }
         activeIcons.Clear();
     }
+}
+
+[System.Serializable]
+public class DebuffIconInfo
+{
+    public string debuffId;
+    public Sprite icon;
 }

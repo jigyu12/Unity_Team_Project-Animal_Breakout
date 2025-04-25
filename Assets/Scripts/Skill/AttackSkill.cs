@@ -82,32 +82,44 @@ public abstract class AttackSkill : ISkill
 
     protected void ApplyElementalEffect(DamageableStatus target, SkillElemental elemental)
     {
+        var ui = skillManager.gameManager.UIManager.bossDebuffUI;
+        string debuffId = null;
+
         switch (elemental)
         {
             case SkillElemental.Fire:
-                target.GetComponent<BurnStatusEffect>().Perform(Id);
-                ShowDebuffIcon(SkillType.Attack, SkillData.iconImage);
+                var burn = target.GetComponent<BurnStatusEffect>();
+                burn?.SetDebuffUI(ui);
+                burn?.Perform(Id);
+                debuffId = "Burn";
                 break;
 
             case SkillElemental.Ice:
-                target.GetComponent<FrozenStatusEffect>().Perform(Id);
-                ShowDebuffIcon(SkillType.Attack, SkillData.iconImage);
+                var freeze = target.GetComponent<FrozenStatusEffect>();
+                freeze?.SetDebuffUI(ui);
+                freeze?.Perform(Id);
+                debuffId = "Freeze";
                 break;
 
             case SkillElemental.Thunder:
-                target.GetComponent<ElectricShockStatusEffect>().Perform(Id);
-                ShowDebuffIcon(SkillType.Attack, SkillData.iconImage);
+                var shock = target.GetComponent<ElectricShockStatusEffect>();
+                shock?.SetDebuffUI(ui);
+                shock?.Perform(Id);
+                debuffId = "Thunder";
                 break;
         }
+        ShowDebuffIcon(debuffId, SkillData.iconImage);
     }
-    private void ShowDebuffIcon(SkillType type, Sprite icon)
+
+    private void ShowDebuffIcon(string debuffId, Sprite icon)
     {
         var gameManager = skillManager.gameManager;
-        if (gameManager.StageManager.IsPlayerInBossStage)
+        if (gameManager != null && gameManager.StageManager.IsPlayerInBossStage)
         {
-            gameManager.UIManager.bossDebuffUI.AddDebuff(type, icon);
+            gameManager.UIManager.bossDebuffUI.AddDebuff(debuffId);
         }
     }
+
 
 
     public void Update()
