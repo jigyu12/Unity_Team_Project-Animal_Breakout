@@ -71,9 +71,14 @@ public class BossBehaviourController : MonoBehaviour
 
     private void OnDestroy()
     {
+        ClearBossProjectile();
+    }
+
+    public void ClearBossProjectile()
+    {
         foreach (var tempBossProjectile in tempBossProjectileList)
         {
-            if (tempBossProjectile != null)
+            if (tempBossProjectile == null)
             {
                 continue;
             }
@@ -81,6 +86,8 @@ public class BossBehaviourController : MonoBehaviour
             tempBossProjectile.transform.SetParent(projectileReleaseParent.transform);
             tempBossProjectilePool.Release(tempBossProjectile);
         }
+        
+        tempBossProjectileList.Clear();
     }
     
     private void Update()
