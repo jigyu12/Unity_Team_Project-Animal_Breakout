@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class BossStatus : DamageableStatus
@@ -7,9 +8,9 @@ public class BossStatus : DamageableStatus
     public override float maxHp { get; protected set; }
     public override bool isDead { get; protected set; }
 
-    //private ObjectPool<GameObject> bossPool;
-
     public static event Action onBossDead;
+    public static event Action onBossDeathAnimationEnded;
+    private readonly WaitForSeconds waitTime = new(3f);
     public static Action<int> onBossDeadCounting;
 
     public static event Action<float, float> onBossCurrentHpChanged;
@@ -46,13 +47,10 @@ public class BossStatus : DamageableStatus
 
         if (Mathf.Approximately(0f, currentHp))
         {
-            Debug.Log("Boss is dead.");
-
             OnDead();
         }
     }
-
-
+    
     protected override void OnDead()
     {
         isDead = true;
@@ -61,12 +59,16 @@ public class BossStatus : DamageableStatus
         onBossDeadCounting?.Invoke(1);
         BossKillCount++;
         Debug.Log(BossKillCount);
-        //bossPool.Release(gameObject);
-        Destroy(gameObject);
+        
+        StartCoroutine(DelayDestroy());
     }
 
-    // public void SetPool(ObjectPool<GameObject> bossPool)
-    // {
-    //     this.bossPool = bossPool;
-    // }
+    private IEnumerator DelayDestroy()
+    {
+        yield return waitTime;
+        
+        onBossDeathAnimationEnded?.Invoke();
+        
+        Destroy(gameObject);
+    }
 }

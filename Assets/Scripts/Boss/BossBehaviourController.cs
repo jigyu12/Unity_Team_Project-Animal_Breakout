@@ -35,6 +35,8 @@ public class BossBehaviourController : MonoBehaviour
     
     private BehaviorTree<BossBehaviourController> behaviorTree;
     
+    private Animator animator;
+    
     private void Start()
     {
         playerRoot = GameObject.FindGameObjectWithTag("PlayerParent");
@@ -63,6 +65,8 @@ public class BossBehaviourController : MonoBehaviour
         SetBossPatternSelectRandomValue();
 
         TempBossProjectileList = tempBossProjectileList;
+        
+        TryGetComponent(out animator);
     }
 
     private void OnDestroy()
@@ -118,5 +122,39 @@ public class BossBehaviourController : MonoBehaviour
         return new Vector3(fixedX / transform.localScale.x, 
             lanePosition.y / transform.localScale.y, 
             lanePosition.z / transform.localScale.z);
+    }
+    
+    public bool PlayAnimation(string animationName)
+    {
+        if (animator is null)
+        {
+            Debug.Assert(false, "Animator is null");
+            
+            return false;
+        }
+        
+        int stringNameHash = Animator.StringToHash(animationName);
+
+        bool exists = false;
+        foreach (var param in animator.parameters)
+        {
+            if (param.nameHash == stringNameHash)
+            {
+                exists = true;
+                
+                break;
+            }
+        }
+
+        if (!exists)
+        {
+            Debug.Assert(false, $"Animation name '{animationName}' not exists in animator.");
+            
+            return false;
+        }
+
+        animator.SetTrigger(stringNameHash);
+        
+        return true;
     }
 }
