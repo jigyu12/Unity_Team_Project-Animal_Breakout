@@ -81,23 +81,23 @@ public abstract class AttackSkill : ISkill
         target.OnDamage(damage, AttackSkillData.skillElemental);
     }
 
-    protected void ApplyElementalEffect(DamageableStatus target, SkillElemental elemental)
+    protected void ApplyElementalEffect(AttackPowerStatus attacker, DamageableStatus target, SkillElemental elemental)
     {
         switch (elemental)
         {
             case SkillElemental.Fire:
                 {
-                    target.gameObject.GetComponent<BurnStatusEffect>().Perform(Id);
+                    target.gameObject.GetComponent<BurnStatusEffect>().Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
                     break;
                 }
             case SkillElemental.Ice:
                 {
-                    target.gameObject.GetComponent<FrozenStatusEffect>().Perform(Id);
+                    target.gameObject.GetComponent<FrozenStatusEffect>().Perform(Id,attacker.GetElementalAdditionalAttackPower(SkillElemental.Ice));
                     break;
                 }
             case SkillElemental.Thunder:
                 {
-                    target.gameObject.GetComponent<ElectricShockStatusEffect>().Perform(Id);
+                    target.gameObject.GetComponent<ElectricShockStatusEffect>().Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Thunder));
                     break;
                 }
         }
