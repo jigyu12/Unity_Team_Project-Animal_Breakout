@@ -109,7 +109,8 @@ public abstract class AttackSkill : ISkill
 
     public void UpgradeLevel()
     {
-        //Data set을 교체해야함
+        var nextSkillData = skillManager.SkillFactory.GetSkillData(SkillData.skillType, SkillData.skillGroup, Level + 1);
+        AttackSkillData = nextSkillData as AttackSkillData;
     }
 
     private void UpdateCoolTime()

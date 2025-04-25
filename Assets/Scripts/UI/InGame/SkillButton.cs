@@ -21,6 +21,8 @@ public class SkillButton : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI skillNameText;
 
+    private string skillNameFormat = "{0} LV{1}";
+
     [SerializeField]
     private TextMeshProUGUI skillDescriptionText;
 
@@ -46,7 +48,8 @@ public class SkillButton : MonoBehaviour
             skillTypeIcon.sprite = skillTypeSupportIcon;
         }
 
-        skillNameText.text = skillData.skillID.ToString();
+        skillNameText.text =   string.Format(skillNameFormat, skillData.skillID, skillData.level);
+        skillIcon.sprite = skillData.iconImage;
     }
 
     private void OnSelected()

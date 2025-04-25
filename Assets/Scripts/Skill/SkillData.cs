@@ -24,6 +24,7 @@ public enum SupportSkillTarget
     Experience,
     AttackPower,
     CoolDownTime,
+    ElementalStart,
     ElementalFirePower,
     ElementalIcePower,
     ElementalThunderPower,
@@ -36,6 +37,7 @@ public class SkillData : ScriptableObject
     public SkillType skillType;
     public int level;
     public string skillGroup;
+    public Sprite iconImage;
 }
 
 

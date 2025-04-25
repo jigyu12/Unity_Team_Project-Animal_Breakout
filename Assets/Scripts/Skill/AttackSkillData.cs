@@ -15,11 +15,12 @@ public class AttackSkillData : SkillData
     public int effectID;
 
 
-    public int elementalEffectAttackIndex=0;
+    public int elementalEffectAttackIndex = 0;
     public ProjectileBehaviour projectileBehaviourPrefab;
-    
-#if UNITY_EDITOR    
+
+#if UNITY_EDITOR
     private string prefabPath = "Assets/Resources/Prefab/Skill/Projectile{0}.prefab";
+    private string iconPath = "Assets/Resources/SkillIcon/{0}.png";
     public void SetData(AttackSkillRawData rawData)
     {
         skillType = SkillType.Attack;
@@ -36,10 +37,12 @@ public class AttackSkillData : SkillData
         coolDownTime = rawData.CoolTime;
         effectID = rawData.EffectID;
 
+        var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(iconPath, rawData.Prefab_Icon));
+        iconImage = sprite;
 
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(string.Format(prefabPath, skillElemental.ToString()));
         var projectile = prefab.GetComponent<ProjectileBehaviour>();
-        projectileBehaviourPrefab =projectile;
+        projectileBehaviourPrefab = projectile;
     }
 #endif
 }

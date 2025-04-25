@@ -1,8 +1,10 @@
 public enum UIElementEnums
 {
-	ExperienceBar,
-	SkillList,
 	RunStageUIElements,
+	ExperienceBar,
+	SkillIconList,
+	SkillSelectionPanel,
+	Panel,
 	RotateButton,
 	PauseButton,
 	PausePanel,

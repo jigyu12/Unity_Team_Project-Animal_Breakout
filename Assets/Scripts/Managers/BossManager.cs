@@ -32,7 +32,7 @@ public class BossManager : InGameManager
         boss.TryGetComponent(out bossStatus);
         boss.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
-        bossStatus.InitializeStatus(500f);
+        bossStatus.InitializeStatus(50000f);
         boss.TryGetComponent(out BossBehaviourController bossBehaviourController);
         bossBehaviourController.InitBehaviorTree(BossBehaviourTreeType.Boss1BehaviourTree);
 
