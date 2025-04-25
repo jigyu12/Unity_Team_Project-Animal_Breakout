@@ -162,7 +162,6 @@ public class SkillManager : InGameManager
     public void PerformSkill(ISkill skill)
     {
         skill.Perform(GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null, GameManager.PlayerManager.playerAttack, skillTarget);
-
     }
 
     public void AddGlobalCoolDownRate(float rate)
@@ -174,7 +173,7 @@ public class SkillManager : InGameManager
     {
         skillTarget = boss;
 
-        foreach(var effect in skillTarget.GetComponents<StatusEffect>())
+        foreach (var effect in skillTarget.GetComponents<StatusEffect>())
         {
             effect.InitializeSkillManager(this);
         }

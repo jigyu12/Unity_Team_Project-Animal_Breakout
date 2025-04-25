@@ -38,6 +38,7 @@ public class ElectricShockStatusEffect : StatusEffect
     {
         base.InitializeSkillManager(skillManager);
         effectSkill = skillManager.SkillFactory.CreateSkill(effectSkillData);
+        effectSkill.InitializeSkilManager(skillManager);
     }
 
     //public void SetEffectSkill(ISkill skill)
