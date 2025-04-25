@@ -80,33 +80,39 @@ public abstract class AttackSkill : ISkill
         target.OnDamage(damage, AttackSkillData.skillElemental);
     }
 
-    protected void ApplyElementalEffect(DamageableStatus target, SkillElemental elemental)
+    protected void ApplyElementalEffect(AttackPowerStatus attacker, DamageableStatus target, SkillElemental elemental)
     {
         var ui = skillManager.gameManager.UIManager.bossDebuffUI;
         string debuffId = null;
 
         switch (elemental)
         {
+
             case SkillElemental.Fire:
-                var burn = target.GetComponent<BurnStatusEffect>();
-                burn?.SetDebuffUI(ui);
-                burn?.Perform(Id);
-                debuffId = "Burn";
-                break;
+                {
+                    var burn = target.gameObject.GetComponent<BurnStatusEffect>();
+                    burn?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
+                    burn?.SetDebuffUI(ui);
 
+                    debuffId = "Burn";
+                    break;
+                }
             case SkillElemental.Ice:
-                var freeze = target.GetComponent<FrozenStatusEffect>();
-                freeze?.SetDebuffUI(ui);
-                freeze?.Perform(Id);
-                debuffId = "Freeze";
-                break;
-
+                {
+                    var freeze = target.GetComponent<FrozenStatusEffect>();
+                    freeze?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Ice));
+                    freeze?.SetDebuffUI(ui);
+                    debuffId = "Freeze";
+                    break;
+                }
             case SkillElemental.Thunder:
-                var shock = target.GetComponent<ElectricShockStatusEffect>();
-                shock?.SetDebuffUI(ui);
-                shock?.Perform(Id);
-                debuffId = "Thunder";
-                break;
+                {
+                    var shock = target.GetComponent<ElectricShockStatusEffect>();
+                    shock?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Thunder));
+                    shock?.SetDebuffUI(ui);
+                    debuffId = "Thunder";
+                    break;
+                }
         }
         ShowDebuffIcon(debuffId, SkillData.iconImage);
     }
