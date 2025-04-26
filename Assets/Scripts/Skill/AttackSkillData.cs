@@ -27,9 +27,12 @@ public class AttackSkillData : SkillData
         selectPossible = rawData.SelectPossible;
 
         skillID = rawData.SkillID;
+        nameID = rawData.NameID;
+        descriptionID = rawData.DescriptionID;
         level = rawData.SkillLevel;
         skillGroup = rawData.SkillGroup;
         skillElemental = (SkillElemental)rawData.Attribute;
+
         damageRate = rawData.Damage;
         projectileCount = rawData.ProjectileCount;
         attackCount = rawData.AttackCount;

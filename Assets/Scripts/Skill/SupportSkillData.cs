@@ -18,6 +18,8 @@ public class SupportSkillData : SkillData
         selectPossible = rawData.SelectPossible;
 
         skillID = rawData.SupportID;
+        nameID = rawData.NameID;
+        descriptionID = rawData.DescriptionID;
         level = rawData.Level;
         skillGroup = rawData.SupportGroup;
 

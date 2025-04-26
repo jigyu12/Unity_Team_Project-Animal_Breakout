@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en-US
   m_SharedData: {fileID: 11400000, guid: 9a99d10ffb24b462abebd96b16ef01bd, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 1007872329188376595
   m_TableData:
   - m_Id: 187689852928
     m_Localized: Newbie of Item Collector
@@ -526,7 +527,8 @@ MonoBehaviour:
   - m_Id: 187694047328
     m_Localized: Skill damage +{0}%
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 1007872329188376595
   - m_Id: 187694047329
     m_Localized: Cooltime -{0}%
     m_Metadata:
@@ -717,4 +719,10 @@ MonoBehaviour:
       m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 1007872329188376595
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 187694047328
