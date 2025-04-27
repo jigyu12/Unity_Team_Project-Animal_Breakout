@@ -83,6 +83,9 @@ PrefabInstance:
       addedObject: {fileID: 8582232832907087781}
     - targetCorrespondingSourceObject: {fileID: 1348910776175659781, guid: af2a89d99015da149af1b5c768677cf3, type: 3}
       insertIndex: -1
+      addedObject: {fileID: -5904863204218918167}
+    - targetCorrespondingSourceObject: {fileID: 1348910776175659781, guid: af2a89d99015da149af1b5c768677cf3, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 6597103737229331486}
     - targetCorrespondingSourceObject: {fileID: 1348910776175659781, guid: af2a89d99015da149af1b5c768677cf3, type: 3}
       insertIndex: -1
@@ -121,6 +124,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tempBossProjectilePrefab: {fileID: 5954293359110444456, guid: b59aedf7227f583458f1f30d8a907b3b, type: 3}
+  bossProjectilePooler: {fileID: -5904863204218918167}
+--- !u!114 &-5904863204218918167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366669117385028641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34692991dda896a44b03a626b6e6e417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossProjectilePrefabs:
+  - {fileID: 1158854600828228, guid: 65d928529cf7dd54aaa6892534bec958, type: 3}
+  - {fileID: 8268945509411666694, guid: a5067d295ebb5024dbead144632b53f2, type: 3}
+  - {fileID: 1146459598616756, guid: 310dfb1a0ad31f24999276a0cde317fe, type: 3}
 --- !u!114 &6597103737229331486
 MonoBehaviour:
   m_ObjectHideFlags: 0

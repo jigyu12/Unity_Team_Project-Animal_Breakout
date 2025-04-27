@@ -78,6 +78,11 @@ public static class BossPatternNodeFactory
                     return new(bossBehaviourController,
                         BossPatternFuncFactory.GetBossStatusCondition(BossStatusConditionType.IsBossDead));
                 }
+            case BossConditionNodeType.IsBossAliveCondition:
+                {
+                    return new(bossBehaviourController,
+                        BossPatternFuncFactory.GetBossStatusCondition(BossStatusConditionType.IsBossAlive));
+                }
         }
         
         Debug.Assert(false, "Invalid BossConditionNodeType");
@@ -146,7 +151,7 @@ public static class BossPatternNodeFactory
             case BossActionNodeType.Boss1AttackPattern1:
                 {
                     return new(bossBehaviourController, 
-                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.TestAttackToLane0));
+                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.Boss1AttackPattern1));
                 }
             case BossActionNodeType.Boss1AttackPattern2:
                 {

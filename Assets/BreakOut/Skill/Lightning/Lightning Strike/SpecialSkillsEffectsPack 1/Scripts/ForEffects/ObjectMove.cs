@@ -28,7 +28,7 @@ public class ObjectMove : MonoBehaviour
         if (Time.time > m_time + time)
             Destroy(gameObject);
 
-        transform.Translate(Vector3.forward * Time.deltaTime * MoveSpeed * m_scalefactor);
+        //transform.Translate(Vector3.forward * Time.deltaTime * MoveSpeed * m_scalefactor);
         if(AbleHit)
         { 
             RaycastHit hit;

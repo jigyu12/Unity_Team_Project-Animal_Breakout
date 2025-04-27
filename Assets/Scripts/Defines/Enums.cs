@@ -147,6 +147,7 @@ public enum BossRandomPatternSelectConditionType
 public enum BossStatusConditionType
 {
     IsBossDead,
+    IsBossAlive,
 }
 
 public enum BossAttackPatternActionType
@@ -176,6 +177,7 @@ public enum BossConditionNodeType
     Boss1Phase2Pattern2ChanceCondition,
     
     IsBossDeadCondition,
+    IsBossAliveCondition,
 }
 
 public enum BossTimerNodeType

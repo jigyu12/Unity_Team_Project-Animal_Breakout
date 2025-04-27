@@ -20,11 +20,16 @@ public static class BossBehaviourTreeFactory
                     
                     var phase2Pattern3Condition = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController, 
                         BossConditionNodeType.Boss1Phase2Pattern3UseCountCondition);
+                    var phase2Pattern3AttackSequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
+                    var bossAliveCondition = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
+                        BossConditionNodeType.IsBossAliveCondition);
                     var phase2Pattern3Timer = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1Phase2AttackTimeDelayTimer);
                     var phase2Pattern3Action = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
                         BossActionNodeType.Boss1AttackPattern3);
                     phase2Pattern3Timer.SetChild(phase2Pattern3Action);
+                    phase2Pattern3AttackSequence.AddChild(bossAliveCondition);
+                    phase2Pattern3AttackSequence.AddChild(phase2Pattern3Timer);
                     var attackPattern3Timer = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1AttackPattern3AnimationTimeDelayTimer);
                     var attackPattern3AnimationAction = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
@@ -33,15 +38,20 @@ public static class BossBehaviourTreeFactory
                     var phase2Pattern3Sequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
                     phase2Pattern3Sequence.AddChild(phase2Pattern3Condition);
                     phase2Pattern3Sequence.AddChild(attackPattern3Timer);
-                    phase2Pattern3Sequence.AddChild(phase2Pattern3Timer);
+                    phase2Pattern3Sequence.AddChild(phase2Pattern3AttackSequence);
 
                     var phase2Pattern1Condition = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
                         BossConditionNodeType.Boss1Phase2Pattern1ChanceCondition);
+                    var phase2Pattern1AttackSequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
+                    var bossAliveCondition2 = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
+                        BossConditionNodeType.IsBossAliveCondition);
                     var phase2Pattern1Timer = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1Phase2AttackTimeDelayTimer);
                     var phase2Pattern1Action = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
                         BossActionNodeType.Boss1AttackPattern1);
                     phase2Pattern1Timer.SetChild(phase2Pattern1Action);
+                    phase2Pattern1AttackSequence.AddChild(bossAliveCondition2);
+                    phase2Pattern1AttackSequence.AddChild(phase2Pattern1Timer);
                     var attackPattern1Timer = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1AttackPattern1AnimationTimeDelayTimer);
                     var attackPattern1AnimationAction = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
@@ -50,15 +60,20 @@ public static class BossBehaviourTreeFactory
                     var phase2Pattern1Sequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
                     phase2Pattern1Sequence.AddChild(phase2Pattern1Condition);
                     phase2Pattern1Sequence.AddChild(attackPattern1Timer);
-                    phase2Pattern1Sequence.AddChild(phase2Pattern1Timer);
+                    phase2Pattern1Sequence.AddChild(phase2Pattern1AttackSequence);
                     
                     var phase2Pattern2Condition = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
                         BossConditionNodeType.Boss1Phase2Pattern2ChanceCondition);
+                    var phase2Pattern2AttackSequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
+                    var bossAliveCondition3 = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
+                        BossConditionNodeType.IsBossAliveCondition);
                     var phase2Pattern2Timer = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1Phase2AttackTimeDelayTimer);
                     var phase2Pattern2Action = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
                         BossActionNodeType.Boss1AttackPattern2);
                     phase2Pattern2Timer.SetChild(phase2Pattern2Action);
+                    phase2Pattern2AttackSequence.AddChild(bossAliveCondition3);
+                    phase2Pattern2AttackSequence.AddChild(phase2Pattern2Timer);
                     var attackPattern2Timer = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1AttackPattern2AnimationTimeDelayTimer);
                     var attackPattern2AnimationAction = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
@@ -67,7 +82,7 @@ public static class BossBehaviourTreeFactory
                     var phase2Pattern2Sequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
                     phase2Pattern2Sequence.AddChild(phase2Pattern2Condition);
                     phase2Pattern2Sequence.AddChild(attackPattern2Timer);
-                    phase2Pattern2Sequence.AddChild(phase2Pattern2Timer);
+                    phase2Pattern2Sequence.AddChild(phase2Pattern2AttackSequence);
                     
                     var hpRatioCondition = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
                         BossConditionNodeType.Boss1PhaseChangeHpCondition);
@@ -82,11 +97,16 @@ public static class BossBehaviourTreeFactory
                     
                     var phase1Pattern3Condition = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController, 
                         BossConditionNodeType.Boss1Phase1Pattern3UseCountCondition);
+                    var phase1Pattern3AttackSequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
+                    var bossAliveCondition4 = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
+                        BossConditionNodeType.IsBossAliveCondition);
                     var phase1Pattern3Timer = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1Phase1AttackTimeDelayTimer);
                     var phase1Pattern3Action = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
                         BossActionNodeType.Boss1AttackPattern3);
                     phase1Pattern3Timer.SetChild(phase1Pattern3Action);
+                    phase1Pattern3AttackSequence.AddChild(bossAliveCondition4);
+                    phase1Pattern3AttackSequence.AddChild(phase1Pattern3Timer);
                     var attackPattern3Timer2 = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1AttackPattern3AnimationTimeDelayTimer);
                     var attackPattern3AnimationAction2 = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
@@ -95,15 +115,20 @@ public static class BossBehaviourTreeFactory
                     var phase1Pattern3Sequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
                     phase1Pattern3Sequence.AddChild(phase1Pattern3Condition);
                     phase1Pattern3Sequence.AddChild(attackPattern3Timer2);
-                    phase1Pattern3Sequence.AddChild(phase1Pattern3Timer);
+                    phase1Pattern3Sequence.AddChild(phase1Pattern3AttackSequence);
                     
                     var phase1Pattern1Condition = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
                         BossConditionNodeType.Boss1Phase1Pattern1ChanceCondition);
+                    var phase1Pattern1AttackSequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
+                    var bossAliveCondition5 = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
+                        BossConditionNodeType.IsBossAliveCondition);
                     var phase1Pattern1Timer = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1Phase1AttackTimeDelayTimer);
                     var phase1Pattern1Action = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
                         BossActionNodeType.Boss1AttackPattern1);
                     phase1Pattern1Timer.SetChild(phase1Pattern1Action);
+                    phase1Pattern1AttackSequence.AddChild(bossAliveCondition5);
+                    phase1Pattern1AttackSequence.AddChild(phase1Pattern1Timer);
                     var attackPattern1Timer2 = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1AttackPattern1AnimationTimeDelayTimer);
                     var attackPattern1AnimationAction2 = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
@@ -112,15 +137,20 @@ public static class BossBehaviourTreeFactory
                     var phase1Pattern1Sequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
                     phase1Pattern1Sequence.AddChild(phase1Pattern1Condition);
                     phase1Pattern1Sequence.AddChild(attackPattern1Timer2);
-                    phase1Pattern1Sequence.AddChild(phase1Pattern1Timer);
+                    phase1Pattern1Sequence.AddChild(phase1Pattern1AttackSequence);
                     
                     var phase1Pattern2Condition = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
                         BossConditionNodeType.Boss1Phase1Pattern2ChanceCondition);
+                    var phase1Pattern2AttackSequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
+                    var bossAliveCondition6 = BossPatternNodeFactory.GetBossConditionNode(bossBehaviourController,
+                        BossConditionNodeType.IsBossAliveCondition);
                     var phase1Pattern2Timer = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1Phase1AttackTimeDelayTimer);
                     var phase1Pattern2Action = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
                         BossActionNodeType.Boss1AttackPattern2);
                     phase1Pattern2Timer.SetChild(phase1Pattern2Action);
+                    phase1Pattern2AttackSequence.AddChild(bossAliveCondition6);
+                    phase1Pattern2AttackSequence.AddChild(phase1Pattern2Timer);
                     var attackPattern2Timer2 = BossPatternNodeFactory.GetBossTimerNode(bossBehaviourController,
                         BossTimerNodeType.Boss1AttackPattern2AnimationTimeDelayTimer);
                     var attackPattern2AnimationAction2 = BossPatternNodeFactory.GetBossActionNode(bossBehaviourController,
@@ -129,7 +159,7 @@ public static class BossBehaviourTreeFactory
                     var phase1Pattern2Sequence = new SequenceNode<BossBehaviourController>(bossBehaviourController);
                     phase1Pattern2Sequence.AddChild(phase1Pattern2Condition);
                     phase1Pattern2Sequence.AddChild(attackPattern2Timer2);
-                    phase1Pattern2Sequence.AddChild(phase1Pattern2Timer);
+                    phase1Pattern2Sequence.AddChild(phase1Pattern2AttackSequence);
                     
                     var bossPatternSelector2 = new SelectorNode<BossBehaviourController>(bossBehaviourController);
                     bossPatternSelector2.AddChild(phase1Pattern3Sequence);

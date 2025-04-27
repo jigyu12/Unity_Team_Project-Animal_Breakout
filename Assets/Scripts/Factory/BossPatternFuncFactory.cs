@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class BossPatternFuncFactory
 {
@@ -26,6 +27,7 @@ public static class BossPatternFuncFactory
         BossStatusConditions = new()
         {
             { BossStatusConditionType.IsBossDead, bossBehaviourController => bossBehaviourController.BossStatus.isDead},
+            { BossStatusConditionType.IsBossAlive, bossBehaviourController => !bossBehaviourController.BossStatus.isDead},
         };
     
     private static readonly Dictionary<BossAttackPatternActionType, Func<BossBehaviourController, BTNodeState>> 
@@ -34,6 +36,9 @@ public static class BossPatternFuncFactory
                 { BossAttackPatternActionType.TestAttackToLane0, TestAttackToLane0},
                 { BossAttackPatternActionType.TestAttackToLane1, TestAttackToLane1},
                 { BossAttackPatternActionType.TestAttackToLane2, TestAttackToLane2},
+                
+                { BossAttackPatternActionType.Boss1AttackPattern1, Boss1AttackPattern1},
+                
                 { BossAttackPatternActionType.Boss1AttackAnimation1, PlayBossAttackPattern1Animation},
                 {BossAttackPatternActionType.Boss1AttackAnimation2, PlayBossAttackPattern2Animation},
                 { BossAttackPatternActionType.BossDeathAnimation, PlayBossDeathAnimation}
@@ -115,8 +120,6 @@ public static class BossPatternFuncFactory
 
         AfterUsingNormalPattern(bossBehaviourController);
         
-        Debug.Log("Attack1");
-        
         return BTNodeState.Success;
     }
     
@@ -136,8 +139,6 @@ public static class BossPatternFuncFactory
         
         AfterUsingNormalPattern(bossBehaviourController);
         
-        Debug.Log("Attack2");
-        
         return BTNodeState.Success;
     }
     
@@ -156,8 +157,22 @@ public static class BossPatternFuncFactory
         bossBehaviourController.TempBossProjectileList.Add(tempBossProjectile);
         
         AfterUsingSpecialPattern(bossBehaviourController);
+       
+        return BTNodeState.Success;
+    }
+
+    private static BTNodeState Boss1AttackPattern1(BossBehaviourController bossBehaviourController)
+    {
+        Vector3 attackPosition = bossBehaviourController.GetLaneAttackPosition(Random.Range(0, 3));
+        var bossProjectile = bossBehaviourController.BossProjectilePooler.GetBossProjectile(1);
+        bossProjectile.transform.SetParent(bossBehaviourController.transform);
+        bossProjectile.transform.rotation = Quaternion.LookRotation( bossBehaviourController.LocalDirectionToPlayer, Vector3.up);
+        bossProjectile.Initialize(attackPosition,
+            bossBehaviourController.LocalDirectionToPlayer,
+            8f,
+            bossBehaviourController.ProjectileReleaseParent.transform);
         
-        Debug.Log("Attack3");
+        AfterUsingNormalPattern(bossBehaviourController);
         
         return BTNodeState.Success;
     }
