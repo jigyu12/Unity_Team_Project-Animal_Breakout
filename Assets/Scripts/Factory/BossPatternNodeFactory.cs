@@ -7,9 +7,9 @@ public static class BossPatternNodeFactory
     
     private const float Boss1Phase1AttackTimeDelay = 3f;
     private const float Boss1Phase2AttackTimeDelay = 1.5f;
-    private const float Boss1AttackPattern1AnimationTimeDelay = 2.2f;
-    private const float Boss1AttackPattern2AnimationTimeDelay = 1.6f;
-    private const float Boss1AttackPattern3AnimationTimeDelay = 1.6f;
+    private const float Boss1AttackPattern1AnimationTimeDelay = 0.85f;
+    private const float Boss1AttackPattern2AnimationTimeDelay = 0.7f;
+    private const float Boss1AttackPattern3AnimationTimeDelay = 0.7f;
     
     private const float Boss1Phase1Pattern1Chance = 0.7f;
     private const float Boss1Phase1Pattern2Chance = 0.3f;
