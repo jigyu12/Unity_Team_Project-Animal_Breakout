@@ -22,7 +22,7 @@ public class ElectricShockStatusEffect : StatusEffect
 
     public override bool IsPerforming
     {
-        get=> isPerforming;
+        get => isPerforming;
     }
     private bool isPerforming;
 
@@ -38,6 +38,7 @@ public class ElectricShockStatusEffect : StatusEffect
     {
         base.InitializeSkillManager(skillManager);
         effectSkill = skillManager.SkillFactory.CreateSkill(effectSkillData);
+        effectSkill.InitializeSkilManager(skillManager);
     }
 
     //public void SetEffectSkill(ISkill skill)

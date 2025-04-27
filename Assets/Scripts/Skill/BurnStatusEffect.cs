@@ -70,5 +70,6 @@ public class BurnStatusEffect : StatusEffect
             yield return new WaitForSeconds(effectInterval);
         }
         isPerforming = false;
+        // debuffUI.RemoveDebuff("Burn");
     }
 }

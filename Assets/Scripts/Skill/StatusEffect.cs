@@ -6,6 +6,12 @@ public abstract class StatusEffect : MonoBehaviour
 {
     public abstract void SetDamagerableTarget(DamageableStatus damageable);
 
+    protected BossDebuffUIController debuffUI;
+
+    public void SetDebuffUI(BossDebuffUIController ui)
+    {
+        debuffUI = ui;
+    }
     public SkillElemental Elemental
     {
         get;
