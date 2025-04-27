@@ -26,6 +26,8 @@ public class ElectricShockStatusEffect : StatusEffect
     }
     private bool isPerforming;
 
+    private DebuffIcon debuffIcon;
+
     private void Start()
     {
         SetEffectData(effectId, SkillElemental.Thunder);
@@ -59,6 +61,8 @@ public class ElectricShockStatusEffect : StatusEffect
         {
             isPerforming = true;
             currentStackCount = 0;
+            // debuffIcon = debuffUI?.AddDebuff("Thunder");
+            // debuffIcon?.UpdateCountText(currentStackCount);
         }
     }
 
@@ -70,7 +74,13 @@ public class ElectricShockStatusEffect : StatusEffect
         }
 
         currentStackCount++;
+
+        //  스택 올라갈 때마다 텍스트 갱신
+        var gameManager = skillManager.gameManager;
+        var debuffIcon = gameManager.UIManager.bossDebuffUI.AddDebuff("Thunder"); // 이미 있는 거 가져옴
+        debuffIcon?.UpdateCountText(currentStackCount);
         Debug.Log($"전기스택 {currentStackCount}번째");
+
         if (currentStackCount >= stackMaxCount)
         {
             PerformEffectSkill();
@@ -81,6 +91,8 @@ public class ElectricShockStatusEffect : StatusEffect
     {
         isPerforming = false;
         skillManager.PerformSkill(effectSkill);
+
+        debuffUI?.RemoveDebuff("Thunder");
     }
 
 }
