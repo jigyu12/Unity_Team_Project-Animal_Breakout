@@ -63,7 +63,6 @@ public class SkillSelectionSystem
 
     public void AddSkill(int priority, ISkill skill)
     {
-        var item = new SkillPriorityItem(priority, skill);
         skills.Add(skill);
         onSkillListUpdated?.Invoke(skills);
 
@@ -71,6 +70,7 @@ public class SkillSelectionSystem
         if (skill.SkillData.skillType == SkillType.Attack)
         {
             AttackSkill attackSkill = skill as AttackSkill;
+            var item = new SkillPriorityItem(priority, attackSkill);
             attackSkill.AddOnReadyAction(() => skillManager.AddSkillToReadyQueue(item));
             attackSkill.OnReady();
         }
@@ -113,7 +113,6 @@ public class SkillSelectionSystem
     private void AddNewSkill(int priority, SkillData skillData)
     {
         var skill = skillManager.SkillFactory.CreateSkill(skillData);
-        var item = new SkillPriorityItem(priority, skill);
         skills.Add(skill);
         selectableSkillGroupTable[skillData.skillGroup] = skillData.level;
         onSkillListUpdated?.Invoke(skills);
@@ -123,9 +122,9 @@ public class SkillSelectionSystem
         if (skillData.skillType == SkillType.Attack)
         {
             AttackSkill attackSkill = skill as AttackSkill;
+            var item = new SkillPriorityItem(priority, attackSkill);
             attackSkill.AddOnReadyAction(() => skillManager.AddSkillToReadyQueue(item));
             attackSkill.OnReady();
-
         }
         else if (skillData.skillType == SkillType.Support)
         {
@@ -154,7 +153,6 @@ public class SkillSelectionSystem
         {
             return GetRandomSkillGroup(type);
         }
-
     }
 
     public string GetExistkillGroup(SkillType type)

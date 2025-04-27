@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AttackSkill : ISkill
@@ -73,7 +75,8 @@ public abstract class AttackSkill : ISkill
         AttackSkillData = attackSkillData;
     }
 
-    public abstract void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker, DamageableStatus target);
+    public abstract void Perform(AttackPowerStatus attacker, DamageableStatus target, Transform start = null, Transform destination = null);
+    public abstract IEnumerator coPerform(AttackPowerStatus attacker, DamageableStatus target, Transform start = null, Transform destination = null);
 
     protected virtual void AttackDamage(float damage, DamageableStatus target)
     {
@@ -161,5 +164,32 @@ public abstract class AttackSkill : ISkill
     public virtual void OnReady()
     {
         onReady?.Invoke();
+    }
+
+    public void ApplyOnlyDamage(AttackPowerStatus attacker, DamageableStatus target, int count)
+    {
+        if (!skillManager.IsSkillTargetValid())
+        {
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * AttackSkillData.damageRate, target);
+        }
+    }
+
+    public void ApplyDamageAndElementalEffect(AttackPowerStatus attacker, DamageableStatus target, int count)
+    {
+        if (!skillManager.IsSkillTargetValid())
+        {
+            return;
+        }
+
+        ApplyElementalEffect(attacker, target, AttackSkillData.skillElemental);
+        for (int i = 0; i < count; i++)
+        {
+            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * AttackSkillData.damageRate, target);
+        }
     }
 }

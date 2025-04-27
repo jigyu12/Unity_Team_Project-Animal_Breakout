@@ -1,4 +1,5 @@
 
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class AttackSkillData : SkillData
     public float speed;
     public float interval;
     public int effectID;
-
+    public ProjectileType projectileType;
 
     public int elementalEffectAttackIndex = 0;
     public ProjectileBehaviour projectileBehaviourPrefab;
@@ -38,10 +39,12 @@ public class AttackSkillData : SkillData
         coolDownTime = rawData.CoolTime;
         effectID = rawData.EffectID;
 
+        projectileType = Enum.Parse<ProjectileType>(rawData.ProjectileType);
+
         var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(iconPath, rawData.Prefab_Icon));
         iconImage = sprite;
 
-        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(string.Format(prefabPath, skillElemental.ToString()));
+        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(string.Format(prefabPath, skillGroup));
         var projectile = prefab.GetComponent<ProjectileBehaviour>();
         projectileBehaviourPrefab = projectile;
     }
