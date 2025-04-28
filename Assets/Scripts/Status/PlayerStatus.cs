@@ -56,6 +56,17 @@ public class PlayerStatus : MonoBehaviour
         // defaultLayer = LayerMask.NameToLayer("Player");
         // invincibleLayer = LayerMask.NameToLayer("InvinciblePlayer");
     }
+
+    private void Awake()
+    {
+        DamagedParticleCollision.onTakeDamage += TakeDamage;
+    }
+
+    private void OnDestroy()
+    {
+        DamagedParticleCollision.onTakeDamage -= TakeDamage;
+    }
+
     public void Initialize()
     {
         // animalData = DataTableManager.animalDataTable.Get(animalID);

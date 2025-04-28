@@ -38,6 +38,7 @@ public static class BossPatternFuncFactory
                 { BossAttackPatternActionType.TestAttackToLane2, TestAttackToLane2},
                 
                 { BossAttackPatternActionType.Boss1AttackPattern1, Boss1AttackPattern1},
+                { BossAttackPatternActionType.Boss1AttackPattern2, Boss1AttackPattern2},
                 
                 { BossAttackPatternActionType.Boss1AttackAnimation1, PlayBossAttackPattern1Animation},
                 {BossAttackPatternActionType.Boss1AttackAnimation2, PlayBossAttackPattern2Animation},
@@ -186,8 +187,11 @@ public static class BossPatternFuncFactory
             : (bossBehaviourController.GetLaneAttackPosition(1) + bossBehaviourController.GetLaneAttackPosition(2)) / 2f;
         var bossProjectile = bossBehaviourController.BossProjectilePooler.GetBossProjectile(0);
         bossProjectile.transform.SetParent(bossBehaviourController.transform);
-        
-        
+        bossProjectile.transform.rotation = Quaternion.LookRotation( bossBehaviourController.LocalDirectionToPlayer, Vector3.up);
+        bossProjectile.Initialize(attackPosition,
+            bossBehaviourController.LocalDirectionToPlayer,
+            0f,
+            bossBehaviourController.ProjectileReleaseParent.transform);
         
         AfterUsingNormalPattern(bossBehaviourController);
         
