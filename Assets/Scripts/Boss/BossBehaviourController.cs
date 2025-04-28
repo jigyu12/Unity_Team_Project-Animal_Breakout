@@ -20,7 +20,7 @@ public class BossBehaviourController : MonoBehaviour
 
     private ObjectPool<GameObject> tempBossProjectilePool;
     public ObjectPool<GameObject> TempBossProjectilePool { get; private set; }
-
+    
     private GameObject projectileReleaseParent;
     public GameObject ProjectileReleaseParent { get; private set; }
 
@@ -38,13 +38,21 @@ public class BossBehaviourController : MonoBehaviour
 
     private Animator animator;
 
+    
+    [SerializeField] private BossProjectilePooler bossProjectilePooler;
+    public BossProjectilePooler BossProjectilePooler { get; private set; }
+    
+
     private void Start()
     {
         playerRoot = GameObject.FindGameObjectWithTag("PlayerParent");
         playerRoot.TryGetComponent(out lane);
         Lane = lane;
 
-        localDirectionToPlayer = (playerRoot.transform.position - transform.position).normalized;
+        localDirectionToPlayer = playerRoot.transform.position - transform.position;
+        localDirectionToPlayer.y = 0f;
+        localDirectionToPlayer.Normalize();
+
         LocalDirectionToPlayer = localDirectionToPlayer;
 
         transform.localPosition = BossManager.spawnLocalPosition;
@@ -68,16 +76,23 @@ public class BossBehaviourController : MonoBehaviour
         TempBossProjectileList = tempBossProjectileList;
 
         TryGetComponent(out animator);
+
         damageTextManager = gameManager.DamageTextManager;
         damageTextManager?.Register(bossStatus);
+
+        
+        BossProjectilePooler = bossProjectilePooler;
+
     }
 
     private void OnDestroy()
     {
-        ClearBossProjectile();
+        ClearTempBossProjectile();
+        
+        bossProjectilePooler.ClearPooledProjectiles();
     }
 
-    public void ClearBossProjectile()
+    public void ClearTempBossProjectile()
     {
         foreach (var tempBossProjectile in tempBossProjectileList)
         {
