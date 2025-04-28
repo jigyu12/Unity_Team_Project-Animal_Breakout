@@ -21,20 +21,18 @@ public class DamageText : MonoBehaviour
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
     }
-
-    public void Initialize(float damage, Action<DamageText> onReturn)
+    public void Initialize(float damage, Action<DamageText> onReturn, Color color)
     {
         text.text = ((int)damage).ToString();
+        text.color = color; // 추가
         returnAction = onReturn;
 
-        // 초기화
         transform.localScale = Vector3.one;
         if (canvasGroup != null)
             canvasGroup.alpha = 1f;
 
         StartCoroutine(FloatingCoroutine());
     }
-
     private IEnumerator FloatingCoroutine() // 위로 서서히 사라지는 연출
     {
         float time = 0f;
