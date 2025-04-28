@@ -39,4 +39,15 @@ public class SkillIconListUI : UIElement
             skillIcons[i].gameObject.SetActive(false);
         }
     }
+    public bool TryGetIconSprite(int index, out Sprite sprite)
+    {
+        sprite = null;
+        if (index >= 0 && index < skillIcons.Count && skillIcons[index] != null)
+        {
+            sprite = skillIcons[index].IconSprite;
+            return true;
+        }
+        return false;
+    }
+
 }

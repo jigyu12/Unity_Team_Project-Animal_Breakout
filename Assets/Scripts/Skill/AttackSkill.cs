@@ -5,10 +5,10 @@ public abstract class AttackSkill : ISkill
 {
     public SkillData SkillData
     {
-        get=> AttackSkillData;
+        get => AttackSkillData;
     }
 
-    public  AttackSkillData AttackSkillData
+    public AttackSkillData AttackSkillData
     {
         get;
         private set;
@@ -39,7 +39,7 @@ public abstract class AttackSkill : ISkill
 
     public float CoolDownTime
     {
-        get=> AttackSkillData.coolDownTime - AttackSkillData.coolDownTime * skillManager.GlobalCoolDownTimeRate;
+        get => AttackSkillData.coolDownTime - AttackSkillData.coolDownTime * skillManager.GlobalCoolDownTimeRate;
     }
 
     #endregion
@@ -60,7 +60,6 @@ public abstract class AttackSkill : ISkill
     {
         get => SkillData.level;
     }
-
 
     protected SkillManager skillManager;
     public void InitializeSkilManager(SkillManager skillManager)
@@ -83,25 +82,52 @@ public abstract class AttackSkill : ISkill
 
     protected void ApplyElementalEffect(AttackPowerStatus attacker, DamageableStatus target, SkillElemental elemental)
     {
+        var ui = skillManager.gameManager.UIManager.bossDebuffUI;
+        string debuffId = null;
+
         switch (elemental)
         {
+
             case SkillElemental.Fire:
                 {
-                    target.gameObject.GetComponent<BurnStatusEffect>().Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
+                    var burn = target.gameObject.GetComponent<BurnStatusEffect>();
+                    burn?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
+                    burn?.SetDebuffUI(ui);
+
+                    debuffId = "Burn";
                     break;
                 }
             case SkillElemental.Ice:
                 {
-                    target.gameObject.GetComponent<FrozenStatusEffect>().Perform(Id,attacker.GetElementalAdditionalAttackPower(SkillElemental.Ice));
+                    var freeze = target.GetComponent<FrozenStatusEffect>();
+                    freeze?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Ice));
+                    freeze?.SetDebuffUI(ui);
+                    debuffId = "Freeze";
                     break;
                 }
             case SkillElemental.Thunder:
                 {
-                    target.gameObject.GetComponent<ElectricShockStatusEffect>().Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Thunder));
+                    var shock = target.GetComponent<ElectricShockStatusEffect>();
+                    shock?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Thunder));
+                    shock?.SetDebuffUI(ui);
+                    debuffId = "Thunder";
                     break;
                 }
         }
+        ShowDebuffIcon(debuffId, SkillData.iconImage);
     }
+
+    private void ShowDebuffIcon(string debuffId, Sprite icon)
+    {
+        var gameManager = skillManager.gameManager;
+        if (gameManager != null && gameManager.StageManager.IsPlayerInBossStage)
+        {
+            gameManager.UIManager.bossDebuffUI.AddDebuff(debuffId);
+        }
+    }
+
+
+
     public void Update()
     {
         UpdateCoolTime();
