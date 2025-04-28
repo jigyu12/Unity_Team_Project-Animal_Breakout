@@ -42,6 +42,10 @@ public class SkillData : ScriptableObject
     public SkillType skillType;
     public int level;
     public string skillGroup;
+
+    public string nameID;
+    public string descriptionID;
+
     public Sprite iconImage;
 
     public bool selectPossible;
