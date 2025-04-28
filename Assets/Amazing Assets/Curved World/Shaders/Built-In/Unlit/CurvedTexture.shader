@@ -1,9 +1,15 @@
+
+#pragma multi_compile_local CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE
 Shader "Unlit/CurvedTexture"
 {
     Properties
     {
          //Paste Curved World material property here////////////////////////////////////
+         #ifdef CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE
         [CurvedWorldBendSettings] _CurvedWorldBendSettings("2|1|1", Vector) = (0, 0, 0, 0)
+        #elif defined(CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE)
+        [CurvedWorldBendSettings] _CurvedWorldBendSettings("0|1|1", Vector) = (0, 0, 0, 0)
+        #endif
 
         _MainTex ("Texture", 2D) = "white" {}
     }
@@ -22,7 +28,7 @@ Shader "Unlit/CurvedTexture"
 
             //Paste Curved World definitions and keywords here/////////////////////////
             #include "UnityCG.cginc"
-            #define CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE
+            //#define CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE
 #define CURVEDWORLD_BEND_ID_1
 #pragma shader_feature_local CURVEDWORLD_DISABLED_ON
 #pragma shader_feature_local CURVEDWORLD_NORMAL_TRANSFORMATION_ON
