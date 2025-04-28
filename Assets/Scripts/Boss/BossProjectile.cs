@@ -54,7 +54,7 @@ public class BossProjectile : MonoBehaviour
         this.projectilePool = projectilePool;
     }
 
-    private void Release()
+    public void Release()
     {
         RemoveFromPooledList();
         ReleaseToPool();
