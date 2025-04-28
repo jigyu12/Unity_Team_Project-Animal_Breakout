@@ -24,7 +24,6 @@ public class SupportSkillRawData
 
 public class SupportSkillDataTable : DataTable
 {
-
     private static readonly Dictionary<int, SupportSkillRawData> table = new();
 
     public List<int> Keys

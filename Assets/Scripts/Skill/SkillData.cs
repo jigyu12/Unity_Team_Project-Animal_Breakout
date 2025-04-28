@@ -39,8 +39,12 @@ public enum ProjectileType
 public class SkillData : ScriptableObject
 {
     public int skillID;
+
     public SkillType skillType;
     public int level;
+
+    public string nameID;
+    public string descriptionID;
     public string skillGroup;
 
     public string nameID;
