@@ -48,8 +48,10 @@ public class SkillButton : MonoBehaviour
             skillTypeIcon.sprite = skillTypeSupportIcon;
         }
 
-        skillNameText.text =   string.Format(skillNameFormat, skillData.skillID, skillData.level);
+        skillNameText.text = LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, skillData.nameID, skillData.level);
         skillIcon.sprite = skillData.iconImage;
+
+        skillDescriptionText.text = LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, skillData.descriptionID);
     }
 
     private void OnSelected()
