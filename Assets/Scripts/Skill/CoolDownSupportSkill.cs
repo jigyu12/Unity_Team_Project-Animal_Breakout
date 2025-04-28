@@ -8,9 +8,9 @@ public class CoolDownSupportSkill : SupportSkill
     {
     }
 
-    public override void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null)
+    public override void Perform(AttackPowerStatus attacker, DamageableStatus target, Transform start, Transform destination = null)
     {
-        base.Perform(attackerTrs, targetTrs, attacker, target);
+        base.Perform(attacker, target, start);
 
         skillManager.AddGlobalCoolDownRate(SupportSkillData.rate);
     }

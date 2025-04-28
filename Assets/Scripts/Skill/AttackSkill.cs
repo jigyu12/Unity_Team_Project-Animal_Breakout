@@ -1,14 +1,16 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AttackSkill : ISkill
 {
     public SkillData SkillData
     {
-        get=> AttackSkillData;
+        get => AttackSkillData;
     }
 
-    public  AttackSkillData AttackSkillData
+    public AttackSkillData AttackSkillData
     {
         get;
         private set;
@@ -39,7 +41,7 @@ public abstract class AttackSkill : ISkill
 
     public float CoolDownTime
     {
-        get=> AttackSkillData.coolDownTime - AttackSkillData.coolDownTime * skillManager.GlobalCoolDownTimeRate;
+        get => AttackSkillData.coolDownTime - AttackSkillData.coolDownTime * skillManager.GlobalCoolDownTimeRate;
     }
 
     #endregion
@@ -61,7 +63,6 @@ public abstract class AttackSkill : ISkill
         get => SkillData.level;
     }
 
-
     protected SkillManager skillManager;
     public void InitializeSkilManager(SkillManager skillManager)
     {
@@ -74,7 +75,8 @@ public abstract class AttackSkill : ISkill
         AttackSkillData = attackSkillData;
     }
 
-    public abstract void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker, DamageableStatus target);
+    public abstract void Perform(AttackPowerStatus attacker, DamageableStatus target, Transform start = null, Transform destination = null);
+    public abstract IEnumerator coPerform(AttackPowerStatus attacker, DamageableStatus target, Transform start = null, Transform destination = null);
 
     protected virtual void AttackDamage(float damage, DamageableStatus target)
     {
@@ -83,25 +85,74 @@ public abstract class AttackSkill : ISkill
 
     protected void ApplyElementalEffect(AttackPowerStatus attacker, DamageableStatus target, SkillElemental elemental)
     {
+        var ui = skillManager.gameManager.UIManager.bossDebuffUI;
+        string debuffId = null;
+
         switch (elemental)
         {
+
             case SkillElemental.Fire:
+<<<<<<< HEAD
+                var burn = target.GetComponent<BurnStatusEffect>();
+                burn?.SetDebuffUI(ui);
+                burn?.Perform(Id);
+                debuffId = "Burn";
+                break;
+
+            case SkillElemental.Ice:
+                var freeze = target.GetComponent<FrozenStatusEffect>();
+                freeze?.SetDebuffUI(ui);
+                freeze?.Perform(Id);
+                debuffId = "Freeze";
+                break;
+
+            case SkillElemental.Thunder:
+                var shock = target.GetComponent<ElectricShockStatusEffect>();
+                shock?.SetDebuffUI(ui);
+                shock?.Perform(Id);
+                debuffId = "Thunder";
+                break;
+=======
                 {
-                    target.gameObject.GetComponent<BurnStatusEffect>().Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
+                    var burn = target.gameObject.GetComponent<BurnStatusEffect>();
+                    burn?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
+                    burn?.SetDebuffUI(ui);
+
+                    debuffId = "Burn";
                     break;
                 }
             case SkillElemental.Ice:
                 {
-                    target.gameObject.GetComponent<FrozenStatusEffect>().Perform(Id,attacker.GetElementalAdditionalAttackPower(SkillElemental.Ice));
+                    var freeze = target.GetComponent<FrozenStatusEffect>();
+                    freeze?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Ice));
+                    freeze?.SetDebuffUI(ui);
+                    debuffId = "Freeze";
                     break;
                 }
             case SkillElemental.Thunder:
                 {
-                    target.gameObject.GetComponent<ElectricShockStatusEffect>().Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Thunder));
+                    var shock = target.GetComponent<ElectricShockStatusEffect>();
+                    shock?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Thunder));
+                    shock?.SetDebuffUI(ui);
+                    debuffId = "Thunder";
                     break;
                 }
+>>>>>>> c2c3dedde959e9f1d999b08b09059332eac414d7
+        }
+        ShowDebuffIcon(debuffId, SkillData.iconImage);
+    }
+
+    private void ShowDebuffIcon(string debuffId, Sprite icon)
+    {
+        var gameManager = skillManager.gameManager;
+        if (gameManager != null && gameManager.StageManager.IsPlayerInBossStage)
+        {
+            gameManager.UIManager.bossDebuffUI.AddDebuff(debuffId);
         }
     }
+
+
+
     public void Update()
     {
         UpdateCoolTime();
@@ -135,5 +186,32 @@ public abstract class AttackSkill : ISkill
     public virtual void OnReady()
     {
         onReady?.Invoke();
+    }
+
+    public void ApplyOnlyDamage(AttackPowerStatus attacker, DamageableStatus target, int count)
+    {
+        if (!skillManager.IsSkillTargetValid())
+        {
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * AttackSkillData.damageRate, target);
+        }
+    }
+
+    public void ApplyDamageAndElementalEffect(AttackPowerStatus attacker, DamageableStatus target, int count)
+    {
+        if (!skillManager.IsSkillTargetValid())
+        {
+            return;
+        }
+
+        ApplyElementalEffect(attacker, target, AttackSkillData.skillElemental);
+        for (int i = 0; i < count; i++)
+        {
+            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * AttackSkillData.damageRate, target);
+        }
     }
 }

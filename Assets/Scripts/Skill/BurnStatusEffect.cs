@@ -25,6 +25,9 @@ public class BurnStatusEffect : StatusEffect
     }
     private bool isPerforming;
 
+    private DebuffIcon debuffIcon;
+
+
     private void Start()
     {
         SetEffectData(effectId, SkillElemental.Fire);
@@ -56,7 +59,16 @@ public class BurnStatusEffect : StatusEffect
         }
 
         isPerforming = true;
+<<<<<<< HEAD
+
+        coPreformBurnEffect = StartCoroutine(CoPerformBurnEffect());
+
+
+=======
+        debuffIcon = debuffUI?.AddDebuff("Burn");
+        debuffIcon?.UpdateCountText(AdditionalStatusEffectData.AttackCount);
         coPreformBurnEffect = StartCoroutine(CoPerformBurnEffect(elementalAttackPower));
+>>>>>>> c2c3dedde959e9f1d999b08b09059332eac414d7
     }
 
 
@@ -64,11 +76,14 @@ public class BurnStatusEffect : StatusEffect
     {
         for (int i = 0; i < AdditionalStatusEffectData.AttackCount; i++)
         {
-            Debug.Log($"화상 효과 damage {i}번째 : {damage*AdditionalStatusEffectData.Damage}");
+            Debug.Log($"화상 효과 damage {i}번째 : {damage * AdditionalStatusEffectData.Damage}");
 
             target.OnDamage(damage * AdditionalStatusEffectData.Damage);
+            // 틱 할 때마다 남은 카운트 표시 갱신
+            debuffIcon?.UpdateCountText(AdditionalStatusEffectData.AttackCount - (i + 1));
             yield return new WaitForSeconds(effectInterval);
         }
         isPerforming = false;
+        debuffUI?.RemoveDebuff("Burn");
     }
 }

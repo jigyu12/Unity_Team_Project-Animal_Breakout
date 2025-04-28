@@ -17,14 +17,23 @@ public class ElectricShockStatusEffect : StatusEffect
 
     public override bool CanPerform
     {
+<<<<<<< HEAD
+        get => currentStackCount >= stackMaxCount;
+
         get => !isPerforming;
+
+=======
+        get => !isPerforming;
+>>>>>>> c2c3dedde959e9f1d999b08b09059332eac414d7
     }
 
     public override bool IsPerforming
     {
-        get=> isPerforming;
+        get => isPerforming;
     }
     private bool isPerforming;
+
+    private DebuffIcon debuffIcon;
 
     private void Start()
     {
@@ -38,6 +47,7 @@ public class ElectricShockStatusEffect : StatusEffect
     {
         base.InitializeSkillManager(skillManager);
         effectSkill = skillManager.SkillFactory.CreateSkill(effectSkillData);
+        effectSkill.InitializeSkilManager(skillManager);
     }
 
     //public void SetEffectSkill(ISkill skill)
@@ -58,6 +68,8 @@ public class ElectricShockStatusEffect : StatusEffect
         {
             isPerforming = true;
             currentStackCount = 0;
+            // debuffIcon = debuffUI?.AddDebuff("Thunder");
+            // debuffIcon?.UpdateCountText(currentStackCount);
         }
     }
 
@@ -69,7 +81,12 @@ public class ElectricShockStatusEffect : StatusEffect
         }
 
         currentStackCount++;
+        //  스택 올라갈 때마다 텍스트 갱신
+        var gameManager = skillManager.gameManager;
+        var debuffIcon = gameManager.UIManager.bossDebuffUI.AddDebuff("Thunder"); // 이미 있는 거 가져옴
+        debuffIcon?.UpdateCountText(currentStackCount);
         Debug.Log($"전기스택 {currentStackCount}번째");
+
         if (currentStackCount >= stackMaxCount)
         {
             PerformEffectSkill();
@@ -79,7 +96,18 @@ public class ElectricShockStatusEffect : StatusEffect
     private void PerformEffectSkill()
     {
         isPerforming = false;
+<<<<<<< HEAD
+        // debuffUI.RemoveDebuff("Thunder");
+        Debug.Log($"전기 효과 damage : {damage}");
+        target.OnDamage(damage);
+
+        //skillManager.PerformSkill(effectSkill);
+
+=======
         skillManager.PerformSkill(effectSkill);
+
+        debuffUI?.RemoveDebuff("Thunder");
+>>>>>>> c2c3dedde959e9f1d999b08b09059332eac414d7
     }
 
 }

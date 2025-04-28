@@ -27,12 +27,12 @@ public class SkillManager : InGameManager
         get => skills;
     }
 
-    private SkillQueue readySkillQueue = new SkillQueue();
+    private SkillQueue readyAttackSkillQueue = new SkillQueue();
 
 
     public float skillPerformInterval = 1f;
     private Coroutine coSkillPerform = null;
-
+    public GameManager_new gameManager;
 
     [SerializeField]
     private BossStatus skillTarget;
@@ -56,11 +56,10 @@ public class SkillManager : InGameManager
         SkillSelectionSystem = new SkillSelectionSystem(this, skills);
 
         GlobalCoolDownTimeRate = 0f;
-
         BossManager.onSpawnBoss += OnSpawnBossHandler;
         BossStatus.onBossDead += ResetSkillTarget;
 
-        foreach(int count in maxSkillTypeCount)
+        foreach (int count in maxSkillTypeCount)
         {
             MaxSkillCount += count;
         }
@@ -95,12 +94,12 @@ public class SkillManager : InGameManager
         GameManager.PlayerManager.onPlayerDead += () => enabled = false;
         GameManager.PlayerManager.playerStatus.onAlive += () => enabled = true;
         GameManager.PlayerManager.playerExperience.onLevelChange += SkillSelection;
-
+        gameManager = GameManager;
     }
 
     public void AddSkillToReadyQueue(SkillPriorityItem skillPriorityItem)
     {
-        readySkillQueue.Enqueue(skillPriorityItem);
+        readyAttackSkillQueue.Enqueue(skillPriorityItem);
     }
 
     public float GetSkillInheritedForwardSpeed()
@@ -125,9 +124,9 @@ public class SkillManager : InGameManager
 
     private void BossStageUpdate()
     {
-        if (coSkillPerform == null && readySkillQueue.Count != 0)
+        if (coSkillPerform == null && readyAttackSkillQueue.Count != 0)
         {
-            coSkillPerform = StartCoroutine(CoroutinePerformSkill());
+            coSkillPerform = StartCoroutine(CoroutinePerformAttackSkill());
         }
     }
 
@@ -136,17 +135,18 @@ public class SkillManager : InGameManager
 
     }
 
-    private IEnumerator CoroutinePerformSkill()
+    private IEnumerator CoroutinePerformAttackSkill()
     {
-        while (readySkillQueue.Count != 0)
+        while (readyAttackSkillQueue.Count != 0)
         {
             if (!IsSkillTargetValid())
             {
                 yield break;
             }
 
-            var currentSkill = readySkillQueue.Dequeue();
-            PerformSkill(currentSkill);
+            var currentSkill = readyAttackSkillQueue.Dequeue();
+            //PerformSkill(currentSkill);
+            PerformAttackSkill(currentSkill);
             yield return new WaitForSeconds(skillPerformInterval);
         }
         coSkillPerform = null;
@@ -162,7 +162,12 @@ public class SkillManager : InGameManager
 
     public void PerformSkill(ISkill skill)
     {
-        skill.Perform(GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null, GameManager.PlayerManager.playerAttack, skillTarget);
+        skill.Perform(GameManager.PlayerManager.playerAttack, skillTarget, GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null);
+    }
+
+    public void PerformAttackSkill(AttackSkill skill)
+    {
+        StartCoroutine(skill.coPerform(GameManager.PlayerManager.playerAttack, skillTarget, GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null));
     }
 
     public void AddGlobalCoolDownRate(float rate)
@@ -174,7 +179,7 @@ public class SkillManager : InGameManager
     {
         skillTarget = boss;
 
-        foreach(var effect in skillTarget.GetComponents<StatusEffect>())
+        foreach (var effect in skillTarget.GetComponents<StatusEffect>())
         {
             effect.InitializeSkillManager(this);
         }
@@ -187,7 +192,7 @@ public class SkillManager : InGameManager
 
     public void SkillSelection(int currentLevel, int exp)
     {
-        if(currentLevel==1)
+        if (currentLevel == 1)
         {
             return;
         }

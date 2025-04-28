@@ -62,6 +62,10 @@ public class GameManager_new : MonoBehaviour
 
     private InGameCountManager inGameCountManager;
     public InGameCountManager InGameCountManager => inGameCountManager;
+    private DamageTextManager damageTextManager;
+
+    public DamageTextManager DamageTextManager => damageTextManager;
+
     #endregion
 
     public int restartChanceCount = 1;
@@ -186,6 +190,7 @@ public class GameManager_new : MonoBehaviour
 
         inGameCountManager = AddManagerToManagers<InGameCountManager>(findManagers);
 
+        damageTextManager = AddManagerToManagers<DamageTextManager>(findManagers);
 
         foreach (var manager in managers)
         {

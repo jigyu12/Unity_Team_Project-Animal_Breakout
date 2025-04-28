@@ -28,6 +28,8 @@ public class GameUIManager : InGameManager
     [SerializeField] public RunStageUI runStageUI;
     [SerializeField] public BossWayUI bossWayUI;
     [SerializeField] public BossTimeLimit bossTimeLimit;
+    [SerializeField] public BossDebuffUIController bossDebuffUI;
+
 
 
 
