@@ -15,7 +15,7 @@ public class BossStatus : DamageableStatus
 
     public static event Action<float, float> onBossCurrentHpChanged;
     private static int BossKillCount = 0;
-    
+
     private BossBehaviourController bossBehaviourController;
 
     public override void InitializeStatus(float maxHp)
@@ -51,15 +51,13 @@ public class BossStatus : DamageableStatus
         currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
         onBossCurrentHpChanged?.Invoke(currentHp, maxHp);
         onDamaged?.Invoke(damage);
-
         Debug.Log($"Boss HP : {currentHp}/{maxHp}");
-
         if (Mathf.Approximately(0f, currentHp))
         {
             OnDead();
         }
     }
-    
+
     protected override void OnDead()
     {
         isDead = true;
@@ -71,18 +69,20 @@ public class BossStatus : DamageableStatus
 
         var deathFunc = BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.BossDeathAnimation);
         deathFunc?.Invoke(bossBehaviourController);
+
+        bossBehaviourController.ClearTempBossProjectile();
+        bossBehaviourController.BossProjectilePooler.ClearPooledProjectiles();
         
-        bossBehaviourController.ClearBossProjectile();
-        
+
         StartCoroutine(DelayDestroy());
     }
 
     private IEnumerator DelayDestroy()
     {
         yield return waitTime;
-        
+
         onBossDeathAnimationEnded?.Invoke();
-        
+
         Destroy(gameObject);
     }
 }
