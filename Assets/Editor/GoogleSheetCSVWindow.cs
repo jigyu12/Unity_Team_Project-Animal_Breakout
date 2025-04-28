@@ -35,6 +35,7 @@ public class GoogleSheetCSVWindow : EditorWindow
         }
 
         GUILayout.Label("");
+        LoadDataTableGUI(stringTableURL, LocalizationUtility.defaultStringTableName);
 
         LoadDataTableGUI(animalDataTableURL, Utils.AnimalTableName);
 
@@ -69,6 +70,8 @@ public class GoogleSheetCSVWindow : EditorWindow
     {
         GoogleSheetManager.Load(url, path);
     }
+
+    private string stringTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=776232144#gid=776232144";
 
     private string animalDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1280379651#gid=1280379651";
     private string itemDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=100321918#gid=100321918";
@@ -129,6 +132,7 @@ public class GoogleSheetCSVWindow : EditorWindow
                 scriptableData.SetData(data);
             }
             AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(scriptableData);
         }
         AssetDatabase.Refresh();
     }
@@ -158,8 +162,8 @@ public class GoogleSheetCSVWindow : EditorWindow
             {
                 scriptableData.SetData(data);
             }
-
             AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(scriptableData);
         }
         AssetDatabase.Refresh();
     }

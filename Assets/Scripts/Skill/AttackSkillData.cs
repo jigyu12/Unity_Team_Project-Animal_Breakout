@@ -26,8 +26,6 @@ public class AttackSkillData : SkillData
     {
         skillType = SkillType.Attack;
         selectPossible = rawData.SelectPossible;
-        nameID = rawData.NameID;
-        descriptionID = rawData.DescriptionID;
 
         skillID = rawData.SkillID;
         nameID = rawData.NameID;
