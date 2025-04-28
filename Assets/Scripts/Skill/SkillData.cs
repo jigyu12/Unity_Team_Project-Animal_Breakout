@@ -30,6 +30,11 @@ public enum SupportSkillTarget
     ElementalThunderPower,
 }
 
+public enum ProjectileType
+{
+    PlayerFire,
+    SkyFall,
+}
 
 public class SkillData : ScriptableObject
 {

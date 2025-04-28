@@ -4,20 +4,20 @@ using UnityEngine;
 public class BossManager : InGameManager
 {
     [SerializeField] private GameObject bossPrefab;
-    
+
     [SerializeField] private GameObject parentGameObjectToSpawnBoss;
     public static readonly Vector3 spawnLocalPosition = new(0f, 0.25f, 10f);
-    
+
     private GameManager_new gameManager;
-    
+
     public static event Action<BossStatus> onSpawnBoss;
 
     [SerializeField] private float bossMaxHp;
-    
+
     private void Start()
     {
         GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager);
-        
+
         GameManager.StageManager.onBossStageEnter += SpawnBoss;
     }
 

@@ -1,23 +1,21 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private float arrivalThreshold = 1f; //도착했다 치는 거리
+    protected float arrivalThreshold = 1f; //도착했다 치는 거리
 
-    private float speed;
+    protected float speed;
     private static float gloablSpeed = 5f;
-    private float Speed
+    public float Speed
     {
         get => speed * gloablSpeed;
     }
-    private Vector3 direction;
-    private Vector3 target;
+    protected Vector3 direction;
+    protected Vector3 target;
 
-    private SkillManager skillManager;
+    protected SkillManager skillManager;
 
     public Action onArrival; //도착후 실행할 함수
     public Action targetGone;
@@ -28,7 +26,7 @@ public class ProjectileBehaviour : MonoBehaviour
         this.skillManager = skillManager;
     }
 
-    public void Fire(Transform attacker, Transform target, float speed)
+    public virtual void Fire(Transform attacker, Transform target, float speed)
     {
         this.target = target.position;
         this.speed = speed;

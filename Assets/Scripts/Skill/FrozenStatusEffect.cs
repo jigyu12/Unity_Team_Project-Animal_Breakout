@@ -19,6 +19,7 @@ public class FrozenStatusEffect : StatusEffect
     }
     private bool isPerforming;
     private int attackPower;
+    private DebuffIcon debuffIcon;
 
     private void Start()
     {
@@ -41,6 +42,8 @@ public class FrozenStatusEffect : StatusEffect
             isPerforming = true;
             currentCount = 0;
             attackPower = elementalAttackPower;
+
+            debuffIcon = debuffUI?.AddDebuff("Freeze");
         }
     }
 
@@ -53,12 +56,17 @@ public class FrozenStatusEffect : StatusEffect
 
         currentCount++;
 
-        Debug.Log($"얼음 효과 damage : {attackPower *AdditionalStatusEffectData.Damage}");
+        Debug.Log($"얼음 효과 damage : {attackPower * AdditionalStatusEffectData.Damage}");
         target.OnDamage(attackPower * AdditionalStatusEffectData.Damage);
 
+        // 남은 횟수 갱신
+        debuffIcon?.UpdateCountText(AdditionalStatusEffectData.AttackCount - currentCount);
         if (currentCount >= AdditionalStatusEffectData.AttackCount)
         {
             isPerforming = false;
+            // 디버프 아이콘 제거
+            debuffUI?.RemoveDebuff("Freeze");
+
         }
         // debuffUI.RemoveDebuff("Freeze");
     }

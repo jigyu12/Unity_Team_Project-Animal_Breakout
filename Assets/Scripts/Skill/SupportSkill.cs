@@ -61,7 +61,7 @@ public abstract class SupportSkill : ISkill
         SupportSkillData = supportSkillData;
     }
 
-    public virtual void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null)
+    public virtual void Perform(AttackPowerStatus attacker, DamageableStatus target, Transform start = null, Transform destination = null)
     {
         Debug.Log($"{SupportSkillData.skillTarget} : rate {SupportSkillData.rate * 100f}%");
     }
@@ -70,7 +70,6 @@ public abstract class SupportSkill : ISkill
     {
         
     }
-
     public virtual void UpgradeLevel()
     {
         var nextSkillData = skillManager.SkillFactory.GetSkillData(SkillData.skillType, SkillData.skillGroup, Level + 1);
