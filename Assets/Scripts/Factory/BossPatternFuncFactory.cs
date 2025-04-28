@@ -224,6 +224,11 @@ public static class BossPatternFuncFactory
 
     private static BTNodeState PlayBossDeathAnimation(BossBehaviourController bossBehaviourController)
     {
+        if (bossBehaviourController is null)
+        {
+            return BTNodeState.Failure;
+        }
+        
         var isPlayAnimation = bossBehaviourController.PlayAnimation(Utils.BossDeathAnimatorString);
 
         if (!isPlayAnimation)

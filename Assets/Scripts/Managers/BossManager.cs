@@ -4,7 +4,6 @@ using UnityEngine;
 public class BossManager : InGameManager
 {
     [SerializeField] private GameObject bossPrefab;
-    private BossStatus bossStatus;
     
     [SerializeField] private GameObject parentGameObjectToSpawnBoss;
     public static readonly Vector3 spawnLocalPosition = new(0f, 0.25f, 10f);
@@ -12,6 +11,8 @@ public class BossManager : InGameManager
     private GameManager_new gameManager;
     
     public static event Action<BossStatus> onSpawnBoss;
+
+    [SerializeField] private float bossMaxHp;
     
     private void Start()
     {
@@ -29,12 +30,12 @@ public class BossManager : InGameManager
     {
         var boss = Instantiate(bossPrefab, parentGameObjectToSpawnBoss.transform);
         boss.transform.localPosition = spawnLocalPosition;
-        boss.TryGetComponent(out bossStatus);
+        boss.TryGetComponent(out BossStatus bossStatus);
         boss.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
-        bossStatus.InitializeStatus(500f);
+        bossStatus.InitializeStatus(bossMaxHp);
         boss.TryGetComponent(out BossBehaviourController bossBehaviourController);
-        bossBehaviourController.InitBehaviorTree(BossBehaviourTreeType.Boss1BehaviourTree);
+        bossBehaviourController?.InitBehaviorTree(BossBehaviourTreeType.Boss1BehaviourTree);
 
         onSpawnBoss?.Invoke(bossStatus);
     }
