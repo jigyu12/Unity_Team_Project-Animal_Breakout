@@ -59,16 +59,9 @@ public class BurnStatusEffect : StatusEffect
         }
 
         isPerforming = true;
-<<<<<<< HEAD
-
-        coPreformBurnEffect = StartCoroutine(CoPerformBurnEffect());
-
-
-=======
         debuffIcon = debuffUI?.AddDebuff("Burn");
         debuffIcon?.UpdateCountText(AdditionalStatusEffectData.AttackCount);
         coPreformBurnEffect = StartCoroutine(CoPerformBurnEffect(elementalAttackPower));
->>>>>>> c2c3dedde959e9f1d999b08b09059332eac414d7
     }
 
 

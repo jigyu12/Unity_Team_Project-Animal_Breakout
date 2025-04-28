@@ -92,27 +92,6 @@ public abstract class AttackSkill : ISkill
         {
 
             case SkillElemental.Fire:
-<<<<<<< HEAD
-                var burn = target.GetComponent<BurnStatusEffect>();
-                burn?.SetDebuffUI(ui);
-                burn?.Perform(Id);
-                debuffId = "Burn";
-                break;
-
-            case SkillElemental.Ice:
-                var freeze = target.GetComponent<FrozenStatusEffect>();
-                freeze?.SetDebuffUI(ui);
-                freeze?.Perform(Id);
-                debuffId = "Freeze";
-                break;
-
-            case SkillElemental.Thunder:
-                var shock = target.GetComponent<ElectricShockStatusEffect>();
-                shock?.SetDebuffUI(ui);
-                shock?.Perform(Id);
-                debuffId = "Thunder";
-                break;
-=======
                 {
                     var burn = target.gameObject.GetComponent<BurnStatusEffect>();
                     burn?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
@@ -137,7 +116,6 @@ public abstract class AttackSkill : ISkill
                     debuffId = "Thunder";
                     break;
                 }
->>>>>>> c2c3dedde959e9f1d999b08b09059332eac414d7
         }
         ShowDebuffIcon(debuffId, SkillData.iconImage);
     }
