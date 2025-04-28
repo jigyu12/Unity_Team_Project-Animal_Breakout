@@ -20,7 +20,7 @@ public class BossBehaviourController : MonoBehaviour
 
     private ObjectPool<GameObject> tempBossProjectilePool;
     public ObjectPool<GameObject> TempBossProjectilePool { get; private set; }
-    
+
     private GameObject projectileReleaseParent;
     public GameObject ProjectileReleaseParent { get; private set; }
 
@@ -38,10 +38,10 @@ public class BossBehaviourController : MonoBehaviour
 
     private Animator animator;
 
-    
+
     [SerializeField] private BossProjectilePooler bossProjectilePooler;
     public BossProjectilePooler BossProjectilePooler { get; private set; }
-    
+
 
     private void Start()
     {
@@ -78,9 +78,9 @@ public class BossBehaviourController : MonoBehaviour
         TryGetComponent(out animator);
 
         damageTextManager = gameManager.DamageTextManager;
-        damageTextManager?.Register(bossStatus);
+        damageTextManager?.Register(bossStatus, Color.white);
 
-        
+
         BossProjectilePooler = bossProjectilePooler;
 
     }
@@ -88,7 +88,7 @@ public class BossBehaviourController : MonoBehaviour
     private void OnDestroy()
     {
         ClearTempBossProjectile();
-        
+
         bossProjectilePooler.ClearPooledProjectiles();
     }
 
