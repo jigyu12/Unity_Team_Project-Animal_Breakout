@@ -59,8 +59,6 @@ public class BurnStatusEffect : StatusEffect
         }
 
         isPerforming = true;
-        debuffIcon = debuffUI?.AddDebuff("Burn");
-        debuffIcon?.UpdateCountText(AdditionalStatusEffectData.AttackCount);
         coPreformBurnEffect = StartCoroutine(CoPerformBurnEffect(elementalAttackPower));
     }
 
@@ -73,6 +71,8 @@ public class BurnStatusEffect : StatusEffect
 
             target.OnDamage(damage * AdditionalStatusEffectData.Damage);
             // 틱 할 때마다 남은 카운트 표시 갱신
+            var gameManager = skillManager.gameManager;
+            var debuffIcon = gameManager.UIManager.bossDebuffUI.AddDebuff("Burn"); // 이미 있는 거 가져옴
             debuffIcon?.UpdateCountText(AdditionalStatusEffectData.AttackCount - (i + 1));
             yield return new WaitForSeconds(effectInterval);
         }

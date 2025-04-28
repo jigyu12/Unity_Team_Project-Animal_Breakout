@@ -22,9 +22,16 @@ public class DamageTextManager : InGameManager
         damageTextPool.Enqueue(obj.GetComponent<DamageText>());
     }
 
-    public void Register(DamageableStatus target, Color color)
+    public void Register(DamageableStatus target, Color defaultColor)
     {
-        target.onDamaged += (damage) => ShowDamage(target.transform.position, damage, color);
+        if (target is BossStatus bossStatus)
+        {
+            bossStatus.onElementalDamaged += (damage, elemental) => ShowDamage(target.transform.position, damage, GetColorByElement(elemental));
+        }
+        else
+        {
+            target.onDamaged += (damage) => ShowDamage(target.transform.position, damage, defaultColor);
+        }
     }
 
     public void ShowDamage(Vector3 worldPosition, float damage, Color color)
@@ -52,5 +59,15 @@ public class DamageTextManager : InGameManager
     {
         text.gameObject.SetActive(false);
         damageTextPool.Enqueue(text);
+    }
+    private Color GetColorByElement(SkillElemental elemental)
+    {
+        return elemental switch
+        {
+            SkillElemental.Fire => Color.red,
+            SkillElemental.Ice => Color.cyan,
+            SkillElemental.Thunder => new Color(0.6f, 0f, 1f),
+            _ => Color.white,
+        };
     }
 }
