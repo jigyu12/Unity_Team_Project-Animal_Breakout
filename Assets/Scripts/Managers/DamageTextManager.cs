@@ -22,12 +22,12 @@ public class DamageTextManager : InGameManager
         damageTextPool.Enqueue(obj.GetComponent<DamageText>());
     }
 
-    public void Register(DamageableStatus target)
+    public void Register(DamageableStatus target, Color color)
     {
-        target.onDamaged += (damage) => ShowDamage(target.transform.position, damage);
+        target.onDamaged += (damage) => ShowDamage(target.transform.position, damage, color);
     }
 
-    public void ShowDamage(Vector3 worldPosition, float damage)
+    public void ShowDamage(Vector3 worldPosition, float damage, Color color)
     {
         if (damageTextPool.Count == 0)
             CreateDamageText();
@@ -36,7 +36,6 @@ public class DamageTextManager : InGameManager
         damageText.gameObject.SetActive(true);
 
         Vector3 offset = Vector3.up * 2f + Camera.main.transform.forward * -1f;
-
         Vector3 randomSpread = new Vector3(
             Random.Range(-1.5f, 1.5f),
             0f,
@@ -44,8 +43,7 @@ public class DamageTextManager : InGameManager
         );
 
         damageText.transform.position = worldPosition + offset + randomSpread;
-
-        damageText.Initialize(damage, ReturnToPool);
+        damageText.Initialize(damage, ReturnToPool, color);
     }
 
 

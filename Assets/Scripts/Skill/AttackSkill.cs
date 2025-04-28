@@ -84,7 +84,7 @@ public abstract class AttackSkill : ISkill
     {
         var ui = skillManager.gameManager.UIManager.bossDebuffUI;
         string debuffId = null;
-
+        Color textColor = Color.white;
         switch (elemental)
         {
 
@@ -92,6 +92,7 @@ public abstract class AttackSkill : ISkill
                 {
                     var burn = target.gameObject.GetComponent<BurnStatusEffect>();
                     burn?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
+                    textColor = Color.red;
                     burn?.SetDebuffUI(ui);
 
                     debuffId = "Burn";
@@ -102,6 +103,7 @@ public abstract class AttackSkill : ISkill
                     var freeze = target.GetComponent<FrozenStatusEffect>();
                     freeze?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Ice));
                     freeze?.SetDebuffUI(ui);
+                    textColor = Color.cyan;
                     debuffId = "Freeze";
                     break;
                 }
@@ -110,11 +112,13 @@ public abstract class AttackSkill : ISkill
                     var shock = target.GetComponent<ElectricShockStatusEffect>();
                     shock?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Thunder));
                     shock?.SetDebuffUI(ui);
+                    textColor = new Color(0.6f, 0f, 1f);
                     debuffId = "Thunder";
                     break;
                 }
         }
         ShowDebuffIcon(debuffId, SkillData.iconImage);
+        skillManager.gameManager.DamageTextManager.ShowDamage(target.transform.position, attacker.GetElementalAdditionalAttackPower(elemental), textColor);
     }
 
     private void ShowDebuffIcon(string debuffId, Sprite icon)
