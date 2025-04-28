@@ -97,8 +97,10 @@ public abstract class AttackSkill : ISkill
                     burn?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
                     textColor = Color.red;
                     burn?.SetDebuffUI(ui);
-
-                    debuffId = "Burn";
+                    if (burn.IsPerforming)
+                    {
+                        debuffId = "Burn";
+                    }
                     break;
                 }
             case SkillElemental.Ice:
@@ -120,8 +122,11 @@ public abstract class AttackSkill : ISkill
                     break;
                 }
         }
-        ShowDebuffIcon(debuffId, SkillData.iconImage);
-        skillManager.gameManager.DamageTextManager.ShowDamage(target.transform.position, attacker.GetElementalAdditionalAttackPower(elemental), textColor);
+        if (!string.IsNullOrEmpty(debuffId))
+        {
+            ShowDebuffIcon(debuffId, SkillData.iconImage);
+            skillManager.gameManager.DamageTextManager.ShowDamage(target.transform.position, attacker.GetElementalAdditionalAttackPower(elemental), textColor);
+        }
     }
 
     private void ShowDebuffIcon(string debuffId, Sprite icon)
