@@ -74,7 +74,6 @@ public class ElectricShockStatusEffect : StatusEffect
         }
 
         currentStackCount++;
-
         //  스택 올라갈 때마다 텍스트 갱신
         var gameManager = skillManager.gameManager;
         var debuffIcon = gameManager.UIManager.bossDebuffUI.AddDebuff("Thunder"); // 이미 있는 거 가져옴
