@@ -14,19 +14,19 @@ public class SkillQueue
         list.Sort(comparer);
     }
 
-    public void Enqueue(int value, ISkill skill)
+    public void Enqueue(int value, AttackSkill skill)
     {
         Enqueue(new SkillPriorityItem(value, skill));
     }
 
-    public ISkill Dequeue()
+    public AttackSkill Dequeue()
     {
         list.Sort(comparer);
         var value = list[0].skill;
         list.RemoveAt(0);
         return value;
     }
-    public void Remove(ISkill skill)
+    public void Remove(AttackSkill skill)
     {
         int index = list.FindIndex(x => x.skill.Id == skill.Id);
         list.RemoveAt(index);
@@ -35,14 +35,14 @@ public class SkillQueue
 
 public struct SkillPriorityItem : IEquatable<SkillPriorityItem>
 {
-    public SkillPriorityItem(int priority, ISkill skill)
+    public SkillPriorityItem(int priority, AttackSkill skill)
     {
         this.priority = priority;
         this.skill = skill;
     }
 
     public int priority;
-    public ISkill skill;
+    public AttackSkill skill;
 
     public bool Equals(SkillPriorityItem other)
     {

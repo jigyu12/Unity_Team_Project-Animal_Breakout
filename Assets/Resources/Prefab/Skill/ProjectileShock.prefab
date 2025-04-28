@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4161559189259110063}
   - component: {fileID: 6439493272456486388}
   m_Layer: 0
-  m_Name: ProjectileFire
+  m_Name: ProjectileShock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5faee86b7fcaf904484aec5179fd2061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arrivalThreshold: 1
 --- !u!1001 &607005249386284538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -112,6 +113,30 @@ PrefabInstance:
     - target: {fileID: 4351478612477126, guid: 78f0d01015650cc49bf665d463795ff8, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198703374472999380, guid: 78f0d01015650cc49bf665d463795ff8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198703374472999380, guid: 78f0d01015650cc49bf665d463795ff8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.7327044
+      objectReference: {fileID: 0}
+    - target: {fileID: 198703374472999380, guid: 78f0d01015650cc49bf665d463795ff8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.818191
+      objectReference: {fileID: 0}
+    - target: {fileID: 198703374472999380, guid: 78f0d01015650cc49bf665d463795ff8, type: 3}
+      propertyPath: InitialModule.startColor.minColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198703374472999380, guid: 78f0d01015650cc49bf665d463795ff8, type: 3}
+      propertyPath: InitialModule.startColor.minColor.g
+      value: 0.15408784
+      objectReference: {fileID: 0}
+    - target: {fileID: 198703374472999380, guid: 78f0d01015650cc49bf665d463795ff8, type: 3}
+      propertyPath: InitialModule.startColor.minColor.r
+      value: 0.61227036
       objectReference: {fileID: 0}
     - target: {fileID: 199177102943001428, guid: 78f0d01015650cc49bf665d463795ff8, type: 3}
       propertyPath: m_Materials.Array.size

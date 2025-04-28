@@ -24,6 +24,7 @@ public class AttackSkillRawData
     public string Prefab_Icon { get; set; }
     public string Prefab_Asset { get; set; }
     public bool SelectPossible { get; set; }
+    public string ProjectileType { get; set; }
 }
 public class AttackSkillDataTable : DataTable
 {

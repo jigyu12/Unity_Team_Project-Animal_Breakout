@@ -6,6 +6,7 @@ public class BossDebuffUIController : UIElement
 {
     [SerializeField] private Transform debuffIconArea;
     [SerializeField] private GameObject debuffIconPrefab;
+
     [SerializeField] private List<DebuffIconInfo> debuffIcons = new();
 
     private Dictionary<string, DebuffIcon> activeIcons = new();

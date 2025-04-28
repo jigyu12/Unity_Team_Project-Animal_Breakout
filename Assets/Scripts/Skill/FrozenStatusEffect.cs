@@ -68,5 +68,6 @@ public class FrozenStatusEffect : StatusEffect
             debuffUI?.RemoveDebuff("Freeze");
 
         }
+        // debuffUI.RemoveDebuff("Freeze");
     }
 }
