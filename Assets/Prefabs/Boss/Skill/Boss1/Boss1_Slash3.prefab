@@ -300,9 +300,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4931889219289822}
   - component: {fileID: -1812300486671263909}
-  - component: {fileID: 114527361286717224}
-  - component: {fileID: 65587493913425502}
   - component: {fileID: 54147740285676064}
+  - component: {fileID: 1973780541974782901}
   m_Layer: 0
   m_Name: Boss1_Slash3
   m_TagString: Trap
@@ -320,7 +319,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 5}
+  m_LocalScale: {x: 1, y: 0.5, z: 0.35}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4713551234353776}
@@ -345,55 +344,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8b3e9f07897f84297fd270fa74f5c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114527361286717224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146459598616756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12ba759cd568c0e47a7018ab70867a0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotate: 0
-  rotateAmount: 10
-  bounce: 0
-  bounceForce: 10
-  speed: 30
-  accuracy: 95
-  fireRate: 2
-  muzzlePrefab: {fileID: 1661375544011084, guid: fe53c6e0b336bc745a733c24c7257106, type: 3}
-  hitPrefab: {fileID: 1041648605151304, guid: 79c1cfb6e081f2a42b76c6f4735b1d91, type: 3}
-  trails:
-  - {fileID: 1874408297863756}
-  - {fileID: 1006750844019310}
-  - {fileID: 1077273353555026}
-  - {fileID: 1287556068065780}
-  - {fileID: 1849396337486960}
-  - {fileID: 1297677938017278}
---- !u!65 &65587493913425502
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146459598616756}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &54147740285676064
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -421,6 +371,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &1973780541974782901
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146459598616756}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.1023593, y: 1.6759735, z: 2.9418433}
+  m_Center: {x: -0.043136872, y: 0.58798677, z: -0.19743896}
 --- !u!1 &1272923511814132
 GameObject:
   m_ObjectHideFlags: 0
