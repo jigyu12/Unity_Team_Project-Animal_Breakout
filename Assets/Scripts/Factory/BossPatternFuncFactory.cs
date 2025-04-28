@@ -176,6 +176,23 @@ public static class BossPatternFuncFactory
         
         return BTNodeState.Success;
     }
+    
+    private static BTNodeState Boss1AttackPattern2(BossBehaviourController bossBehaviourController)
+    {
+        int randPositionIndex = Random.Range(0, 2);
+
+        Vector3 attackPosition = randPositionIndex == 0
+            ? (bossBehaviourController.GetLaneAttackPosition(0) + bossBehaviourController.GetLaneAttackPosition(1)) / 2f
+            : (bossBehaviourController.GetLaneAttackPosition(1) + bossBehaviourController.GetLaneAttackPosition(2)) / 2f;
+        var bossProjectile = bossBehaviourController.BossProjectilePooler.GetBossProjectile(0);
+        bossProjectile.transform.SetParent(bossBehaviourController.transform);
+        
+        
+        
+        AfterUsingNormalPattern(bossBehaviourController);
+        
+        return BTNodeState.Success;
+    }
 
     private static BTNodeState PlayBossAttackPattern1Animation(BossBehaviourController bossBehaviourController)
     {
