@@ -70,10 +70,10 @@ public class BossStatus : DamageableStatus
         var deathFunc = BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.BossDeathAnimation);
         deathFunc?.Invoke(bossBehaviourController);
 
-        bossBehaviourController.ClearTempBossProjectile();
-        bossBehaviourController.BossProjectilePooler.ClearPooledProjectiles();
-        
+        bossBehaviourController?.ClearTempBossProjectile();
+        bossBehaviourController?.BossProjectilePooler.ClearPooledProjectiles();
 
+        
         StartCoroutine(DelayDestroy());
     }
 
