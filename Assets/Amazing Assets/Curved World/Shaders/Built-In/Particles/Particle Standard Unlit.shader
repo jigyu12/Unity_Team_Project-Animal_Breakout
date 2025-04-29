@@ -7,7 +7,7 @@ Shader "Amazing Assets/Curved World/Particles/Standard Unlit"
 {
     Properties
     {
-[HideInInspector][CurvedWorldBendSettings]	  _CurvedWorldBendSettings("0,2|1|1", Vector) = (0, 0, 0, 0)
+[HideInInspector][CurvedWorldBendSettings]	  _CurvedWorldBendSettings("0,2,27|1|1", Vector) = (0, 0, 0, 0)
 
 
 
@@ -94,7 +94,7 @@ Shader "Amazing Assets/Curved World/Particles/Standard Unlit"
 
 
 
-#pragma shader_feature_local CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE
+#pragma shader_feature_local CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE CURVEDWORLD_BEND_TYPE_TWISTEDSPIRAL_X_POSITIVE
 #define CURVEDWORLD_BEND_ID_1
 #pragma shader_feature_local CURVEDWORLD_DISABLED_ON
 
@@ -128,7 +128,7 @@ Shader "Amazing Assets/Curved World/Particles/Standard Unlit"
                 #pragma fragment fragSceneHighlightPass
 
 
-#pragma shader_feature_local CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE
+#pragma shader_feature_local CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE CURVEDWORLD_BEND_TYPE_TWISTEDSPIRAL_X_POSITIVE
 #define CURVEDWORLD_BEND_ID_1
 #pragma shader_feature_local CURVEDWORLD_DISABLED_ON
 
@@ -160,7 +160,7 @@ Shader "Amazing Assets/Curved World/Particles/Standard Unlit"
 
 
 
-#pragma shader_feature_local CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE
+#pragma shader_feature_local CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE CURVEDWORLD_BEND_TYPE_TWISTEDSPIRAL_X_POSITIVE
 #define CURVEDWORLD_BEND_ID_1
 #pragma shader_feature_local CURVEDWORLD_DISABLED_ON
 #pragma shader_feature_local CURVEDWORLD_NORMAL_TRANSFORMATION_ON

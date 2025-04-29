@@ -1,14 +1,9 @@
-#pragma multi_compile_local CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE
 
 Shader "Unlit/CurvedTransparent"
 {
 Properties {
      //Paste Curved World material property here////////////////////////////////////
-         #ifdef CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE
-        [CurvedWorldBendSettings] _CurvedWorldBendSettings("2|1|1", Vector) = (0, 0, 0, 0)
-        #elif defined(CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE)
-        [CurvedWorldBendSettings] _CurvedWorldBendSettings("0|1|1", Vector) = (0, 0, 0, 0)
-        #endif
+       [CurvedWorldBendSettings] _CurvedWorldBendSettings("0,1,2,3,27|1|1", Vector) = (0, 0, 0, 0)
     _MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
 }
 
@@ -26,9 +21,9 @@ SubShader {
             #pragma target 2.0
             #pragma multi_compile_fog
 
-            //Paste Curved World definitions and keywords here/////////////////////////
             #include "UnityCG.cginc"
-            //#define CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE
+            //Paste Curved World definitions and keywords here/////////////////////////
+#pragma multi_compile_local CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_NEGATIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_NEGATIVE CURVEDWORLD_BEND_TYPE_TWISTEDSPIRAL_X_POSITIVE
 #define CURVEDWORLD_BEND_ID_1
 #pragma shader_feature_local CURVEDWORLD_DISABLED_ON
 #pragma shader_feature_local CURVEDWORLD_NORMAL_TRANSFORMATION_ON
