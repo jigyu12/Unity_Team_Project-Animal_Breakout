@@ -7,6 +7,9 @@ public class CurvedWorld : MonoBehaviour
     //public float curvature;
     //public float trimming;
 
+    public AmazingAssets.CurvedWorld.CurvedWorldController curvedWorldControllerZ;
+    public AmazingAssets.CurvedWorld.CurvedWorldController curvedWorldControllerX;
+
     private void Awake()
     {
         //Shader.SetGlobalFloat("_Curvature", 0);
@@ -16,15 +19,20 @@ public class CurvedWorld : MonoBehaviour
     private void Start()
     {
         Shader.EnableKeyword("CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE");
+    }
+
+    private void Update()
+    {
         UpdateShaderValue();
     }
 
     [ContextMenu("Update Shader Value")]
     public void UpdateShaderValue()
     {
-        //Shader.SetGlobalFloat("_Curvature", curvature);
-        //Shader.SetGlobalFloat("_Trimming", trimming);
-
+        curvedWorldControllerZ.SetBendHorizontalSize(Mathf.Sin(Time.time) * 2f);
+        curvedWorldControllerZ.SetBendVerticalSize(Mathf.Sin(Time.time));
+        curvedWorldControllerX.SetBendHorizontalSize(Mathf.Sin(Time.time + Mathf.PI) * 2f);
+        curvedWorldControllerX.SetBendVerticalSize(Mathf.Sin(Time.time + Mathf.PI));
     }
 
     [ContextMenu("X+")]
