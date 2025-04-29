@@ -18,8 +18,8 @@ public class AttackSkillRawData
     public float CoolTime { get; set; }
     public float Speed { get; set; }
     public float Interval { get; set; }
-    public int NameID { get; set; }
-    public int DescriptionID { get; set; }
+    public string NameID { get; set; }
+    public string DescriptionID { get; set; }
     public int EffectID { get; set; }
     public string Prefab_Icon { get; set; }
     public string Prefab_Asset { get; set; }
