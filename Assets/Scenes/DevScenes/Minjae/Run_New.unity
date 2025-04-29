@@ -317,22 +317,6 @@ PrefabInstance:
       propertyPath: experienceStatus
       value: 
       objectReference: {fileID: 951183743}
-    - target: {fileID: 1488869709875144545, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488869709875144545, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1612508409638007237, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      propertyPath: m_Spacing
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1612508409638007237, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      propertyPath: m_ChildAlignment
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 1620663765396872304, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: moveForward
       value: 
@@ -393,14 +377,6 @@ PrefabInstance:
       propertyPath: inGameCountManager
       value: 
       objectReference: {fileID: 716618695}
-    - target: {fileID: 5052352571859111027, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      propertyPath: attackSlotUI
-      value: 
-      objectReference: {fileID: 1321423256}
-    - target: {fileID: 5052352571859111027, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      propertyPath: supportSlotUI
-      value: 
-      objectReference: {fileID: 797764117}
     - target: {fileID: 5162127379346163367, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -453,20 +429,8 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5767488239219780784, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -298.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5767488239219780784, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -75.6
-      objectReference: {fileID: 0}
     - target: {fileID: 6615414480800436979, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7537260789096091343, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8730535621774814449, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
@@ -780,17 +744,6 @@ Transform:
   - {fileID: 1785003765}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &797764117 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8565545149648132604, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-  m_PrefabInstance: {fileID: 632461798}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abcbfa0c8dcce4537a313f33f89341f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &810937761
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1210,17 +1163,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3941062764601088508, guid: 29dd8981ac23149909523ae85d59dee8, type: 3}
   m_PrefabInstance: {fileID: 5364776200055361369}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1321423256 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9171409841715189866, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-  m_PrefabInstance: {fileID: 632461798}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5804819fc02de41a6ad8e736d683b6b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1426697892
 GameObject:
   m_ObjectHideFlags: 3
@@ -2308,11 +2250,11 @@ PrefabInstance:
     - target: {fileID: 3080768571158426121, guid: 0f709e169bf54434782c48c4e2d518bb, type: 3}
       propertyPath: stageDatas.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 2992aafe210722f4eb5e558dfd77d72c, type: 2}
+      objectReference: {fileID: 11400000, guid: 75e5044c341581a43800bcf45fb626ce, type: 2}
     - target: {fileID: 3080768571158426121, guid: 0f709e169bf54434782c48c4e2d518bb, type: 3}
       propertyPath: stageDatas.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 75e5044c341581a43800bcf45fb626ce, type: 2}
+      objectReference: {fileID: 11400000, guid: 2992aafe210722f4eb5e558dfd77d72c, type: 2}
     - target: {fileID: 3080768571158426121, guid: 0f709e169bf54434782c48c4e2d518bb, type: 3}
       propertyPath: stageDatas.Array.data[2]
       value: 
