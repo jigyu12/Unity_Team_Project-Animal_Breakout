@@ -30,11 +30,6 @@ public class ShopUISwitchPanel : MonoBehaviour
 
     private void Initialize()
     {
-        if (switchShopPanelButtonList.Count == 0)
-        {
-            return;
-        }
-        
         for (int i = 0; i < switchShopPanelButtonList.Count; ++i)
         {
             if (i == 0)

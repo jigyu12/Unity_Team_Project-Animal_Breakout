@@ -23,12 +23,8 @@ public class SwitchableShopPanel : MonoBehaviour
         {
             return;
         }
-        
-        switchableShopPanelList[0].SetActive(true);
-        for (int i = 1; i < switchableShopPanelList.Count; ++i)
-        {
-            switchableShopPanelList[i].SetActive(false);
-        }
+
+        OnSwitchShopPanelHandler(SwitchableShopPanelType.NormalGacha);
     }
 
     private void OnSwitchShopPanelHandler(SwitchableShopPanelType switchableShopPanelType)
