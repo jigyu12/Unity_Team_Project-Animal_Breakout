@@ -18,7 +18,7 @@ public class GameUIManager : InGameManager
 
     public static Action<int> OnGamePlayCounting;
 
-    public List<UIElement> uiElements = new();
+    public List<UIElement> uiElements;
 
     [SerializeField] private PausePanelUI pausePanelUI;
     [SerializeField] private ResultPanelUI resultPanelUI;
@@ -27,6 +27,10 @@ public class GameUIManager : InGameManager
     [SerializeField] private InputUIBinder inputUIBinder;
     [SerializeField] public RunStageUI runStageUI;
     [SerializeField] public BossWayUI bossWayUI;
+    [SerializeField] public BossTimeLimit bossTimeLimit;
+    [SerializeField] public BossDebuffUIController bossDebuffUI;
+
+
 
 
     public override void Initialize()

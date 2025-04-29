@@ -15,14 +15,15 @@ public class SupportSkillRawData
 
     public float Value { get; set; }
 
-    public int NameID { get; set; }
-    public int DescriptionID { get; set; }
+    public string NameID { get; set; }
+    public string DescriptionID { get; set; }
     public string Prefab { get; set; }
+
+    public bool SelectPossible { get; set; }
 }
 
 public class SupportSkillDataTable : DataTable
 {
-
     private static readonly Dictionary<int, SupportSkillRawData> table = new();
 
     public List<int> Keys

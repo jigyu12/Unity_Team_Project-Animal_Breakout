@@ -24,18 +24,32 @@ public enum SupportSkillTarget
     Experience,
     AttackPower,
     CoolDownTime,
+    ElementalStart,
     ElementalFirePower,
     ElementalIcePower,
     ElementalThunderPower,
 }
 
+public enum ProjectileType
+{
+    PlayerFire,
+    SkyFall,
+}
 
 public class SkillData : ScriptableObject
 {
     public int skillID;
+
     public SkillType skillType;
     public int level;
+
+    public string nameID;
+    public string descriptionID;
     public string skillGroup;
+
+    public Sprite iconImage;
+
+    public bool selectPossible;
 }
 
 

@@ -22,7 +22,7 @@ public class MapObjectManager : InGameManager
     
     private ObjectPool<GameObject> itemPenaltyCoinPool;
 
-    private const float maxHillHeight = 1.5f;
+    private const float maxHillHeight = 1f;
 
     private List<float> rewardItemSpawnChances = new();
     private float bronzeCoinSpawnChance = 0.6f;
@@ -54,8 +54,13 @@ public class MapObjectManager : InGameManager
 
     private readonly Queue<int> nextMapObjectsPrefabIdQueue = new();
     private readonly List<int> mapObjectsPrefabIds = new();
-    public const int maxPrefabIdQueueSize = 9; // Original value is 12
+    public const int maxPrefabIdQueueSize = 12;
 
+    [SerializeField] private AnimationCurve hillCurve;
+    
+    private MapObjectsBlueprint dummyMapObjectsBlueprint = new();
+    private List<RewardItemBlueprint> dummyRewardItemBlueprintList = new();
+    
     private void Awake()
     {
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
@@ -278,7 +283,7 @@ public class MapObjectManager : InGameManager
         }
         else
         {
-            throw new KeyNotFoundException($" 맵 오브젝트 키 '{id}' 를 찾을 수 없습니다.");
+            return dummyMapObjectsBlueprint;
         }
     }
 
@@ -290,7 +295,7 @@ public class MapObjectManager : InGameManager
         }
         else
         {
-            throw new KeyNotFoundException($" 리워드 아이템 '{id}' 를 찾을 수 없습니다.");
+            return dummyRewardItemBlueprintList;
         }
     }
     
@@ -365,19 +370,19 @@ public class MapObjectManager : InGameManager
     private CollidableMapObject[] CreateRandomRewardCoinWithHill(Vector3 startPosition, Vector3 endPosition, int itemCount)
     {
         float maxHeight = maxHillHeight;
-        int middleIndex = itemCount / 2;
 
         var array = new CollidableMapObject[itemCount];
         
         for (int i = 0; i < itemCount; ++i)
         {
             Vector3 spawnPosition = Vector3.Lerp(startPosition, endPosition, (float)i / (itemCount - 1));
-            float distanceFromMiddle = Mathf.Abs(i - middleIndex);
-            float heightOffset = maxHeight - (distanceFromMiddle / middleIndex * maxHeight);
-            spawnPosition.y += heightOffset;
+
+            float t = (float)i / (itemCount - 1);
+            float curveValue = hillCurve.Evaluate(t);
+            spawnPosition.y += curveValue * maxHeight;
 
             var rewardItemPrefabIndex = Utils.GetIndexRandomChanceHitInList(rewardItemSpawnChances);
-            
+        
             var rewardCoin = itemRewardCoinPoolList[rewardItemPrefabIndex].Get();
             rewardCoin.SetActive(true);
             rewardCoin.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
