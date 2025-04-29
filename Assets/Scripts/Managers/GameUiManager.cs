@@ -29,6 +29,10 @@ public class GameUIManager : InGameManager
     [SerializeField] public BossWayUI bossWayUI;
     [SerializeField] public BossTimeLimit bossTimeLimit;
     [SerializeField] public BossDebuffUIController bossDebuffUI;
+    [SerializeField] public SupportSlotUI supportSlotUI;
+    [SerializeField] public AttackSlotUI attackSlotUI;
+
+
 
 
 

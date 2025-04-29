@@ -13,8 +13,12 @@ public class SkillSelectionUI : UIElement
     [SerializeField]
     private GameObject skillListGameObject;
 
-    private List<SkillButton> skillButtons=new();
-    private List<SkillData> skillDatas=new();
+    [SerializeField]
+    private GameObject SelectSurpportskillListGameObject;
+
+
+    private List<SkillButton> skillButtons = new();
+    private List<SkillData> skillDatas = new();
 
     private int priority = 1;
 

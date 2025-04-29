@@ -54,9 +54,12 @@ public class MapObjectManager : InGameManager
 
     private readonly Queue<int> nextMapObjectsPrefabIdQueue = new();
     private readonly List<int> mapObjectsPrefabIds = new();
-    public const int maxPrefabIdQueueSize = 9; // Original value is 12
+    public const int maxPrefabIdQueueSize = 12;
 
     [SerializeField] private AnimationCurve hillCurve;
+    
+    private MapObjectsBlueprint dummyMapObjectsBlueprint = new();
+    private List<RewardItemBlueprint> dummyRewardItemBlueprintList = new();
     
     private void Awake()
     {
@@ -280,7 +283,7 @@ public class MapObjectManager : InGameManager
         }
         else
         {
-            throw new KeyNotFoundException($" 맵 오브젝트 키 '{id}' 를 찾을 수 없습니다.");
+            return dummyMapObjectsBlueprint;
         }
     }
 
@@ -292,7 +295,7 @@ public class MapObjectManager : InGameManager
         }
         else
         {
-            throw new KeyNotFoundException($" 리워드 아이템 '{id}' 를 찾을 수 없습니다.");
+            return dummyRewardItemBlueprintList;
         }
     }
     
