@@ -122,6 +122,13 @@ public enum SwitchableCanvasType
     Animal,
 }
 
+public enum SwitchableShopPanelType
+{
+    NormalGacha,
+    SpecialGacha,
+    Stamina,
+}
+
 public enum BTNodeState
 {
     Success,
