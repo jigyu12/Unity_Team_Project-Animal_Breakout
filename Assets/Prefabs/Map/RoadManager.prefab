@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 921e1f845d5f3274990b63bf78e2cb77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curvedWorldControllerZ: {fileID: 0}
-  curvedWorldControllerX: {fileID: 0}
+  maxHorizonCurvatureValue: 1
+  maxVirticalCurvatureValue: 1
+  curvedWorldController: {fileID: 0}
 --- !u!1 &4160796323777910873
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadWayPrefabs:
-  - {fileID: 0}
+  - {fileID: 5444199048451139359, guid: 73a4ddf153933474fb9581b84f1676c7, type: 3}
   - {fileID: 8590565346342507532, guid: 050c9fd062ea6dc4cb642370d7b29506, type: 3}
   - {fileID: 5444199048451139359, guid: 680fb78f51a40a645bc8e482fe3048ba, type: 3}
   initialRoadWay: {fileID: 0}
