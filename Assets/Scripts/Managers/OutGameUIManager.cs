@@ -18,9 +18,13 @@ public class OutGameUIManager : MonoBehaviour, IManager
     public static event Action<GameObject> onAnimalUnlockPanelInstantiated;
     private readonly List<GameObject> animalUnlockPanelList = new();
 
+    public SwitchableCanvasType CurrentSwitchableCanvasType { get; private set; }
+
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
+
+        CurrentSwitchableCanvasType = SwitchableCanvasType.Lobby;
         
         // TempCode //
         
@@ -91,9 +95,11 @@ public class OutGameUIManager : MonoBehaviour, IManager
         onSwitchVisualizeSwitchableCanvas?.Invoke(showCanvasType, isVisibleOtherCanvas, isVisibleShowCanvasType);
     }
     
-    private void SwitchActiveSwitchableCanvas(SwitchableCanvasType type)
+    public void SwitchActiveSwitchableCanvas(SwitchableCanvasType type)
     {
         onSwitchActiveSwitchableCanvas?.Invoke(type);
+        
+        CurrentSwitchableCanvasType = type;
     }
     
     private void SwitchActiveDefaultCanvas(bool isActive)
