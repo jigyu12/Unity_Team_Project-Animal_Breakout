@@ -307,10 +307,10 @@ RectTransform:
   - {fileID: 8007388521968543905}
   m_Father: {fileID: 5374001225643554511}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 350, y: -701.04724}
-  m_SizeDelta: {x: 700, y: 527.3648}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -701.04724}
+  m_SizeDelta: {x: 0, y: 527.3648}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9113813800065059793
 MonoBehaviour:
@@ -1272,7 +1272,7 @@ GameObject:
   - component: {fileID: 7729179621070445230}
   - component: {fileID: 230329466136669498}
   - component: {fileID: 3254507427084855458}
-  - component: {fileID: 2018508747750320426}
+  - component: {fileID: 3817617276183773377}
   m_Layer: 0
   m_Name: SelectSupportSkillImage4
   m_TagString: Untagged
@@ -1338,7 +1338,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2018508747750320426
+--- !u!114 &3817617276183773377
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1539,7 +1539,7 @@ GameObject:
   - component: {fileID: 8927823787434660638}
   - component: {fileID: 5718251480434295097}
   - component: {fileID: 580344587236128239}
-  - component: {fileID: 4616823419451804136}
+  - component: {fileID: 1058500720628188902}
   m_Layer: 0
   m_Name: SelectSupportSkillImage4
   m_TagString: Untagged
@@ -1605,7 +1605,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4616823419451804136
+--- !u!114 &1058500720628188902
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2869,7 +2869,7 @@ GameObject:
   - component: {fileID: 2147525804807502370}
   - component: {fileID: 26320410780784976}
   - component: {fileID: 6884025714140287248}
-  - component: {fileID: 6003777542099747644}
+  - component: {fileID: 8912546101126500389}
   m_Layer: 0
   m_Name: SelectSupportSkillImage3
   m_TagString: Untagged
@@ -2935,7 +2935,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6003777542099747644
+--- !u!114 &8912546101126500389
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4239,7 +4239,7 @@ GameObject:
   - component: {fileID: 4329879330299308516}
   - component: {fileID: 3250615147452529011}
   - component: {fileID: 569518690133220330}
-  - component: {fileID: 5787660002870557012}
+  - component: {fileID: 6907626880696459974}
   m_Layer: 0
   m_Name: SelectSupportSkillImage3
   m_TagString: Untagged
@@ -4305,7 +4305,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5787660002870557012
+--- !u!114 &6907626880696459974
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6300,10 +6300,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5374001225643554511}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 350, y: -218.6824}
-  m_SizeDelta: {x: 700, y: 437.3648}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -218.6824}
+  m_SizeDelta: {x: 0, y: 437.3648}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1801605345022591347
 CanvasRenderer:
@@ -7324,7 +7324,7 @@ GameObject:
   - component: {fileID: 4306076035242331222}
   - component: {fileID: 7978101229446962525}
   - component: {fileID: 5344128522511818300}
-  - component: {fileID: 4445212307841547939}
+  - component: {fileID: 1291320828877339219}
   m_Layer: 0
   m_Name: SelectSupportSkillImage1
   m_TagString: Untagged
@@ -7390,7 +7390,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4445212307841547939
+--- !u!114 &1291320828877339219
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8438,9 +8438,9 @@ RectTransform:
   - {fileID: 8409718554051353511}
   m_Father: {fileID: 3101033908121470040}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 175, y: -263.6824}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -263.6824}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5524702254652713959
@@ -9576,8 +9576,8 @@ RectTransform:
   - {fileID: 5374001225643554511}
   m_Father: {fileID: 7313281643050312736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.04028436}
-  m_AnchorMax: {x: 1, y: 0.9443128}
+  m_AnchorMin: {x: 0, y: 0.03671706}
+  m_AnchorMax: {x: 1, y: 0.9492441}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10740,7 +10740,7 @@ GameObject:
   - component: {fileID: 185595786013413669}
   - component: {fileID: 888955980924689355}
   - component: {fileID: 3387185314226681188}
-  - component: {fileID: 204127707021185770}
+  - component: {fileID: 5338973902103157032}
   m_Layer: 0
   m_Name: SelectSupportSkillImage2
   m_TagString: Untagged
@@ -10806,7 +10806,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &204127707021185770
+--- !u!114 &5338973902103157032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11479,7 +11479,7 @@ GameObject:
   - component: {fileID: 2545696457484170315}
   - component: {fileID: 590055461583463734}
   - component: {fileID: 7758513351115937243}
-  - component: {fileID: 716423989657964874}
+  - component: {fileID: 450459981677487094}
   m_Layer: 0
   m_Name: SelectSupportSkillImage1
   m_TagString: Untagged
@@ -11545,7 +11545,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &716423989657964874
+--- !u!114 &450459981677487094
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11928,7 +11928,7 @@ GameObject:
   - component: {fileID: 5166906436530860612}
   - component: {fileID: 6248161691197712752}
   - component: {fileID: 6092377594850257443}
-  - component: {fileID: 1190498215680412107}
+  - component: {fileID: 8418768527363462039}
   m_Layer: 0
   m_Name: SelectSupportSkillImage2
   m_TagString: Untagged
@@ -11994,7 +11994,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1190498215680412107
+--- !u!114 &8418768527363462039
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12041,9 +12041,9 @@ RectTransform:
   - {fileID: 4660339373899919863}
   m_Father: {fileID: 3101033908121470040}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 525, y: -263.6824}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -263.6824}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4670220414153092782
@@ -12317,6 +12317,8 @@ MonoBehaviour:
   - {fileID: 496295705243988479}
   - {fileID: 8738067618860371783}
   - {fileID: 5816339804984087380}
+  - {fileID: 8565545149648132604}
+  - {fileID: 9171409841715189866}
   - {fileID: 4845916558323401691}
   - {fileID: 5876655161715000378}
   - {fileID: 3841398152097245727}
@@ -12661,8 +12663,8 @@ RectTransform:
   - {fileID: 4477626866167648352}
   m_Father: {fileID: 7313281643050312736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.04028436}
-  m_AnchorMax: {x: 1, y: 0.9443128}
+  m_AnchorMin: {x: 0, y: 0.03671706}
+  m_AnchorMax: {x: 1, y: 0.9492441}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13050,17 +13052,17 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2961776879471093821, guid: d71cea3125718464da581a35f9c61095, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6559900164027998948}
+      addedObject: {fileID: 4022180382567060533}
     - targetCorrespondingSourceObject: {fileID: 4942322161420678281, guid: d71cea3125718464da581a35f9c61095, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1010850261838290022}
+      addedObject: {fileID: 8398993002157506181}
   m_SourcePrefab: {fileID: 100100000, guid: d71cea3125718464da581a35f9c61095, type: 3}
 --- !u!1 &2082188420085050551 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2961776879471093821, guid: d71cea3125718464da581a35f9c61095, type: 3}
   m_PrefabInstance: {fileID: 3890884915365872778}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6559900164027998948
+--- !u!114 &4022180382567060533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -13094,7 +13096,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4942322161420678281, guid: d71cea3125718464da581a35f9c61095, type: 3}
   m_PrefabInstance: {fileID: 3890884915365872778}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1010850261838290022
+--- !u!114 &8398993002157506181
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
