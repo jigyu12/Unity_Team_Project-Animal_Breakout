@@ -75,8 +75,10 @@ public class GameManager_new : MonoBehaviour
     {
 #if UNITY_EDITOR
         //프레임제한 풀기
+        QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = -1;
 #elif UNITY_ANDROID || UNITY_IOS
+        QualitySettings.vSyncCount = 0;
 Application.targetFrameRate = 120;
 #endif
 
