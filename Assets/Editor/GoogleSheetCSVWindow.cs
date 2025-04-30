@@ -29,8 +29,7 @@ public class GoogleSheetCSVWindow : EditorWindow
 
             if (!string.IsNullOrEmpty(path))
             {
-                GoogleSheetManager.Load(sheetURL, path);
-                AssetDatabase.Refresh();
+                UpdateDataTableCSV(sheetURL, path);
             }
         }
 
