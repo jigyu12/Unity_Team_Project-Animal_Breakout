@@ -1,5 +1,3 @@
-using System;
-
 public class AnimalScrollViewUIRefresher : UIRefresher
 {
     protected override void Awake()

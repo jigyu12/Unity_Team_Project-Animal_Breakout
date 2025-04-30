@@ -8,6 +8,8 @@ public abstract class DefaultCanvas : MonoBehaviour
     [SerializeField] private Canvas staticCanvas;
     [SerializeField] private Canvas dynamicCanvas;
     
+    protected OutGameManager outGameManager;
+    
     protected virtual void Awake()
     {
         TryGetComponent(out CanvasGroup canvasGroup);
@@ -19,6 +21,11 @@ public abstract class DefaultCanvas : MonoBehaviour
     protected virtual void OnDestroy()
     {
         OutGameUIManager.onSwitchActiveDefaultCanvases -= SwitchActiveDefaultCanvasHandler;
+    }
+
+    protected virtual void Start()
+    {
+        GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out outGameManager);
     }
     
     protected void SwitchActiveDefaultCanvasHandler(bool isActive)

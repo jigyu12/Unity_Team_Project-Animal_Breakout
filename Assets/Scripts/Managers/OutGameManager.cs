@@ -34,6 +34,27 @@ public class OutGameManager : MonoBehaviour
         }
     }
     
+#if UNITY_ANDROID
+    private void Update()
+    {
+        if (UnityEngine.InputSystem.Keyboard.current != null &&
+            UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            Debug.Log($" CurrCanvas : {outGameUIManager.CurrentSwitchableCanvasType}");
+            
+            if (outGameUIManager.CurrentSwitchableCanvasType == SwitchableCanvasType.Lobby)
+            {
+                Application.Quit();
+            }
+            else
+            {
+                outGameUIManager.SwitchVisualizeSwitchableCanvas(SwitchableCanvasType.Lobby, true);
+                outGameUIManager.SwitchActiveSwitchableCanvas(SwitchableCanvasType.Lobby);
+            }
+        }
+    }
+#endif
+    
     private void InitializeManagers()
     {
         objectPoolManager = new ObjectPoolManager();
