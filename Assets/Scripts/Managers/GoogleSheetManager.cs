@@ -67,8 +67,10 @@ public static class GoogleSheetManager
         {
             string csv = www.downloadHandler.text;
             DataTable.SaveCSV(csv, path);
+            var assetPath = "Assets/" + path.Substring(Application.dataPath.Length + 1);
+            AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
         }
-        AssetDatabase.Refresh();
+        //AssetDatabase.Refresh();
     }
 }
 #endif
