@@ -1,10 +1,15 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SkillFactory
 {
-    private Dictionary<string, SkillDataLevelGroup> skillDataTable = new();
+
+    private List<Dictionary<string, SkillDataLevelGroup>> skillDataTable = new();
+    private List<List<string>> skillListGroupKeys=new();
+
+
     public class SkillDataLevelGroup
     {
         public SkillDataLevelGroup()
@@ -26,6 +31,11 @@ public class SkillFactory
             return skillDatas[level - 1];
         }
 
+        public int GetSkillMaxLevel()
+        {
+            return skillDatas.Count;
+        }
+
         private List<SkillData> skillDatas;
     }
 
@@ -37,53 +47,80 @@ public class SkillFactory
 
     private void InitializeSkillData()
     {
-        AttackSkillData[] attackSkillDatas = Resources.LoadAll<AttackSkillData>("Skill/");
-        SupportSkillData[] supportSkillDatas = Resources.LoadAll<SupportSkillData>("Skill/");
+        //Resources폴더에 있는 스킬데이터들을 가져온다
+        AttackSkillData[] attackSkillDatas = Resources.LoadAll<AttackSkillData>("ScriptableData/Skill/");
+        SupportSkillData[] supportSkillDatas = Resources.LoadAll<SupportSkillData>("ScriptableData/Skill/");
 
-        foreach(var skillData in supportSkillDatas)
+        for (int i = 0; i < Enum.GetValues(typeof(SkillType)).Length; i++)
         {
-            if(skillDataTable.ContainsKey(skillData.skillGroup))
-            {
-                skillDataTable[skillData.skillGroup].AddToGroup(skillData);
-            }
-            else
-            {
-                var newGroup = new SkillDataLevelGroup();
-                newGroup.AddToGroup(skillData);
-                skillDataTable.Add(skillData.skillGroup, newGroup);
-            }
+            skillDataTable.Add(new Dictionary<string, SkillDataLevelGroup>());
         }
 
         foreach (var skillData in attackSkillDatas)
         {
-            if (skillDataTable.ContainsKey(skillData.skillGroup))
+            if (skillDataTable[(int)SkillType.Attack].ContainsKey(skillData.skillGroup))
             {
-                skillDataTable[skillData.skillGroup].AddToGroup(skillData);
+                skillDataTable[(int)SkillType.Attack][skillData.skillGroup].AddToGroup(skillData);
             }
             else
             {
                 var newGroup = new SkillDataLevelGroup();
                 newGroup.AddToGroup(skillData);
-                skillDataTable.Add(skillData.skillGroup, newGroup);
+                skillDataTable[(int)SkillType.Attack].Add(skillData.skillGroup, newGroup);
             }
         }
 
-        foreach (var item in skillDataTable)
+        foreach (var skillData in supportSkillDatas)
         {
-            item.Value.LevelSort();
+            if (skillDataTable[(int)SkillType.Support].ContainsKey(skillData.skillGroup))
+            {
+                skillDataTable[(int)SkillType.Support][skillData.skillGroup].AddToGroup(skillData);
+            }
+            else
+            {
+                var newGroup = new SkillDataLevelGroup();
+                newGroup.AddToGroup(skillData);
+                skillDataTable[(int)SkillType.Support].Add(skillData.skillGroup, newGroup);
+            }
+        }
+
+        //데이터가 항상 순서대로 있을거라 확신할 수 없어 한번 정렬
+        foreach (var dic in skillDataTable)
+        {
+            foreach(var item in dic)
+            {
+                item.Value.LevelSort();
+            }
+        }
+
+        for (int i = 0; i < Enum.GetValues(typeof(SkillType)).Length; i++)
+        {
+            skillListGroupKeys.Add(skillDataTable[i].Keys.ToList());
         }
     }
 
-    public SkillData GetSkillData(string skillGroup, int level)
+    public IReadOnlyList<string> GetSkillGroupKeys(SkillType type)
     {
-        return skillDataTable[skillGroup].GetSkill(level);
+        return skillListGroupKeys[(int)type];
     }
+
+
+    public SkillData GetSkillData(SkillType type, string skillGroup, int level)
+    {
+        return skillDataTable[(int)type][skillGroup].GetSkill(level);
+    }
+
+    public int GetSkillMaxLevel (SkillType type, string skillGroup)
+    {
+        return skillDataTable[(int)type][skillGroup].GetSkillMaxLevel();
+    }
+
 
     public ISkill CreateSkill(SkillData skillData)
     {
         if (skillData.skillType == SkillType.Attack)
         {
-            return CreateProjectileSkill(skillData as AttackSkillData);
+            return CreateAttackSkill(skillData as AttackSkillData);
 
         }
         else if (skillData.skillType == SkillType.Support)
@@ -96,7 +133,7 @@ public class SkillFactory
         }
     }
 
-    public ProjectileSkill CreateProjectileSkill(AttackSkillData skillData)
+    public ProjectileSkill CreateAttackSkill(AttackSkillData skillData)
     {
         return new ProjectileSkill(skillData);
     }

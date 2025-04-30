@@ -1,4 +1,5 @@
 
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,21 +14,26 @@ public class AttackSkillData : SkillData
     public float speed;
     public float interval;
     public int effectID;
+    public ProjectileType projectileType;
 
-
-    public int elementalEffectAttackIndex=0;
+    public int elementalEffectAttackIndex = 0;
     public ProjectileBehaviour projectileBehaviourPrefab;
-    
-#if UNITY_EDITOR    
+
+#if UNITY_EDITOR
     private string prefabPath = "Assets/Resources/Prefab/Skill/Projectile{0}.prefab";
+    private string iconPath = "Assets/Resources/SkillIcon/{0}.png";
     public void SetData(AttackSkillRawData rawData)
     {
         skillType = SkillType.Attack;
+        selectPossible = rawData.SelectPossible;
 
         skillID = rawData.SkillID;
+        nameID = rawData.NameID;
+        descriptionID = rawData.DescriptionID;
         level = rawData.SkillLevel;
         skillGroup = rawData.SkillGroup;
         skillElemental = (SkillElemental)rawData.Attribute;
+
         damageRate = rawData.Damage;
         projectileCount = rawData.ProjectileCount;
         attackCount = rawData.AttackCount;
@@ -36,10 +42,14 @@ public class AttackSkillData : SkillData
         coolDownTime = rawData.CoolTime;
         effectID = rawData.EffectID;
 
+        projectileType = Enum.Parse<ProjectileType>(rawData.ProjectileType);
 
-        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(string.Format(prefabPath, skillElemental.ToString()));
+        var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(iconPath, rawData.Prefab_Icon));
+        iconImage = sprite;
+
+        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(string.Format(prefabPath, skillGroup));
         var projectile = prefab.GetComponent<ProjectileBehaviour>();
-        projectileBehaviourPrefab =projectile;
+        projectileBehaviourPrefab = projectile;
     }
 #endif
 }

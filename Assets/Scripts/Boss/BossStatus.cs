@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class BossStatus : DamageableStatus
@@ -7,19 +8,23 @@ public class BossStatus : DamageableStatus
     public override float maxHp { get; protected set; }
     public override bool isDead { get; protected set; }
 
-    //private ObjectPool<GameObject> bossPool;
-
     public static event Action onBossDead;
+    public static event Action onBossDeathAnimationEnded;
+    private readonly WaitForSeconds waitTime = new(3f);
     public static Action<int> onBossDeadCounting;
 
     public static event Action<float, float> onBossCurrentHpChanged;
     private static int BossKillCount = 0;
+
+    private BossBehaviourController bossBehaviourController;
 
     public override void InitializeStatus(float maxHp)
     {
         this.maxHp = maxHp;
         currentHp = maxHp;
         isDead = false;
+
+        TryGetComponent(out bossBehaviourController);
     }
 
     public override void OnDamage(float damage, SkillElemental attribute)
@@ -37,21 +42,21 @@ public class BossStatus : DamageableStatus
             return;
         }
 
+        if (isDead)
+        {
+            return;
+        }
+
         currentHp -= damage;
         currentHp = Mathf.Clamp(currentHp, 0f, maxHp);
         onBossCurrentHpChanged?.Invoke(currentHp, maxHp);
         onDamaged?.Invoke(damage);
-
         Debug.Log($"Boss HP : {currentHp}/{maxHp}");
-
         if (Mathf.Approximately(0f, currentHp))
         {
-            Debug.Log("Boss is dead.");
-
             OnDead();
         }
     }
-
 
     protected override void OnDead()
     {
@@ -61,12 +66,23 @@ public class BossStatus : DamageableStatus
         onBossDeadCounting?.Invoke(1);
         BossKillCount++;
         Debug.Log(BossKillCount);
-        //bossPool.Release(gameObject);
-        Destroy(gameObject);
+
+        var deathFunc = BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.BossDeathAnimation);
+        deathFunc?.Invoke(bossBehaviourController);
+
+        bossBehaviourController?.ClearTempBossProjectile();
+        bossBehaviourController?.BossProjectilePooler.ClearPooledProjectiles();
+
+        
+        StartCoroutine(DelayDestroy());
     }
 
-    // public void SetPool(ObjectPool<GameObject> bossPool)
-    // {
-    //     this.bossPool = bossPool;
-    // }
+    private IEnumerator DelayDestroy()
+    {
+        yield return waitTime;
+
+        onBossDeathAnimationEnded?.Invoke();
+
+        Destroy(gameObject);
+    }
 }

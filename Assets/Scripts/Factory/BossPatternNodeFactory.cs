@@ -7,6 +7,9 @@ public static class BossPatternNodeFactory
     
     private const float Boss1Phase1AttackTimeDelay = 3f;
     private const float Boss1Phase2AttackTimeDelay = 1.5f;
+    private const float Boss1AttackPattern1AnimationTimeDelay = 0.85f;
+    private const float Boss1AttackPattern2AnimationTimeDelay = 0.7f;
+    private const float Boss1AttackPattern3AnimationTimeDelay = 0.7f;
     
     private const float Boss1Phase1Pattern1Chance = 0.7f;
     private const float Boss1Phase1Pattern2Chance = 0.3f;
@@ -15,6 +18,10 @@ public static class BossPatternNodeFactory
     private const float Boss1Phase2Pattern1Chance = 0.5f;
     private const float Boss1Phase2Pattern2Chance = 0.5f;
     private const int Boss1Phase2Pattern3UseCount = 6;
+    
+    private const float Boss1AttackPattern1DelayTime = 0.5f;
+    private const float Boss1AttackPattern2DelayTime = 0.5f;
+    private const float Boss1AttackPattern3DelayTime = 0.5f;
 
     public static ConditionNode<BossBehaviourController> GetBossConditionNode(BossBehaviourController bossBehaviourController, BossConditionNodeType type)
     {
@@ -66,6 +73,16 @@ public static class BossPatternNodeFactory
                     return new(bossBehaviourController, 
                         BossPatternFuncFactory.GetBossRandomPatternSelectCondition(BossRandomPatternSelectConditionType.RandomValue, cumulativeBoss1Phase2Chances[1]));
                 }
+            case BossConditionNodeType.IsBossDeadCondition:
+                {
+                    return new(bossBehaviourController,
+                        BossPatternFuncFactory.GetBossStatusCondition(BossStatusConditionType.IsBossDead));
+                }
+            case BossConditionNodeType.IsBossAliveCondition:
+                {
+                    return new(bossBehaviourController,
+                        BossPatternFuncFactory.GetBossStatusCondition(BossStatusConditionType.IsBossAlive));
+                }
         }
         
         Debug.Assert(false, "Invalid BossConditionNodeType");
@@ -85,9 +102,44 @@ public static class BossPatternNodeFactory
                 {
                     return new(bossBehaviourController, Boss1Phase2AttackTimeDelay);
                 }
+            case BossTimerNodeType.Boss1AttackPattern1AnimationTimeDelayTimer:
+                {
+                    return new(bossBehaviourController, Boss1AttackPattern1AnimationTimeDelay);
+                }
+            case BossTimerNodeType.Boss1AttackPattern2AnimationTimeDelayTimer:
+                {
+                    return new(bossBehaviourController, Boss1AttackPattern2AnimationTimeDelay);
+                }
+            case BossTimerNodeType.Boss1AttackPattern3AnimationTimeDelayTimer:
+                {
+                    return new(bossBehaviourController, Boss1AttackPattern3AnimationTimeDelay);
+                }
         }
         
         Debug.Assert(false, "Invalid BossTimerNodeType");
+        
+        return null;
+    }
+
+    public static DelayNode<BossBehaviourController> GetBossDelayNode(BossBehaviourController bossBehaviourController, BossDelayNodeType type)
+    {
+        switch (type)
+        {
+            case BossDelayNodeType.Boss1AttackPattern1Delay:
+                {
+                    return new(bossBehaviourController,Boss1AttackPattern1DelayTime);
+                }
+            case BossDelayNodeType.Boss1AttackPattern2Delay:
+                {
+                    return new(bossBehaviourController,Boss1AttackPattern2DelayTime);
+                }
+            case BossDelayNodeType.Boss1AttackPattern3Delay:
+                {
+                    return new(bossBehaviourController,Boss1AttackPattern3DelayTime);
+                }
+        }
+        
+        Debug.Assert(false, "Invalid BossDelayNodeType");
         
         return null;
     }
@@ -99,17 +151,32 @@ public static class BossPatternNodeFactory
             case BossActionNodeType.Boss1AttackPattern1:
                 {
                     return new(bossBehaviourController, 
-                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.TestAttackToLane0));
+                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.Boss1AttackPattern1));
                 }
             case BossActionNodeType.Boss1AttackPattern2:
                 {
                     return new(bossBehaviourController,
-                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.TestAttackToLane1));
+                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.Boss1AttackPattern2));
                 }
             case BossActionNodeType.Boss1AttackPattern3:
                 {
                     return new(bossBehaviourController, 
-                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.TestAttackToLane2));
+                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.Boss1AttackPattern3));
+                }
+            case BossActionNodeType.Boss1AttackAnimation1:
+                {
+                    return new(bossBehaviourController,
+                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.Boss1AttackAnimation1));
+                }
+            case BossActionNodeType.Boss1AttackAnimation2:
+                {
+                    return new(bossBehaviourController,
+                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.Boss1AttackAnimation2));
+                }
+            case BossActionNodeType.Boss1DeathAnimation:
+                {
+                    return new(bossBehaviourController,
+                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.BossDeathAnimation));
                 }
         }
         

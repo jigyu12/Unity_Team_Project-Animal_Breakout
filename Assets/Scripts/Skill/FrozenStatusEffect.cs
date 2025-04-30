@@ -7,10 +7,6 @@ public class FrozenStatusEffect : StatusEffect
     private readonly int effectId = 1602;
     private DamageableStatus target;
 
-    //임시
-    public int damage;
-
-    public int effectCount = 1;
     private int currentCount;
 
     public override bool CanPerform
@@ -22,10 +18,12 @@ public class FrozenStatusEffect : StatusEffect
         get => isPerforming;
     }
     private bool isPerforming;
+    private int attackPower;
+    private DebuffIcon debuffIcon;
 
     private void Start()
     {
-        SetEffectData(effectId);
+        SetEffectData(effectId, SkillElemental.Ice);
         SetDamagerableTarget(GetComponent<DamageableStatus>());
         isPerforming = false;
     }
@@ -37,30 +35,39 @@ public class FrozenStatusEffect : StatusEffect
     }
 
     //냉기 상태에서는 얼음 속성을 제외한 다른 속성 스킬로 공격을 했을 때 얼음 속성 1회 추가 데미지를 주는 효과를 갖고 있다.
-    public override void Perform(int skillID)
+    public override void Perform(int skillID, int elementalAttackPower)
     {
         if (CanPerform)
         {
             isPerforming = true;
             currentCount = 0;
+            attackPower = elementalAttackPower;
+
+            debuffIcon = debuffUI?.AddDebuff("Freeze");
         }
     }
 
     private void PerformFrozenEffect(float damage, SkillElemental attribute)
     {
-        if (attribute == SkillElemental.Ice || !IsPerforming)
+        if (attribute == Elemental || !IsPerforming)
         {
             return;
         }
 
         currentCount++;
 
-        Debug.Log($"얼음 효과 damage : {this.damage}");
-        target.OnDamage(this.damage);
+        Debug.Log($"얼음 효과 damage : {attackPower * AdditionalStatusEffectData.Damage}");
+        target.OnDamage(attackPower * AdditionalStatusEffectData.Damage);
 
-        if (currentCount >= effectCount)
+        // 남은 횟수 갱신
+        debuffIcon?.UpdateCountText(AdditionalStatusEffectData.AttackCount - currentCount);
+        if (currentCount >= AdditionalStatusEffectData.AttackCount)
         {
             isPerforming = false;
+            // 디버프 아이콘 제거
+            debuffUI?.RemoveDebuff("Freeze");
+
         }
+        // debuffUI.RemoveDebuff("Freeze");
     }
 }

@@ -1,14 +1,16 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AttackSkill : ISkill
 {
     public SkillData SkillData
     {
-        get=> AttackSkillData;
+        get => AttackSkillData;
     }
 
-    public  AttackSkillData AttackSkillData
+    public AttackSkillData AttackSkillData
     {
         get;
         private set;
@@ -39,7 +41,7 @@ public abstract class AttackSkill : ISkill
 
     public float CoolDownTime
     {
-        get=> AttackSkillData.coolDownTime - AttackSkillData.coolDownTime * skillManager.GlobalCoolDownTimeRate;
+        get => AttackSkillData.coolDownTime - AttackSkillData.coolDownTime * skillManager.GlobalCoolDownTimeRate;
     }
 
     #endregion
@@ -49,6 +51,11 @@ public abstract class AttackSkill : ISkill
     public int Id
     {
         get => SkillData.skillID;
+    }
+
+    public string SkillGroup
+    {
+        get => SkillData.skillGroup;
     }
 
     public int Level
@@ -68,34 +75,71 @@ public abstract class AttackSkill : ISkill
         AttackSkillData = attackSkillData;
     }
 
-    public abstract void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker, DamageableStatus target);
+    public abstract void Perform(AttackPowerStatus attacker, DamageableStatus target, Transform start = null, Transform destination = null);
+    public abstract IEnumerator coPerform(AttackPowerStatus attacker, DamageableStatus target, Transform start = null, Transform destination = null);
 
     protected virtual void AttackDamage(float damage, DamageableStatus target)
     {
         target.OnDamage(damage, AttackSkillData.skillElemental);
     }
 
-    protected void ApplyElementalEffect(DamageableStatus target, SkillElemental elemental)
+    protected void ApplyElementalEffect(AttackPowerStatus attacker, DamageableStatus target, SkillElemental elemental)
     {
+        var ui = skillManager.gameManager.UIManager.bossDebuffUI;
+        string debuffId = null;
+        Color textColor = Color.white;
         switch (elemental)
         {
+
             case SkillElemental.Fire:
                 {
-                    target.gameObject.GetComponent<BurnStatusEffect>().Perform(Id);
+                    var burn = target.gameObject.GetComponent<BurnStatusEffect>();
+                    burn?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
+                    textColor = Color.red;
+                    burn?.SetDebuffUI(ui);
+                    if (burn.IsPerforming)
+                    {
+                        debuffId = "Burn";
+                    }
                     break;
                 }
             case SkillElemental.Ice:
                 {
-                    target.gameObject.GetComponent<FrozenStatusEffect>().Perform(Id);
+                    var freeze = target.GetComponent<FrozenStatusEffect>();
+                    freeze?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Ice));
+                    freeze?.SetDebuffUI(ui);
+                    textColor = Color.cyan;
+                    debuffId = "Freeze";
                     break;
                 }
             case SkillElemental.Thunder:
                 {
-                    target.gameObject.GetComponent<ElectricShockStatusEffect>().Perform(Id);
+                    var shock = target.GetComponent<ElectricShockStatusEffect>();
+                    shock?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Thunder));
+                    shock?.SetDebuffUI(ui);
+                    textColor = new Color(0.6f, 0f, 1f);
+                    debuffId = "Thunder";
                     break;
                 }
         }
+        if (!string.IsNullOrEmpty(debuffId))
+        {
+            ShowDebuffIcon(debuffId, SkillData.iconImage);
+            skillManager.gameManager.DamageTextManager.ShowDamage(target.transform.position, attacker.GetElementalAdditionalAttackPower(elemental), textColor);
+        }
     }
+
+    private void ShowDebuffIcon(string debuffId, Sprite icon)
+    {
+        var gameManager = skillManager.gameManager;
+        if (gameManager != null && gameManager.StageManager.IsPlayerInBossStage)
+        {
+            gameManager.UIManager.bossDebuffUI.AddDebuff(debuffId);
+        }
+    }
+
+
+
     public void Update()
     {
         UpdateCoolTime();
@@ -103,7 +147,8 @@ public abstract class AttackSkill : ISkill
 
     public void UpgradeLevel()
     {
-        //Data set을 교체해야함
+        var nextSkillData = skillManager.SkillFactory.GetSkillData(SkillData.skillType, SkillData.skillGroup, Level + 1);
+        AttackSkillData = nextSkillData as AttackSkillData;
     }
 
     private void UpdateCoolTime()
@@ -128,5 +173,32 @@ public abstract class AttackSkill : ISkill
     public virtual void OnReady()
     {
         onReady?.Invoke();
+    }
+
+    public void ApplyOnlyDamage(AttackPowerStatus attacker, DamageableStatus target, int count)
+    {
+        if (!skillManager.IsSkillTargetValid())
+        {
+            return;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * AttackSkillData.damageRate, target);
+        }
+    }
+
+    public void ApplyDamageAndElementalEffect(AttackPowerStatus attacker, DamageableStatus target, int count)
+    {
+        if (!skillManager.IsSkillTargetValid())
+        {
+            return;
+        }
+
+        ApplyElementalEffect(attacker, target, AttackSkillData.skillElemental);
+        for (int i = 0; i < count; i++)
+        {
+            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * AttackSkillData.damageRate, target);
+        }
     }
 }

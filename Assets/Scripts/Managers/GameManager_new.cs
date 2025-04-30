@@ -62,6 +62,10 @@ public class GameManager_new : MonoBehaviour
 
     private InGameCountManager inGameCountManager;
     public InGameCountManager InGameCountManager => inGameCountManager;
+    private DamageTextManager damageTextManager;
+
+    public DamageTextManager DamageTextManager => damageTextManager;
+
     #endregion
 
     public int restartChanceCount = 1;
@@ -69,6 +73,15 @@ public class GameManager_new : MonoBehaviour
 
     private void Awake()
     {
+#if UNITY_EDITOR
+        //프레임제한 풀기
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = -1;
+#elif UNITY_ANDROID || UNITY_IOS
+        QualitySettings.vSyncCount = 0;
+Application.targetFrameRate = 120;
+#endif
+
         // SceneManager.sceneLoaded += SceneManagerEx.Instance.OnSceneLoaded;
         SceneManagerEx.Instance.onLoadComplete += OnPlayerReady;
         InitializeStateEnterExitActions();
@@ -186,6 +199,7 @@ public class GameManager_new : MonoBehaviour
 
         inGameCountManager = AddManagerToManagers<InGameCountManager>(findManagers);
 
+        damageTextManager = AddManagerToManagers<DamageTextManager>(findManagers);
 
         foreach (var manager in managers)
         {

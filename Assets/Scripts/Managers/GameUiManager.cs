@@ -16,8 +16,9 @@ public class GameUIManager : InGameManager
     private ReviveHandler reviveHandler;
 
 
-    private List<UIElement> uiElements;
     public static Action<int> OnGamePlayCounting;
+
+    public List<UIElement> uiElements;
 
     [SerializeField] private PausePanelUI pausePanelUI;
     [SerializeField] private ResultPanelUI resultPanelUI;
@@ -26,6 +27,14 @@ public class GameUIManager : InGameManager
     [SerializeField] private InputUIBinder inputUIBinder;
     [SerializeField] public RunStageUI runStageUI;
     [SerializeField] public BossWayUI bossWayUI;
+    [SerializeField] public BossTimeLimit bossTimeLimit;
+    [SerializeField] public BossDebuffUIController bossDebuffUI;
+    [SerializeField] public SupportSlotUI supportSlotUI;
+    [SerializeField] public AttackSlotUI attackSlotUI;
+
+
+
+
 
 
     public override void Initialize()
@@ -41,8 +50,10 @@ public class GameUIManager : InGameManager
         inputUIBinder.Bind(GameManager.PlayerManager.playerMove);
 
         //자식으로 딸린 모든 UIElements들을 탐색한다.
-        var elements = gameObject.GetComponentsInChildren<UIElement>(true);
-        uiElements = elements.ToList();
+        //var elements = gameObject.GetComponentsInChildren<UIElement>(true);
+        //uiElements = elements.ToList();
+        //UIManager Editor상으로 UIElementsEnum을 Generate해주면서 uiElements리스트를 채워준다.
+
         //UIElements들에 매니저를 세팅
         foreach (var element in uiElements)
         {
@@ -53,6 +64,11 @@ public class GameUIManager : InGameManager
         {
             element.Initialize();
         }
+    }
+
+    public void ShowUIElement(UIElementEnums uIElementsEnum)
+    {
+        uiElements[(int)uIElementsEnum].Show();
     }
 
     public void ConnectPlayerMove(PlayerMove move)

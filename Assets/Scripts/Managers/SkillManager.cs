@@ -6,7 +6,7 @@ using UnityEngine;
 public class SkillManager : InGameManager
 {
     [SerializeField]
-    private int maxSkillCount = 4;
+    private List<int> maxSkillTypeCount = new();
 
     public float GlobalCoolDownTimeRate
     {
@@ -15,25 +15,27 @@ public class SkillManager : InGameManager
     }
 
 
-    public int MaxSkillCount => maxSkillCount;
-
-    private List<ISkill> skills = new();
-    private SkillQueue readySkillQueue = new SkillQueue();
-
-
-    public float skillPerformInterval = 1f;
-    private Coroutine coSkillPerform = null;
-
-
-    [SerializeField]
-    private BossStatus skillTarget;
-
-
-    public SkillSelectionSystem SkillSelectionSystem
+    public int MaxSkillCount
     {
         get;
         private set;
     }
+
+    private List<ISkill> skills = new();
+    public IReadOnlyList<ISkill> Skills
+    {
+        get => skills;
+    }
+
+    private SkillQueue readyAttackSkillQueue = new SkillQueue();
+
+
+    public float skillPerformInterval = 1f;
+    private Coroutine coSkillPerform = null;
+    public GameManager_new gameManager;
+
+    [SerializeField]
+    private BossStatus skillTarget;
 
     public SkillFactory SkillFactory
     {
@@ -41,15 +43,26 @@ public class SkillManager : InGameManager
         private set;
     }
 
+    public SkillSelectionSystem SkillSelectionSystem
+    {
+        get;
+        private set;
+    }
+
+
     private void Awake()
     {
+        SkillFactory = new SkillFactory();  //스킬팩토리가 스킬셀렉션시스템보다 먼저 생성되야 함
         SkillSelectionSystem = new SkillSelectionSystem(this, skills);
-        SkillFactory = new SkillFactory();
 
         GlobalCoolDownTimeRate = 0f;
-
         BossManager.onSpawnBoss += OnSpawnBossHandler;
         BossStatus.onBossDead += ResetSkillTarget;
+
+        foreach (int count in maxSkillTypeCount)
+        {
+            MaxSkillCount += count;
+        }
     }
 
     private void OnEnable()
@@ -80,17 +93,13 @@ public class SkillManager : InGameManager
 
         GameManager.PlayerManager.onPlayerDead += () => enabled = false;
         GameManager.PlayerManager.playerStatus.onAlive += () => enabled = true;
-
-    }
-
-    public void OnSkillSelection()
-    {
-        GameManager.UIManager.Pause();
+        GameManager.PlayerManager.playerExperience.onLevelChange += SkillSelection;
+        gameManager = GameManager;
     }
 
     public void AddSkillToReadyQueue(SkillPriorityItem skillPriorityItem)
     {
-        readySkillQueue.Enqueue(skillPriorityItem);
+        readyAttackSkillQueue.Enqueue(skillPriorityItem);
     }
 
     public float GetSkillInheritedForwardSpeed()
@@ -115,9 +124,9 @@ public class SkillManager : InGameManager
 
     private void BossStageUpdate()
     {
-        if (coSkillPerform == null && readySkillQueue.Count != 0)
+        if (coSkillPerform == null && readyAttackSkillQueue.Count != 0)
         {
-            coSkillPerform = StartCoroutine(CoroutinePerformSkill());
+            coSkillPerform = StartCoroutine(CoroutinePerformAttackSkill());
         }
     }
 
@@ -126,17 +135,18 @@ public class SkillManager : InGameManager
 
     }
 
-    private IEnumerator CoroutinePerformSkill()
+    private IEnumerator CoroutinePerformAttackSkill()
     {
-        if (skillTarget.IsDestroyed())
+        while (readyAttackSkillQueue.Count != 0)
         {
-            yield break;
-        }
+            if (!IsSkillTargetValid())
+            {
+                yield break;
+            }
 
-        while (readySkillQueue.Count != 0)
-        {
-            var currentSkill = readySkillQueue.Dequeue();
-            PerformSkill(currentSkill);
+            var currentSkill = readyAttackSkillQueue.Dequeue();
+            //PerformSkill(currentSkill);
+            PerformAttackSkill(currentSkill);
             yield return new WaitForSeconds(skillPerformInterval);
         }
         coSkillPerform = null;
@@ -152,7 +162,12 @@ public class SkillManager : InGameManager
 
     public void PerformSkill(ISkill skill)
     {
-        skill.Perform(GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null, GameManager.PlayerManager.playerAttack, skillTarget);
+        skill.Perform(GameManager.PlayerManager.playerAttack, skillTarget, GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null);
+    }
+
+    public void PerformAttackSkill(AttackSkill skill)
+    {
+        StartCoroutine(skill.coPerform(GameManager.PlayerManager.playerAttack, skillTarget, GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null));
     }
 
     public void AddGlobalCoolDownRate(float rate)
@@ -163,6 +178,11 @@ public class SkillManager : InGameManager
     private void OnSpawnBossHandler(BossStatus boss)
     {
         skillTarget = boss;
+
+        foreach (var effect in skillTarget.GetComponents<StatusEffect>())
+        {
+            effect.InitializeSkillManager(this);
+        }
     }
 
     public bool IsSkillTargetValid()
@@ -170,4 +190,19 @@ public class SkillManager : InGameManager
         return skillTarget != null;
     }
 
+    public void SkillSelection(int currentLevel, int exp)
+    {
+        if (currentLevel == 1)
+        {
+            return;
+        }
+
+        GameManager.UIManager.ShowUIElement(UIElementEnums.SkillSelectionPanel);
+        GameManager.SetGameState(GameManager_new.GameState.GameStop);
+    }
+
+    public int GetSkillTypeMaxCount(SkillType type)
+    {
+        return maxSkillTypeCount[(int)type];
+    }
 }

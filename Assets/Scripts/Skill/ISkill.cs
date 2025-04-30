@@ -16,6 +16,11 @@ public interface ISkill
         get;
     }
 
+    public string SkillGroup
+    {
+        get;
+    }
+
     public int Level
     {
         get;
@@ -43,7 +48,7 @@ public interface ISkill
 
     public void InitializeSkilManager(SkillManager skillManager);
 
-    void Perform(Transform attackerTrs, Transform targetTrs, AttackPowerStatus attacker = null, DamageableStatus target = null);
+    void Perform(AttackPowerStatus attacker, DamageableStatus target, Transform start = null, Transform destination = null);
 
     //public void OnReady();
     //public void AddOnReadyAction(Action onReady);

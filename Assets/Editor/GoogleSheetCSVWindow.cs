@@ -29,12 +29,12 @@ public class GoogleSheetCSVWindow : EditorWindow
 
             if (!string.IsNullOrEmpty(path))
             {
-                GoogleSheetManager.Load(sheetURL, path);
-                AssetDatabase.Refresh();
+                UpdateDataTableCSV(sheetURL, path);
             }
         }
 
         GUILayout.Label("");
+        LoadDataTableGUI(stringTableURL, LocalizationUtility.defaultStringTableName);
 
         LoadDataTableGUI(animalDataTableURL, Utils.AnimalTableName);
 
@@ -61,14 +61,16 @@ public class GoogleSheetCSVWindow : EditorWindow
 
 
         LoadDataTableGUI(additionalStatusEffectDataTableURL, Utils.AdditionalStatusEffectTableName);
+        LoadDataTableGUI(ingameLevelDataTableURL, Utils.InGameLevelExperienceValueTableName);
 
     }
 
     private void UpdateDataTableCSV(string url, string path)
     {
         GoogleSheetManager.Load(url, path);
-        AssetDatabase.Refresh();
     }
+
+    private string stringTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=776232144#gid=776232144";
 
     private string animalDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1280379651#gid=1280379651";
     private string itemDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=100321918#gid=100321918";
@@ -76,7 +78,7 @@ public class GoogleSheetCSVWindow : EditorWindow
     private string attackSkillDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=420672475#gid=420672475";
     private string supportSkillDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=831221530#gid=831221530";
     private string additionalStatusEffectDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1871340178#gid=1871340178";
-
+    private string ingameLevelDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=2005332401#gid=2005332401";
     //private void UpdateAnimalDataTable()
     //{
     //    var path = System.IO.Path.Combine(Application.dataPath, "Resources/") + string.Format(DataTable.FormatPath, Utils.AnimalTableName) + ".csv";
@@ -114,16 +116,24 @@ public class GoogleSheetCSVWindow : EditorWindow
         {
             var data = attackSkillDataTable.Get(key);
             string dataFileName = string.Format(dataFileNameFormat, data.SkillID);
-            //이미 있으면 삭제
-            AssetDatabase.DeleteAsset(string.Format(dataPath, dataFileName));
 
-            //해당 데이터 ScriptableObject생성
-            AttackSkillData scriptableData = ScriptableObject.CreateInstance<AttackSkillData>();
-            scriptableData.SetData(data);
-
-            AssetDatabase.CreateAsset(scriptableData, string.Format(dataPath, dataFileName));
+            AttackSkillData scriptableData = AssetDatabase.LoadAssetAtPath<AttackSkillData>(string.Format(dataPath, dataFileName));
+            //AssetDatabase.DeleteAsset(string.Format(dataPath, dataFileName));
+            if (scriptableData == null)
+            {
+                //해당 데이터 ScriptableObject생성
+                scriptableData = ScriptableObject.CreateInstance<AttackSkillData>();
+                scriptableData.SetData(data);
+                AssetDatabase.CreateAsset(scriptableData, string.Format(dataPath, dataFileName));
+            }
+            else
+            {
+                scriptableData.SetData(data);
+            }
             AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(scriptableData);
         }
+        AssetDatabase.Refresh();
     }
 
     private void CreateSupportSkillScriptableData()
@@ -137,17 +147,26 @@ public class GoogleSheetCSVWindow : EditorWindow
         {
             var data = supportSkillDataTable.Get(key);
             string dataFileName = string.Format(dataFileNameFormat, data.SupportID);
-            //이미 있으면 삭제
-            AssetDatabase.DeleteAsset(string.Format(dataPath, dataFileName));
 
-            //해당 데이터 ScriptableObject생성
-            SupportSkillData scriptableData = ScriptableObject.CreateInstance<SupportSkillData>();
-            scriptableData.SetData(data);
-
-            AssetDatabase.CreateAsset(scriptableData, string.Format(dataPath, dataFileName));
+            SupportSkillData scriptableData = AssetDatabase.LoadAssetAtPath<SupportSkillData>(string.Format(dataPath, dataFileName));
+            //AssetDatabase.DeleteAsset(string.Format(dataPath, dataFileName));
+            if (scriptableData == null)
+            {
+                //해당 데이터 ScriptableObject생성
+                scriptableData = ScriptableObject.CreateInstance<SupportSkillData>();
+                scriptableData.SetData(data);
+                AssetDatabase.CreateAsset(scriptableData, string.Format(dataPath, dataFileName));
+            }
+            else
+            {
+                scriptableData.SetData(data);
+            }
             AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(scriptableData);
         }
+        AssetDatabase.Refresh();
     }
 
 }
+
 

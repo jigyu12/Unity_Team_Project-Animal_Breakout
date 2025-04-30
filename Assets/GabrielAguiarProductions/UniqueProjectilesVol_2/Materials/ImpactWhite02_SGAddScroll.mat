@@ -21,17 +21,20 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ImpactWhite02_SGAddScroll
-  m_Shader: {fileID: 4800000, guid: 17882f89ffea94f479bfcc52855cb542, type: 3}
+  m_Shader: {fileID: 211, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _DISTORTMAINTEXTURE_ON
-  - _EMISSION
-  m_LightmapFlags: 1
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - GRABPASS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -125,17 +128,29 @@ Material:
     - Vector1_D1034171: 0.2
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
+    - _BlendOp: 0
     - _BumpScale: 1
+    - _CameraFadingEnabled: 0
+    - _CameraFarFadeDistance: 2
+    - _CameraNearFadeDistance: 1
+    - _ColorMode: 0
     - _ColorMultiplier: 2.5
+    - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DistortMainTexture: 1
+    - _DistortionBlend: 0.5
+    - _DistortionEnabled: 0
+    - _DistortionStrength: 1
+    - _DistortionStrengthScaled: 0
     - _DistortionUSpeed: -1
     - _DistortionVSpeed: 0.1
     - _DoubleSided: 1
     - _DstBlend: 0
     - _EdgeSoftness: 0
+    - _EmissionEnabled: 0
     - _FaceSignClamp: 1
+    - _FlipbookMode: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -145,6 +160,7 @@ Material:
     - _GradientVSpeed: 0.2
     - _GradientVSpeed_copy: 0
     - _InvFade: 1
+    - _LightingEnabled: 0
     - _MainTextureUSpeed: -1.5
     - _MainTextureVSpeed: 0
     - _Metallic: 0
@@ -155,6 +171,9 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SmoothnessTextureChannel: 0
+    - _SoftParticlesEnabled: 0
+    - _SoftParticlesFarFadeDistance: 1
+    - _SoftParticlesNearFadeDistance: 0
     - _Softness: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -168,8 +187,11 @@ Material:
     - Vector2_C3A961A0: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_D6AA7B7D: {r: 3, g: 1, b: 0, a: 0}
     - Vector2_E10066FE: {r: 0, g: 0.5, b: 0, a: 0}
+    - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1426514190121736025
