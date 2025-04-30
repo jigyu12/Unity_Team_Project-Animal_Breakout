@@ -15,7 +15,8 @@ public class DamagedParticleCollision : MonoBehaviour
     {
         TryGetComponent(out particleSystem);
         
-        GameObject.FindGameObjectWithTag("PlayerParent").transform.GetChild(3).TryGetComponent(out CapsuleCollider capsuleCollider);
+        GameObject.FindGameObjectWithTag("Player").TryGetComponent(out CapsuleCollider capsuleCollider);
+        //GameObject.FindGameObjectWithTag("PlayerParent").transform.GetChild(2).TryGetComponent(out CapsuleCollider capsuleCollider);
         particleSystem.trigger.AddCollider(capsuleCollider);
     }
 
