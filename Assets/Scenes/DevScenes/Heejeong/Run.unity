@@ -271,7 +271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8714317161665136642, guid: 73a4ddf153933474fb9581b84f1676c7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 8714317161665136642, guid: 73a4ddf153933474fb9581b84f1676c7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -937,7 +937,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1.5
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2255,7 +2255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   matrixType: 0
-  fieldOfView: 30
+  fieldOfView: 60
   size: 10
   nearClipPlaneSameAsCamera: 1
   nearClipPlane: 0.1
@@ -2595,6 +2595,14 @@ PrefabInstance:
       propertyPath: curvedWorldController
       value: 
       objectReference: {fileID: 571322620}
+    - target: {fileID: 2608582804667110710, guid: 505857f046945c54f82d855818786aba, type: 3}
+      propertyPath: maxHorizonCurvatureValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2608582804667110710, guid: 505857f046945c54f82d855818786aba, type: 3}
+      propertyPath: maxVirticalCurvatureValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4160796323777910873, guid: 505857f046945c54f82d855818786aba, type: 3}
       propertyPath: m_Name
       value: RoadManager
