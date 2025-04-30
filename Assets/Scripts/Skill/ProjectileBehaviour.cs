@@ -49,7 +49,7 @@ public class ProjectileBehaviour : MonoBehaviour
         transform.LookAt(this.target);
     }
 
-    public void OnArrival()
+    public virtual void OnArrival()
     {
         onArrival?.Invoke();
         Destroy(gameObject);
