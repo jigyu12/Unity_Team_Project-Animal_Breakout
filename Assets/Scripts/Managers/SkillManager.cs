@@ -94,6 +94,9 @@ public class SkillManager : InGameManager
         GameManager.PlayerManager.playerStatus.onAlive += () => enabled = true;
         GameManager.PlayerManager.playerExperience.onLevelChange += SkillSelection;
         gameManager = GameManager;
+
+
+        GameManager.PlayerManager.SetInitialSkill();
     }
 
     public void AddSkillToReadyQueue(SkillPriorityItem skillPriorityItem)
