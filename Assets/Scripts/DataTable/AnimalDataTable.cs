@@ -7,7 +7,7 @@ using UnityEngine;
 public class AnimalDataTable : DataTable
 {
     [Serializable]
-    public class AnimalData
+    public class AnimalRawData
     {
         public int AnimalID { get; set; }
         public string StringID { get; set; }
@@ -16,16 +16,24 @@ public class AnimalDataTable : DataTable
         public float StartSpeed { get; set; }
         public float MaxSpeed { get; set; }
         public float Jump { get; set; }
-        //public int PassiveType { get; set; }
+        public int PassiveType { get; set; }
+        public int SkillID { get; set; }
+        public string Prefab { get; set; }
     }
 
-    private static readonly Dictionary<int, AnimalData> table = new();
+    private static readonly Dictionary<int, AnimalRawData> table = new();
+
+    public List<int> Keys
+    {
+        get => keys;
+    }
+    private List<int> keys;
 
     public override void Load(string filename)
     {
         var path = string.Format(FormatPath, filename);
         var textAsset = Resources.Load<TextAsset>(path);
-        var list = LoadCSV<AnimalData>(textAsset.text);
+        var list = LoadCSV<AnimalRawData>(textAsset.text);
         table.Clear();
         foreach (var data in list)
         {
@@ -38,9 +46,11 @@ public class AnimalDataTable : DataTable
                 Debug.LogError($"Ű �ߺ�: {data.AnimalID}");
             }
         }
+
+        keys = table.Keys.ToList();
     }
 
-    public AnimalData Get(int animalID)
+    public AnimalRawData Get(int animalID)
     {
         if (!table.ContainsKey(animalID))
             return null;

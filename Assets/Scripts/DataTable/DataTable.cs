@@ -56,5 +56,7 @@ public abstract class DataTable
         }
 
         File.WriteAllText(path, text);
+        string loaded = File.ReadAllText(path);
+        Debug.Log(loaded);
     }
 }

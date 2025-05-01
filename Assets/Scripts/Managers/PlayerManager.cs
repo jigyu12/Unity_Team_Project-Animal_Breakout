@@ -11,7 +11,7 @@ public enum DeathType
 public class PlayerManager : InGameManager
 {
     //이 아이디 기준으로 플레이어를 생성함
-    private int animalID = 100301;//100301;
+    private int animalID = 100112;//100301;
 
     public GameObject playerRootGameObject;
     public GameObject playerGameObject;
@@ -62,17 +62,22 @@ public class PlayerManager : InGameManager
         base.Initialize();
 
         InitializePlayerComponents();
+
+
         GameManager.AddGameStateStartAction(GameManager_new.GameState.WaitLoading, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GameReady, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(playerStatus));
         GameManager.AddGameStateExitAction(GameManager_new.GameState.GamePlay, () => DisablePlayer(playerStatus));
 
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, SetInitialSkill);
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
-
-
     }
 
+    private void SetInitialSkill()
+    {
+        GameManager.SkillManager.SkillSelectionSystem.AddSkill(-1, playerStatus.statData.SkillData);
+    }
 
     private void InitializePlayerComponents()
     {
@@ -83,7 +88,9 @@ public class PlayerManager : InGameManager
         playerStatus = playerGameObject.GetComponent<PlayerStatus>();
         playerMove = playerGameObject.GetComponent<PlayerMove>();
 
-        var statData = Resources.Load<AnimalStatData>("Stats/Animal_" + animalID);
+        string dataPath = "ScriptableData/AnimalStat/Animal_{0}";
+
+        var statData = Resources.Load<AnimalStatData>(string.Format(dataPath, animalID));
         playerStatus.statData = statData;
         playerStatus.Initialize();
         playerAttack.InitializeValue(statData.AttackPower);
@@ -94,8 +101,7 @@ public class PlayerManager : InGameManager
         //moveForward.speed = playerStatus.MoveSpeed;
         moveForward.speed = playerStatus.MoveSpeed;
 
-        //playerMove.moveSpeed = 5f;
-
+        //playerMove.moveSpeed = 5f;       
     }
 
     public void SetPlayer()
@@ -117,6 +123,8 @@ public class PlayerManager : InGameManager
 
             Debug.Log($"Player {animalID} spawned successfully.");
 
+            //임시로 grade는 1 레벨은 5를 준다.
+            GameManager.PassiveEffectManager.InitializePassiveEffectData(playerStatus.statData.passive, 1, 5);
         }
         else
         {

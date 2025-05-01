@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 [CreateAssetMenu(fileName = "AnimalStatData", menuName = "Game/AnimalStatData")]
 public class AnimalStatData : ScriptableObject
@@ -13,7 +12,12 @@ public class AnimalStatData : ScriptableObject
     public float MaxSpeed;
     public float Jump;
 
-    public void SetData(AnimalDataTable.AnimalData rawData)
+    public PassiveType passive;
+    public SkillData SkillData;
+
+#if UNITY_EDITOR
+    private string skillDataPath = "Assets/Resources/ScriptableData/Skill/Skill_Attack{0}.asset";
+    public void SetData(AnimalDataTable.AnimalRawData rawData)
     {
         this.AnimalID = rawData.AnimalID;
         this.StringID = rawData.StringID;
@@ -22,5 +26,10 @@ public class AnimalStatData : ScriptableObject
         this.StartSpeed = rawData.StartSpeed;
         this.MaxSpeed = rawData.MaxSpeed;
         this.Jump = rawData.Jump;
+        this.passive = (PassiveType)rawData.PassiveType;
+
+        string path = string.Format(skillDataPath, rawData.SkillID);
+        SkillData = AssetDatabase.LoadAssetAtPath<SkillData>(string.Format(skillDataPath, rawData.SkillID));
     }
+#endif
 }

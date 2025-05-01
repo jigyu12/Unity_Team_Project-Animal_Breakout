@@ -4,25 +4,26 @@ public class SkyFallProjectileBehaviour : ProjectileBehaviour
 {
     public Vector3 skyOffset;
 
+    private float firedTime;
+
     public override void Fire(Transform attacker, Transform target, float speed)
     {
+        isArrival = false;
         this.target = target.position;
         this.speed = speed;
 
         transform.position = target.position + skyOffset;
         gameObject.SetActive(true);
+
+        firedTime = Time.time;
     }
 
-    //private void Update()
-    //{
-    //    if ((target - transform.position).magnitude <= arrivalThreshold)
-    //    {
-    //        OnArrival();
-    //        return;
-    //    }
-
-    //    direction = (target - transform.position).normalized;
-    //    transform.position += direction * (Speed + skillManager?.GetSkillInheritedForwardSpeed() ?? 0f) * Time.deltaTime;
-    //    transform.LookAt(this.target);
-    //}
+    private void Update()
+    {
+        if (Time.time - firedTime > 5f / speed)
+        {
+            OnArrival();
+            return;
+        }
+    }
 }

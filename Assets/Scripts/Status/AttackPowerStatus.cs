@@ -7,15 +7,21 @@ public class AttackPowerStatus : MonoBehaviour, IAttacker, IItemTaker
 {
     public int AttackPower
     {
-        get => (int)(attackPower + attackPower * additionalAttackPowerRate);
+        get => (int)(attackPower + additionalAttackPower);
     }
 
     private float attackPower = 0;
 
     public Action<int> onAddValue;
 
-    private float additionalAttackPowerRate = 0f;
+    public float AdditionalSkillAttackPowerRate
+    {
+        get;
+        private set;
+    } = 0;
 
+    private float additionalAttackPower = 0f;
+    private int additionalItemValue=0;
 
     //public struct AdditionalElementalAttackPowerRate
     //{
@@ -36,25 +42,34 @@ public class AttackPowerStatus : MonoBehaviour, IAttacker, IItemTaker
         }
     }
 
-    public void AddAdditionalAttackPowerRateValue(float value)
+    public void AddAdditionalSkillAttackPowerRateValue(float value)
     {
-        additionalAttackPowerRate += value;
+        AdditionalSkillAttackPowerRate += value;
+    }
+
+    public void AddAdditionalAttackPowerValue(float value)
+    {
+        additionalAttackPower += value;
     }
 
     public void AddElementalAdditionalAttackPowerRateValue(SkillElemental elemental, float value)
     {
         additionalElementalAttackPowerRates[(int)elemental] += value;
     }
+    public void AddAdditionalItemValue(int value)
+    {
+        additionalItemValue += value;
+    }
 
     public int GetElementalAdditionalAttackPower(SkillElemental elemental)
     {
-        return (int)(attackPower + attackPower * (additionalAttackPowerRate + additionalElementalAttackPowerRates[(int)elemental]));
+        return (int)(AttackPower + AttackPower*additionalElementalAttackPowerRates[(int)elemental]);
     }
 
     public void AddValue(int value)
     {
-        attackPower += value;
-        onAddValue?.Invoke(value);
+        attackPower += value+ additionalItemValue;
+        onAddValue?.Invoke(value+ additionalItemValue);
     }
 
     public void ApplyItem(int value)

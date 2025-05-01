@@ -144,7 +144,7 @@ public class SkillFactory
         {
             case SupportSkillTarget.AttackPower:
                 {
-                    return new AttackPowerSupportSkill(skillData);
+                    return new SkillDamageSupportSkill(skillData);
                 }
             case SupportSkillTarget.CoolDownTime:
                 {
@@ -163,7 +163,7 @@ public class SkillFactory
                 }
 
         }
-        return new AttackPowerSupportSkill(skillData);
+        return new SkillDamageSupportSkill(skillData);
     }
 
 }
