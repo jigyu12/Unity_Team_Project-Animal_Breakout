@@ -32,7 +32,8 @@ public class PauseHandler
     public void Resume()
     {
         isPaused = false;
-        gameManager.SetGameState(previousState);
+        //gameManager.SetGameState(previousState);
+        gameManager.RestartGameState();
         playerManager.playerMove.EnableInput();
 
         pausePanelUI.Hide();
