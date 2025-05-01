@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SkillManager : InGameManager
@@ -105,7 +103,7 @@ public class SkillManager : InGameManager
 
     public float GetSkillInheritedForwardSpeed()
     {
-        if(GameManager==null)
+        if (GameManager == null)
         {
             return 0;
         }
@@ -194,7 +192,7 @@ public class SkillManager : InGameManager
 
     public bool IsSkillTargetValid()
     {
-        return skillTarget != null|| isInititySkillMode;
+        return skillTarget != null || isInititySkillMode;
     }
 
     public void SkillSelection(int currentLevel, int exp)
