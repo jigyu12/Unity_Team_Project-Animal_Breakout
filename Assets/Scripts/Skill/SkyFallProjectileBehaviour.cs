@@ -8,6 +8,7 @@ public class SkyFallProjectileBehaviour : ProjectileBehaviour
 
     public override void Fire(Transform attacker, Transform target, float speed)
     {
+        isArrival = false;
         this.target = target.position;
         this.speed = speed;
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SkillManager : InGameManager
@@ -150,8 +151,9 @@ public class SkillManager : InGameManager
             }
 
             var currentSkill = readyAttackSkillQueue.Dequeue();
-            //PerformSkill(currentSkill);
-            PerformAttackSkill(currentSkill);
+            //스킬 실행을 기다린다.
+            yield return StartCoroutine(currentSkill.coPerform(GameManager.PlayerManager.playerAttack, skillTarget, GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null));
+            //스킬당 인터벌을 기다린다.
             yield return new WaitForSeconds(skillPerformInterval);
         }
         coSkillPerform = null;

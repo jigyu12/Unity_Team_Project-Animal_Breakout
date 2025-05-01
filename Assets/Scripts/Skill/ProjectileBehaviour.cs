@@ -20,6 +20,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
     protected SkillManager skillManager;
 
+    protected bool isArrival;
     public Action onArrival; //도착후 실행할 함수
     public Action targetGone;
 
@@ -31,6 +32,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
     public virtual void Fire(Transform attacker, Transform target, float speed)
     {
+        isArrival = false;
         this.target = target.position;
         this.speed = speed;
 
@@ -54,6 +56,10 @@ public class ProjectileBehaviour : MonoBehaviour
 
     public virtual void OnArrival()
     {
+        if (isArrival)
+            return;
+
+        isArrival = true;
         onArrival?.Invoke();
         Destroy(gameObject, 2f);
     }
