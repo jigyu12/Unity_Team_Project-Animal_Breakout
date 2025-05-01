@@ -52,7 +52,7 @@ public class ProjectileBehaviour : MonoBehaviour
     public virtual void OnArrival()
     {
         onArrival?.Invoke();
-        Destroy(gameObject);
+        Destroy(gameObject, 2f);
     }
 
     public void OnTargetGone()

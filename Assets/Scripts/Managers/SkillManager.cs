@@ -104,6 +104,11 @@ public class SkillManager : InGameManager
 
     public float GetSkillInheritedForwardSpeed()
     {
+        if(GameManager==null)
+        {
+            return 0;
+        }
+
         var moveforward = GameManager.PlayerManager.moveForward;
         return moveforward.enabled ? moveforward.speed : 0f;
     }
@@ -187,7 +192,7 @@ public class SkillManager : InGameManager
 
     public bool IsSkillTargetValid()
     {
-        return skillTarget != null;
+        return skillTarget != null|| isInititySkillMode;
     }
 
     public void SkillSelection(int currentLevel, int exp)
@@ -204,5 +209,11 @@ public class SkillManager : InGameManager
     public int GetSkillTypeMaxCount(SkillType type)
     {
         return maxSkillTypeCount[(int)type];
+    }
+
+    private bool isInititySkillMode = false;
+    public void SetInititySkillMode()
+    {
+        isInititySkillMode = true;
     }
 }

@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectileSkill : AttackSkill
@@ -50,7 +47,7 @@ public class ProjectileSkill : AttackSkill
                 yield return new WaitForSeconds(AttackSkillData.interval);
             }
 
-            if (!skillManager.IsSkillTargetValid())
+            if (!skillManager?.IsSkillTargetValid()??false)
             {
                 yield break;
             }
