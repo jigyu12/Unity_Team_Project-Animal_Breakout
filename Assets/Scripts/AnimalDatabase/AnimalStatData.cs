@@ -12,8 +12,11 @@ public class AnimalStatData : ScriptableObject
     public float StartSpeed;
     public float MaxSpeed;
     public float Jump;
+    public SkillData SkillData;
 
-    public void SetData(AnimalDataTable.AnimalData rawData)
+#if UNITY_EDITOR
+    private string skillDataPath = "Assets/Resources/ScriptableData/Skill/Skill_Attack{0}.asset";
+    public void SetData(AnimalDataTable.AnimalRawData rawData)
     {
         this.AnimalID = rawData.AnimalID;
         this.StringID = rawData.StringID;
@@ -22,5 +25,9 @@ public class AnimalStatData : ScriptableObject
         this.StartSpeed = rawData.StartSpeed;
         this.MaxSpeed = rawData.MaxSpeed;
         this.Jump = rawData.Jump;
+
+        string path = string.Format(skillDataPath, rawData.SkillID);
+        SkillData = AssetDatabase.LoadAssetAtPath<SkillData>(string.Format(skillDataPath, rawData.SkillID));
     }
+#endif
 }

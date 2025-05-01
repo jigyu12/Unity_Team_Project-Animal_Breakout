@@ -62,17 +62,22 @@ public class PlayerManager : InGameManager
         base.Initialize();
 
         InitializePlayerComponents();
+
+
         GameManager.AddGameStateStartAction(GameManager_new.GameState.WaitLoading, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GameReady, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(playerStatus));
         GameManager.AddGameStateExitAction(GameManager_new.GameState.GamePlay, () => DisablePlayer(playerStatus));
 
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, SetInitialSkill);
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
-
-
     }
 
+    private void SetInitialSkill()
+    {
+        GameManager.SkillManager.SkillSelectionSystem.AddSkill(-1, playerStatus.statData.SkillData);
+    }
 
     private void InitializePlayerComponents()
     {
@@ -83,7 +88,9 @@ public class PlayerManager : InGameManager
         playerStatus = playerGameObject.GetComponent<PlayerStatus>();
         playerMove = playerGameObject.GetComponent<PlayerMove>();
 
-        var statData = Resources.Load<AnimalStatData>("Stats/Animal_" + animalID);
+        string dataPath = "Assets/Resources/ScriptableData/AnimalStat/{0}.asset";
+
+        var statData = Resources.Load<AnimalStatData>(string.Format(dataPath, animalID));
         playerStatus.statData = statData;
         playerStatus.Initialize();
         playerAttack.InitializeValue(statData.AttackPower);
@@ -94,8 +101,7 @@ public class PlayerManager : InGameManager
         //moveForward.speed = playerStatus.MoveSpeed;
         moveForward.speed = playerStatus.MoveSpeed;
 
-        //playerMove.moveSpeed = 5f;
-
+        //playerMove.moveSpeed = 5f;       
     }
 
     public void SetPlayer()

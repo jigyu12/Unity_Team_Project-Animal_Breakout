@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UnlockedAnimalPanel : MonoBehaviour
 {
-    private AnimalDataTable.AnimalData animalStatData;
+    private AnimalDataTable.AnimalRawData animalStatData;
     [SerializeField] private Button animalChooseButton;
     [SerializeField] private TMP_Text tempAnimalNameText;
     [SerializeField] private AnimalChooseButton animalChooseButtonScript;
@@ -25,7 +25,7 @@ public class UnlockedAnimalPanel : MonoBehaviour
         });
     }
     
-    public void SetAnimalStatData(AnimalDataTable.AnimalData statData)
+    public void SetAnimalStatData(AnimalDataTable.AnimalRawData statData)
     {
         animalStatData = statData;
         tempAnimalNameText.text = statData.StringID;
