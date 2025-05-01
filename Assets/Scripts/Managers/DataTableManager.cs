@@ -33,6 +33,10 @@ public static class DataTableManager
         var additionalStatusEffectTable = new AdditionalStatusEffectDataTable();
         additionalStatusEffectTable.Load(Utils.AdditionalStatusEffectTableName);
         tables.Add(Utils.AdditionalStatusEffectTableName, additionalStatusEffectTable);
+
+        var passiveEffectTable = new PassiveEffectDataTable();
+        passiveEffectTable.Load(Utils.PassiveEffectTableName);
+        tables.Add(Utils.PassiveEffectTableName, passiveEffectTable);
     }
 
     public static MapObjectsDataTable mapObjectsDataTable => Get<MapObjectsDataTable>(Utils.MapObjectsTableName);
@@ -45,6 +49,7 @@ public static class DataTableManager
 
     public static AdditionalStatusEffectDataTable additionalStatusEffectDataTable => Get<AdditionalStatusEffectDataTable>(Utils.AdditionalStatusEffectTableName);
 
+    public static PassiveEffectDataTable passiveEffectDataTable => Get<PassiveEffectDataTable>(Utils.PassiveEffectTableName);
     public static T Get<T>(string id) where T : DataTable
     {
         if (!tables.ContainsKey(id))

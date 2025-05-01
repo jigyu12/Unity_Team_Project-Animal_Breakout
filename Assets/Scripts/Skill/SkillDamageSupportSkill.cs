@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackPowerSupportSkill : SupportSkill
+public class SkillDamageSupportSkill : SupportSkill
 {
     private AttackPowerStatus targetStatus;
 
-    public AttackPowerSupportSkill(SupportSkillData supportSkillData) : base(supportSkillData)
+    public SkillDamageSupportSkill(SupportSkillData supportSkillData) : base(supportSkillData)
     {
     }
 
@@ -14,7 +14,7 @@ public class AttackPowerSupportSkill : SupportSkill
     {
         base.Perform(attacker, target, start);
         targetStatus = attacker;
-        targetStatus.AddAdditionalAttackPowerRateValue(SupportSkillData.rate);
+        targetStatus.AddAdditionalSkillAttackPowerRateValue(SupportSkillData.rate);
     }
 
     public override void UpgradeLevel()
@@ -24,8 +24,8 @@ public class AttackPowerSupportSkill : SupportSkill
             return;
         }
 
-        targetStatus.AddAdditionalAttackPowerRateValue(-SupportSkillData.rate);
+        targetStatus.AddAdditionalSkillAttackPowerRateValue(-SupportSkillData.rate);
         base.UpgradeLevel();
-        targetStatus.AddAdditionalAttackPowerRateValue(SupportSkillData.rate);
+        targetStatus.AddAdditionalSkillAttackPowerRateValue(SupportSkillData.rate);
     }
 }

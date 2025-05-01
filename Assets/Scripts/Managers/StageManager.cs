@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 public class StageManager : InGameManager
@@ -27,12 +25,19 @@ public class StageManager : InGameManager
     public Action onBossStageEnter;
     private bool isTrackingStarted = false;
 
+    private int bossStageSetCount;
+    public event Action<RunPhaseType> onBossStageSet;
+    private bool isFirstBossSpawn;
+
 
     private void Awake()
     {
         BossStatus.onBossDeathAnimationEnded += OnBossStageClear;
 
         onBossStageEnter += () => IsPlayerInBossStage = true;
+
+        bossStageSetCount = 0;
+        isFirstBossSpawn = true;
     }
 
     private void OnDestroy()
@@ -56,10 +61,54 @@ public class StageManager : InGameManager
     //?뚯뒪?몄슜?쇰줈 臾댄븳 諛섎났?섍쾶 ?좉쾬?낅땲??
     private void OnSetRoadMode()
     {
-
         currentStageDataIndex++;
-        currentStageDataIndex %= stageDatas.Count;
-
+        //currentStageDataIndex %= stageDatas.Count;
+        
+        if (currentStageDataIndex == stageDatas.Count)
+        {
+            currentStageDataIndex -= 2;
+        }
+        
+        if (CurrentStageData.isBossStage)
+        {
+            ++bossStageSetCount;
+        }
+        
+        switch (bossStageSetCount)
+        {
+            case < 2:
+                {
+                    onBossStageSet?.Invoke(RunPhaseType.EarlyPhase);
+                }
+                break;
+            case < 4:
+                {
+                    onBossStageSet?.Invoke(RunPhaseType.MiddlePhase);
+                }
+                break;
+            case < 6:
+                {
+                    onBossStageSet?.Invoke(RunPhaseType.LateMiddlePhase);
+                }
+                break;
+            case < Int32.MaxValue:
+                {
+                    onBossStageSet?.Invoke(RunPhaseType.LatePhase);
+                }
+                break;
+        }
+        
+        if (isFirstBossSpawn && CurrentStageData.isBossStage)
+        {
+            GameManager.RoadMaker.PushNextStageRoadWayData(CurrentStageData);
+            
+            currentStageDataIndex = -1;
+            
+            isFirstBossSpawn = false;
+            
+            return;
+        }
+        
         Debug.Log("Stage " + currentStageDataIndex + "is boss stage " + CurrentStageData.isBossStage);
 
         var currStageData = stageDatas[currentStageDataIndex];
@@ -108,7 +157,7 @@ public class StageManager : InGameManager
         GameManager.UIManager.runStageUI.total = 100f;
         GameManager.UIManager.bossTimeLimit.StopTimeOut();
         OnCurrentStageClear();
+        
+        GameManager.PlayerManager.moveForward.AddSpeed(1f);
     }
-
-
 }

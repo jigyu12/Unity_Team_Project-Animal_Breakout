@@ -19,7 +19,7 @@ public class AnimalDataLoader : MonoBehaviour
         }
 
 #if UNITY_EDITOR
-        var animalList = AnimalDataTable.LoadCSV<AnimalDataTable.AnimalData>(textAsset.text);
+        var animalList = AnimalDataTable.LoadCSV<AnimalDataTable.AnimalRawData>(textAsset.text);
         foreach (var animal in animalList)
         {
             // ScriptableObject 생성
