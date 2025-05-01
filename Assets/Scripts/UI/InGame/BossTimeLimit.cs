@@ -27,7 +27,7 @@ public class BossTimeLimit : UIElement
     public void StartTimeOut()
     {
 
-        timeRemaining = 180f;
+        timeRemaining = 20f;
 
         isRunning = true;
 
