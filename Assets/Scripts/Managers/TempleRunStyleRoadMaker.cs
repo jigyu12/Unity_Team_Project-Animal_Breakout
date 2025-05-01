@@ -45,6 +45,9 @@ public class TempleRunStyleRoadMaker : InGameManager
     public Transform BossEntryRoadTransform => bossEntryRoadWay?.transform;
 
     //
+    
+    private RunPhaseType runPhaseType;
+    
     public struct NextRoadWayData
     {
         public int roadWayIndex;
@@ -174,9 +177,9 @@ public class TempleRunStyleRoadMaker : InGameManager
             if (nextRoadWayData.itemMode == ItemSetMode.TrapAndReward)
             {
                 //吏洹쒓? ?섏젙??肄붾뱶濡?蹂寃?duim
-                int randomIndex1 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
-                int randomIndex2 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
-                int randomIndex3 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+                int randomIndex1 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId(runPhaseType);
+                int randomIndex2 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId(runPhaseType);
+                int randomIndex3 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId(runPhaseType);
 
                 roadWay.SetMapObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex1));
                 roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex1));
@@ -246,7 +249,20 @@ public class TempleRunStyleRoadMaker : InGameManager
 
     }
 
+    private void Start()
+    {
+        GameManager.StageManager.onBossStageSet += OnBossStageSetHandler;
+    }
+    
+    private void OnDestroy()
+    {
+        GameManager.StageManager.onBossStageSet -= OnBossStageSetHandler;
+    }
 
+    private void OnBossStageSetHandler(RunPhaseType type)
+    {
+        runPhaseType = type;
+    }
 
     #region mapObjectsMode
     //public void SetMapObjectMakeMode(ItemSetMode mode)

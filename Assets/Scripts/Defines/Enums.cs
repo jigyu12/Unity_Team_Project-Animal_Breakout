@@ -238,3 +238,11 @@ public enum AlertPanelInfoDataType
     
     QuitGame,
 }
+
+public enum RunPhaseType
+{ 
+    EarlyPhase,
+    MiddlePhase,
+    LateMiddlePhase,
+    LatePhase,
+}
