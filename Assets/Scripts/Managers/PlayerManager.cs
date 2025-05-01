@@ -203,6 +203,7 @@ public class PlayerManager : InGameManager
     {
         if (playerAnimator != null)
         {
+            playerAnimator.ResetTrigger("Run");
             playerAnimator.SetTrigger("Die");
             Debug.Log("Death animation triggered.");
         }
