@@ -69,12 +69,15 @@ public class PlayerManager : InGameManager
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(playerStatus));
         GameManager.AddGameStateExitAction(GameManager_new.GameState.GamePlay, () => DisablePlayer(playerStatus));
 
-        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, SetInitialSkill);
+        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, SetInitialSkill);
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
+
+
+        SetInitialSkill();
     }
 
-    private void SetInitialSkill()
+    public void SetInitialSkill()
     {
         GameManager.SkillManager.SkillSelectionSystem.AddSkill(-1, playerStatus.statData.SkillData);
     }
