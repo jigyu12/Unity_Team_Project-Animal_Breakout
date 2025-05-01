@@ -5,7 +5,9 @@ using TMPro;
 public class ReviveContinueUI : UIElement
 {
     [SerializeField] private GameObject panel;
-    [SerializeField] private Button ReviveButton;
+    [SerializeField] private Button ReviveYesButton;
+    [SerializeField] private Button ReviveNoButton;
+
 
     [SerializeField] private Slider slider;
 
@@ -13,8 +15,10 @@ public class ReviveContinueUI : UIElement
     {
         base.Initialize();
 
-        ReviveButton.onClick.RemoveAllListeners();
-        ReviveButton.onClick.AddListener(() => OnClickContinue());
+        ReviveYesButton.onClick.RemoveAllListeners();
+        ReviveYesButton.onClick.AddListener(() => OnClickContinue());
+        ReviveNoButton.onClick.RemoveAllListeners();
+        ReviveNoButton.onClick.AddListener(() => OnClickGiveUp());
     }
     private Coroutine countdown;
     private bool isDisplayed = false;

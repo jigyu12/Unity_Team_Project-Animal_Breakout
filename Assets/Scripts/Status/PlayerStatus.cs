@@ -24,6 +24,7 @@ public class PlayerStatus : MonoBehaviour
     public int defaultLayer;
     public int invincibleLayer;
     public bool IsInvincible => isInvincible;
+    public Action<bool> onInvincibleChanged;
     //public int AttackPower => statData != null ? statData.AttackPower : 0;
     public float MoveSpeed => statData != null ? statData.StartSpeed : 0;
     public float JumpPower => statData != null ? statData.Jump : 0;
@@ -95,12 +96,18 @@ public class PlayerStatus : MonoBehaviour
     {
         isInvincible = value;
         gameObject.layer = isInvincible ? invincibleLayer : defaultLayer;
+        onInvincibleChanged?.Invoke(value);
     }
 
     [ContextMenu("Toggle Invincible")]
     public void ToggleInvincible()
     {
         SetInvincible(!isInvincible);
+    }
+    public IEnumerator DisableInvincibilityAfterDelay(PlayerStatus status, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        status.SetInvincible(false);
     }
 
 

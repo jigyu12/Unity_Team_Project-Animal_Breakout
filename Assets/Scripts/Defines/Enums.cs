@@ -219,3 +219,22 @@ public enum BossBehaviourTreeType
     Boss2BehaviourTree,
     Boss3BehaviourTree,
 }
+
+public enum AlertPanelConfirmButtonFuncType
+{
+    CloseAlertPanel,
+    QuitGame,
+}
+
+public enum AlertPanelCancelButtonFuncType
+{
+    CloseAlertPanel,
+}
+
+public enum AlertPanelInfoDataType
+{
+    TestCloseAlertPanelSingle = -2,
+    TestCloseAlertPanelDouble,
+    
+    QuitGame,
+}

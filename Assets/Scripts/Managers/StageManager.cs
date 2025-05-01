@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 public class StageManager : InGameManager
@@ -108,7 +106,7 @@ public class StageManager : InGameManager
         GameManager.UIManager.runStageUI.total = 100f;
         GameManager.UIManager.bossTimeLimit.StopTimeOut();
         OnCurrentStageClear();
+        
+        GameManager.PlayerManager.moveForward.AddSpeed(1f);
     }
-
-
 }

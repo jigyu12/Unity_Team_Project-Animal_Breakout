@@ -72,7 +72,13 @@ public class SkillSelectionUI : UIElement
 
         gameObject.SetActive(false);
         gameManager.RestartGameState();
+        var playerStatus = gameManager.PlayerManager.playerStatus;
+        playerStatus.SetInvincible(true);
+
+        gameManager.PlayerManager.StartCoroutine(playerStatus.DisableInvincibilityAfterDelay(playerStatus, 1f));
+
     }
+
     private void OnRerollButtonClicked()
     {
         if (rerollCount <= 0) return;
