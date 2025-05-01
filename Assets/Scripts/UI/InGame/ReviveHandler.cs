@@ -63,7 +63,7 @@ public class ReviveHandler
 
         playerManager.playerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         playerManager.playerAnimator.ResetTrigger("Run");
-        playerManager.playerAnimator.SetTrigger("idle");
+        playerManager.playerAnimator.SetTrigger("Idle");
 
         playerManager.playerStatus.isDead = false;
         playerManager.playerStatus.SetReviving(true);
