@@ -47,7 +47,7 @@ public class ProjectileSkill : AttackSkill
                 yield return new WaitForSeconds(AttackSkillData.interval);
             }
 
-            if (!skillManager?.IsSkillTargetValid()??false)
+            if (!skillManager.IsSkillTargetValid())
             {
                 yield break;
             }
