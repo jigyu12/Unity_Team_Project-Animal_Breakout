@@ -184,7 +184,7 @@ public abstract class AttackSkill : ISkill
 
         for (int i = 0; i < count; i++)
         {
-            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * AttackSkillData.damageRate, target);
+            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * (AttackSkillData.damageRate + attacker.AdditionalSkillAttackPowerRate), target);
         }
     }
 

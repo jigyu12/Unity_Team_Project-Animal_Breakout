@@ -11,7 +11,7 @@ public enum DeathType
 public class PlayerManager : InGameManager
 {
     //이 아이디 기준으로 플레이어를 생성함
-    private int animalID = 100301;//100301;
+    private int animalID = 100112;//100301;
 
     public GameObject playerRootGameObject;
     public GameObject playerGameObject;
@@ -88,7 +88,7 @@ public class PlayerManager : InGameManager
         playerStatus = playerGameObject.GetComponent<PlayerStatus>();
         playerMove = playerGameObject.GetComponent<PlayerMove>();
 
-        string dataPath = "Assets/Resources/ScriptableData/AnimalStat/{0}.asset";
+        string dataPath = "ScriptableData/AnimalStat/Animal_{0}";
 
         var statData = Resources.Load<AnimalStatData>(string.Format(dataPath, animalID));
         playerStatus.statData = statData;
@@ -123,6 +123,8 @@ public class PlayerManager : InGameManager
 
             Debug.Log($"Player {animalID} spawned successfully.");
 
+            //임시로 grade는 1 레벨은 5를 준다.
+            GameManager.PassiveEffectManager.InitializePassiveEffectData(playerStatus.statData.passive, 1, 5);
         }
         else
         {

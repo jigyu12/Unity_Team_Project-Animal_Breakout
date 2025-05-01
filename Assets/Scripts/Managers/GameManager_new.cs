@@ -66,6 +66,9 @@ public class GameManager_new : MonoBehaviour
 
     public DamageTextManager DamageTextManager => damageTextManager;
 
+    private PassiveEffectManager passiveEffectManager;
+    public PassiveEffectManager PassiveEffectManager => passiveEffectManager;
+
     #endregion
 
     public int restartChanceCount = 1;
@@ -200,6 +203,8 @@ Application.targetFrameRate = 120;
         inGameCountManager = AddManagerToManagers<InGameCountManager>(findManagers);
 
         damageTextManager = AddManagerToManagers<DamageTextManager>(findManagers);
+
+        passiveEffectManager = AddManagerToManagers<PassiveEffectManager>(findManagers);
 
         foreach (var manager in managers)
         {

@@ -27,7 +27,7 @@ public class GameDataManager : Singleton<GameDataManager>
     private OutGameManager outGameManager;
     private GameManager_new gameManager;
 
-    private int startAnimalID = 100301;
+    private int startAnimalID = 100112;
     public int StartAnimalID => startAnimalID;
 
     public static event Action<int, int> onSetStartAnimalIDInGameDataManager;
