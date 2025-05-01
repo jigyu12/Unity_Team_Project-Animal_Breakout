@@ -48,11 +48,7 @@ public class FireTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("CurrentSkill : " + CurrentAttackSkill.SkillGroup + " Fire!");
-            Fire(index);
-            index++;
-            index %= attackSkillList.Count;
-            Debug.Log("CurrentSkill : " + CurrentAttackSkill.SkillGroup);
+            Fire();
         }
     }
 
@@ -60,4 +56,15 @@ public class FireTest : MonoBehaviour
     {
         StartCoroutine(CurrentAttackSkill.coPerform(attacker, damager, fireTransform, fireTarget));
     }
+
+    [ContextMenu("Fire")]
+    private void Fire()
+    {
+        Debug.Log("CurrentSkill : " + CurrentAttackSkill.SkillGroup + " Fire!");
+        Fire(index);
+        index++;
+        index %= attackSkillList.Count;
+        Debug.Log("CurrentSkill : " + CurrentAttackSkill.SkillGroup);
+    }
+
 }
