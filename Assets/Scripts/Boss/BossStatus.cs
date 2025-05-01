@@ -75,6 +75,7 @@ public class BossStatus : DamageableStatus
 
         
         StartCoroutine(DelayDestroy());
+        
     }
 
     private IEnumerator DelayDestroy()
