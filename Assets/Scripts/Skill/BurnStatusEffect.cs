@@ -78,14 +78,13 @@ public class BurnStatusEffect : StatusEffect
             if (remain > 0)
             {
                 debuffIcon?.UpdateCountText(remain);
+                yield return new WaitForSeconds(effectInterval);
             }
             else
             {
                 debuffUI?.RemoveDebuff("Burn"); // 0 안 보이게 바로 삭제
             }
-            yield return new WaitForSeconds(effectInterval);
         }
         isPerforming = false;
-        debuffUI?.RemoveDebuff("Burn");
     }
 }

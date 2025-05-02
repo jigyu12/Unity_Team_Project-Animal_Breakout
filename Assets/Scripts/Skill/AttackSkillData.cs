@@ -52,4 +52,9 @@ public class AttackSkillData : SkillData
         projectileBehaviourPrefab = projectile;
     }
 #endif
+    
+    public override string GetDescriptionString()
+    {
+        return LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, descriptionID, damageRate);
+    }
 }

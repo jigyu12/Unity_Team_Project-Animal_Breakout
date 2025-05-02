@@ -129,15 +129,14 @@ public abstract class AttackSkill : ISkill
         //}
     }
 
-    private void ShowDebuffIcon(string debuffId, Sprite icon)
-    {
-        var gameManager = skillManager.gameManager;
-        if (gameManager != null && gameManager.StageManager.IsPlayerInBossStage)
-        {
-            gameManager.UIManager.bossDebuffUI.AddDebuff(debuffId);
-        }
-    }
-
+    //private void ShowDebuffIcon(string debuffId, Sprite icon)
+    //{
+    //    var gameManager = skillManager.gameManager;
+    //    if (gameManager != null && gameManager.StageManager.IsPlayerInBossStage)
+    //    {
+    //        gameManager.UIManager.bossDebuffUI.AddDebuff(debuffId);
+    //    }
+    //}
 
 
     public void Update()

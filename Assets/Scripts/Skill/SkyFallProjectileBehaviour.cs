@@ -20,7 +20,8 @@ public class SkyFallProjectileBehaviour : ProjectileBehaviour
 
     private void Update()
     {
-        if (Time.time - firedTime > 5f / speed)
+        //if (Time.time - firedTime > 5f / speed)
+        if (Time.time - firedTime > 0.7f)
         {
             OnArrival();
             return;
