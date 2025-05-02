@@ -89,6 +89,7 @@ public class ReviveHandler
                 trigger.ForceAutoTurnIfInside(playerManager.playerMove.gameObject);
         }
 
+        gameManager.PlayerManager.playerMove.isJumping = false;
         gameManager.PlayerManager.ResetMoveForward();
         playerManager.playerAnimator.SetTrigger("Run");
         coroutineHost.StartCoroutine(RemoveInvincibilityAfterDelay(2f));

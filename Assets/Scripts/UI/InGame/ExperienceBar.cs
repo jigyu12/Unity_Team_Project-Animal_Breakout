@@ -8,6 +8,7 @@ public class ExperienceBar : UIElement
 
     private GageBar gageBar;
 
+
     //private void Start()
     //{
     //    gageBar = GetComponent<GageBar>();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ExperienceStatus : MonoBehaviour, IItemTaker
@@ -32,6 +33,7 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
 
     public Action<int, int> onLevelChange; //level, maxexp
     public Action<int, int> onAddValue; //add, sum
+    [SerializeField] private TextMeshProUGUI levelGageBar;
 
     private void Start()
     {
@@ -45,6 +47,7 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
 
         onLevelChange(level, experienceToNextLevel);
         onAddValue(0, (int)ExperienceValue);
+        levelGageBar?.SetText($"{level}");
     }
 
     public void AddAdditionalExperienceRateValue(float value)
@@ -75,6 +78,7 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
         level = Mathf.Clamp(level + 1, 1, maxLevel);
         experienceToNextLevel = experences[level].NextLvExp;
         onLevelChange?.Invoke(level, experienceToNextLevel);
+        levelGageBar?.SetText($"{level}");
     }
 
     public void ApplyItem(int value)

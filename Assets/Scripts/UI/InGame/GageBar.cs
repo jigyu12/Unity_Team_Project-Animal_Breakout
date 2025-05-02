@@ -18,6 +18,7 @@ public class GageBar : MonoBehaviour
 
     private Action<int> onGageChange;
 
+
     [Serializable]
     public class ColorValue
     {
