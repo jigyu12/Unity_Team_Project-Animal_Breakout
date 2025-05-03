@@ -17,6 +17,13 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private ObjectPool<GameObject> unlockAnimalPanelPool;
     public static event Action<GameObject> onAnimalUnlockPanelInstantiated;
     private readonly List<GameObject> animalUnlockPanelList = new();
+    
+    [SerializeField] private GameObject lockAnimalPanelPrefab;
+    private ObjectPool<GameObject> lockAnimalPanelPool;
+    public static event Action<GameObject> onAnimalLockPanelInstantiated;
+    private readonly List<GameObject> animalLockPanelList = new();
+
+    private readonly List<bool> animalIsUnlockInfoList = new();
 
     public SwitchableCanvasType CurrentSwitchableCanvasType { get; set; }
 
@@ -55,16 +62,46 @@ public class OutGameUIManager : MonoBehaviour, IManager
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
+        lockAnimalPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(lockAnimalPanelPrefab,
+            () => Instantiate(lockAnimalPanelPrefab),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+
         var animalIdList = DataTableManager.animalDataTable.GetAnimalIDs();
+        
         for (int i = 0; i < animalIdList.Count; ++i)
         {
-            var unlockAnimalPanel = unlockAnimalPanelPool.Get();
-            unlockAnimalPanel.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanel);
-            animalUnlockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
-            onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
-            unlockAnimalPanel.transform.localScale = Vector3.one;
-            animalUnlockPanelList.Add(unlockAnimalPanel);
-        }   
+            if (GameDataManager.Instance.startAnimalID == animalIdList[i])
+            {
+                animalIsUnlockInfoList.Add(true);
+            }
+            else
+            {
+                animalIsUnlockInfoList.Add(false);
+            }
+        }
+        
+        for (int i = 0; i < animalIdList.Count; ++i)
+        {
+            if (animalIsUnlockInfoList[i])
+            {
+                var unlockAnimalPanel = unlockAnimalPanelPool.Get();
+                unlockAnimalPanel.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanel);
+                animalUnlockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
+                onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
+                unlockAnimalPanel.transform.localScale = Vector3.one;
+                animalUnlockPanelList.Add(unlockAnimalPanel);
+            }
+            else
+            {
+                var lockAnimalPanel = lockAnimalPanelPool.Get();
+                lockAnimalPanel.TryGetComponent(out LockedAnimalPanel animalLockPanel);
+                animalLockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
+                onAnimalLockPanelInstantiated?.Invoke(lockAnimalPanel);
+                lockAnimalPanel.transform.localScale = Vector3.one;
+                animalLockPanelList.Add(lockAnimalPanel);
+            }
+        }
         
         // TempCode //
     }

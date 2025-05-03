@@ -3763,6 +3763,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2163701777635709676, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
   m_PrefabInstance: {fileID: 4177459958516455}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &874142049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 874142041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f0fbd4392e1ff44a64ffa1410be32e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &898884914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4527,7 +4539,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1127264645664812872, guid: b09c0e319db304947ac265879a69abde, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -92.03915
+      value: -92.03906
       objectReference: {fileID: 0}
     - target: {fileID: 1500716991304086547, guid: b09c0e319db304947ac265879a69abde, type: 3}
       propertyPath: m_Pivot.x
@@ -4847,7 +4859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_AnchorMin.x
@@ -4855,15 +4867,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 236.66667
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4895,11 +4907,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 375.00003
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4919,7 +4931,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8663971963687128908, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_Name
-      value: SpecialGachaButton
+      value: SpecialGachaButton(Deprecated)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8663971963687128908, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5355,7 +5371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5724566503845276346, guid: 9b30ac9053b9eb1468374bb3122dd568, type: 3}
       propertyPath: m_Name
-      value: SpecialGachaPanel
+      value: SpecialGachaPanel(Deprecated)
       objectReference: {fileID: 0}
     - target: {fileID: 5724566503845276346, guid: 9b30ac9053b9eb1468374bb3122dd568, type: 3}
       propertyPath: m_IsActive
@@ -7790,6 +7806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d48ebda50b79b7142bfbea3fc897107c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGameQuitPanelShow: 0
 --- !u!1001 &2062274504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7800,7 +7817,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2372705758241104413, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_text
-      value: "\uC77C\uBC18 \uC0C1\uC790"
+      value: "\uC0C1\uC790(\uBF51\uAE30)\n"
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_Pivot.x
@@ -8228,6 +8245,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4673041882835256826, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1011017297}
+    - targetCorrespondingSourceObject: {fileID: 2163701777635709676, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 874142049}
   m_SourcePrefab: {fileID: 100100000, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
 --- !u!1001 &1937147418334447205
 PrefabInstance:
@@ -8574,6 +8594,10 @@ PrefabInstance:
       propertyPath: alertPanelSpawnPanel
       value: 
       objectReference: {fileID: 1771671899}
+    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
+      propertyPath: lockAnimalPanelPrefab
+      value: 
+      objectReference: {fileID: 8851467644951625118, guid: 06cd05a522440804d9a29831faac9036, type: 3}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: AlertDoubleButtonPanel
       value: 

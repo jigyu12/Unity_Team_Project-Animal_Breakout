@@ -15,10 +15,14 @@ public class OutGameManager : MonoBehaviour
     
     #endregion
 
+    public bool isGameQuitPanelShow;
+    
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 9999;
+
+        isGameQuitPanelShow = false;
     }
     
     private void Start()
@@ -40,11 +44,14 @@ public class OutGameManager : MonoBehaviour
         if (UnityEngine.InputSystem.Keyboard.current != null &&
             UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            Debug.Log($" CurrCanvas : {outGameUIManager.CurrentSwitchableCanvasType}");
-            
             if (outGameUIManager.CurrentSwitchableCanvasType == SwitchableCanvasType.Lobby)
             {
-                outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.QuitGame));
+                if (!isGameQuitPanelShow)
+                {
+                    outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.QuitGame));
+                    
+                    isGameQuitPanelShow = true;
+                }
             }
             else
             {
