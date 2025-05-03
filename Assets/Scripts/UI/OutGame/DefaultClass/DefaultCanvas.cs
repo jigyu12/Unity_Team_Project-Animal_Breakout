@@ -14,13 +14,20 @@ public abstract class DefaultCanvas : MonoBehaviour
     {
         TryGetComponent(out CanvasGroup canvasGroup);
         this.canvasGroup = canvasGroup;
+
+        if (defaultCanvasType == DefaultCanvasType.FullScreen)
+        {
+            VisualizeCanvas(true);
+        }
         
-        OutGameUIManager.onSwitchActiveDefaultCanvases += SwitchActiveDefaultCanvasHandler;
+        OutGameUIManager.onSwitchActiveAllDefaultCanvas += SwitchActiveAllDefaultCanvasHandler;
+        OutGameUIManager.onSwitchActiveDefaultCanvas += OnSwitchActiveDefaultCanvasHandler;
     }
     
     protected virtual void OnDestroy()
     {
-        OutGameUIManager.onSwitchActiveDefaultCanvases -= SwitchActiveDefaultCanvasHandler;
+        OutGameUIManager.onSwitchActiveAllDefaultCanvas -= SwitchActiveAllDefaultCanvasHandler;
+        OutGameUIManager.onSwitchActiveDefaultCanvas -= OnSwitchActiveDefaultCanvasHandler;
     }
 
     protected virtual void Start()
@@ -28,8 +35,45 @@ public abstract class DefaultCanvas : MonoBehaviour
         GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out outGameManager);
     }
     
-    protected void SwitchActiveDefaultCanvasHandler(bool isActive)
+    protected void SwitchActiveAllDefaultCanvasHandler(bool isActive)
     {
         gameObject.SetActive(isActive);
+    }
+
+    protected void VisualizeCanvas(bool isVisible)
+    {
+        if (isVisible)
+        {
+            canvasGroup.alpha = 1f;
+        }
+        else
+        {
+            canvasGroup.alpha = 0f;
+        }
+        
+        canvasGroup.interactable = isVisible;
+        canvasGroup.blocksRaycasts = isVisible;
+    }
+    
+    protected void OnSwitchActiveDefaultCanvasHandler(DefaultCanvasType type, bool isActive, bool inActiveOtherCanvas)
+    {
+        if (type == defaultCanvasType)
+        {
+            if (isActive)
+            {
+                gameObject.SetActive(true);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            if (inActiveOtherCanvas)
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 }

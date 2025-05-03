@@ -9,7 +9,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private OutGameManager outGameManager;
     
     public static event Action<bool> onSwitchActiveLayoutGroupControllers;
-    public static event Action<bool> onSwitchActiveDefaultCanvases;
+    public static event Action<bool> onSwitchActiveAllDefaultCanvas;
     public static event Action<SwitchableCanvasType> onSwitchActiveSwitchableCanvas;
     public static event Action<SwitchableCanvasType, bool, bool> onSwitchVisualizeSwitchableCanvas;
     
@@ -26,6 +26,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private readonly List<bool> animalIsUnlockInfoList = new();
 
     public SwitchableCanvasType CurrentSwitchableCanvasType { get; set; }
+    public DefaultCanvasType CurrentDefaultCanvasTypeInSwitchableCanvasType { get; set; }
 
     [SerializeField] private GameObject alertPanelSpawnPanelRoot;
     [SerializeField] private GameObject alertPanelSpawnPanel;
@@ -38,13 +39,18 @@ public class OutGameUIManager : MonoBehaviour, IManager
     
     private readonly List<GameObject> alertSingleButtonPanelList = new();
     private readonly List<GameObject> alertDoubleButtonPanelList = new();
+    
+    public static event Action<DefaultCanvasType, bool, bool> onSwitchActiveDefaultCanvas;
 
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
 
         CurrentSwitchableCanvasType = SwitchableCanvasType.Lobby;
-        
+        SetCurrentDefaultCanvasTypeInSwitchableCanvasType(CurrentSwitchableCanvasType);
+
+        SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, false);
+
         alertSingleButtonPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(alertSingleButtonPanel,
             () => Instantiate(alertSingleButtonPanel),
             obj => { obj.SetActive(true); },
@@ -161,7 +167,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     
     private void SwitchActiveDefaultCanvas(bool isActive)
     {
-        onSwitchActiveDefaultCanvases?.Invoke(isActive);
+        onSwitchActiveAllDefaultCanvas?.Invoke(isActive);
     }
 
     private void SwitchActiveLayoutGroupController(bool isActive)
@@ -220,5 +226,49 @@ public class OutGameUIManager : MonoBehaviour, IManager
         alertDoubleButtonPanelList.Clear();
         
         alertPanelSpawnPanelRoot.SetActive(false);
+    }
+
+    public void ShowFullScreenPanel()
+    {
+        SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, true, true);
+    }
+
+    public void HideFullScreenPanel()
+    {
+        SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, false, true);
+        SwitchActiveDefaultCanvas(DefaultCanvasType.Menu, true);
+        SwitchActiveDefaultCanvas(CurrentDefaultCanvasTypeInSwitchableCanvasType, true);
+    }
+
+    public void SwitchActiveDefaultCanvas(DefaultCanvasType defaultCanvasType, bool isActive, bool inActiveOtherCanvas = false)
+    {
+        onSwitchActiveDefaultCanvas?.Invoke(defaultCanvasType, isActive, inActiveOtherCanvas);
+    }
+
+    public void SetCurrentDefaultCanvasTypeInSwitchableCanvasType(SwitchableCanvasType type)
+    {
+        switch (type)
+        {
+            case SwitchableCanvasType.Shop:
+                {
+                    outGameManager.OutGameUIManager.CurrentDefaultCanvasTypeInSwitchableCanvasType = DefaultCanvasType.Shop;
+                }
+                break;
+            case SwitchableCanvasType.Lobby:
+                {
+                    outGameManager.OutGameUIManager.CurrentDefaultCanvasTypeInSwitchableCanvasType = DefaultCanvasType.Lobby;
+                }
+                break;
+            case SwitchableCanvasType.Animal:
+                {
+                    outGameManager.OutGameUIManager.CurrentDefaultCanvasTypeInSwitchableCanvasType = DefaultCanvasType.Animal;
+                }
+                break;
+            default:
+                {
+                    Debug.Assert(false,$"Invalid SwitchableCanvasType in {type}");
+                }
+                break;
+        }
     }
 }

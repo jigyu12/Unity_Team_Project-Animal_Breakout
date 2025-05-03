@@ -113,6 +113,8 @@ public enum DefaultCanvasType
     Animal,
 
     Menu,
+    
+    FullScreen,
 }
 
 public enum SwitchableCanvasType
@@ -125,8 +127,9 @@ public enum SwitchableCanvasType
 public enum SwitchableShopPanelType
 {
     NormalGacha,
-    SpecialGacha,
     Stamina,
+    
+    SpecialGachaDeprecated,
 }
 
 public enum BTNodeState
