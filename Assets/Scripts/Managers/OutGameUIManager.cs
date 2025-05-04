@@ -23,7 +23,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
     public static event Action<GameObject> onAnimalLockPanelInstantiated;
     private readonly List<GameObject> animalLockPanelList = new();
 
-    private readonly List<bool> animalIsUnlockInfoList = new();
+    //대신 GameDataManager.Instance.AnimalUserDataList.AnimalUserDatas를 사용하세요
+    //private readonly List<bool> animalIsUnlockInfoList = new();
 
     public SwitchableCanvasType CurrentSwitchableCanvasType { get; set; }
     public DefaultCanvasType CurrentDefaultCanvasTypeInSwitchableCanvasType { get; set; }
@@ -73,27 +74,27 @@ public class OutGameUIManager : MonoBehaviour, IManager
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
-        var animalIdList = DataTableManager.animalDataTable.GetAnimalIDs();
+        //var animalIdList = DataTableManager.animalDataTable.GetAnimalIDs();
         
-        for (int i = 0; i < animalIdList.Count; ++i)
-        {
-            if (GameDataManager.Instance.startAnimalID == animalIdList[i])
-            {
-                animalIsUnlockInfoList.Add(true);
-            }
-            else
-            {
-                animalIsUnlockInfoList.Add(false);
-            }
-        }
+        //for (int i = 0; i < animalIdList.Count; ++i)
+        //{
+        //    if (GameDataManager.Instance.startAnimalID == animalIdList[i])
+        //    {
+        //        animalIsUnlockInfoList.Add(true);
+        //    }
+        //    else
+        //    {
+        //        animalIsUnlockInfoList.Add(false);
+        //    }
+        //}
         
-        for (int i = 0; i < animalIdList.Count; ++i)
+        foreach (var animalUserData in GameDataManager.Instance.AnimalUserDataList.AnimalUserDatas)
         {
-            if (animalIsUnlockInfoList[i])
+            if (animalUserData.IsUnlock)
             {
                 var unlockAnimalPanel = unlockAnimalPanelPool.Get();
                 unlockAnimalPanel.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanel);
-                animalUnlockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
+                animalUnlockPanel.SetAnimalUserData(animalUserData);
                 onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
                 unlockAnimalPanel.transform.localScale = Vector3.one;
                 animalUnlockPanelList.Add(unlockAnimalPanel);
@@ -102,7 +103,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
             {
                 var lockAnimalPanel = lockAnimalPanelPool.Get();
                 lockAnimalPanel.TryGetComponent(out LockedAnimalPanel animalLockPanel);
-                animalLockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
+                animalLockPanel.SetAnimalUserData(animalUserData);
                 onAnimalLockPanelInstantiated?.Invoke(lockAnimalPanel);
                 lockAnimalPanel.transform.localScale = Vector3.one;
                 animalLockPanelList.Add(lockAnimalPanel);
