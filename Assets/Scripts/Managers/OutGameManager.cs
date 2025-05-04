@@ -13,12 +13,19 @@ public class OutGameManager : MonoBehaviour
     private OutGameUIManager outGameUIManager;
     public OutGameUIManager OutGameUIManager => outGameUIManager;
     
+    private GachaManager gachaManager;
+    public GachaManager GachaManager => gachaManager;
+    
     #endregion
 
+    public bool isGameQuitPanelShow;
+    
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 9999;
+
+        isGameQuitPanelShow = false;
     }
     
     private void Start()
@@ -40,11 +47,14 @@ public class OutGameManager : MonoBehaviour
         if (UnityEngine.InputSystem.Keyboard.current != null &&
             UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            Debug.Log($" CurrCanvas : {outGameUIManager.CurrentSwitchableCanvasType}");
-            
             if (outGameUIManager.CurrentSwitchableCanvasType == SwitchableCanvasType.Lobby)
             {
-                outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.QuitGame));
+                if (!isGameQuitPanelShow)
+                {
+                    outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.QuitGame));
+                    
+                    isGameQuitPanelShow = true;
+                }
             }
             else
             {
@@ -59,12 +69,18 @@ public class OutGameManager : MonoBehaviour
     
     private void InitializeManagers()
     {
+        GameDataManager.Instance.Initialize();
+        
         objectPoolManager = new ObjectPoolManager();
         managers.Add(ObjectPoolManager);
 
         GameObject.FindGameObjectWithTag("OutGameUIManager").TryGetComponent(out outGameUIManager);
         outGameUIManager.SetOutGameManager(this);
         managers.Add(outGameUIManager);
+        
+        GameObject.FindGameObjectWithTag("GachaManager").TryGetComponent(out gachaManager);
+        gachaManager.SetOutGameManager(this);
+        managers.Add(gachaManager);
         
         foreach (var manager in managers)
         {

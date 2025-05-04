@@ -9,7 +9,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private OutGameManager outGameManager;
     
     public static event Action<bool> onSwitchActiveLayoutGroupControllers;
-    public static event Action<bool> onSwitchActiveDefaultCanvases;
+    public static event Action<bool> onSwitchActiveAllDefaultCanvas;
     public static event Action<SwitchableCanvasType> onSwitchActiveSwitchableCanvas;
     public static event Action<SwitchableCanvasType, bool, bool> onSwitchVisualizeSwitchableCanvas;
     
@@ -17,8 +17,16 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private ObjectPool<GameObject> unlockAnimalPanelPool;
     public static event Action<GameObject> onAnimalUnlockPanelInstantiated;
     private readonly List<GameObject> animalUnlockPanelList = new();
+    
+    [SerializeField] private GameObject lockAnimalPanelPrefab;
+    private ObjectPool<GameObject> lockAnimalPanelPool;
+    public static event Action<GameObject> onAnimalLockPanelInstantiated;
+    private readonly List<GameObject> animalLockPanelList = new();
+
+    private readonly List<bool> animalIsUnlockInfoList = new();
 
     public SwitchableCanvasType CurrentSwitchableCanvasType { get; set; }
+    public DefaultCanvasType CurrentDefaultCanvasTypeInSwitchableCanvasType { get; set; }
 
     [SerializeField] private GameObject alertPanelSpawnPanelRoot;
     [SerializeField] private GameObject alertPanelSpawnPanel;
@@ -31,13 +39,18 @@ public class OutGameUIManager : MonoBehaviour, IManager
     
     private readonly List<GameObject> alertSingleButtonPanelList = new();
     private readonly List<GameObject> alertDoubleButtonPanelList = new();
+    
+    public static event Action<DefaultCanvasType, bool, bool> onSwitchActiveDefaultCanvas;
 
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
 
         CurrentSwitchableCanvasType = SwitchableCanvasType.Lobby;
-        
+        SetCurrentDefaultCanvasTypeInSwitchableCanvasType(CurrentSwitchableCanvasType);
+
+        SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, false);
+
         alertSingleButtonPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(alertSingleButtonPanel,
             () => Instantiate(alertSingleButtonPanel),
             obj => { obj.SetActive(true); },
@@ -55,23 +68,53 @@ public class OutGameUIManager : MonoBehaviour, IManager
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
+        lockAnimalPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(lockAnimalPanelPrefab,
+            () => Instantiate(lockAnimalPanelPrefab),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+
         var animalIdList = DataTableManager.animalDataTable.GetAnimalIDs();
+        
         for (int i = 0; i < animalIdList.Count; ++i)
         {
-            var unlockAnimalPanel = unlockAnimalPanelPool.Get();
-            unlockAnimalPanel.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanel);
-            animalUnlockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
-            onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
-            unlockAnimalPanel.transform.localScale = Vector3.one;
-            animalUnlockPanelList.Add(unlockAnimalPanel);
-        }   
+            if (GameDataManager.Instance.startAnimalID == animalIdList[i])
+            {
+                animalIsUnlockInfoList.Add(true);
+            }
+            else
+            {
+                animalIsUnlockInfoList.Add(false);
+            }
+        }
+        
+        for (int i = 0; i < animalIdList.Count; ++i)
+        {
+            if (animalIsUnlockInfoList[i])
+            {
+                var unlockAnimalPanel = unlockAnimalPanelPool.Get();
+                unlockAnimalPanel.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanel);
+                animalUnlockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
+                onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
+                unlockAnimalPanel.transform.localScale = Vector3.one;
+                animalUnlockPanelList.Add(unlockAnimalPanel);
+            }
+            else
+            {
+                var lockAnimalPanel = lockAnimalPanelPool.Get();
+                lockAnimalPanel.TryGetComponent(out LockedAnimalPanel animalLockPanel);
+                animalLockPanel.SetAnimalStatData(DataTableManager.animalDataTable.Get(animalIdList[i]));
+                onAnimalLockPanelInstantiated?.Invoke(lockAnimalPanel);
+                lockAnimalPanel.transform.localScale = Vector3.one;
+                animalLockPanelList.Add(lockAnimalPanel);
+            }
+        }
         
         // TempCode //
     }
     
     public void Initialize()
     {
-        GameDataManager.Instance.Initialize();
+        
     }
 
     public void Clear()
@@ -124,7 +167,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     
     private void SwitchActiveDefaultCanvas(bool isActive)
     {
-        onSwitchActiveDefaultCanvases?.Invoke(isActive);
+        onSwitchActiveAllDefaultCanvas?.Invoke(isActive);
     }
 
     private void SwitchActiveLayoutGroupController(bool isActive)
@@ -183,5 +226,49 @@ public class OutGameUIManager : MonoBehaviour, IManager
         alertDoubleButtonPanelList.Clear();
         
         alertPanelSpawnPanelRoot.SetActive(false);
+    }
+
+    public void ShowFullScreenPanel()
+    {
+        SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, true, true);
+    }
+
+    public void HideFullScreenPanel()
+    {
+        SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, false, true);
+        SwitchActiveDefaultCanvas(DefaultCanvasType.Menu, true);
+        SwitchActiveDefaultCanvas(CurrentDefaultCanvasTypeInSwitchableCanvasType, true);
+    }
+
+    public void SwitchActiveDefaultCanvas(DefaultCanvasType defaultCanvasType, bool isActive, bool inActiveOtherCanvas = false)
+    {
+        onSwitchActiveDefaultCanvas?.Invoke(defaultCanvasType, isActive, inActiveOtherCanvas);
+    }
+
+    public void SetCurrentDefaultCanvasTypeInSwitchableCanvasType(SwitchableCanvasType type)
+    {
+        switch (type)
+        {
+            case SwitchableCanvasType.Shop:
+                {
+                    outGameManager.OutGameUIManager.CurrentDefaultCanvasTypeInSwitchableCanvasType = DefaultCanvasType.Shop;
+                }
+                break;
+            case SwitchableCanvasType.Lobby:
+                {
+                    outGameManager.OutGameUIManager.CurrentDefaultCanvasTypeInSwitchableCanvasType = DefaultCanvasType.Lobby;
+                }
+                break;
+            case SwitchableCanvasType.Animal:
+                {
+                    outGameManager.OutGameUIManager.CurrentDefaultCanvasTypeInSwitchableCanvasType = DefaultCanvasType.Animal;
+                }
+                break;
+            default:
+                {
+                    Debug.Assert(false,$"Invalid SwitchableCanvasType in {type}");
+                }
+                break;
+        }
     }
 }

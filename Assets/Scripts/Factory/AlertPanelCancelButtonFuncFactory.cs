@@ -11,6 +11,7 @@ public static class AlertPanelCancelButtonFuncFactory
                 AlertPanelCancelButtonFuncType.CloseAlertPanel, () =>
                 {
                     GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
+                    outGameManager.isGameQuitPanelShow = false;
                     outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
                 }
             }

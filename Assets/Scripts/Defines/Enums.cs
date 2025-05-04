@@ -113,6 +113,8 @@ public enum DefaultCanvasType
     Animal,
 
     Menu,
+    
+    FullScreen,
 }
 
 public enum SwitchableCanvasType
@@ -125,8 +127,9 @@ public enum SwitchableCanvasType
 public enum SwitchableShopPanelType
 {
     NormalGacha,
-    SpecialGacha,
     Stamina,
+    
+    SpecialGachaDeprecated,
 }
 
 public enum BTNodeState
@@ -224,6 +227,9 @@ public enum AlertPanelConfirmButtonFuncType
 {
     CloseAlertPanel,
     QuitGame,
+    DoSingleGacha,
+    DoSingleGachaByAds,
+    DoTenTimesGacha,
 }
 
 public enum AlertPanelCancelButtonFuncType
@@ -237,6 +243,9 @@ public enum AlertPanelInfoDataType
     TestCloseAlertPanelDouble,
     
     QuitGame,
+    DoSingleGacha,
+    DoSingleGachaByAds,
+    DoTenTimesGacha,
 }
 
 public enum RunPhaseType
@@ -245,4 +254,11 @@ public enum RunPhaseType
     MiddlePhase,
     LateMiddlePhase,
     LatePhase,
+}
+
+public enum TokenType
+{
+    BronzeToken = 1,
+    SilverToken,
+    GoldToken,
 }
