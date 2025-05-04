@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
+using UnityCommunity.UnitySingleton;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Events;
 
 public class GameManager_new : MonoBehaviour
 {
@@ -29,6 +26,9 @@ public class GameManager_new : MonoBehaviour
 
     private GameState previousState;
     private GameState currentState;
+
+    private float previousTimeScale;
+    private float previousStopTimeScale;
 
     #region manager
     private List<IManager> managers = new();
@@ -76,6 +76,9 @@ public class GameManager_new : MonoBehaviour
 
     private void Awake()
     {
+        NativeServiceManager.Instance.InitializeSingleton();
+
+
 #if UNITY_EDITOR
         //프레임제한 풀기
         QualitySettings.vSyncCount = 0;
@@ -101,11 +104,12 @@ Application.targetFrameRate = 120;
         AddGameStateStartAction(GameState.GameOver, OnGameOver);
         AddGameStateStartAction(GameState.GameStop, () =>
         {
+            previousStopTimeScale = Time.timeScale;
             SetTimeScale(0);
         });
         AddGameStateExitAction(GameState.GameStop, () =>
         {
-            SetTimeScale(1);
+            SetTimeScale(previousStopTimeScale);
         });
     }
 
@@ -153,6 +157,7 @@ Application.targetFrameRate = 120;
 
     private void InitializeManagers()
     {
+
         objectPoolManager = new ObjectPoolManager();
         managers.Add(ObjectPoolManager);
 
@@ -275,6 +280,7 @@ Application.targetFrameRate = 120;
 
     public void SetTimeScale(float scale)
     {
+        previousTimeScale = Time.timeScale;
         Time.timeScale = scale;
     }
     public void OnGameOver()
