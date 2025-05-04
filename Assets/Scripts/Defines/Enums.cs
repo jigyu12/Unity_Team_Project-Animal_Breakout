@@ -249,3 +249,10 @@ public enum RunPhaseType
     LateMiddlePhase,
     LatePhase,
 }
+
+public enum TokenType
+{
+    BronzeToken = 1,
+    SilverToken,
+    GoldToken,
+}

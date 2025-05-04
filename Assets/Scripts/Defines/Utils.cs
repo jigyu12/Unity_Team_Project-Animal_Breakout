@@ -15,6 +15,8 @@ public static class Utils
     public const string AdditionalStatusEffectTableName= "AdditionalStatusEffect_Table";
     public const string InGameLevelExperienceValueTableName= "InGameLevelExperienceValue_Table";
     public const string PassiveEffectTableName= "PassiveEffect_Table";
+    public const string GachaTableName= "Gacha_Table";
+    
     public const string GameManagerTag = "GameManager";
 
     public const string AnimalSelectedString = "선택됨";
