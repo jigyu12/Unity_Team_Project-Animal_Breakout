@@ -13,6 +13,9 @@ public class OutGameManager : MonoBehaviour
     private OutGameUIManager outGameUIManager;
     public OutGameUIManager OutGameUIManager => outGameUIManager;
     
+    private GachaManager gachaManager;
+    public GachaManager GachaManager => gachaManager;
+    
     #endregion
 
     public bool isGameQuitPanelShow;
@@ -66,12 +69,18 @@ public class OutGameManager : MonoBehaviour
     
     private void InitializeManagers()
     {
+        GameDataManager.Instance.Initialize();
+        
         objectPoolManager = new ObjectPoolManager();
         managers.Add(ObjectPoolManager);
 
         GameObject.FindGameObjectWithTag("OutGameUIManager").TryGetComponent(out outGameUIManager);
         outGameUIManager.SetOutGameManager(this);
         managers.Add(outGameUIManager);
+        
+        GameObject.FindGameObjectWithTag("GachaManager").TryGetComponent(out gachaManager);
+        gachaManager.SetOutGameManager(this);
+        managers.Add(gachaManager);
         
         foreach (var manager in managers)
         {

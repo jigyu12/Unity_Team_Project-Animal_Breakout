@@ -16,7 +16,35 @@ public static class AlertPanelConfirmButtonFuncFactory
             },
             {
                 AlertPanelConfirmButtonFuncType.QuitGame, Application.Quit
-            }
+            },
+            {
+                AlertPanelConfirmButtonFuncType.DoSingleGacha, () =>
+                {
+                    GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
+                    outGameManager.GachaManager.GenerateRandomSingleGachaData();
+                    outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                }
+            },
+            {
+                AlertPanelConfirmButtonFuncType.DoSingleGachaByAds, () =>
+                {
+                    GameObject.FindGameObjectWithTag("OutGameManager")
+                        .TryGetComponent(out OutGameManager outGameManager);
+                    outGameManager.GachaManager.GenerateRandomSingleGachaData();
+                    
+                    Debug.Log("Gacha By Ads");
+
+                    outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                }
+            },
+            {
+              AlertPanelConfirmButtonFuncType.DoTenTimesGacha, () =>
+              {
+                  GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
+                  outGameManager.GachaManager.GenerateRandomTenTimeGachaData();
+                  outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+              }
+            },
         };
     
     public static UnityAction GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType type)

@@ -114,7 +114,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     
     public void Initialize()
     {
-        GameDataManager.Instance.Initialize();
+        
     }
 
     public void Clear()

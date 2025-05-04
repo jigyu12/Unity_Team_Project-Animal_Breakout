@@ -227,6 +227,9 @@ public enum AlertPanelConfirmButtonFuncType
 {
     CloseAlertPanel,
     QuitGame,
+    DoSingleGacha,
+    DoSingleGachaByAds,
+    DoTenTimesGacha,
 }
 
 public enum AlertPanelCancelButtonFuncType
@@ -240,6 +243,9 @@ public enum AlertPanelInfoDataType
     TestCloseAlertPanelDouble,
     
     QuitGame,
+    DoSingleGacha,
+    DoSingleGachaByAds,
+    DoTenTimesGacha,
 }
 
 public enum RunPhaseType
