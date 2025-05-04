@@ -1,7 +1,5 @@
 
-
 using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public enum PassiveType
 {
@@ -16,82 +14,91 @@ public enum PassiveType
 public class PassiveEffectManager : InGameManager
 {
 
-    public PassiveEffectDataTable.PassiveEffectData PassiveEffectData
+    public void PerformGlobalPassiveValues()
     {
-        get;
-        private set;
+        foreach (var data in GameDataManager.Instance.AnimalUserDataList.AnimalUserDatas)
+        {
+            //보유중인 캐릭터만 패시브 발동
+            if (data.IsUnlock)
+            {
+                PerformPassive(data.AnimalStatData.passive, data.AnimalStatData.Grade, data.Level);
+            }
+        }
     }
 
-    public void InitializePassiveEffectData(PassiveType type, int grade, int level)
+    public void PerformPassive(PassiveType type, int grade, int level)
     {
-        Debug.Log(type.ToString() + "grade : " + grade + ", level : " + level);
 
+        PassiveEffectData passiveData = null;
         var datas = DataTableManager.passiveEffectDataTable.Get((int)type, grade);
-        foreach (var data in datas.passiveEffectDatas)
+        for (int i = datas.passiveEffectDatas.Count - 1; i >= 0; i--)
         {
+            var data = datas.passiveEffectDatas[i];
             if (level >= data.Level)
             {
-                PassiveEffectData = data;
+                passiveData = data;
+                break;
             }
         }
 
-        Perform();
+        //기준치보다 낮기때문에 패시브 미발동
+        if(passiveData==null)
+        {
+            return;
+        }
+
+        Debug.Log(type.ToString() + "grade : " + grade + ", level : " + passiveData.Level);
+        switch (type)
+        {
+            case PassiveType.SkillDamage:
+                {
+                    PerformSkillDamage(passiveData);
+                    break;
+                }
+            case PassiveType.AttackPower:
+                {
+                    PerformAttackPowerUp(passiveData);
+                    break;
+                }
+            case PassiveType.ItemValue:
+                {
+                    PerformItemScoreUp(passiveData);
+                    break;
+                }
+            case PassiveType.CoinValue:
+                {
+                    PerformCoinGainUp(passiveData);
+                    break;
+                }
+            case PassiveType.ResultScoreUp:
+                {
+                    PerformResultScoreUp(passiveData);
+                    break;
+                }
+        }
     }
 
-    public void Perform()
+
+    private void PerformSkillDamage(PassiveEffectData passiveEffectData)
     {
-        //switch ((PassiveType)PassiveEffectData.PassiveType)
-        //{
-        //    case PassiveType.SkillDamage:
-        //        {
-        //            PerformSkillDamage();
-        //            break;
-        //        }
-        //    case PassiveType.AttackPower:
-        //        {
-        //            PerformAttackPowerUp();
-        //            break;
-        //        }
-        //    case PassiveType.ItemValue:
-        //        {
-        //            PerformItemScoreUp();
-        //            break;
-        //        }
-
-        //    case PassiveType.CoinValue:
-        //        {
-        //            PerformCoinGainUp();
-        //            break;
-        //        }
-        //    case PassiveType.ResultScoreUp:
-        //        {
-        //            PerformResultScoreUp();
-        //            break;
-        //        }
-        //}
+        GameManager.PlayerManager.playerAttack.AddAdditionalSkillAttackPowerRateValue(passiveEffectData.Value);
     }
 
-
-    private void PerformSkillDamage()
+    private void PerformAttackPowerUp(PassiveEffectData passiveEffectData)
     {
-        GameManager.PlayerManager.playerAttack.AddAdditionalSkillAttackPowerRateValue(PassiveEffectData.Value);
+        GameManager.PlayerManager.playerAttack.AddAdditionalAttackPowerValue(passiveEffectData.Value);
     }
 
-    private void PerformAttackPowerUp()
+    private void PerformItemScoreUp(PassiveEffectData passiveEffectData)
     {
-        GameManager.PlayerManager.playerAttack.AddAdditionalAttackPowerValue(PassiveEffectData.Value);
+        GameManager.PlayerManager.playerAttack.AddAdditionalItemValue((int)passiveEffectData.Value);
     }
-
-    private void PerformItemScoreUp()
-    {
-        GameManager.PlayerManager.playerAttack.AddAdditionalItemValue((int)PassiveEffectData.Value);
-    }
-    private void PerformResultScoreUp()
+    private void PerformResultScoreUp(PassiveEffectData passiveEffectData)
     {
 
     }
 
-    private void PerformCoinGainUp()
+    private void PerformCoinGainUp(PassiveEffectData passiveEffectData)
     {
 
     }

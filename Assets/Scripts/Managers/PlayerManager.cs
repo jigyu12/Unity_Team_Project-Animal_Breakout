@@ -128,8 +128,8 @@ public class PlayerManager : InGameManager
 
             Debug.Log($"Player {animalID} spawned successfully.");
 
-            //임시로 grade는 1 레벨은 5를 준다.
-            GameManager.PassiveEffectManager.InitializePassiveEffectData(playerStatus.statData.passive, animalUserData.AnimalStatData.Grade, animalUserData.Level);
+           
+            GameManager.PassiveEffectManager.PerformGlobalPassiveValues();
         }
         else
         {

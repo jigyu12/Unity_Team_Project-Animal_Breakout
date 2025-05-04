@@ -37,7 +37,7 @@ public class AnimalUserData
         if(GameDataManager.Instance.AnimalUserDataList.initialAnimalID == AnimalStatData.AnimalID)
         {
             IsUnlock = true;
-            Level = 1;
+            Level = 5;
             TokenCount = 0;
         }
     }
