@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,10 +12,17 @@ public class GachaManager : MonoBehaviour, IManager
     private List<float> cumulativeChanceList;
 
     private readonly List<GachaData> doGachaDataList = new();
-    public static event Action<List<GachaData>> onGachaDo;
+    public event Action<List<GachaData>> onGachaDo;
 
     public void GenerateRandomSingleGachaData()
     {
+        StartCoroutine(GenerateRandomSingleGachaDataCoroutine());
+    }
+
+    private IEnumerator GenerateRandomSingleGachaDataCoroutine()
+    {
+        yield return null;
+        
         var randomIndex = Utils.GetIndexRandomChanceHitInCumulativeChanceList(cumulativeChanceList);
         
         doGachaDataList.Clear();
@@ -27,6 +35,13 @@ public class GachaManager : MonoBehaviour, IManager
     
     public void GenerateRandomTenTimeGachaData()
     {
+        StartCoroutine(GenerateRandomTenTimeGachaDataCoroutine());
+    }
+    
+    private IEnumerator GenerateRandomTenTimeGachaDataCoroutine()
+    {
+        yield return null;
+        
         doGachaDataList.Clear();
         
         for (int i = 0; i < 10; ++i)

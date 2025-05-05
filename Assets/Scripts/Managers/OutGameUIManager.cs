@@ -43,6 +43,12 @@ public class OutGameUIManager : MonoBehaviour, IManager
     
     public static event Action<DefaultCanvasType, bool, bool> onSwitchActiveDefaultCanvas;
 
+    public static event Action onGachaScreenActive;
+    
+    [SerializeField] private GameObject gachaResultSlot;
+    private ObjectPool<GameObject> gachaResultSlotPool;
+    [SerializeField] private GameObject gachaResultSlotPanelReleaseParent;
+
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
@@ -59,6 +65,11 @@ public class OutGameUIManager : MonoBehaviour, IManager
         
         alertDoubleButtonPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(alertDoubleButtonPanel,
             () => Instantiate(alertDoubleButtonPanel),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+        
+        gachaResultSlotPool = outGameManager.ObjectPoolManager.CreateObjectPool(gachaResultSlot,
+            () => Instantiate(gachaResultSlot),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
         
@@ -229,9 +240,18 @@ public class OutGameUIManager : MonoBehaviour, IManager
         alertPanelSpawnPanelRoot.SetActive(false);
     }
 
-    public void ShowFullScreenPanel()
+    public void ShowFullScreenPanel(FullScreenType type)
     {
         SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, true, true);
+
+        switch (type)
+        {
+            case FullScreenType.GachaScreen:
+                {
+                    onGachaScreenActive?.Invoke();
+                }
+                break;
+        }
     }
 
     public void HideFullScreenPanel()
@@ -271,5 +291,19 @@ public class OutGameUIManager : MonoBehaviour, IManager
                 }
                 break;
         }
+    }
+
+    public GameObject GetGachaResultSlot()
+    {
+        var gachaResultSlot = gachaResultSlotPool.Get();
+        
+        return gachaResultSlot;
+    }
+    
+    public void ReleaseGachaResultSlot(GameObject gachaResultSlot)
+    {
+        gachaResultSlot.transform.SetParent(gachaResultSlotPanelReleaseParent.transform);
+        
+        gachaResultSlotPool.Release(gachaResultSlot);
     }
 }
