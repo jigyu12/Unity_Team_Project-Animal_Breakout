@@ -12,8 +12,10 @@ public class GachaSingleResultPanel : GachaPanelBase
     
     private int currentGachaDataIndex;
 
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        
         var actionMap = inputActions.FindActionMap("PlayerActions");
         touchAction = actionMap?.FindAction("TouchGacha2");
     }

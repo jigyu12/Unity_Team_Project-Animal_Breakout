@@ -15,13 +15,16 @@ public class GachaPanelBase : MonoBehaviour
     
     protected OutGameUIManager outGameUIManager;
 
+    protected virtual void Awake()
+    {
+        GachaManager.onGachaDo += OnGachaDoHandler;
+    }
+    
     protected virtual void Start()
     {
         GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
         gachaManager = outGameManager.GachaManager;
         outGameUIManager = outGameManager.OutGameUIManager;
-        
-        gachaManager.onGachaDo += OnGachaDoHandler;
     }
 
     protected virtual void OnEnable()
@@ -49,7 +52,7 @@ public class GachaPanelBase : MonoBehaviour
             return;
         }
         
-        gachaManager.onGachaDo -= OnGachaDoHandler;
+        GachaManager.onGachaDo -= OnGachaDoHandler;
     }
 
     protected virtual void OnTouchPerformed(InputAction.CallbackContext context)

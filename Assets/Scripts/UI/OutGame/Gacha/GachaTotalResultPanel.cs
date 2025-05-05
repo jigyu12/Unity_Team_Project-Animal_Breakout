@@ -8,8 +8,10 @@ public class GachaTotalResultPanel : GachaPanelBase
 
     private readonly List<GameObject> gachaResultSlotList = new();
 
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        
         var actionMap = inputActions.FindActionMap("PlayerActions");
         touchAction = actionMap?.FindAction("TouchGacha3");
     }
@@ -41,6 +43,12 @@ public class GachaTotalResultPanel : GachaPanelBase
         }
         
         gachaResultSlotList.Clear();
+
+        if (outGameUIManager is null)
+        {
+            GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
+            outGameUIManager = outGameManager.OutGameUIManager;
+        }
         
         for(int i = 0; i < gachaDataList.Count; ++i)
         {

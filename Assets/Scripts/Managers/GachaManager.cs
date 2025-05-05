@@ -12,7 +12,7 @@ public class GachaManager : MonoBehaviour, IManager
     private List<float> cumulativeChanceList;
 
     private readonly List<GachaData> doGachaDataList = new();
-    public event Action<List<GachaData>> onGachaDo;
+    public static event Action<List<GachaData>> onGachaDo;
 
     public void GenerateRandomSingleGachaData()
     {
