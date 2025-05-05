@@ -12,7 +12,7 @@ public class GachaTotalResultPanel : GachaPanelBase
     {
         base.Awake();
         
-        var actionMap = inputActions.FindActionMap("PlayerActions");
+        var actionMap = inputActions.FindActionMap("UIActions");
         touchAction = actionMap?.FindAction("TouchGacha3");
     }
     

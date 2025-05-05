@@ -76,33 +76,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "TouchGacha1",
-                    "type": "Button",
-                    "id": "a66954ea-0819-41ce-a918-596ae183297c",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TouchGacha2",
-                    "type": "Button",
-                    "id": "65a33ca5-f37c-46e5-bfa8-e7efeb6cdbf6",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "TouchGacha3",
-                    "type": "Button",
-                    "id": "a991391b-f0e9-47fa-90cf-8fad9984af89",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -193,11 +166,46 @@
                     "action": "Touch",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UIActions",
+            "id": "5e2f3c9c-4089-4c13-a6b1-19654c1d96f5",
+            "actions": [
+                {
+                    "name": "TouchGacha1",
+                    "type": "Button",
+                    "id": "a470b948-42c9-48e1-9b7a-cbd1131a618a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
+                    "name": "TouchGacha2",
+                    "type": "Button",
+                    "id": "e8d78ceb-7746-424f-a997-34c2e7fb2293",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TouchGacha3",
+                    "type": "Button",
+                    "id": "c1df313e-917d-4241-b275-9199650aa313",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
                     "name": "",
-                    "id": "4d86d656-0c6b-470a-a531-7da518e0d031",
-                    "path": "<Touchscreen>/Press",
+                    "id": "80da4421-ce99-427d-a60f-a4790cef673d",
+                    "path": "<Touchscreen>/primaryTouch/tap",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -207,8 +215,8 @@
                 },
                 {
                     "name": "",
-                    "id": "dd934689-af90-4828-bd90-3976702622d4",
-                    "path": "<Touchscreen>/Press",
+                    "id": "28ac3a8c-a9da-4f55-93ed-1f9386c7d35a",
+                    "path": "<Touchscreen>/primaryTouch/tap",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -218,8 +226,8 @@
                 },
                 {
                     "name": "",
-                    "id": "a944a1a9-de02-4ebf-b064-9540ed1b47f1",
-                    "path": "<Touchscreen>/Press",
+                    "id": "0e7225c8-07c6-438b-b75e-db9b7c0a9076",
+                    "path": "<Touchscreen>/primaryTouch/tap",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
