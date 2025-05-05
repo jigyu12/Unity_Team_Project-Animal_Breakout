@@ -44,6 +44,11 @@ public class GachaPanelBase : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
+        if (gachaManager is null)
+        {
+            return;
+        }
+        
         gachaManager.onGachaDo -= OnGachaDoHandler;
     }
 
