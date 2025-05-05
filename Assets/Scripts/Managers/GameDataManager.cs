@@ -27,16 +27,28 @@ public class GameDataManager : Singleton<GameDataManager>
     private OutGameManager outGameManager;
     private GameManager_new gameManager;
 
-    public int startAnimalID { get; private set; } = 100112;
-    public int StartAnimalID => startAnimalID;
+    //동물당 해금 여부, 강화여부 등을 들고있는 데이터다
+    public AnimalUserDataList AnimalUserDataList
+    {
+        get;
+        private set;
+    }  
+
+    //여기저기서 쓰는 곳이 많아보여서 일단 이렇게 봉합하였습니다, 이렇게 바꾸어도 되나요?
+    public int startAnimalID
+    {
+        get => AnimalUserDataList.CurrentAnimalID;
+        //private set;
+    }
+    //public int StartAnimalID => startAnimalID;
 
     public static event Action<int, int> onSetStartAnimalIDInGameDataManager;
-    
+
     public int MinMapObjectId { get; private set; } = 0;
     public int MinRewardItemId { get; private set; } = 0;
     public int MaxMapObjectId { get; private set; } = 0;
     public int MaxRewardItemId { get; private set; } = 0;
-    
+
     public static event Action<int, int> onStaminaChangedInGameDataManager;
     public static event Action<long> OnGoldChangedInGameDataManager;
     public const int minStamina = 0;
@@ -49,7 +61,7 @@ public class GameDataManager : Singleton<GameDataManager>
     private void Awake()
     {
         SetInitializeData();
-        
+
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
         SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
         SetMaxRewardItemId(DataTableManager.rewardItemsDataTable.maxId);
@@ -139,6 +151,11 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void SetInitializeData()
     {
+        //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
+        AnimalUserDataList = new();
+        AnimalUserDataList.Load();
+
+
         // TempCode //
 
         if (!isAddToDictInInitialize)
@@ -270,8 +287,9 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void OnSetAnimalIDInPanel(int id)
     {
-        startAnimalID = id;
+        //startAnimalID = id;
 
+        AnimalUserDataList.SetCurrentAnimalPlayer(id);
         onSetStartAnimalIDInGameDataManager?.Invoke(id, currentStamina);
     }
 

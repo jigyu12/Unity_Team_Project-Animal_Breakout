@@ -29,9 +29,10 @@ public class LobbyPanel : MonoBehaviour
     private void Start()
     {
         gameStartButton.onClick.RemoveAllListeners();
-        
-        var gameDataManagerStartAnimalId = GameDataManager.Instance.StartAnimalID;
-        if (gameDataManagerStartAnimalId == 0 || !IsContainsAnimalIdInTable(gameDataManagerStartAnimalId) || !isStaminaEnoughToStartGame)
+
+        //var gameDataManagerStartAnimalId = GameDataManager.Instance.StartAnimalID;
+        //GameDataManager.Instance.AnimalUserDataList가 해당 역할을 합니다.
+        if (GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID == 0 || !IsContainsAnimalIdInTable(GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID) || !isStaminaEnoughToStartGame)
         {
             gameStartButton.interactable = false;
         }

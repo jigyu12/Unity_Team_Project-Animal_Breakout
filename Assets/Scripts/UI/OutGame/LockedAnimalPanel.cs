@@ -3,14 +3,23 @@ using UnityEngine;
 
 public class LockedAnimalPanel : MonoBehaviour
 {
-    private AnimalDataTable.AnimalRawData animalStatData;
+    //Raw데이터말고 AnimalUserData로 변동
+    //private AnimalDataTable.AnimalRawData animalStatData;
+
+    private AnimalUserData animalUserData;
     [SerializeField] private TMP_Text tempAnimalNameText;
-    
-    public int animalId => animalStatData.AnimalID;
-    
-    public void SetAnimalStatData(AnimalDataTable.AnimalRawData statData)
+
+    public int animalId => animalUserData.AnimalStatData.AnimalID;
+
+    //public void SetAnimalStatData(AnimalDataTable.AnimalRawData statData)
+    //{
+    //    animalStatData = statData;
+    //    tempAnimalNameText.text = statData.StringID;
+    //}
+
+    public void SetAnimalUserData(AnimalUserData userData)
     {
-        animalStatData = statData;
-        tempAnimalNameText.text = statData.StringID;
+        animalUserData = userData;
+        tempAnimalNameText.text = animalUserData.AnimalStatData.StringID;
     }
 }
