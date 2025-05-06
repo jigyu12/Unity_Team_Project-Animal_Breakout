@@ -14,7 +14,14 @@ public class GachaSingleButton : GachaButton
     
     public override void DoGacha()
     {
-        outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.DoSingleGacha));
+        if (GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey >= 1)
+        {
+            outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.DoSingleGacha));
+        }
+        else
+        {
+            outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.NotEnoughKeyToDoSingleGacha));
+        }
     }
     
     public void SetKeyImage(Sprite keyImage)

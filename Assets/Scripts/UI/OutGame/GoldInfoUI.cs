@@ -10,12 +10,12 @@ public class GoldInfoUI : MonoBehaviour
 
     private void Awake()
     {
-        GoldTokenSystem.onGoldChanged += SetGoldInfoText;
+        GoldAnimalTokenKeySystem.onGoldChanged += SetGoldInfoText;
     }
 
     private void OnDestroy()
     {
-        GoldTokenSystem.onGoldChanged -= SetGoldInfoText;
+        GoldAnimalTokenKeySystem.onGoldChanged -= SetGoldInfoText;
     }
 
     private void SetGoldInfoText(long currentGold)
