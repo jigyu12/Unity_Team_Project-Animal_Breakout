@@ -74,7 +74,7 @@ public class PlayerLevelSystem
         CurrentLevelData = DataTableManager.playerLevelDataTalble.GetLevelData(CurrentLevel);
 
         //골드 보상 지급
-        GameDataManager.Instance.GoldTokenSystem.AddGold(CurrentLevelData.CoinReward);
+        GameDataManager.Instance.GoldAnimalTokenKeySystem.AddGold(CurrentLevelData.CoinReward);
 
         //스태미나 보상 지급
         GameDataManager.Instance.StaminaSystem.AddStamina(CurrentLevelData.LifeReward);

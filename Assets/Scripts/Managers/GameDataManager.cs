@@ -7,7 +7,7 @@ public class GameDataManager : Singleton<GameDataManager>
 {
     #region globalDataSystems
 
-    public GoldTokenSystem GoldTokenSystem
+    public GoldAnimalTokenKeySystem GoldAnimalTokenKeySystem
     {
         get;
         private set;
@@ -79,11 +79,13 @@ public class GameDataManager : Singleton<GameDataManager>
     public const int maxStamina = 999;
 
     private LevelUpInfoData initialData;
+    
+    public const long keyPrice = 5000;
 
     private void Awake()
     {
         //골드,토큰을 관리하는 시스템
-        GoldTokenSystem = new();
+        GoldAnimalTokenKeySystem = new();
 
         //플레이어 레벨, 경험치를 관리하는 시스템
         PlayerLevelSystem = new();
@@ -118,6 +120,8 @@ public class GameDataManager : Singleton<GameDataManager>
 
         OutGameUIManager.onAnimalUnlockPanelInstantiated += onAnimalUnlockPanelInstantiatedHandler;
 
+        GachaManager.onTokenAdded += OnTokenAddedHandler;
+
         onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
     }
 
@@ -135,6 +139,8 @@ public class GameDataManager : Singleton<GameDataManager>
         LobbyPanel.onGameStartButtonClicked -= OnGameStartButtonClickedHandler;
 
         OutGameUIManager.onAnimalUnlockPanelInstantiated -= onAnimalUnlockPanelInstantiatedHandler;
+        
+        GachaManager.onTokenAdded -= OnTokenAddedHandler;
     }
 
 
@@ -187,7 +193,7 @@ public class GameDataManager : Singleton<GameDataManager>
     private void SetInitializeData()
     {
         PlayerLevelSystem.SetInitialValue(1, 0);
-        GoldTokenSystem.SetInitialValue(1000, 1000);
+        GoldAnimalTokenKeySystem.SetInitialValue(100000, 1000, 1000, 1000, 12);
         StaminaSystem.SetInitialValue(10, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
 
         //// TempCode //
@@ -304,7 +310,7 @@ public class GameDataManager : Singleton<GameDataManager>
 
         //임시 값 적용
         var resultGold = score / 100;
-        GoldTokenSystem.AddGold(resultGold+ Mathf.FloorToInt(resultGold*additionalScoreGoldRate));
+        GoldAnimalTokenKeySystem.AddGold(resultGold+ Mathf.FloorToInt(resultGold*additionalScoreGoldRate));
         PlayerLevelSystem.AddExperienceValue(40 + Mathf.RoundToInt(playTime * 0.31f));
     }
 
@@ -394,5 +400,32 @@ public class GameDataManager : Singleton<GameDataManager>
         this.nextExp = nextExp;
         this.currentExp = currentExp;
         initialData.SaveLevelUpInfoData(this.currentLevel, this.nextExp, this.currentExp);
+    }
+
+    private void OnTokenAddedHandler(TokenType type, int tokenValue)
+    {
+        switch (type)
+        {
+            case TokenType.BronzeToken:
+                {
+                    GoldAnimalTokenKeySystem.AddBronzeToken(tokenValue);
+                    
+                    return;
+                }
+            case TokenType.SilverToken:
+                {
+                    GoldAnimalTokenKeySystem.AddSliverToken(tokenValue);
+                    
+                    return;
+                }
+            case TokenType.GoldToken:
+                {
+                    GoldAnimalTokenKeySystem.AddGoldToken(tokenValue);
+                    
+                    return;
+                }
+        }
+        
+        Debug.Assert(false, "Invalid tokenType");
     }
 }

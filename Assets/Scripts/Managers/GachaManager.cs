@@ -104,8 +104,9 @@ public class GachaManager : MonoBehaviour, IManager
             }
             else
             {
+                onTokenAdded?.Invoke(doGachaDataList[i].TokenType, doGachaDataList[i].TokenValue);
+                
                 Debug.Log($"Give Token By AnimalId: {acquiredAnimalId}, name : {animalUserList.GetAnimalUserData(acquiredAnimalId).AnimalStatData.StringID}");
-                //onTokenAdded?.Invoke();
             }
         }
     }

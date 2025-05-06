@@ -230,6 +230,8 @@ public enum AlertPanelConfirmButtonFuncType
     DoSingleGacha,
     DoSingleGachaByAds,
     DoTenTimesGacha,
+    NotEnoughKeyToDoSingleGacha,
+    NotEnoughKeyToDoTenTimesGacha,
 }
 
 public enum AlertPanelCancelButtonFuncType
@@ -246,6 +248,9 @@ public enum AlertPanelInfoDataType
     DoSingleGacha,
     DoSingleGachaByAds,
     DoTenTimesGacha,
+    NotEnoughKeyToDoSingleGacha,
+    NotEnoughKeyToDoTenTimesGacha,
+    NotEnoughGold,
 }
 
 public enum RunPhaseType

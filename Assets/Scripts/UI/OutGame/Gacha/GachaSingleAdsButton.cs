@@ -1,10 +1,27 @@
+using UnityEngine;
+
 public class GachaSingleAdsButton : GachaButton
 {
+    private int adsRemainCount;
+    
+    protected void Awake()
+    {
+        adsRemainCount = 1;
+        
+        AlertPanelConfirmButtonFuncFactory.onGachaByAds += SetGachaButtonText;
+    }
+
+    protected void OnDestroy()
+    {
+        AlertPanelConfirmButtonFuncFactory.onGachaByAds -= SetGachaButtonText;
+    }
+
     protected override void Start()
     {
         base.Start();
         
-        SetGachaButtonText("일일 무료", 1);
+        this.headerText.text = "일일 무료";
+        this.countText.text = $"광고 {adsRemainCount}/1";
     }
     
     public override void DoGacha()
@@ -12,9 +29,22 @@ public class GachaSingleAdsButton : GachaButton
         outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.DoSingleGachaByAds));
     }
     
-    protected void SetGachaButtonText(string headerText, int adsRemainCount)
+    protected void SetGachaButtonText()
     {
-        this.headerText.text = headerText;
+        --adsRemainCount;
+
+        if (adsRemainCount < 0)
+        {
+            adsRemainCount = 0;
+            
+            Debug.Assert(false, "Invalid adsRemainCount");
+        }
+
+        if (adsRemainCount == 0)
+        {
+            gachaButton.interactable = false;
+        }
+        
         this.countText.text = $"광고 {adsRemainCount}/1";
     }
 }
