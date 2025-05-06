@@ -70,6 +70,7 @@ public class GoogleSheetCSVWindow : EditorWindow
         LoadDataTableGUI(additionalStatusEffectDataTableURL, Utils.AdditionalStatusEffectTableName);
         LoadDataTableGUI(ingameLevelDataTableURL, Utils.InGameLevelExperienceValueTableName);
         LoadDataTableGUI(passiveEffectDataTableURL, Utils.PassiveEffectTableName);
+        LoadDataTableGUI(playerLevelTableURL, Utils.PlayerLevelTableName);
     }
 
     private void UpdateDataTableCSV(string url, string path)
@@ -87,7 +88,7 @@ public class GoogleSheetCSVWindow : EditorWindow
     private string additionalStatusEffectDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1871340178#gid=1871340178";
     private string ingameLevelDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=2005332401#gid=2005332401";
     private string passiveEffectDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=819605194#gid=819605194";
-
+    private string playerLevelTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1878574882#gid=1878574882";
     //private void UpdateAnimalDataTable()
     //{
     //    var path = System.IO.Path.Combine(Application.dataPath, "Resources/") + string.Format(DataTable.FormatPath, Utils.AnimalTableName) + ".csv";

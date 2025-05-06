@@ -4,7 +4,7 @@ public class BronzeCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        OnScoreChanged?.Invoke(scoreToAdd);
+        //OnScoreChanged?.Invoke(scoreToAdd);
 
         var list = other.GetComponents<IItemTaker>();
         foreach (var taker in list)
@@ -22,7 +22,7 @@ public class SilverCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        OnScoreChanged?.Invoke(scoreToAdd);
+        //OnScoreChanged?.Invoke(scoreToAdd);
 
         var list = other.GetComponents<IItemTaker>();
         foreach (var taker in list)
@@ -40,7 +40,7 @@ public class GoldCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        OnScoreChanged?.Invoke(scoreToAdd);
+        //OnScoreChanged?.Invoke(scoreToAdd);
 
         var list = other.GetComponents<IItemTaker>();
         foreach (var taker in list)
@@ -58,7 +58,7 @@ public class PlatinumCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        OnScoreChanged?.Invoke(scoreToAdd);
+        //OnScoreChanged?.Invoke(scoreToAdd);
 
         var list = other.GetComponents<IItemTaker>();
         foreach (var taker in list)
@@ -74,7 +74,7 @@ public class DiamondCoinCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        OnScoreChanged?.Invoke(scoreToAdd);
+        //OnScoreChanged?.Invoke(scoreToAdd);
 
         var list = other.GetComponents<IItemTaker>();
         foreach (var taker in list)

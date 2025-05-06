@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExperienceBar : UIElement
 {
-    public ExperienceStatus experienceStatus;
+    private ExperienceStatus experienceStatus;
 
     private GageBar gageBar;
 
@@ -23,6 +23,7 @@ public class ExperienceBar : UIElement
     {
         base.Initialize();
         gageBar = GetComponent<GageBar>();
+        experienceStatus = gameManager.PlayerManager.playerExperience;
 
         experienceStatus.onAddValue += UpdateExperienceValue;
         experienceStatus.onLevelChange += UpdateExperienceLevel;
