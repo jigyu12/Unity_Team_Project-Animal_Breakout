@@ -17,6 +17,7 @@ public static class Utils
     public const string PassiveEffectTableName= "PassiveEffect_Table";
     public const string GachaTableName= "Gacha_Table";
     public const string PlayerLevelTableName = "PlayerLevel_Table";
+    public const string EnforceAnimalTableName = "EnforceAnimal_Table";
     
     public const string GameManagerTag = "GameManager";
 

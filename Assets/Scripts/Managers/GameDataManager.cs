@@ -188,7 +188,9 @@ public class GameDataManager : Singleton<GameDataManager>
     {
         PlayerLevelSystem.SetInitialValue(1, 0);
         GoldTokenSystem.SetInitialValue(1000, 1000);
-        StaminaSystem.SetInitialValue(10, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
+        StaminaSystem.SetInitialValue(10, DateTime.Now);
+        //string temp = "05/06/2025 22:20:13";
+        //StaminaSystem.SetInitialValue(0, DateTime.Parse(temp));    //임시로 now갈겨놓은 것이니 추후 저장후 확인
 
         //// TempCode //
 
@@ -304,7 +306,7 @@ public class GameDataManager : Singleton<GameDataManager>
 
         //임시 값 적용
         var resultGold = score / 100;
-        GoldTokenSystem.AddGold(resultGold+ Mathf.FloorToInt(resultGold*additionalScoreGoldRate));
+        GoldTokenSystem.AddGold(resultGold + Mathf.FloorToInt(resultGold * additionalScoreGoldRate));
         PlayerLevelSystem.AddExperienceValue(40 + Mathf.RoundToInt(playTime * 0.31f));
     }
 
@@ -394,5 +396,13 @@ public class GameDataManager : Singleton<GameDataManager>
         this.nextExp = nextExp;
         this.currentExp = currentExp;
         initialData.SaveLevelUpInfoData(this.currentLevel, this.nextExp, this.currentExp);
+    }
+
+    public void AddStaminaRepeat(int currentStamina, int maxStaminaCanFilled)
+    {
+        if (StaminaSystem.coAddStamina == null&&!StaminaSystem.IsStaminaFull)
+        {
+            StaminaSystem.coAddStamina = StartCoroutine(StaminaSystem.CoAddStamina());
+        }
     }
 }
