@@ -4,6 +4,7 @@ public enum UIElementEnums
 	RotateButton,
 	RunStageUIElements,
 	ExperienceBar,
+	ScoreText,
 	SkillIconList,
 	DebuffIconArea,
 	SkillSelectionPanel,

@@ -34,6 +34,7 @@ public class AnimalUserData
         {
             IsUnlock = true;
             Level = 1;
+
         }
     }
 

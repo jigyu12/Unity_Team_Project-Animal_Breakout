@@ -41,6 +41,10 @@ public static class DataTableManager
         var gachaTable = new GachaTable();
         gachaTable.Load(Utils.GachaTableName);
         tables.Add(Utils.GachaTableName, gachaTable);
+
+        var playerLevelTable = new PlayerLevelDataTable();
+        playerLevelTable.Load(Utils.PlayerLevelTableName);
+        tables.Add(Utils.PlayerLevelTableName, playerLevelTable);
     }
 
     public static MapObjectsDataTable mapObjectsDataTable => Get<MapObjectsDataTable>(Utils.MapObjectsTableName);
@@ -56,6 +60,7 @@ public static class DataTableManager
     public static PassiveEffectDataTable passiveEffectDataTable => Get<PassiveEffectDataTable>(Utils.PassiveEffectTableName);
     
     public static GachaTable gachaTable => Get<GachaTable>(Utils.GachaTableName);
+    public static PlayerLevelDataTable playerLevelDataTalble => Get<PlayerLevelDataTable>(Utils.PlayerLevelTableName);
     
     public static T Get<T>(string id) where T : DataTable
     {

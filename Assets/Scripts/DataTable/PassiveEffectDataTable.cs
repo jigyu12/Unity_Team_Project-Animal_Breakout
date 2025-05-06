@@ -2,19 +2,19 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public class PassiveEffectData
+{
+    public int PassiveType { get; set; }
+    public int Grade { get; set; }
+    public int Level { get; set; }
+
+    public float Value { get; set; }
+    public string StringID { get; set; }
+}
+
 public class PassiveEffectDataTable : DataTable
 {
-    [Serializable]
-    public class PassiveEffectData
-    {
-        public int PassiveType { get; set; }
-        public int Grade { get; set; }
-        public int Level { get; set; }
- 
-        public float Value { get; set; }
-        public string StringID { get; set; }
-    }
-
     public class PassiveEffectGroup
     {
         public int passiveType;
@@ -22,7 +22,7 @@ public class PassiveEffectDataTable : DataTable
         public List<PassiveEffectData> passiveEffectDatas = new List<PassiveEffectData>();
     }
 
-    private static readonly Dictionary<(int,int), PassiveEffectGroup> table = new();
+    private static readonly Dictionary<(int, int), PassiveEffectGroup> table = new();
 
 
     public override void Load(string filename)
@@ -37,9 +37,9 @@ public class PassiveEffectDataTable : DataTable
             {
                 var dataGroup = new PassiveEffectGroup();
                 dataGroup.passiveType = data.PassiveType;
-                dataGroup.grade = data.Grade;   
+                dataGroup.grade = data.Grade;
                 dataGroup.passiveEffectDatas.Add(data);
-                table.Add((data.PassiveType,data.Grade), dataGroup);
+                table.Add((data.PassiveType, data.Grade), dataGroup);
             }
             else
             {
@@ -50,8 +50,8 @@ public class PassiveEffectDataTable : DataTable
 
     public PassiveEffectGroup Get(int passiveType, int grade)
     {
-        if (!table.ContainsKey((passiveType,grade)))
+        if (!table.ContainsKey((passiveType, grade)))
             return null;
-        return table[(passiveType,grade)];
+        return table[(passiveType, grade)];
     }
 }
