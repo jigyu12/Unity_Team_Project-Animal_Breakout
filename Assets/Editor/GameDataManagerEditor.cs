@@ -20,7 +20,7 @@ public class GameDataManagerEditor : Editor
             if (Application.isPlaying)
             {
                 var gameDataManager = (GameDataManager)target;
-                gameDataManager.IncreaseStamina(staminaAmountToAdd);
+                gameDataManager.StaminaSystem.AddStamina(staminaAmountToAdd);
 
                 EditorUtility.SetDirty(gameDataManager);
             }

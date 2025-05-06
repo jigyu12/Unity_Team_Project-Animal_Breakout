@@ -15,6 +15,8 @@ public class PassiveEffectManager : InGameManager
 {
     public void PerformGlobalPassiveValues()
     {
+        GameDataManager.Instance.ClearAdditionalScoreGoldRate();
+
         foreach (var data in GameDataManager.Instance.AnimalUserDataList.AnimalUserDatas)
         {
             //보유중인 캐릭터만 패시브 발동
@@ -98,7 +100,7 @@ public class PassiveEffectManager : InGameManager
     }
     private void PerformCoinGainUp(PassiveEffectData passiveEffectData)
     {
-
+        GameDataManager.Instance.AddAdditionalScoreGoldRate(passiveEffectData.Value);
     }
 
 }

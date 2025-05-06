@@ -5,12 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class GameDataManager : Singleton<GameDataManager>
 {
+    #region globalDataSystems
+
     public GoldTokenSystem GoldTokenSystem
     {
         get;
         private set;
     }
 
+    public PlayerLevelSystem PlayerLevelSystem
+    {
+        get;
+        private set;
+    }
+
+    public StaminaSystem StaminaSystem
+    {
+        get;
+        private set;
+    }
+
+    #endregion
+
+    private float additionalScoreGoldRate;
 
     public static event Action<LevelUpInfoData> onLevelExpInitialized;
     public static Action<int> onExpChanged;
@@ -60,8 +77,6 @@ public class GameDataManager : Singleton<GameDataManager>
     //public static event Action<long> OnGoldChangedInGameDataManager;
     public const int minStamina = 0;
     public const int maxStamina = 999;
-    public const long minGold = 0;
-    public const long maxGold = 99999999999;
 
     private LevelUpInfoData initialData;
 
@@ -69,11 +84,17 @@ public class GameDataManager : Singleton<GameDataManager>
     {
         //골드,토큰을 관리하는 시스템
         GoldTokenSystem = new();
-    
+
+        //플레이어 레벨, 경험치를 관리하는 시스템
+        PlayerLevelSystem = new();
+
+        //스테미나를 관리하는 시스템
+        StaminaSystem = new();
+
         //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
         AnimalUserDataList = new();
         AnimalUserDataList.Load();
-        
+
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
         SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
         SetMaxRewardItemId(DataTableManager.rewardItemsDataTable.maxId);
@@ -90,14 +111,14 @@ public class GameDataManager : Singleton<GameDataManager>
 
         SceneManager.sceneLoaded += OnChangeSceneHandler;
 
-        LevelSlider.onLevelUp += OnLevelUpHandler;
-        LevelSlider.onExpChangedInSameLevel += onExpChangedInSameLevelHandler;
+        //LevelSlider.onLevelUp += OnLevelUpHandler;
+        //LevelSlider.onExpChangedInSameLevel += onExpChangedInSameLevelHandler;
 
         LobbyPanel.onGameStartButtonClicked += OnGameStartButtonClickedHandler;
 
         OutGameUIManager.onAnimalUnlockPanelInstantiated += onAnimalUnlockPanelInstantiatedHandler;
 
-        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, currentStamina);
+        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
     }
 
     private void OnDestroy()
@@ -108,8 +129,8 @@ public class GameDataManager : Singleton<GameDataManager>
 
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
 
-        LevelSlider.onLevelUp -= OnLevelUpHandler;
-        LevelSlider.onExpChangedInSameLevel -= onExpChangedInSameLevelHandler;
+        //LevelSlider.onLevelUp -= OnLevelUpHandler;
+        //LevelSlider.onExpChangedInSameLevel -= onExpChangedInSameLevelHandler;
 
         LobbyPanel.onGameStartButtonClicked -= OnGameStartButtonClickedHandler;
 
@@ -165,76 +186,80 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void SetInitializeData()
     {
-        // TempCode //
+        PlayerLevelSystem.SetInitialValue(1, 0);
+        GoldTokenSystem.SetInitialValue(1000, 1000);
+        StaminaSystem.SetInitialValue(10, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
 
-        if (!isAddToDictInInitialize)
-        {
-            isAddToDictInInitialize = true;
+        //// TempCode //
 
-            expToLevelUpDictionary.Add(1, 110);
-            expToLevelUpDictionary.Add(2, 120);
-            expToLevelUpDictionary.Add(3, 130);
-            expToLevelUpDictionary.Add(4, 140);
-            expToLevelUpDictionary.Add(5, 150);
+        //if (!isAddToDictInInitialize)
+        //{
+        //    isAddToDictInInitialize = true;
 
-            int maxStamina1 = 5;
-            int maxStamina2 = 10;
-            int maxStamina3 = 15;
-            int maxStamina4 = 20;
-            int maxStamina5 = 25;
+        //    expToLevelUpDictionary.Add(1, 110);
+        //    expToLevelUpDictionary.Add(2, 120);
+        //    expToLevelUpDictionary.Add(3, 130);
+        //    expToLevelUpDictionary.Add(4, 140);
+        //    expToLevelUpDictionary.Add(5, 150);
 
-            maxStaminaByLevelDictionary.Add(1, maxStamina1);
-            maxStaminaByLevelDictionary.Add(2, maxStamina2);
-            maxStaminaByLevelDictionary.Add(3, maxStamina3);
-            maxStaminaByLevelDictionary.Add(4, maxStamina4);
-            maxStaminaByLevelDictionary.Add(5, maxStamina5);
+        //    int maxStamina1 = 5;
+        //    int maxStamina2 = 10;
+        //    int maxStamina3 = 15;
+        //    int maxStamina4 = 20;
+        //    int maxStamina5 = 25;
 
-            {
-                var levelUpRewardData1 = new LevelUpRewardData();
-                levelUpRewardData1.SaveLevelUpRewardData(maxStamina1, 1000);
-                levelUpRewardDataDictionary.Add(1, levelUpRewardData1);
-            }
-            {
-                var levelUpRewardData2 = new LevelUpRewardData();
-                levelUpRewardData2.SaveLevelUpRewardData(maxStamina2, 2000);
-                levelUpRewardDataDictionary.Add(2, levelUpRewardData2);
-            }
-            {
-                var levelUpRewardData3 = new LevelUpRewardData();
-                levelUpRewardData3.SaveLevelUpRewardData(maxStamina3, 3000);
-                levelUpRewardDataDictionary.Add(3, levelUpRewardData3);
-            }
-            {
-                var levelUpRewardData4 = new LevelUpRewardData();
-                levelUpRewardData4.SaveLevelUpRewardData(maxStamina4, 4000);
-                levelUpRewardDataDictionary.Add(4, levelUpRewardData4);
-            }
-            {
-                var levelUpRewardData5 = new LevelUpRewardData();
-                levelUpRewardData5.SaveLevelUpRewardData(5, 5000);
-                levelUpRewardDataDictionary.Add(5, levelUpRewardData5);
-            }
-        }
+        //    maxStaminaByLevelDictionary.Add(1, maxStamina1);
+        //    maxStaminaByLevelDictionary.Add(2, maxStamina2);
+        //    maxStaminaByLevelDictionary.Add(3, maxStamina3);
+        //    maxStaminaByLevelDictionary.Add(4, maxStamina4);
+        //    maxStaminaByLevelDictionary.Add(5, maxStamina5);
 
-        maxScore = 0;
-        GoldTokenSystem.AddGold(1000);
-        currentStamina = 10; // 5
-        currentLevel = 1;
-        nextExp = expToLevelUpDictionary[currentLevel];
-        currentExp = 0;
+        //    {
+        //        var levelUpRewardData1 = new LevelUpRewardData();
+        //        levelUpRewardData1.SaveLevelUpRewardData(maxStamina1, 1000);
+        //        levelUpRewardDataDictionary.Add(1, levelUpRewardData1);
+        //    }
+        //    {
+        //        var levelUpRewardData2 = new LevelUpRewardData();
+        //        levelUpRewardData2.SaveLevelUpRewardData(maxStamina2, 2000);
+        //        levelUpRewardDataDictionary.Add(2, levelUpRewardData2);
+        //    }
+        //    {
+        //        var levelUpRewardData3 = new LevelUpRewardData();
+        //        levelUpRewardData3.SaveLevelUpRewardData(maxStamina3, 3000);
+        //        levelUpRewardDataDictionary.Add(3, levelUpRewardData3);
+        //    }
+        //    {
+        //        var levelUpRewardData4 = new LevelUpRewardData();
+        //        levelUpRewardData4.SaveLevelUpRewardData(maxStamina4, 4000);
+        //        levelUpRewardDataDictionary.Add(4, levelUpRewardData4);
+        //    }
+        //    {
+        //        var levelUpRewardData5 = new LevelUpRewardData();
+        //        levelUpRewardData5.SaveLevelUpRewardData(5, 5000);
+        //        levelUpRewardDataDictionary.Add(5, levelUpRewardData5);
+        //    }
+        //}
 
-        initialData = new(maxLevel);
-        initialData.SaveLevelUpInfoData(currentLevel, nextExp, currentExp);
 
-        onLevelExpInitialized?.Invoke(initialData);
 
-        // TempCode //
+        //currentStamina = 10; // 5
+        //currentLevel = 1;
+        //nextExp = expToLevelUpDictionary[currentLevel];
+        //currentExp = 0;
 
-        currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
+        //initialData = new(maxLevel);
+        //initialData.SaveLevelUpInfoData(currentLevel, nextExp, currentExp);
 
-        onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
+        //onLevelExpInitialized?.Invoke(initialData);
 
-        //ClearInGameData();
+        //// TempCode //
+
+        //currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
+
+        //onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
+
+        ////ClearInGameData();
     }
 
     //private void ClearInGameData()
@@ -261,9 +286,26 @@ public class GameDataManager : Singleton<GameDataManager>
     //        scoreUI.UpdateScore(inGameScore);
     //    }
     //}
-    public void ApplyRunResult(int score)
+
+    public void ClearAdditionalScoreGoldRate()
+    {
+        additionalScoreGoldRate = 0f;
+    }
+
+    public void AddAdditionalScoreGoldRate(float rate)
+    {
+        additionalScoreGoldRate += rate;
+    }
+
+
+    public void ApplyRunResult(long score, float playTime)
     {
         //수정필
+
+        //임시 값 적용
+        var resultGold = score / 100;
+        GoldTokenSystem.AddGold(resultGold+ Mathf.FloorToInt(resultGold*additionalScoreGoldRate));
+        PlayerLevelSystem.AddExperienceValue(40 + Mathf.RoundToInt(playTime * 0.31f));
     }
 
     private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
@@ -272,19 +314,19 @@ public class GameDataManager : Singleton<GameDataManager>
         {
             TryFindOutGameUIManager();
 
-            if (maxScore < inGameScore)
-            {
-                maxScore = inGameScore;
-            }
-            Debug.Log($"InGameScore : {inGameScore}");
-            Debug.Log($"MaxScore : {maxScore}");
+            //if (maxScore < inGameScore)
+            //{
+            //    maxScore = inGameScore;
+            //}
+            //Debug.Log($"InGameScore : {inGameScore}");
+            //Debug.Log($"MaxScore : {maxScore}");
 
-            GoldTokenSystem.AddGold(inGameScore / 100);
+            //GoldTokenSystem.AddGold(inGameScore / 100);
 
-            onLevelExpInitialized?.Invoke(initialData);
-            onExpChanged?.Invoke(100);
-            currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
-            onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
+            //onLevelExpInitialized?.Invoke(initialData);
+            //onExpChanged?.Invoke(100);
+            //currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
+            //onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
         }
         else if (SceneManager.GetActiveScene().name == "Run")
         {
@@ -299,51 +341,52 @@ public class GameDataManager : Singleton<GameDataManager>
         //startAnimalID = id;
 
         AnimalUserDataList.SetCurrentAnimalPlayer(id);
-        onSetStartAnimalIDInGameDataManager?.Invoke(id, currentStamina);
+        onSetStartAnimalIDInGameDataManager?.Invoke(id, StaminaSystem.CurrentStamina);
     }
 
-    private void OnLevelUpHandler(int nextLevel, int nextExp, int remainingExp)
-    {
-        currentLevel = nextLevel;
-        this.nextExp = nextExp;
-        currentExp = remainingExp;
-        initialData.SaveLevelUpInfoData(currentLevel, this.nextExp, currentExp);
+    //private void OnLevelUpHandler(int nextLevel, int nextExp, int remainingExp)
+    //{
+    //    currentLevel = nextLevel;
+    //    this.nextExp = nextExp;
+    //    currentExp = remainingExp;
+    //    initialData.SaveLevelUpInfoData(currentLevel, this.nextExp, currentExp);
 
-        GoldTokenSystem.AddGold(levelUpRewardDataDictionary[currentLevel].goldToAdd);
+    //    GoldTokenSystem.AddGold(levelUpRewardDataDictionary[currentLevel].goldToAdd);
 
-        currentStamina += levelUpRewardDataDictionary[currentLevel].staminaToAdd;
-        currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
+    //    currentStamina += levelUpRewardDataDictionary[currentLevel].staminaToAdd;
+    //    currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
 
-        onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
-    }
+    //    onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
+    //}
 
     private void OnGameStartButtonClickedHandler(int staminaRequiredToStartGame)
     {
-        if (currentStamina < staminaRequiredToStartGame)
+        if (StaminaSystem.CurrentStamina < staminaRequiredToStartGame)
         {
             Debug.Assert(false, "Stamina is low to start game");
 
             return;
         }
 
-        currentStamina -= staminaRequiredToStartGame;
-        onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
+        StaminaSystem.PayStamina(staminaRequiredToStartGame);
+        //currentStamina -= staminaRequiredToStartGame;
+        //onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
     }
 
     private void onAnimalUnlockPanelInstantiatedHandler(GameObject animalUnlockPanel)
     {
-        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, currentStamina);
+        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
     }
 
-    public void IncreaseStamina(int staminaAmount)
-    {
-        currentStamina += staminaAmount;
-        currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
+    //public void IncreaseStamina(int staminaAmount)
+    //{
+    //    currentStamina += staminaAmount;
+    //    currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
 
-        onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
+    //    onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
 
-        Debug.Log($"Stamina has been increased. Current Stamina : {currentStamina}");
-    }
+    //    Debug.Log($"Stamina has been increased. Current Stamina : {currentStamina}");
+    //}
 
     private void onExpChangedInSameLevelHandler(int currentLevel, int nextExp, int currentExp)
     {
