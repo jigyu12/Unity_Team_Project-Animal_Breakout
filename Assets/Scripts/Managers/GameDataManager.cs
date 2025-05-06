@@ -21,7 +21,7 @@ public class GameDataManager : Singleton<GameDataManager>
     public int nextExp { get; private set; }
     public int currentExp { get; private set; }
 
-    private long inGameScore;
+    //private long inGameScore;
 
     private OutGameUIManager outGameUIManager;
     private OutGameManager outGameManager;
@@ -32,7 +32,7 @@ public class GameDataManager : Singleton<GameDataManager>
     {
         get;
         private set;
-    }  
+    }
 
     //여기저기서 쓰는 곳이 많아보여서 일단 이렇게 봉합하였습니다, 이렇게 바꾸어도 되나요?
     public int startAnimalID
@@ -70,7 +70,7 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void Start()
     {
-        BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
+        //BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
 
         UnlockedAnimalPanel.onSetStartAnimalIDInPanel += OnSetAnimalIDInPanel;
 
@@ -133,7 +133,7 @@ public class GameDataManager : Singleton<GameDataManager>
             TryFindGameManager();
         }
 
-        ClearInGameData();
+        //ClearInGameData();
     }
 
     private void TryFindOutGameUIManager()
@@ -226,32 +226,50 @@ public class GameDataManager : Singleton<GameDataManager>
         OnGoldChangedInGameDataManager?.Invoke(currentGolds);
         onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
 
-        ClearInGameData();
+        //ClearInGameData();
     }
 
-    private void ClearInGameData()
-    {
-        inGameScore = 0;
-    }
+    //private void ClearInGameData()
+    //{
+    //    inGameScore = 0;
+    //}
 
-    private void AddScoreInGame(long scoreToAdd)
-    {
-        inGameScore += scoreToAdd;
+    //private void AddScoreInGame(long scoreToAdd)
+    //{
+    //    inGameScore += scoreToAdd;
 
-        if (inGameScore <= 0)
+    //    if (inGameScore <= 0)
+    //    {
+    //        inGameScore = 0;
+    //    }
+
+    //    UpdateScoreUI();
+    //}
+
+    //private void UpdateScoreUI()
+    //{
+    //    if (GameObject.FindGameObjectWithTag("ScoreUI")?.TryGetComponent(out ScoreUI scoreUI) == true)
+    //    {
+    //        scoreUI.UpdateScore(inGameScore);
+    //    }
+    //}
+    public void ApplyRunResult(int score)
+    {
+        if (maxScore < score)
         {
-            inGameScore = 0;
+            maxScore = score;
         }
+        Debug.Log($"InGameScore : {score}");
+        Debug.Log($"MaxScore : {maxScore}");
 
-        UpdateScoreUI();
-    }
+        currentGolds += score / 100;
+        currentGolds = Math.Clamp(currentGolds, minGold, maxGold);
+        OnGoldChangedInGameDataManager?.Invoke(currentGolds);
+        Debug.Log($"CurrentCoins To Add : {score / 100}");
 
-    private void UpdateScoreUI()
-    {
-        if (GameObject.FindGameObjectWithTag("ScoreUI")?.TryGetComponent(out ScoreUI scoreUI) == true)
-        {
-            scoreUI.UpdateScore(inGameScore);
-        }
+        onLevelExpInitialized?.Invoke(initialData);
+        onExpChanged?.Invoke(100);
+        currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
     }
 
     private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
@@ -260,17 +278,17 @@ public class GameDataManager : Singleton<GameDataManager>
         {
             TryFindOutGameUIManager();
 
-            if (maxScore < inGameScore)
-            {
-                maxScore = inGameScore;
-            }
-            Debug.Log($"InGameScore : {inGameScore}");
-            Debug.Log($"MaxScore : {maxScore}");
+            //if (maxScore < inGameScore)
+            //{
+            //    maxScore = inGameScore;
+            //}
+            //Debug.Log($"InGameScore : {inGameScore}");
+            //Debug.Log($"MaxScore : {maxScore}");
 
-            currentGolds += inGameScore / 100;
-            currentGolds = Math.Clamp(currentGolds, minGold, maxGold);
-            OnGoldChangedInGameDataManager?.Invoke(currentGolds);
-            Debug.Log($"CurrentCoins To Add : {inGameScore / 100}");
+            //currentGolds += inGameScore / 100;
+            //currentGolds = Math.Clamp(currentGolds, minGold, maxGold);
+            //OnGoldChangedInGameDataManager?.Invoke(currentGolds);
+            //Debug.Log($"CurrentCoins To Add : {inGameScore / 100}");
 
             onLevelExpInitialized?.Invoke(initialData);
             onExpChanged?.Invoke(100);

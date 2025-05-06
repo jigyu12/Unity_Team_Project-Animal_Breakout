@@ -1,24 +1,23 @@
 using UnityEngine;
 using TMPro;
 
-public class ScoreUI : MonoBehaviour
+public class ScoreUI : UIElement
 {
     public TMP_Text scoreText;
-    public long currentScore;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        gameManager.InGameCountManager.ScoreSystem.onScoreChanged += UpdateScoreText;
+    }
 
     private void Start()
     {
-        currentScore = 0;
-        UpdateScoreText();
+        UpdateScoreText(0);
     }
 
-    public void UpdateScore(long score)
-    {
-        currentScore = score;
-        UpdateScoreText();
-    }
 
-    private void UpdateScoreText()
+    private void UpdateScoreText(long currentScore)
     {
         scoreText.text = $"Score: {currentScore}";
     }

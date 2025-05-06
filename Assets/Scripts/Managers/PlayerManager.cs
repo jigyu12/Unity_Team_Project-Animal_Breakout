@@ -104,7 +104,10 @@ public class PlayerManager : InGameManager
         //moveForward.speed = playerStatus.MoveSpeed;
         moveForward.speed = playerStatus.MoveSpeed;
 
-        //playerMove.moveSpeed = 5f;       
+        //playerMove.moveSpeed = 5f;
+        
+        //점수 카운터를 플레이어에 추가 
+        playerGameObject.GetComponent<ScoreCounter>().Initialize(GameManager.InGameCountManager.ScoreSystem);
     }
 
     public void SetPlayer()

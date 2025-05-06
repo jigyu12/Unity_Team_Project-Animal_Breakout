@@ -95,7 +95,7 @@ public class PassiveEffectManager : InGameManager
     }
     private void PerformResultScoreUp(PassiveEffectData passiveEffectData)
     {
-
+        GameManager.InGameCountManager.ScoreSystem.AddAdditionalFinalScoreRate(passiveEffectData.Value);
     }
 
     private void PerformCoinGainUp(PassiveEffectData passiveEffectData)
