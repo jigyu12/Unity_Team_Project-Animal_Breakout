@@ -16,12 +16,12 @@ public class OutGameUIManager : MonoBehaviour, IManager
     [SerializeField] private GameObject unlockAnimalPanelPrefab;
     private ObjectPool<GameObject> unlockAnimalPanelPool;
     public static event Action<GameObject> onAnimalUnlockPanelInstantiated;
-    private readonly List<GameObject> animalUnlockPanelList = new();
+    private readonly Dictionary<int, GameObject> animalUnlockPanelDictionary = new();
     
     [SerializeField] private GameObject lockAnimalPanelPrefab;
     private ObjectPool<GameObject> lockAnimalPanelPool;
     public static event Action<GameObject> onAnimalLockPanelInstantiated;
-    private readonly List<GameObject> animalLockPanelList = new();
+    private readonly Dictionary<int, GameObject> animalLockPanelDictionary = new();
 
     //대신 GameDataManager.Instance.AnimalUserDataList.AnimalUserDatas를 사용하세요
     //private readonly List<bool> animalIsUnlockInfoList = new();
@@ -43,6 +43,12 @@ public class OutGameUIManager : MonoBehaviour, IManager
     
     public static event Action<DefaultCanvasType, bool, bool> onSwitchActiveDefaultCanvas;
 
+    public static event Action onGachaScreenActive;
+    
+    [SerializeField] private GameObject gachaResultSlot;
+    private ObjectPool<GameObject> gachaResultSlotPool;
+    [SerializeField] private GameObject gachaResultSlotPanelReleaseParent;
+
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
@@ -61,6 +67,13 @@ public class OutGameUIManager : MonoBehaviour, IManager
             () => Instantiate(alertDoubleButtonPanel),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
+        
+        gachaResultSlotPool = outGameManager.ObjectPoolManager.CreateObjectPool(gachaResultSlot,
+            () => Instantiate(gachaResultSlot),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+
+        GachaManager.onAnimalUnlocked += OnAnimalUnlockedHandler;
         
         // TempCode //
         
@@ -97,7 +110,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
                 animalUnlockPanel.SetAnimalUserData(animalUserData);
                 onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
                 unlockAnimalPanel.transform.localScale = Vector3.one;
-                animalUnlockPanelList.Add(unlockAnimalPanel);
+                animalUnlockPanelDictionary.Add(animalUnlockPanel.animalId, unlockAnimalPanel);
             }
             else
             {
@@ -106,11 +119,16 @@ public class OutGameUIManager : MonoBehaviour, IManager
                 animalLockPanel.SetAnimalUserData(animalUserData);
                 onAnimalLockPanelInstantiated?.Invoke(lockAnimalPanel);
                 lockAnimalPanel.transform.localScale = Vector3.one;
-                animalLockPanelList.Add(lockAnimalPanel);
+                animalLockPanelDictionary.Add(animalLockPanel.animalId, lockAnimalPanel);
             }
         }
         
         // TempCode //
+    }
+    
+    private void OnDestroy()
+    {
+        GachaManager.onAnimalUnlocked -= OnAnimalUnlockedHandler;
     }
     
     public void Initialize()
@@ -229,9 +247,18 @@ public class OutGameUIManager : MonoBehaviour, IManager
         alertPanelSpawnPanelRoot.SetActive(false);
     }
 
-    public void ShowFullScreenPanel()
+    public void ShowFullScreenPanel(FullScreenType type)
     {
         SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, true, true);
+
+        switch (type)
+        {
+            case FullScreenType.GachaScreen:
+                {
+                    onGachaScreenActive?.Invoke();
+                }
+                break;
+        }
     }
 
     public void HideFullScreenPanel()
@@ -271,5 +298,42 @@ public class OutGameUIManager : MonoBehaviour, IManager
                 }
                 break;
         }
+    }
+
+    public GameObject GetGachaResultSlot()
+    {
+        var gachaResultSlot = gachaResultSlotPool.Get();
+        
+        return gachaResultSlot;
+    }
+    
+    public void ReleaseGachaResultSlot(GameObject gachaResultSlot)
+    {
+        gachaResultSlot.transform.SetParent(gachaResultSlotPanelReleaseParent.transform);
+        
+        gachaResultSlotPool.Release(gachaResultSlot);
+    }
+
+    private void OnAnimalUnlockedHandler(int animalID)
+    {
+        if (!animalLockPanelDictionary.ContainsKey(animalID))
+        {
+            Debug.Assert(false, $"Invalid animalId in lockPanel {animalID}");
+            
+            return;
+        }
+        
+        var lockAnimalPanel = animalLockPanelDictionary[animalID];
+        animalLockPanelDictionary.Remove(animalID);
+        lockAnimalPanelPool.Release(lockAnimalPanel);
+            
+        var animalUserData = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalID);
+            
+        var unlockAnimalPanel = unlockAnimalPanelPool.Get();
+        unlockAnimalPanel.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanel);
+        animalUnlockPanel.SetAnimalUserData(animalUserData);
+        onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
+        unlockAnimalPanel.transform.localScale = Vector3.one;
+        animalUnlockPanelDictionary.Add(animalUnlockPanel.animalId, unlockAnimalPanel);
     }
 }

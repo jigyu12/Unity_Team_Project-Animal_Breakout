@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,10 @@ public abstract class GachaButton : MonoBehaviour
     protected OutGameUIManager outGameUIManager;
     protected Button gachaButton;
 
-    protected void Start()
+    [SerializeField] protected TMP_Text headerText;
+    [SerializeField] protected TMP_Text countText;
+
+    protected virtual void Start()
     {
         GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
         outGameUIManager = outGameManager.OutGameUIManager;
@@ -15,6 +19,12 @@ public abstract class GachaButton : MonoBehaviour
         TryGetComponent(out gachaButton);
         gachaButton.onClick.RemoveAllListeners();
         gachaButton.onClick.AddListener(DoGacha);
+    }
+
+    protected void SetGachaButtonText(string headerText, string countText)
+    {
+        this.headerText.text = headerText;
+        this.countText.text = countText;
     }
 
     public abstract void DoGacha();

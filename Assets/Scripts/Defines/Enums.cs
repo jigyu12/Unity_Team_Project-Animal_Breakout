@@ -262,3 +262,15 @@ public enum TokenType
     SilverToken,
     GoldToken,
 }
+
+public enum FullScreenType
+{
+    GachaScreen,
+}
+
+public enum AnimalGradeType
+{
+    OneStar,
+    TwoStar,
+    ThreeStar,
+}

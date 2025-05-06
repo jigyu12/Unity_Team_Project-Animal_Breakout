@@ -69,9 +69,9 @@ public class OutGameUIManagerEditor : Editor
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("FullScreen Panel Test", EditorStyles.boldLabel);
 
-        if (GUILayout.Button("Show FullScreen Panel"))
+        if (GUILayout.Button("Show Gacha FullScreen Panel"))
         {
-            manager.ShowFullScreenPanel();
+            manager.ShowFullScreenPanel(FullScreenType.GachaScreen);
         }
         if (GUILayout.Button("Hide FullScreen Panel"))
         {

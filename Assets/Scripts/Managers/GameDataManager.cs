@@ -67,8 +67,13 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void Awake()
     {
-        SetInitializeData();
-
+        //골드,토큰을 관리하는 시스템
+        GoldTokenSystem = new();
+    
+        //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
+        AnimalUserDataList = new();
+        AnimalUserDataList.Load();
+        
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
         SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
         SetMaxRewardItemId(DataTableManager.rewardItemsDataTable.maxId);
@@ -78,6 +83,8 @@ public class GameDataManager : Singleton<GameDataManager>
     private void Start()
     {
         //BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
+        SetInitializeData();
+
 
         UnlockedAnimalPanel.onSetStartAnimalIDInPanel += OnSetAnimalIDInPanel;
 
@@ -158,15 +165,6 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void SetInitializeData()
     {
-        //골드,토큰을 관리하는 시스템
-        GoldTokenSystem = new();
-
-
-        //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
-        AnimalUserDataList = new();
-        AnimalUserDataList.Load();
-
-
         // TempCode //
 
         if (!isAddToDictInInitialize)
