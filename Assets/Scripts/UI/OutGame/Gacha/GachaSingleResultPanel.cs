@@ -26,11 +26,18 @@ public class GachaSingleResultPanel : GachaPanelBase
 
         currentGachaDataIndex = 0;
 
-        if (gachaDataList is not null)
+        if (gachaDataList is not null && animalFirstUnlockInfoList is not null)
         {
-            SetItemNameText(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
-                    gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData
-                .StringID);
+            if (animalFirstUnlockInfoList[currentGachaDataIndex])
+            {
+                SetItemNameText(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                        gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData
+                    .StringID);
+            }
+            else
+            {
+                SetItemNameText(gachaDataList[currentGachaDataIndex].TokenType.ToString() + $" By {GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData.StringID}");
+            }
         }
     }
 
@@ -51,9 +58,16 @@ public class GachaSingleResultPanel : GachaPanelBase
         }
         else
         {
-            SetItemNameText(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
-                    gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData
-                .StringID);
+            if (animalFirstUnlockInfoList[currentGachaDataIndex])
+            {
+                SetItemNameText(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                        gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData
+                    .StringID);
+            }
+            else
+            {
+                SetItemNameText(gachaDataList[currentGachaDataIndex].TokenType.ToString() + $" By {GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData.StringID}");
+            }
         }
     }
     
