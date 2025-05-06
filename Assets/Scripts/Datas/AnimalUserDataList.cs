@@ -71,4 +71,16 @@ public class AnimalUserDataList
     {
         CurrentAnimalPlayer = GetAnimalUserData(animalID);
     }
+    
+    public void UnlockAnimal(int animalID)
+    {
+        if(!animalUserDataTable.ContainsKey(animalID))
+        {
+            Debug.Assert(false, $"{animalID} is not contained in animalUserDataTable.");
+            
+            return;
+        }
+        
+        animalUserDataTable[animalID].UnlockAnimal();
+    }
 }

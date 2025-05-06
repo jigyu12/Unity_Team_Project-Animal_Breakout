@@ -18,7 +18,7 @@ public class OutGameManager : MonoBehaviour
     
     #endregion
 
-    public bool isGameQuitPanelShow;
+    [HideInInspector] public bool isGameQuitPanelShow;
     
     private void Awake()
     {

@@ -262,3 +262,8 @@ public enum TokenType
     SilverToken,
     GoldToken,
 }
+
+public enum FullScreenType
+{
+    GachaScreen,
+}

@@ -23,6 +23,7 @@ public static class AlertPanelConfirmButtonFuncFactory
                     GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
                     outGameManager.GachaManager.GenerateRandomSingleGachaData();
                     outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                    outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
                 }
             },
             {
@@ -35,6 +36,7 @@ public static class AlertPanelConfirmButtonFuncFactory
                     Debug.Log("Gacha By Ads");
 
                     outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                    outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
                 }
             },
             {
@@ -43,6 +45,7 @@ public static class AlertPanelConfirmButtonFuncFactory
                   GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
                   outGameManager.GachaManager.GenerateRandomTenTimeGachaData();
                   outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                  outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
               }
             },
         };
