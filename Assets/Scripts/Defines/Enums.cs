@@ -267,3 +267,10 @@ public enum FullScreenType
 {
     GachaScreen,
 }
+
+public enum AnimalGradeType
+{
+    OneStar,
+    TwoStar,
+    ThreeStar,
+}
