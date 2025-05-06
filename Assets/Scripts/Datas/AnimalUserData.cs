@@ -14,10 +14,16 @@ public class AnimalUserData
         private set;
     }
 
+    public readonly int maxLevel = 10;
     public int Level
     {
         get;
         private set;
+    }
+
+    public bool IsMaxLevel
+    {
+        get => Level >= maxLevel;
     }
 
     public AnimalUserData(AnimalStatData animalStatData)
