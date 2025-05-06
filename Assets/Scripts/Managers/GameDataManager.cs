@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class GameDataManager : Singleton<GameDataManager>
 {
+    public GoldTokenSystem GoldTokenSystem
+    {
+        get;
+        private set;
+    }
+
+
     public static event Action<LevelUpInfoData> onLevelExpInitialized;
     public static Action<int> onExpChanged;
 
@@ -21,7 +28,7 @@ public class GameDataManager : Singleton<GameDataManager>
     public int nextExp { get; private set; }
     public int currentExp { get; private set; }
 
-    //private long inGameScore;
+    private long inGameScore;
 
     private OutGameUIManager outGameUIManager;
     private OutGameManager outGameManager;
@@ -50,7 +57,7 @@ public class GameDataManager : Singleton<GameDataManager>
     public int MaxRewardItemId { get; private set; } = 0;
 
     public static event Action<int, int> onStaminaChangedInGameDataManager;
-    public static event Action<long> OnGoldChangedInGameDataManager;
+    //public static event Action<long> OnGoldChangedInGameDataManager;
     public const int minStamina = 0;
     public const int maxStamina = 999;
     public const long minGold = 0;
@@ -151,6 +158,10 @@ public class GameDataManager : Singleton<GameDataManager>
 
     private void SetInitializeData()
     {
+        //골드,토큰을 관리하는 시스템
+        GoldTokenSystem = new();
+
+
         //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
         AnimalUserDataList = new();
         AnimalUserDataList.Load();
@@ -208,7 +219,7 @@ public class GameDataManager : Singleton<GameDataManager>
         }
 
         maxScore = 0;
-        currentGolds = 1000;
+        GoldTokenSystem.AddGold(1000);
         currentStamina = 10; // 5
         currentLevel = 1;
         nextExp = expToLevelUpDictionary[currentLevel];
@@ -222,8 +233,7 @@ public class GameDataManager : Singleton<GameDataManager>
         // TempCode //
 
         currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
-        currentGolds = Math.Clamp(currentGolds, minGold, maxGold);
-        OnGoldChangedInGameDataManager?.Invoke(currentGolds);
+
         onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
 
         //ClearInGameData();
@@ -255,21 +265,7 @@ public class GameDataManager : Singleton<GameDataManager>
     //}
     public void ApplyRunResult(int score)
     {
-        if (maxScore < score)
-        {
-            maxScore = score;
-        }
-        Debug.Log($"InGameScore : {score}");
-        Debug.Log($"MaxScore : {maxScore}");
-
-        currentGolds += score / 100;
-        currentGolds = Math.Clamp(currentGolds, minGold, maxGold);
-        OnGoldChangedInGameDataManager?.Invoke(currentGolds);
-        Debug.Log($"CurrentCoins To Add : {score / 100}");
-
-        onLevelExpInitialized?.Invoke(initialData);
-        onExpChanged?.Invoke(100);
-        currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
+        //수정필
     }
 
     private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
@@ -278,17 +274,14 @@ public class GameDataManager : Singleton<GameDataManager>
         {
             TryFindOutGameUIManager();
 
-            //if (maxScore < inGameScore)
-            //{
-            //    maxScore = inGameScore;
-            //}
-            //Debug.Log($"InGameScore : {inGameScore}");
-            //Debug.Log($"MaxScore : {maxScore}");
+            if (maxScore < inGameScore)
+            {
+                maxScore = inGameScore;
+            }
+            Debug.Log($"InGameScore : {inGameScore}");
+            Debug.Log($"MaxScore : {maxScore}");
 
-            //currentGolds += inGameScore / 100;
-            //currentGolds = Math.Clamp(currentGolds, minGold, maxGold);
-            //OnGoldChangedInGameDataManager?.Invoke(currentGolds);
-            //Debug.Log($"CurrentCoins To Add : {inGameScore / 100}");
+            GoldTokenSystem.AddGold(inGameScore / 100);
 
             onLevelExpInitialized?.Invoke(initialData);
             onExpChanged?.Invoke(100);
@@ -318,13 +311,11 @@ public class GameDataManager : Singleton<GameDataManager>
         currentExp = remainingExp;
         initialData.SaveLevelUpInfoData(currentLevel, this.nextExp, currentExp);
 
-        currentGolds += levelUpRewardDataDictionary[currentLevel].goldToAdd;
-        currentGolds = Math.Clamp(currentGolds, minGold, maxGold);
+        GoldTokenSystem.AddGold(levelUpRewardDataDictionary[currentLevel].goldToAdd);
 
         currentStamina += levelUpRewardDataDictionary[currentLevel].staminaToAdd;
         currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
 
-        OnGoldChangedInGameDataManager?.Invoke(currentGolds);
         onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
     }
 

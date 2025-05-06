@@ -13,7 +13,6 @@ public enum PassiveType
 
 public class PassiveEffectManager : InGameManager
 {
-
     public void PerformGlobalPassiveValues()
     {
         foreach (var data in GameDataManager.Instance.AnimalUserDataList.AnimalUserDatas)
@@ -97,7 +96,6 @@ public class PassiveEffectManager : InGameManager
     {
         GameManager.InGameCountManager.ScoreSystem.AddAdditionalFinalScoreRate(passiveEffectData.Value);
     }
-
     private void PerformCoinGainUp(PassiveEffectData passiveEffectData)
     {
 
