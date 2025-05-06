@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class AnimalUserData
 {
     public AnimalStatData AnimalStatData
@@ -18,12 +20,6 @@ public class AnimalUserData
         private set;
     }
 
-    public int TokenCount
-    {
-        get;
-        private set;
-    }
-
     public AnimalUserData(AnimalStatData animalStatData)
     {
         AnimalStatData = animalStatData;
@@ -38,7 +34,19 @@ public class AnimalUserData
         {
             IsUnlock = true;
             Level = 1;
-            TokenCount = 0;
+        }
+    }
+
+    public void UnlockAnimal()
+    {
+        if (!IsUnlock)
+        {
+            IsUnlock = true;
+            Level = 1;
+        }
+        else
+        {
+            Debug.Assert(false, $"Animal is already unlocked in : {AnimalStatData.AnimalID}");
         }
     }
 }

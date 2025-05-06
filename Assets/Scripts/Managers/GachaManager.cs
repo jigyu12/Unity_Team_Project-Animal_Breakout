@@ -13,6 +13,8 @@ public class GachaManager : MonoBehaviour, IManager
 
     private readonly List<GachaData> doGachaDataList = new();
     public static event Action<List<GachaData>> onGachaDo;
+    public static event Action<int> onAnimalUnlocked;
+    public static event Action<TokenType, int> onTokenAdded;
 
     public void GenerateRandomSingleGachaData()
     {
@@ -29,8 +31,8 @@ public class GachaManager : MonoBehaviour, IManager
         doGachaDataList.Add(gachaDataList[randomIndex]);
         
         onGachaDo?.Invoke(doGachaDataList);
-        
-        
+
+        SetAnimalUserDataByGachaResult();
         
         Debug.Log("Generate Single Gacha Data");
     }
@@ -54,8 +56,8 @@ public class GachaManager : MonoBehaviour, IManager
         }
         
         onGachaDo?.Invoke(doGachaDataList);
-        
-        
+
+        SetAnimalUserDataByGachaResult();
         
         Debug.Log("Generate Ten Times Gacha Data");
     }
@@ -81,5 +83,30 @@ public class GachaManager : MonoBehaviour, IManager
     public void SetOutGameManager(OutGameManager outGameManager)
     {
         this.outGameManager = outGameManager;
+    }
+
+    private void SetAnimalUserDataByGachaResult()
+    {
+        for (int i = 0; i < doGachaDataList.Count; ++i)
+        {
+            var acquiredAnimalId = doGachaDataList[i].AnimalID;
+            var animalUserList = GameDataManager.Instance.AnimalUserDataList;
+
+            if (animalUserList.GetAnimalUserData(acquiredAnimalId) is null)
+            {
+                Debug.Assert(false, "Invalid animal Id in Gacha.");
+            }
+            
+            if (!animalUserList.GetAnimalUserData(acquiredAnimalId).IsUnlock)
+            {
+                animalUserList.UnlockAnimal(acquiredAnimalId);
+                onAnimalUnlocked?.Invoke(acquiredAnimalId);
+            }
+            else
+            {
+                Debug.Log($"Give Token By AnimalId: {acquiredAnimalId}, name : {animalUserList.GetAnimalUserData(acquiredAnimalId).AnimalStatData.StringID}");
+                //onTokenAdded?.Invoke();
+            }
+        }
     }
 }
