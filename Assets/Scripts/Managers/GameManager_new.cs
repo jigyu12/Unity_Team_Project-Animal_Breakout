@@ -258,6 +258,10 @@ Application.targetFrameRate = 120;
         Debug.Log("Game Over!");
         UIManager.ShowGameOverPanel();
 
+        //게임 결과 적용
+        var result = gameUIManager.uiElements[(int)UIElementEnums.GameResultPanel] as ResultPanelUI;
+        GameDataManager.Instance.ApplyRunResult(inGameCountManager.ScoreSystem.GetFinalScore(), result.TrackingTime);
+
         SetTimeScale(0);
     }
 }
