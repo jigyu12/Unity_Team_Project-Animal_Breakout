@@ -14,7 +14,14 @@ public class GachaTenTimesButton : GachaButton
 
     public override void DoGacha()
     {
-        outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.DoTenTimesGacha));
+        if (GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey >= 10)
+        {
+            outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.DoTenTimesGacha));
+        }
+        else
+        {
+            outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.NotEnoughKeyToDoTenTimesGacha));
+        }
     }
     
     public void SetKeyImage(Sprite keyImage)

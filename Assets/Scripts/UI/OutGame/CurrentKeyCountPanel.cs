@@ -7,9 +7,14 @@ public class CurrentKeyCountPanel : MonoBehaviour
     [SerializeField] private Image keyImage;
     [SerializeField] private TMP_Text currentKeyCountText;
 
-    private void Start()
+    private void Awake()
     {
-        SetCurrentKeyCount(0);
+        GoldAnimalTokenKeySystem.onKeyChanged += SetCurrentKeyCountText;
+    }
+    
+    private void OnDestroy()
+    {
+        GoldAnimalTokenKeySystem.onKeyChanged -= SetCurrentKeyCountText;
     }
     
     public void SetKeyImage(Sprite keyImage)
@@ -17,7 +22,7 @@ public class CurrentKeyCountPanel : MonoBehaviour
         this.keyImage.sprite = keyImage;
     }
     
-    public void SetCurrentKeyCount(int currentKeyCount)
+    public void SetCurrentKeyCountText(int currentKeyCount)
     {
         currentKeyCountText.text = currentKeyCount.ToString();
     }

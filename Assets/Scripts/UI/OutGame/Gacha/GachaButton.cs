@@ -10,7 +10,7 @@ public abstract class GachaButton : MonoBehaviour
 
     [SerializeField] protected TMP_Text headerText;
     [SerializeField] protected TMP_Text countText;
-
+    
     protected virtual void Start()
     {
         GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
@@ -28,4 +28,20 @@ public abstract class GachaButton : MonoBehaviour
     }
 
     public abstract void DoGacha();
+    
+    public (int lackKey, long lackGold) GetLackKeyAndGoldCount(int keyCountToNeed)
+    {
+        if (GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey >= keyCountToNeed)
+        {
+            Debug.Log("Have enough key");
+            
+            return (0, 0);
+        }
+        
+        int currentKeyCount = keyCountToNeed - GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey;
+        long currentGold = GameDataManager.keyPrice * currentKeyCount;
+        
+        return (currentKeyCount, currentGold);
+    }
+
 }

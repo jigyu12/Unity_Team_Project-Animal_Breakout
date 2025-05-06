@@ -7,7 +7,7 @@ public class GameDataManager : Singleton<GameDataManager>
 {
     #region globalDataSystems
 
-    public GoldAnimalTokenSystem GoldAnimalTokenSystem
+    public GoldAnimalTokenKeySystem GoldAnimalTokenKeySystem
     {
         get;
         private set;
@@ -79,11 +79,13 @@ public class GameDataManager : Singleton<GameDataManager>
     public const int maxStamina = 999;
 
     private LevelUpInfoData initialData;
+    
+    public const long keyPrice = 5000;
 
     private void Awake()
     {
         //골드,토큰을 관리하는 시스템
-        GoldAnimalTokenSystem = new();
+        GoldAnimalTokenKeySystem = new();
 
         //플레이어 레벨, 경험치를 관리하는 시스템
         PlayerLevelSystem = new();
@@ -191,7 +193,7 @@ public class GameDataManager : Singleton<GameDataManager>
     private void SetInitializeData()
     {
         PlayerLevelSystem.SetInitialValue(1, 0);
-        GoldAnimalTokenSystem.SetInitialValue(1000, 1000, 1000, 1000);
+        GoldAnimalTokenKeySystem.SetInitialValue(100000, 1000, 1000, 1000, 12);
         StaminaSystem.SetInitialValue(10, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
 
         //// TempCode //
@@ -308,7 +310,7 @@ public class GameDataManager : Singleton<GameDataManager>
 
         //임시 값 적용
         var resultGold = score / 100;
-        GoldAnimalTokenSystem.AddGold(resultGold+ Mathf.FloorToInt(resultGold*additionalScoreGoldRate));
+        GoldAnimalTokenKeySystem.AddGold(resultGold+ Mathf.FloorToInt(resultGold*additionalScoreGoldRate));
         PlayerLevelSystem.AddExperienceValue(40 + Mathf.RoundToInt(playTime * 0.31f));
     }
 
@@ -406,19 +408,19 @@ public class GameDataManager : Singleton<GameDataManager>
         {
             case TokenType.BronzeToken:
                 {
-                    GoldAnimalTokenSystem.AddBronzeToken(tokenValue);
+                    GoldAnimalTokenKeySystem.AddBronzeToken(tokenValue);
                     
                     return;
                 }
             case TokenType.SilverToken:
                 {
-                    GoldAnimalTokenSystem.AddSliverToken(tokenValue);
+                    GoldAnimalTokenKeySystem.AddSliverToken(tokenValue);
                     
                     return;
                 }
             case TokenType.GoldToken:
                 {
-                    GoldAnimalTokenSystem.AddGoldToken(tokenValue);
+                    GoldAnimalTokenKeySystem.AddGoldToken(tokenValue);
                     
                     return;
                 }
