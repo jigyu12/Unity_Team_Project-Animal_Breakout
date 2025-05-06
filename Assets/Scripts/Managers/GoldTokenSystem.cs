@@ -12,7 +12,7 @@ public class GoldTokenSystem
     public const long minGold = 0;
     public const long maxGold = 99999999999;
 
-    public Action<long> onGoldChanged;
+    public static Action<long> onGoldChanged;
 
     public void AddGold(long value)
     {
