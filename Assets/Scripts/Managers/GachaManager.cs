@@ -30,6 +30,8 @@ public class GachaManager : MonoBehaviour, IManager
         
         onGachaDo?.Invoke(doGachaDataList);
         
+        
+        
         Debug.Log("Generate Single Gacha Data");
     }
     
@@ -52,6 +54,8 @@ public class GachaManager : MonoBehaviour, IManager
         }
         
         onGachaDo?.Invoke(doGachaDataList);
+        
+        
         
         Debug.Log("Generate Ten Times Gacha Data");
     }

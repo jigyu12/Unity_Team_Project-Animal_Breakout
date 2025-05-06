@@ -59,6 +59,10 @@ public class GachaTotalResultPanel : GachaPanelBase
             gachaResultSlot.transform.localPosition = Vector3.zero;
             
             gachaResultSlotList.Add(gachaResultSlot);
+            gachaResultSlot.TryGetComponent(out GachaResultSlotPanel gachaResultSlotPanel);
+            gachaResultSlotPanel.SetItemName(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                    gachaDataList[i].AnimalID).AnimalStatData
+                .StringID);
         }
     }
     

@@ -25,8 +25,13 @@ public class GachaSingleResultPanel : GachaPanelBase
         base.OnEnable();
 
         currentGachaDataIndex = 0;
-        
-        SetItemNameText((currentGachaDataIndex + 1).ToString());
+
+        if (gachaDataList is not null)
+        {
+            SetItemNameText(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                    gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData
+                .StringID);
+        }
     }
 
     protected override void OnDisable()
@@ -46,7 +51,9 @@ public class GachaSingleResultPanel : GachaPanelBase
         }
         else
         {
-            SetItemNameText((currentGachaDataIndex + 1).ToString());
+            SetItemNameText(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                    gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData
+                .StringID);
         }
     }
     
