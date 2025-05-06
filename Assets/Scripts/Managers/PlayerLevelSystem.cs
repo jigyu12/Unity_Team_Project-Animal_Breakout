@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
 
 public class PlayerLevelSystem 
 {
@@ -25,7 +22,7 @@ public class PlayerLevelSystem
 
     public float ExperienceRatio
     {
-        get => Mathf.Clamp01(ExperienceValue / experienceToNextLevel);
+        get => Mathf.Clamp01(ExperienceValue / ExperienceToNextLevel);
     }
 
     public int ExperienceValue
@@ -33,13 +30,27 @@ public class PlayerLevelSystem
         get;
         private set;
     }
+    
+    public int ExperienceToNextLevel
+    {
+        get => CurrentLevelData.Exp;
+    }
 
-    private int experienceToNextLevel = 10;
+    static public Action<int, int> onLevelChange; //level, maxexp
+    static public Action<int, int> onExperienceValueChanged; //add, sum
 
-    public Action<int, int> onLevelChange; //level, maxexp
-    public Action<int, int> onExperienceValueChanged; //add, sum
+    //추후에 로드가 생기면 사용할 함수
+    public void SetInitialValue(int level, int exp)
+    {
+        CurrentLevel = level;
+        ExperienceValue = exp;
 
-    public void AddValue(int value)
+        CurrentLevelData = DataTableManager.playerLevelDataTalble.GetLevelData(CurrentLevel);
+        //onExperienceValueChanged?.Invoke(value, ExperienceValue);
+        //onLevelChange?.Invoke(CurrentLevel, ExperienceToNextLevel);
+    }
+
+    public void AddExperienceValue(int value)
     {
         if (IsMaxLevel)
         {
@@ -48,20 +59,29 @@ public class PlayerLevelSystem
 
         ExperienceValue += value;
 
-        if (ExperienceValue >= experienceToNextLevel)
+        if (ExperienceValue >= ExperienceToNextLevel)
         {
-            ExperienceValue -= experienceToNextLevel;
+            ExperienceValue -= ExperienceToNextLevel;
             LevelUp();
         }
+
         onExperienceValueChanged?.Invoke(value, ExperienceValue);
     }
 
     private void LevelUp()
     {
-        //CurrentLevel = Mathf.Clamp(level + 1, 1, maxLevel);
-        //CurrentLevelData = DataTableManager.playerLevelDataTalble.GetLevelData(CurrentLevel);
-        //experienceToNextLevel = CurrentLevelData.Exp;
-        //onLevelChange?.Invoke(CurrentLevel, experienceToNextLevel);
+        CurrentLevel = Mathf.Clamp(CurrentLevel + 1, 1, maxLevel);
+        CurrentLevelData = DataTableManager.playerLevelDataTalble.GetLevelData(CurrentLevel);
+
+        //골드 보상 지급
+        GameDataManager.Instance.GoldTokenSystem.AddGold(CurrentLevelData.CoinReward);
+
+        //스태미나 보상 지급
+        GameDataManager.Instance.StaminaSystem.AddStamina(CurrentLevelData.LifeReward);
+
+        //티켓 보상 미적용
+
+        onLevelChange?.Invoke(CurrentLevel, ExperienceToNextLevel);
     }
 
 

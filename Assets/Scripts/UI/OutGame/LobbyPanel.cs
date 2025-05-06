@@ -9,7 +9,7 @@ public class LobbyPanel : MonoBehaviour
     [SerializeField] private Button gameStartButton;
 
     private readonly WaitForSeconds waitTime = new(Utils.GameStartWaitTime);
-    private readonly int staminaRequiredToStartGame = 5;
+    private readonly int staminaRequiredToStartGame = 1;
     private bool isStaminaEnoughToStartGame;
     
     public static event Action<int> onGameStartButtonClicked;
@@ -17,13 +17,13 @@ public class LobbyPanel : MonoBehaviour
     private void Awake()
     {
         GameDataManager.onSetStartAnimalIDInGameDataManager += OnSetStartAnimalIDInGameDataManagerHandler;
-        GameDataManager.onStaminaChangedInGameDataManager += OnStaminaChangedInGameDataManagerHandler;
+        StaminaSystem.onStaminaChanged += OnStaminaChangedInGameDataManagerHandler;
     }
 
     private void OnDestroy()
     {
         GameDataManager.onSetStartAnimalIDInGameDataManager -= OnSetStartAnimalIDInGameDataManagerHandler;
-        GameDataManager.onStaminaChangedInGameDataManager -= OnStaminaChangedInGameDataManagerHandler;
+        StaminaSystem.onStaminaChanged -= OnStaminaChangedInGameDataManagerHandler;
     }
 
     private void Start()
@@ -34,7 +34,7 @@ public class LobbyPanel : MonoBehaviour
         //GameDataManager.Instance.AnimalUserDataList가 해당 역할을 합니다.
 
         //if (GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID == 0 || !IsContainsAnimalIdInTable(GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID))
-        if (GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID == 0 || !IsContainsAnimalIdInTable(GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID) || !isStaminaEnoughToStartGame)
+        if (GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID == 0 || !IsContainsAnimalIdInTable(GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID) || !(GameDataManager.Instance.StaminaSystem.CurrentStamina>= staminaRequiredToStartGame))
         {
             gameStartButton.interactable = false;
         }
@@ -87,7 +87,7 @@ public class LobbyPanel : MonoBehaviour
         return animalIdList.Contains(animalID);
     }
 
-    private void OnStaminaChangedInGameDataManagerHandler(int currentStamina, int maxStamina)
+    private void OnStaminaChangedInGameDataManagerHandler(int currentStamina, int maxstaminaCanFilled)
     {
         if (currentStamina >= staminaRequiredToStartGame)
         {

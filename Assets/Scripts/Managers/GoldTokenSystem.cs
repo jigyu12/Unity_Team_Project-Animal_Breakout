@@ -14,12 +14,18 @@ public class GoldTokenSystem
 
     public static Action<long> onGoldChanged;
 
+    public void SetInitialValue(int gold, int token)
+    {
+        CurrentGolds = gold;
+    }
+
+
     public void AddGold(long value)
     {
-        Debug.Log($"Add gold : {value}");
-
         CurrentGolds += value;
         CurrentGolds = Math.Clamp(CurrentGolds, minGold, maxGold);
+
+        Debug.Log($"Add gold : {value}");
         onGoldChanged?.Invoke(CurrentGolds);
     }
 

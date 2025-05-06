@@ -15,7 +15,10 @@ public class ResultPanelUI : UIElement
     [SerializeField] InGameCountManager inGameCountManager;
     [SerializeField] TrackingTime trackingTime;
 
-
+    public float TrackingTime
+    {
+        get => trackingTime.PlayTime;
+    }
 
     public override void Initialize()
     {
