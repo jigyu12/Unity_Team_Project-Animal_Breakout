@@ -24,7 +24,7 @@ public class ReviveContinueUI : UIElement
     private bool isDisplayed = false;
     private int deathCount = 0;
 
-    public void Show()
+    public override void Show()
     {
         if (deathCount >= gameManager.restartChanceCount)
         {
