@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityCommunity.UnitySingleton;
 public class ReviveContinueUI : UIElement
 {
     [SerializeField] private GameObject panel;
@@ -24,7 +25,7 @@ public class ReviveContinueUI : UIElement
     private bool isDisplayed = false;
     private int deathCount = 0;
 
-    public void Show()
+    public override void Show()
     {
         if (deathCount >= gameManager.restartChanceCount)
         {
@@ -46,8 +47,12 @@ public class ReviveContinueUI : UIElement
 
     public void OnClickContinue()
     {
+        //광고 후 리퀘스트 컨티뉴 호출
+        NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, gameUIManager.RequestContinue, Time.timeScale);
         Hide();
-        gameUIManager.RequestContinue(); // CountDown 대신 요청 방식
+
+     
+        //gameUIManager.RequestContinue();
     }
 
     public void OnClickGiveUp()

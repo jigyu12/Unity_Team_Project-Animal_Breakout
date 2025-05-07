@@ -7,11 +7,20 @@ public class PausePanelUI : UIElement
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button giveUpButton;
     [SerializeField] private Button settingsButton;
+    [SerializeField] private Button settingsOkbutton;
+    [SerializeField] private Button koreanButton;
+    [SerializeField] private Button englishButton;
+
+
     [SerializeField] private GameObject realGiveUpPanel;
     [SerializeField] private GameObject pausePanelRoot;
+    [SerializeField] private GameObject OptionPanel;
+
+
     [SerializeField] private TMP_Text countdownText;
 
     [SerializeField] private ResultPanelUI resultPanelUI;
+
 
     public override void Initialize()
     {
@@ -26,6 +35,14 @@ public class PausePanelUI : UIElement
         settingsButton.onClick.RemoveAllListeners();
         settingsButton.onClick.AddListener(OnSettingsClicked);
 
+        settingsOkbutton.onClick.RemoveAllListeners();
+        settingsOkbutton.onClick.AddListener(OnSettingOkClikced);
+
+    }
+    private void Start()
+    {
+        koreanButton.onClick.AddListener(() => LocalizationUtility.ChangeLocaleNow("Korean (South Korea) (ko-KR)"));
+        englishButton.onClick.AddListener(() => LocalizationUtility.ChangeLocaleNow("English (United States) (en-US)"));
     }
 
     private void OnResumeClicked()
@@ -44,20 +61,25 @@ public class PausePanelUI : UIElement
 
     private void OnSettingsClicked()
     {
-        Debug.Log("Settings 버튼 클릭");
+        OptionPanel.SetActive(true);
+    }
+    private void OnSettingOkClikced()
+    {
+        OptionPanel.SetActive(false);
     }
 
     public void Hide()
     {
         pausePanelRoot.SetActive(false);
     }
-    public void Show()
+    public override void Show()
     {
         pausePanelRoot.SetActive(true);
     }
     public void ShowCountdown()
     {
         countdownText.gameObject.SetActive(true);
+
     }
 
     public void HideCountdown()

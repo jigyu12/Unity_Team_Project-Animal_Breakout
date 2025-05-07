@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,10 +27,10 @@ public static class AlertPanelConfirmButtonFuncFactory
                     if (!isSuccessPayKey)
                     {
                         Debug.Assert(false, "Not Enough Key");
-                        
+
                         return;
                     }
-                    
+
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
                     outGameManager.GachaManager.GenerateRandomSingleGachaData();
@@ -40,16 +41,22 @@ public static class AlertPanelConfirmButtonFuncFactory
             {
                 AlertPanelConfirmButtonFuncType.DoSingleGachaByAds, () =>
                 {
+
+                    Debug.Log("Gacha By Ads");
+                    //보상형 광고 재생
+                    NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, ()=>
+        {
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
                     outGameManager.GachaManager.GenerateRandomSingleGachaData();
-
-                    Debug.Log("Gacha By Ads");
-
                     onGachaByAds?.Invoke();
 
                     outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
                     outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
+        }
+        , Time.timeScale);
+
+
                 }
             },
             {
@@ -59,10 +66,10 @@ public static class AlertPanelConfirmButtonFuncFactory
                     if (!isSuccessPayKey)
                     {
                         Debug.Assert(false, "Not Enough Key");
-                        
+
                         return;
                     }
-                    
+
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
                     outGameManager.GachaManager.GenerateRandomTenTimeGachaData();
@@ -79,7 +86,7 @@ public static class AlertPanelConfirmButtonFuncFactory
                     if (isSuccessPayGold)
                     {
                         GameDataManager.Instance.GoldAnimalTokenKeySystem.PayKey(GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey);
-                        
+
                         GameObject.FindGameObjectWithTag("OutGameManager")
                             .TryGetComponent(out OutGameManager outGameManager);
                         outGameManager.GachaManager.GenerateRandomSingleGachaData();
@@ -104,7 +111,7 @@ public static class AlertPanelConfirmButtonFuncFactory
                     if (isSuccessPayGold)
                     {
                         GameDataManager.Instance.GoldAnimalTokenKeySystem.PayKey(GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey);
-                        
+
                         GameObject.FindGameObjectWithTag("OutGameManager")
                             .TryGetComponent(out OutGameManager outGameManager);
                         outGameManager.GachaManager.GenerateRandomTenTimeGachaData();

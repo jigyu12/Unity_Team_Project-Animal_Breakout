@@ -12,12 +12,14 @@ public class GachaPanelBase : MonoBehaviour
 
     protected GachaManager gachaManager;
     protected List<GachaData> gachaDataList;
+    protected List<bool> animalFirstUnlockInfoList;
     
     protected OutGameUIManager outGameUIManager;
 
     protected virtual void Awake()
     {
         GachaManager.onGachaDo += OnGachaDoHandler;
+        GachaManager.onAnimalFirstUnlockedListSet += OnAnimalFirstUnlockedListSetHandler;
     }
     
     protected virtual void Start()
@@ -53,6 +55,7 @@ public class GachaPanelBase : MonoBehaviour
         }
         
         GachaManager.onGachaDo -= OnGachaDoHandler;
+        GachaManager.onAnimalFirstUnlockedListSet -= OnAnimalFirstUnlockedListSetHandler;
     }
 
     protected virtual void OnTouchPerformed(InputAction.CallbackContext context)
@@ -63,5 +66,10 @@ public class GachaPanelBase : MonoBehaviour
     protected void OnGachaDoHandler(List<GachaData> gachaDataList)
     {
         this.gachaDataList = gachaDataList;
+    }
+    
+    protected void OnAnimalFirstUnlockedListSetHandler(List<bool> animalUnlockInfoList)
+    {
+        this.animalFirstUnlockInfoList = animalUnlockInfoList;
     }
 }

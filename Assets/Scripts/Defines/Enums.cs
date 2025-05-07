@@ -275,7 +275,7 @@ public enum FullScreenType
 
 public enum AnimalGradeType
 {
-    OneStar,
+    OneStar = 1,
     TwoStar,
     ThreeStar,
 }

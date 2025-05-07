@@ -15,6 +15,9 @@ public class GachaManager : MonoBehaviour, IManager
     public static event Action<List<GachaData>> onGachaDo;
     public static event Action<int> onAnimalUnlocked;
     public static event Action<TokenType, int> onTokenAdded;
+    
+    private readonly List<bool> animalFirstUnlockInfoList = new();
+    public static event Action<List<bool>> onAnimalFirstUnlockedListSet;
 
     public void GenerateRandomSingleGachaData()
     {
@@ -30,9 +33,13 @@ public class GachaManager : MonoBehaviour, IManager
         doGachaDataList.Clear();
         doGachaDataList.Add(gachaDataList[randomIndex]);
         
+        animalFirstUnlockInfoList.Clear();
+        
         onGachaDo?.Invoke(doGachaDataList);
 
         SetAnimalUserDataByGachaResult();
+        
+        onAnimalFirstUnlockedListSet?.Invoke(animalFirstUnlockInfoList);
         
         Debug.Log("Generate Single Gacha Data");
     }
@@ -47,6 +54,7 @@ public class GachaManager : MonoBehaviour, IManager
         yield return null;
         
         doGachaDataList.Clear();
+        animalFirstUnlockInfoList.Clear();
         
         for (int i = 0; i < 10; ++i)
         {
@@ -58,6 +66,8 @@ public class GachaManager : MonoBehaviour, IManager
         onGachaDo?.Invoke(doGachaDataList);
 
         SetAnimalUserDataByGachaResult();
+        
+        onAnimalFirstUnlockedListSet?.Invoke(animalFirstUnlockInfoList);
         
         Debug.Log("Generate Ten Times Gacha Data");
     }
@@ -91,20 +101,25 @@ public class GachaManager : MonoBehaviour, IManager
         {
             var acquiredAnimalId = doGachaDataList[i].AnimalID;
             var animalUserList = GameDataManager.Instance.AnimalUserDataList;
+            var animalUserData = animalUserList.GetAnimalUserData(acquiredAnimalId);
 
-            if (animalUserList.GetAnimalUserData(acquiredAnimalId) is null)
+            if (animalUserData is null)
             {
                 Debug.Assert(false, "Invalid animal Id in Gacha.");
             }
             
-            if (!animalUserList.GetAnimalUserData(acquiredAnimalId).IsUnlock)
+            if (!animalUserData.IsUnlock)
             {
                 animalUserList.UnlockAnimal(acquiredAnimalId);
                 onAnimalUnlocked?.Invoke(acquiredAnimalId);
+                
+                animalFirstUnlockInfoList.Add(true);
             }
             else
             {
                 onTokenAdded?.Invoke(doGachaDataList[i].TokenType, doGachaDataList[i].TokenValue);
+                
+                animalFirstUnlockInfoList.Add(false);
                 
                 Debug.Log($"Give Token By AnimalId: {acquiredAnimalId}, name : {animalUserList.GetAnimalUserData(acquiredAnimalId).AnimalStatData.StringID}");
             }

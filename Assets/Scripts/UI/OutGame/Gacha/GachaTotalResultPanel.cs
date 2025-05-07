@@ -60,9 +60,18 @@ public class GachaTotalResultPanel : GachaPanelBase
             
             gachaResultSlotList.Add(gachaResultSlot);
             gachaResultSlot.TryGetComponent(out GachaResultSlotPanel gachaResultSlotPanel);
-            gachaResultSlotPanel.SetItemName(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
-                    gachaDataList[i].AnimalID).AnimalStatData
-                .StringID);
+            
+            if (animalFirstUnlockInfoList[i])
+            {
+                gachaResultSlotPanel.SetItemName(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                        gachaDataList[i].AnimalID).AnimalStatData
+                    .StringID);
+            }
+            else
+            {
+                gachaResultSlotPanel.SetItemName(gachaDataList[i].TokenType.ToString() + $" By {GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[i].AnimalID).AnimalStatData.StringID}");
+            }
+            
         }
     }
     
