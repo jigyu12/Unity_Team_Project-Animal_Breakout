@@ -10,7 +10,7 @@ using UnityEngine;
         public int Exp { get; set; }
         public int LifeReward { get; set; }
         public int CoinReward { get; set; }
-        public int TicketReward { get; set; }
+        //public int TicketReward { get; set; }
         public int TicketValue { get; set; }
     }
 public class PlayerLevelDataTable : DataTable

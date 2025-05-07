@@ -91,12 +91,13 @@ public class PlayerManager : InGameManager
         playerStatus = playerGameObject.GetComponent<PlayerStatus>();
         playerMove = playerGameObject.GetComponent<PlayerMove>();
 
-        string dataPath = "ScriptableData/AnimalStat/Animal_{0}";
+        //string dataPath = "ScriptableData/AnimalStat/Animal_{0}";
+        //var statData = Resources.Load<AnimalStatData>(string.Format(dataPath, animalID));
 
-        var statData = Resources.Load<AnimalStatData>(string.Format(dataPath, animalID));
-        playerStatus.statData = statData;
+
+        playerStatus.statData = GameDataManager.Instance.AnimalUserDataList.CurrentAnimalPlayer.AnimalStatData;
         playerStatus.Initialize();
-        playerAttack.InitializeValue(statData.AttackPower);
+        playerAttack.InitializeValue(GameDataManager.Instance.AnimalUserDataList.CurrentAnimalPlayer.AttackPower);
 
         playerRotator.SetPlayerMove(playerMove);
 
