@@ -5,12 +5,15 @@ using UnityEngine.UI;
 
 public class UnlockedAnimalPanel : MonoBehaviour
 {
-    private AnimalDataTable.AnimalRawData animalStatData;
+    //Raw데이터말고 AnimalUserData로 변동
+    //private AnimalDataTable.AnimalRawData animalStatData;
+
+    private AnimalUserData animalUserData;
     [SerializeField] private Button animalChooseButton;
     [SerializeField] private TMP_Text tempAnimalNameText;
     [SerializeField] private AnimalChooseButton animalChooseButtonScript;
     
-    public int animalId => animalStatData.AnimalID;
+    public int animalId => animalUserData.AnimalStatData.AnimalID;
     
     public static event Action<int> onSetStartAnimalIDInPanel;
 
@@ -19,16 +22,16 @@ public class UnlockedAnimalPanel : MonoBehaviour
         animalChooseButton.onClick.RemoveAllListeners();
         animalChooseButton.onClick.AddListener(() =>
         {
-            onSetStartAnimalIDInPanel?.Invoke(animalStatData.AnimalID);
+            onSetStartAnimalIDInPanel?.Invoke(animalUserData.AnimalStatData.AnimalID);
             
-            Debug.Log($"Set Start Animal ID :{animalStatData.AnimalID}");
+            Debug.Log($"Set Start Animal ID :{animalUserData.AnimalStatData.AnimalID}");
         });
     }
     
-    public void SetAnimalStatData(AnimalDataTable.AnimalRawData statData)
+    public void SetAnimalUserData(AnimalUserData userData)
     {
-        animalStatData = statData;
-        tempAnimalNameText.text = statData.StringID;
-        animalChooseButtonScript.SetAnimalID(statData.AnimalID);
+        animalUserData = userData;
+        tempAnimalNameText.text = animalUserData.AnimalStatData.StringID;
+        animalChooseButtonScript.SetAnimalID(animalUserData.AnimalStatData.AnimalID);
     }
 }

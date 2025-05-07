@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class BaseCollisionBehaviour : ICollisionBehaviour
 {
-    public static Action<long> OnScoreChanged;
+    //public static Action<long> OnScoreChanged;
 
     public static Action<int> OnCoinAcquired;
 

@@ -438,6 +438,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlertDescriptionText
       objectReference: {fileID: 0}
+    - target: {fileID: 5879277478616463772, guid: 6b66195c513393842b1568a76d22eafe, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6580553895752357006, guid: 6b66195c513393842b1568a76d22eafe, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -464,7 +468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6580553895752357006, guid: 6b66195c513393842b1568a76d22eafe, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 700
+      value: 750
       objectReference: {fileID: 0}
     - target: {fileID: 6580553895752357006, guid: 6b66195c513393842b1568a76d22eafe, type: 3}
       propertyPath: m_SizeDelta.y

@@ -10,14 +10,14 @@ public class GoldInfoUI : MonoBehaviour
 
     private void Awake()
     {
-        GameDataManager.OnGoldChangedInGameDataManager += SetGoldInfoText;
+        GoldAnimalTokenKeySystem.onGoldChanged += SetGoldInfoText;
     }
 
     private void OnDestroy()
     {
-        GameDataManager.OnGoldChangedInGameDataManager -= SetGoldInfoText;
+        GoldAnimalTokenKeySystem.onGoldChanged -= SetGoldInfoText;
     }
-    
+
     private void SetGoldInfoText(long currentGold)
     {
         goldInfoText.text = currentGold.ToString();
