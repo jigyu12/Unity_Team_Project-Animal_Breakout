@@ -22,7 +22,7 @@ public class StaminaSystem
     private float timeToGetNextStamina = 480f;
     private float currentTimeToGetNextStamina = 0f;
 
-    static public Action<int, int> onStaminaChanged;
+    public static Action<int, int> onStaminaChanged;
 
     public Coroutine coAddStamina = null;
 

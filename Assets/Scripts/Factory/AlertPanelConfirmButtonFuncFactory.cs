@@ -26,10 +26,10 @@ public static class AlertPanelConfirmButtonFuncFactory
                     if (!isSuccessPayKey)
                     {
                         Debug.Assert(false, "Not Enough Key");
-                        
+
                         return;
                     }
-                    
+
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
                     outGameManager.GachaManager.GenerateRandomSingleGachaData();
@@ -59,10 +59,10 @@ public static class AlertPanelConfirmButtonFuncFactory
                     if (!isSuccessPayKey)
                     {
                         Debug.Assert(false, "Not Enough Key");
-                        
+
                         return;
                     }
-                    
+
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
                     outGameManager.GachaManager.GenerateRandomTenTimeGachaData();
@@ -78,8 +78,9 @@ public static class AlertPanelConfirmButtonFuncFactory
 
                     if (isSuccessPayGold)
                     {
-                        GameDataManager.Instance.GoldAnimalTokenKeySystem.PayKey(GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey);
-                        
+                        GameDataManager.Instance.GoldAnimalTokenKeySystem.PayKey(GameDataManager.Instance
+                            .GoldAnimalTokenKeySystem.CurrentKey);
+
                         GameObject.FindGameObjectWithTag("OutGameManager")
                             .TryGetComponent(out OutGameManager outGameManager);
                         outGameManager.GachaManager.GenerateRandomSingleGachaData();
@@ -91,7 +92,8 @@ public static class AlertPanelConfirmButtonFuncFactory
                         GameObject.FindGameObjectWithTag("OutGameManager")
                             .TryGetComponent(out OutGameManager outGameManager);
                         outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
-                        outGameManager.OutGameUIManager.ShowAlertSingleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.NotEnoughGold));
+                        outGameManager.OutGameUIManager.ShowAlertSingleButtonPanel(
+                            AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.NotEnoughGold));
                     }
                 }
             },
@@ -99,12 +101,14 @@ public static class AlertPanelConfirmButtonFuncFactory
                 AlertPanelConfirmButtonFuncType.NotEnoughKeyToDoTenTimesGacha, () =>
                 {
                     var isSuccessPayGold = GameDataManager.Instance.GoldAnimalTokenKeySystem.PayGold
-                        (GameDataManager.keyPrice * (10 - GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey));
+                    (GameDataManager.keyPrice *
+                     (10 - GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey));
 
                     if (isSuccessPayGold)
                     {
-                        GameDataManager.Instance.GoldAnimalTokenKeySystem.PayKey(GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey);
-                        
+                        GameDataManager.Instance.GoldAnimalTokenKeySystem.PayKey(GameDataManager.Instance
+                            .GoldAnimalTokenKeySystem.CurrentKey);
+
                         GameObject.FindGameObjectWithTag("OutGameManager")
                             .TryGetComponent(out OutGameManager outGameManager);
                         outGameManager.GachaManager.GenerateRandomTenTimeGachaData();
@@ -116,7 +120,38 @@ public static class AlertPanelConfirmButtonFuncFactory
                         GameObject.FindGameObjectWithTag("OutGameManager")
                             .TryGetComponent(out OutGameManager outGameManager);
                         outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
-                        outGameManager.OutGameUIManager.ShowAlertSingleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.NotEnoughGold));
+                        outGameManager.OutGameUIManager.ShowAlertSingleButtonPanel(
+                            AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.NotEnoughGold));
+                    }
+                }
+            },
+            {
+                AlertPanelConfirmButtonFuncType.CheckStaminaPurchase, () =>
+                {
+                    GameObject.FindGameObjectWithTag("OutGameManager")
+                        .TryGetComponent(out OutGameManager outGameManager);
+                    if (StaminaSystem.maxStamina < 
+                        GameDataManager.Instance.StaminaSystem.CurrentStamina + GameDataManager.Instance.staminaToAdd)
+                    {
+                        outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                        outGameManager.OutGameUIManager.ShowAlertSingleButtonPanel(
+                            AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.TooManyStaminaToPurchaseStamina));
+                        
+                        return;
+                    }
+                    
+                    var isSuccessPayGold = GameDataManager.Instance.GoldAnimalTokenKeySystem.PayGold
+                    (GameDataManager.Instance.staminaGoldUseCost);
+                    if (isSuccessPayGold)
+                    {
+                        GameDataManager.Instance.StaminaSystem.AddStamina(GameDataManager.Instance.staminaToAdd);
+                        outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                    }
+                    else
+                    {
+                        outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                        outGameManager.OutGameUIManager.ShowAlertSingleButtonPanel(
+                            AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.NotEnoughGold));
                     }
                 }
             },

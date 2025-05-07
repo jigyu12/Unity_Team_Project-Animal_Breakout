@@ -214,6 +214,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &32341414 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5803784458392569350, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 1818268446}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &32341416 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5087359147766541773, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 1818268446}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32341414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &32341419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32341414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6468b5acc549f4aafede29f2edb3f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  staminaGoldUseButton: {fileID: 32341416}
+  staminaGoldUseText: {fileID: 1620601461}
+  staminaGoldUseCost: 20000
+  staminaToAdd: 50
 --- !u!1 &49479381 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4342414904274084885, guid: b09c0e319db304947ac265879a69abde, type: 3}
@@ -2374,6 +2406,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3917ec237afadc24bbd2ed5345e9eb16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &383308582 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5803784458392569350, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 4273871807160277723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &383308584 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5087359147766541773, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 4273871807160277723}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383308582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &383308587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383308582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6468b5acc549f4aafede29f2edb3f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  staminaGoldUseButton: {fileID: 383308584}
+  staminaGoldUseText: {fileID: 1148600258}
+  staminaGoldUseCost: 2500
+  staminaToAdd: 5
 --- !u!224 &419715539 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7485399955163642556, guid: 9b30ac9053b9eb1468374bb3122dd568, type: 3}
@@ -5529,10 +5593,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8391539239691832713, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+      propertyPath: m_text
+      value: X 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5803784458392569350, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 975224748}
   m_SourcePrefab: {fileID: 100100000, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
 --- !u!224 &932388885 stripped
 RectTransform:
@@ -5570,6 +5641,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &975224743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5803784458392569350, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 932388884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &975224745 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5087359147766541773, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 932388884}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975224743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &975224748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975224743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6468b5acc549f4aafede29f2edb3f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  staminaGoldUseButton: {fileID: 975224745}
+  staminaGoldUseText: {fileID: 1532875609}
+  staminaGoldUseCost: 13000
+  staminaToAdd: 30
 --- !u!1 &984197072
 GameObject:
   m_ObjectHideFlags: 0
@@ -6778,6 +6881,17 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1148600258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 601856168353327959, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 4273871807160277723}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1156456871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9091,6 +9205,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1532875609 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 601856168353327959, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 932388884}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1536802866 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1978057911408088175, guid: b09c0e319db304947ac265879a69abde, type: 3}
@@ -9350,11 +9475,65 @@ Canvas:
   m_CorrespondingSourceObject: {fileID: 5259445034013959551, guid: 2c93494aabfdcb140a0ae2cc93abd22f, type: 3}
   m_PrefabInstance: {fileID: 1569580003}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1620601461 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 601856168353327959, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 1818268446}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1625815287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5803784458392569350, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 1825957755}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1625815289 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5087359147766541773, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 1825957755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625815287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1625815292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625815287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6468b5acc549f4aafede29f2edb3f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  staminaGoldUseButton: {fileID: 1625815289}
+  staminaGoldUseText: {fileID: 1672934927}
+  staminaGoldUseCost: 7000
+  staminaToAdd: 15
 --- !u!224 &1659779178 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7511597665901317913, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
   m_PrefabInstance: {fileID: 4273871807160277723}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1672934927 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 601856168353327959, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+  m_PrefabInstance: {fileID: 1825957755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1690956554 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1201205949074119487, guid: 9b30ac9053b9eb1468374bb3122dd568, type: 3}
@@ -10133,10 +10312,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8391539239691832713, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+      propertyPath: m_text
+      value: X 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5803784458392569350, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 32341419}
   m_SourcePrefab: {fileID: 100100000, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
 --- !u!224 &1818268447 stripped
 RectTransform:
@@ -10291,10 +10477,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8391539239691832713, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+      propertyPath: m_text
+      value: X 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5803784458392569350, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1625815292}
   m_SourcePrefab: {fileID: 100100000, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
 --- !u!224 &1825957756 stripped
 RectTransform:
@@ -12726,10 +12919,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8391539239691832713, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+      propertyPath: m_text
+      value: X 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5803784458392569350, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 383308587}
   m_SourcePrefab: {fileID: 100100000, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
 --- !u!1001 &6459561274419667347
 PrefabInstance:
@@ -13158,9 +13358,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5038346037342580185, guid: 223ac941959624a4887396d5ef31c113, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202743605958569970, guid: 223ac941959624a4887396d5ef31c113, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8435341823863394643, guid: 223ac941959624a4887396d5ef31c113, type: 3}
       propertyPath: m_Name
       value: GoldInfoUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 9038678758651023656, guid: 223ac941959624a4887396d5ef31c113, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13175,6 +13387,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1795924180}
     m_Modifications:
+    - target: {fileID: 2574715098074324141, guid: 27baf670853640747bff12a41da1076a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3255216959977342275, guid: 27baf670853640747bff12a41da1076a, type: 3}
       propertyPath: m_Name
       value: StaminaInfoUI
