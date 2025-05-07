@@ -21,6 +21,12 @@ public class AnimalUserData
         private set;
     }
 
+    public int AttackPower
+    {
+        get;
+        private set;
+    }
+
     public bool IsMaxLevel
     {
         get => Level >= maxLevel;
@@ -55,5 +61,10 @@ public class AnimalUserData
         {
             Debug.Assert(false, $"Animal is already unlocked in : {AnimalStatData.AnimalID}");
         }
+    }
+
+    public void LevelUp()
+    {
+
     }
 }
