@@ -35,19 +35,18 @@ public class AnimalUserData
     public AnimalUserData(AnimalStatData animalStatData)
     {
         AnimalStatData = animalStatData;
-        UpdateData();
+        //파라메터로 로드할때 뭔갈 받아와서 프로퍼티들 값을 적용해준다.
+        //아래코드는 테스트용이며 무조건 사라져야할 코드임
+        if (GameDataManager.Instance.AnimalUserDataList.initialAnimalID == AnimalStatData.AnimalID)
+        {
+            UnlockAnimal();
+        }
     }
 
     public void UpdateData()
     {
-        //파라메터로 로드할때 뭔갈 받아와서 프로퍼티들 값을 적용해준다.
-        //아래코드는 테스트용이며 무조건 사라져야할 코드임
-        if(GameDataManager.Instance.AnimalUserDataList.initialAnimalID == AnimalStatData.AnimalID)
-        {
-            IsUnlock = true;
-            Level = 1;
-
-        }
+        //저장한대로 복구하는 코드 들어있어야
+        UpdateAttackPower();
     }
 
     public void UnlockAnimal()
@@ -61,10 +60,23 @@ public class AnimalUserData
         {
             Debug.Assert(false, $"Animal is already unlocked in : {AnimalStatData.AnimalID}");
         }
+
+        UpdateData();
     }
 
     public void LevelUp()
     {
+        Level++;
+        UpdateAttackPower();
+    }
 
+    private void UpdateAttackPower()
+    {
+        AttackPower = AnimalStatData.AttackPower;
+
+        if (Level > 1)
+        {
+            AttackPower += DataTableManager.enforceAnimalDataTable.Get(AnimalStatData.Grade, Level).AttackPower;
+        }
     }
 }
