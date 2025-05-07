@@ -32,6 +32,7 @@ public class GoldAnimalTokenKeySystem
         private set;
     }
     
+   
     public const int minToken = 0;
     public const int maxToken = 9999;
 
@@ -162,6 +163,54 @@ public class GoldAnimalTokenKeySystem
         onGoldTokenChanged?.Invoke(CurrentGoldToken);
 
         return true;
+    }
+    
+    public int GetCurrentToken(int grade)
+    {
+        if(grade==1)
+        {
+            return CurrentBronzeToken;
+        }
+        else if(grade==2)
+        {
+            return CurrentSliverToken;
+        }
+        else
+        {
+            return CurrentGoldToken;
+        }
+    }
+
+    public void AddToken(int grade, int value)
+    {
+        if (grade == 1)
+        {
+            PayBronzeToken(value);
+        }
+        else if (grade == 2)
+        {
+            PaySliverToken(value);
+        }
+        else
+        {
+            PayGoldToken(value);
+        }
+    }
+
+    public void PayToken(int grade, int value)
+    {
+        if (grade == 1)
+        {
+            AddBronzeToken(value);
+        }
+        else if (grade == 2)
+        {
+            AddSliverToken(value);
+        }
+        else
+        {
+            AddGoldToken(value);
+        }
     }
     
     public void AddKey(int value)

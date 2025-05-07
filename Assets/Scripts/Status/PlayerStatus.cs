@@ -30,6 +30,7 @@ public class PlayerStatus : MonoBehaviour
     public float JumpPower => statData != null ? statData.Jump : 0;
     private PlayerManager playerManager;
     public bool IsReviving { get; private set; }
+    [SerializeField] private GameObject InvisibleEffect;
 
     public void SetReviving(bool value)
     {
@@ -97,6 +98,14 @@ public class PlayerStatus : MonoBehaviour
         isInvincible = value;
         gameObject.layer = isInvincible ? invincibleLayer : defaultLayer;
         onInvincibleChanged?.Invoke(value);
+        if (isInvincible == true)
+        {
+            InvisibleEffect.SetActive(true);
+        }
+        else
+        {
+            InvisibleEffect.SetActive(false);
+        }
     }
 
     [ContextMenu("Toggle Invincible")]

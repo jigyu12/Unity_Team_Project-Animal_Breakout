@@ -565,10 +565,6 @@ PrefabInstance:
       propertyPath: inGameCountManager
       value: 
       objectReference: {fileID: 716618695}
-    - target: {fileID: 3902418862635165259, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
-      propertyPath: experienceStatus
-      value: 
-      objectReference: {fileID: 951183743}
     - target: {fileID: 4975118034009109002, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1247,17 +1243,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2559409536719249635, guid: 2160d3f4ae9d74343b9511880802e9d5, type: 3}
   m_PrefabInstance: {fileID: 7839503856580356427}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &951183743 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4125935275656221216, guid: 2160d3f4ae9d74343b9511880802e9d5, type: 3}
-  m_PrefabInstance: {fileID: 7839503856580356427}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885620131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ee9999956aa63e4bae32a25787d6e7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1017687417
 GameObject:
   m_ObjectHideFlags: 0
@@ -2721,10 +2706,6 @@ PrefabInstance:
       propertyPath: way
       value: 
       objectReference: {fileID: 1161090864}
-    - target: {fileID: 3118429217595167945, guid: 2160d3f4ae9d74343b9511880802e9d5, type: 3}
-      propertyPath: gameUIManager
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4125935275656221216, guid: 2160d3f4ae9d74343b9511880802e9d5, type: 3}
       propertyPath: levelGageBar
       value: 
