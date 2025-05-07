@@ -56,6 +56,10 @@ public class GameUIManager : InGameManager
         {
             element.SetUIManager(GameManager, this);
         }
+    }
+
+    public void InitializedUIElements()
+    {
         //Start보다 이전에 값을 세팅해야하는 UI들의 UIElements은 Initialze에서 해주면 된다
         foreach (var element in uiElements)
         {

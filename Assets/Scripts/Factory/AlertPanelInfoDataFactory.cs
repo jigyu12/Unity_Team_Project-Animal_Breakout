@@ -35,6 +35,69 @@ public static class AlertPanelInfoDataFactory
                     
                     return alertPanelInfoData;
                 }
+            case AlertPanelInfoDataType.DoSingleGacha:
+                {
+                    AlertPanelInfoData alertPanelInfoData = new();
+
+                    alertPanelInfoData.description = "1개 열쇠 사용하여 진행하시겠습니까?";
+                    alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.DoSingleGacha);
+                    alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
+                    
+                    return alertPanelInfoData;
+                }
+            case AlertPanelInfoDataType.DoSingleGachaByAds:
+                {
+                    AlertPanelInfoData alertPanelInfoData = new();
+                    
+                    alertPanelInfoData.description = "광고를 보고 진행하시겠습니까?";
+                    alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.DoSingleGachaByAds);
+                    alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
+                    
+                    return alertPanelInfoData;
+                }
+            case AlertPanelInfoDataType.DoTenTimesGacha:
+                {
+                    AlertPanelInfoData alertPanelInfoData = new();
+                    
+                    alertPanelInfoData.description = "10개 열쇠 사용하여 진행하시겠습니까?";
+                    alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.DoTenTimesGacha);
+                    alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
+                    
+                    return alertPanelInfoData;
+                }
+            case AlertPanelInfoDataType.NotEnoughKeyToDoSingleGacha:
+                {
+                    AlertPanelInfoData alertPanelInfoData = new();
+                    
+                    GameObject.FindGameObjectWithTag("GachaSingleButton").TryGetComponent(out GachaSingleButton gachaSingleButton);
+                    var lackKeyAndGold = gachaSingleButton.GetLackKeyAndGoldCount(1);
+                    alertPanelInfoData.description = $"열쇠 {lackKeyAndGold.lackKey}가 부족합니다.\n{lackKeyAndGold.lackGold} 골드를 사용하여 열쇠를 구매하시겠습니까?";
+                    alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.NotEnoughKeyToDoSingleGacha);
+                    alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
+                    
+                    return alertPanelInfoData;
+                }
+            case AlertPanelInfoDataType.NotEnoughKeyToDoTenTimesGacha:
+                {
+                    AlertPanelInfoData alertPanelInfoData = new();
+                    
+                    GameObject.FindGameObjectWithTag("GachaTenTimesButton").TryGetComponent(out GachaTenTimesButton gachaTenTimesButton);
+                    var lackKeyAndGold = gachaTenTimesButton.GetLackKeyAndGoldCount(10);
+                    alertPanelInfoData.description = $"열쇠 {lackKeyAndGold.lackKey}가 부족합니다.\n{lackKeyAndGold.lackGold} 골드를 사용하여 열쇠를 구매하시겠습니까?";
+                    alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.NotEnoughKeyToDoTenTimesGacha);
+                    alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
+                    
+                    return alertPanelInfoData;
+                }
+            case AlertPanelInfoDataType.NotEnoughGold:
+                {
+                    AlertPanelInfoData alertPanelInfoData = new();
+
+                    alertPanelInfoData.description = "골드가 부족합니다.";
+                    alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.CloseAlertPanel);
+                    
+                    return alertPanelInfoData;
+                }
         }
         
         Debug.Assert(false, $"Cant find AlertPanelInfoData in AlertPanelInfoDataType: {type}");

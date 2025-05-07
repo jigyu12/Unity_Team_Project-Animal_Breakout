@@ -158,46 +158,20 @@ Application.targetFrameRate = 120;
 
         var findManagers = GameObject.FindGameObjectsWithTag("Manager").ToList();
 
-
-        //findManagers.Find((manager) => manager.TryGetComponent<GameUIManager>(out gameUIManager));
-        //gameUIManager.SetGameManager(this);
-        //managers.Add(gameUIManager);
         gameUIManager = AddManagerToManagers<GameUIManager>(findManagers);
 
-
-        //findManagers.Find((manager) => manager.TryGetComponent<MapObjectManager>(out mapObjectManager));
-        //mapObjectManager.SetGameManager(this);
-        //managers.Add(mapObjectManager);
         mapObjectManager = AddManagerToManagers<MapObjectManager>(findManagers);
 
-        //findManagers.Find((manager) => manager.TryGetComponent<TempleRunStyleRoadMaker>(out roadMaker));
-        //roadMaker.SetGameManager(this);
-        //managers.Add(roadMaker);
         roadMaker = AddManagerToManagers<TempleRunStyleRoadMaker>(findManagers);
 
-        //findManagers.Find((manager) => manager.TryGetComponent<PlayerManager>(out playerManager));
-        //playerManager.SetGameManager(this);
-        //managers.Add(playerManager);
         playerManager = AddManagerToManagers<PlayerManager>(findManagers);
 
-        //findManagers.Find((manager) => manager.TryGetComponent<CameraManager>(out cameraManager));
-        //cameraManager.SetGameManager(this);
-        //managers.Add(cameraManager);
         cameraManager = AddManagerToManagers<CameraManager>(findManagers);
 
-        //findManagers.Find((manager) => manager.TryGetComponent<SkillManager>(out skillManager));
-        //skillManager.SetGameManager(this);
-        //managers.Add(skillManager);
         skillManager = AddManagerToManagers<SkillManager>(findManagers);
 
-        //findManagers.Find((manager) => manager.TryGetComponent<StageManager>(out stageManager));
-        //stageManager.SetGameManager(this);
-        //managers.Add(stageManager);
         stageManager = AddManagerToManagers<StageManager>(findManagers);
 
-        //findManagers.Find((manager) => manager.TryGetComponent<BossManager>(out bossManager));
-        //bossManager.SetGameManager(this);
-        //managers.Add(bossManager);
         bossManager = AddManagerToManagers<BossManager>(findManagers);
 
         inGameCountManager = AddManagerToManagers<InGameCountManager>(findManagers);
@@ -210,6 +184,8 @@ Application.targetFrameRate = 120;
         {
             manager.Initialize();
         }
+
+        gameUIManager.InitializedUIElements();
 
         GameDataManager.Instance.Initialize();
     }
@@ -281,6 +257,10 @@ Application.targetFrameRate = 120;
     {
         Debug.Log("Game Over!");
         UIManager.ShowGameOverPanel();
+
+        //게임 결과 적용
+        var result = gameUIManager.uiElements[(int)UIElementEnums.GameResultPanel] as ResultPanelUI;
+        GameDataManager.Instance.ApplyRunResult(inGameCountManager.ScoreSystem.GetFinalScore(), result.TrackingTime);
 
         SetTimeScale(0);
     }

@@ -4,7 +4,7 @@ public class JuniorResearcherCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        OnScoreChanged?.Invoke(scoreToAdd);
+        //OnScoreChanged?.Invoke(scoreToAdd);
 
         var list = other.GetComponents<IItemTaker>();
         foreach (var taker in list)
@@ -18,7 +18,7 @@ public class ResearcherCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        OnScoreChanged?.Invoke(scoreToAdd);
+        //OnScoreChanged?.Invoke(scoreToAdd);
 
         var list = other.GetComponents<IItemTaker>();
         foreach (var taker in list)
@@ -33,7 +33,7 @@ public class SeniorResearcherCollisionBehaviour : BaseCollisionBehaviour
 {
     protected override void OnCollisionAction(GameObject self, Collider other)
     {
-        OnScoreChanged?.Invoke(scoreToAdd);
+        //OnScoreChanged?.Invoke(scoreToAdd);
 
         var list = other.GetComponents<IItemTaker>();
         foreach (var taker in list)

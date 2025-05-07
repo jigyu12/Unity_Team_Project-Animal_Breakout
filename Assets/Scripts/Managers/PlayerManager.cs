@@ -104,12 +104,17 @@ public class PlayerManager : InGameManager
         //moveForward.speed = playerStatus.MoveSpeed;
         moveForward.speed = playerStatus.MoveSpeed;
 
-        //playerMove.moveSpeed = 5f;       
+        //playerMove.moveSpeed = 5f;
+        
+        //점수 카운터를 플레이어에 추가 
+        playerGameObject.GetComponent<ScoreCounter>().Initialize(GameManager.InGameCountManager.ScoreSystem);
     }
 
     public void SetPlayer()
     {
-        animalID = GameDataManager.Instance.StartAnimalID;
+        var animalUserData = GameDataManager.Instance.AnimalUserDataList.CurrentAnimalPlayer;
+
+        animalID = animalUserData.AnimalStatData.AnimalID;
         Debug.Log($"Set Player Start With Animal ID: {animalID}");
 
         ActivatePlayer();
@@ -126,8 +131,8 @@ public class PlayerManager : InGameManager
 
             Debug.Log($"Player {animalID} spawned successfully.");
 
-            //임시로 grade는 1 레벨은 5를 준다.
-            GameManager.PassiveEffectManager.InitializePassiveEffectData(playerStatus.statData.passive, 1, 5);
+           
+            GameManager.PassiveEffectManager.PerformGlobalPassiveValues();
         }
         else
         {

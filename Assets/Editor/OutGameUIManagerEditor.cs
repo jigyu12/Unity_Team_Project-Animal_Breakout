@@ -5,18 +5,20 @@ using UnityEngine;
 public class OutGameUIManagerEditor : Editor
 {
     private int addExpValue;
-    
+
     private SwitchableCanvasType switchableCanvasType;
     private bool isVisibleOtherCanvas;
-    private bool isVisibleShowCanvasType = true; 
-    
+    private bool isVisibleShowCanvasType = true;
+
+    private DefaultCanvasType selectedDefaultCanvasType = DefaultCanvasType.Lobby;
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        
+
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Add Experience Test", EditorStyles.boldLabel);
-        
+
         addExpValue = EditorGUILayout.IntField("Experience Amount", addExpValue);
 
         if (GUILayout.Button("Add Exp"))
@@ -31,7 +33,7 @@ public class OutGameUIManagerEditor : Editor
                 Debug.LogWarning("Exp can only be added while the game is running.");
             }
         }
-        
+
         EditorGUILayout.Space(10);
         EditorGUILayout.LabelField("Editor Canvas Visualization Test", EditorStyles.boldLabel);
 
@@ -45,7 +47,7 @@ public class OutGameUIManagerEditor : Editor
         }
 
         EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField("Alert Panel 테스트", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Alert Panel Test", EditorStyles.boldLabel);
 
         OutGameUIManager manager = (OutGameUIManager)target;
 
@@ -64,9 +66,21 @@ public class OutGameUIManagerEditor : Editor
             manager.HideAlertPanelSpawnPanelRoot();
         }
 
+        EditorGUILayout.Space(10);
+        EditorGUILayout.LabelField("FullScreen Panel Test", EditorStyles.boldLabel);
+
+        if (GUILayout.Button("Show Gacha FullScreen Panel"))
+        {
+            manager.ShowFullScreenPanel(FullScreenType.GachaScreen);
+        }
+        if (GUILayout.Button("Hide FullScreen Panel"))
+        {
+            manager.HideFullScreenPanel();
+        }
+
         GUI.enabled = true;
     }
-    
+
     private void InvokeVisualizeCanvasInEditor()
     {
         var allSwitchableCanvases = FindObjectsOfType<SwitchableCanvas>(true);

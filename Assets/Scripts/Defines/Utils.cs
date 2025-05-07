@@ -15,6 +15,10 @@ public static class Utils
     public const string AdditionalStatusEffectTableName= "AdditionalStatusEffect_Table";
     public const string InGameLevelExperienceValueTableName= "InGameLevelExperienceValue_Table";
     public const string PassiveEffectTableName= "PassiveEffect_Table";
+    public const string GachaTableName= "Gacha_Table";
+    public const string PlayerLevelTableName = "PlayerLevel_Table";
+    public const string EnforceAnimalTableName = "EnforceAnimal_Table";
+    
     public const string GameManagerTag = "GameManager";
 
     public const string AnimalSelectedString = "선택됨";
@@ -106,5 +110,20 @@ public static class Utils
         }
         
         throw new System.ArgumentException("The sum of input chances must be equal to 1f.", nameof(chances));
+    }
+
+    public static int GetIndexRandomChanceHitInCumulativeChanceList(List<float> cumulativeChances)
+    {
+        float randValue = Random.value;
+        
+        for(int i = 0; i < cumulativeChances.Count; i++)
+        {
+            if (randValue <= cumulativeChances[i])
+            {
+                return i;
+            }
+        }
+        
+        throw new System.ArgumentException("The sum of input chances must be equal to 1f.", nameof(cumulativeChances));
     }
 }
