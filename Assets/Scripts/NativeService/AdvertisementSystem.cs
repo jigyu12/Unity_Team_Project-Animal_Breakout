@@ -113,7 +113,8 @@ public class AdvertisementSystem : PersistentMonoSingleton<AdvertisementSystem>
 
     }
 
-    public void ShowRewardedAdvertisement(Action onGetReward, Action onAdScreenClosed)
+    //광고 보상 수령 액션, 광고창 끌때 액션, 광고창 끌때 타임스케일
+    public void ShowRewardedAdvertisement(Action onGetReward, Action onAdScreenClosed, float timeScale = 0)
     {
         const string rewardMsg =
             "Rewarded ad rewarded the user. Type: {0}, amount: {1}.";
@@ -122,6 +123,7 @@ public class AdvertisementSystem : PersistentMonoSingleton<AdvertisementSystem>
         {
             this.onGetReward = onGetReward;
             this.onAdScreenClosed = onAdScreenClosed;
+            this.onAdScreenClosed += () => Time.timeScale = timeScale;
 
             RegisterRewardedAdEventHandlers(rewardedAd);
             //볼륨조절이 필요하다면 삽입

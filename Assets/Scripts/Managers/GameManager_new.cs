@@ -27,7 +27,7 @@ public class GameManager_new : MonoBehaviour
     private GameState previousState;
     private GameState currentState;
 
-    private float previousTimeScale;
+    public float previousTimeScale;
     private float previousStopTimeScale;
 
     #region manager

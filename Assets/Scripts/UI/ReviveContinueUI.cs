@@ -48,8 +48,10 @@ public class ReviveContinueUI : UIElement
     public void OnClickContinue()
     {
         //광고 후 리퀘스트 컨티뉴 호출
-        NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, gameUIManager.RequestContinue);
+        NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, gameUIManager.RequestContinue, Time.timeScale);
         Hide();
+
+     
         //gameUIManager.RequestContinue();
     }
 
