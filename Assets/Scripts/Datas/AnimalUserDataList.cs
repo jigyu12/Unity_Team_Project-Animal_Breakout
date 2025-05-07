@@ -16,7 +16,7 @@ public class AnimalUserDataList : ISaveLoad
     }
 
     //만약 저장본도 없는 초기 플레이어라면, 이 ID로 시작
-    public int initialAnimalID= 100112;
+    public int initialAnimalID = 100112;
 
     public IReadOnlyList<AnimalUserData> AnimalUserDatas
     {
@@ -29,9 +29,10 @@ public class AnimalUserDataList : ISaveLoad
 
     public AnimalUserDataList()
     {
+        Load(SaveLoadSystem.Instance.CurrentData.animalUserDataTableSave);
     }
 
-    
+
 
     public AnimalUserData GetAnimalUserData(int animalID)
     {
@@ -47,22 +48,22 @@ public class AnimalUserDataList : ISaveLoad
     {
         CurrentAnimalPlayer = GetAnimalUserData(animalID);
     }
-    
+
     public void UnlockAnimal(int animalID)
     {
-        if(!animalUserDataTable.ContainsKey(animalID))
+        if (!animalUserDataTable.ContainsKey(animalID))
         {
             Debug.Assert(false, $"{animalID} is not contained in animalUserDataTable.");
-            
+
             return;
         }
-        
+
         animalUserDataTable[animalID].UnlockAnimal();
     }
 
     public void Save()
     {
-        var saveData = SaveLoadSystem.Instance.CurrentData.animalUserDataListSave;
+        var saveData = SaveLoadSystem.Instance.CurrentData.animalUserDataTableSave = new();
         saveData.currentAnimalID = CurrentAnimalID;
         foreach (var animal in animalUserDataList)
         {
@@ -100,7 +101,12 @@ public class AnimalUserDataList : ISaveLoad
 
     public void Load(AnimalUserDataListSave saveData)
     {
-        Dictionary<int, AnimalUserDataSave> animalUserDataTableSave = saveData.animalUserDataList.ToDictionary(kvp=>kvp.animalID);
+        if (saveData == null)
+        {
+            Load();
+            return;
+        }
+
         string dataPath = "ScriptableData/AnimalStat/Animal_{0}";
         foreach (var animalID in DataTableManager.animalDataTable.Keys)
         {
@@ -109,7 +115,14 @@ public class AnimalUserDataList : ISaveLoad
 
             if (!animalUserDataTable.ContainsKey(animalID))
             {
-                animalUserData.Load(animalUserDataTableSave[animalID]);
+                if (saveData.animalUserDataTable.ContainsKey(animalID))
+                {
+                    animalUserData.Load(saveData.animalUserDataTable[animalID]);
+                }
+                else
+                {
+                    animalUserData.Load();
+                }
                 animalUserDataTable.Add(animalID, animalUserData);
                 animalUserDataList.Add(animalUserData);
             }

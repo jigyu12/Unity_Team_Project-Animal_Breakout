@@ -21,7 +21,7 @@ public abstract class DataTable
     //    private set;
     //}
 
-    public int currentVersion = 0;
+    //public int currentVersion = 0;
 
     public abstract void Load(string filename);
 

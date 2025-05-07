@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class AnimalUserDataListSave
 {
-    public List<AnimalUserDataSave> animalUserDataList=new();
+    public Dictionary<int, AnimalUserDataSave> animalUserDataTable = new();
 
     public int currentAnimalID;
 }

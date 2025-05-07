@@ -11,7 +11,7 @@ public abstract class SaveData
 
 public class SaveDataV1 : SaveData
 {
-    public AnimalUserDataListSave animalUserDataListSave = new();
+    public AnimalUserDataListSave animalUserDataTableSave = new();
     public DateTime saveTime = DateTime.Now;
 
     public SaveDataV1()
