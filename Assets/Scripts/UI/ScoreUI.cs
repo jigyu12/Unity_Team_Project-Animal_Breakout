@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class ScoreUI : UIElement
 {
@@ -19,6 +20,7 @@ public class ScoreUI : UIElement
 
     private void UpdateScoreText(long currentScore)
     {
-        scoreText.text = $"Score: {currentScore}";
+        scoreText.text = $"{currentScore}";
+        // scoreText.text = LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, "INGAME_SCORETEXT", currentScore.ToString());
     }
 }

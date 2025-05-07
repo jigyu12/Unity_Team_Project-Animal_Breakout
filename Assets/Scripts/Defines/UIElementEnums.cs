@@ -11,7 +11,7 @@ public enum UIElementEnums
 	SupportSkillSlot,
 	AttackSkillSlot,
 	Panel,
-	PausePanel,
+	PausePanelFrame,
 	GameResultPanel ,
 	RevivalPanel,
 }
