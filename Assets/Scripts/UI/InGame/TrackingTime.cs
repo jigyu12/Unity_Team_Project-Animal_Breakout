@@ -31,6 +31,6 @@ public class TrackingTime : MonoBehaviour
     {
         int minutes = (int)(PlayTime / 60);
         int seconds = (int)(PlayTime % 60);
-        return $"{minutes}분 {seconds}초";
+        return $"{minutes} : {seconds}";
     }
 }

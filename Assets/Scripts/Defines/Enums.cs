@@ -53,8 +53,8 @@ public enum RewardCoinItemType
     BronzeCoin = 110101,
     SilverCoin,
     GoldCoin,
-    
-    
+
+
     PlatinumCoin,
     DiamondCoin,
 
@@ -113,7 +113,7 @@ public enum DefaultCanvasType
     Animal,
 
     Menu,
-    
+
     FullScreen,
 }
 
@@ -128,7 +128,7 @@ public enum SwitchableShopPanelType
 {
     NormalGacha,
     Stamina,
-    
+
     SpecialGachaDeprecated,
 }
 
@@ -145,7 +145,7 @@ public enum BossHpConditionType
 }
 
 public enum BossPatternUseCountConditionType
-{ 
+{
     PatternUseCountAtLeast,
 }
 
@@ -165,14 +165,14 @@ public enum BossAttackPatternActionType
     TestAttackToLane0 = -3,
     TestAttackToLane1 = -2,
     TestAttackToLane2 = -1,
-    
+
     Boss1AttackAnimation1,
     Boss1AttackAnimation2,
-    
+
     Boss1AttackPattern1,
     Boss1AttackPattern2,
     Boss1AttackPattern3,
-    
+
     BossDeathAnimation,
 }
 
@@ -185,7 +185,7 @@ public enum BossConditionNodeType
     Boss1Phase1Pattern2ChanceCondition,
     Boss1Phase2Pattern1ChanceCondition,
     Boss1Phase2Pattern2ChanceCondition,
-    
+
     IsBossDeadCondition,
     IsBossAliveCondition,
 }
@@ -243,7 +243,7 @@ public enum AlertPanelInfoDataType
 {
     TestCloseAlertPanelSingle = -2,
     TestCloseAlertPanelDouble,
-    
+
     QuitGame,
     DoSingleGacha,
     DoSingleGachaByAds,
@@ -254,7 +254,7 @@ public enum AlertPanelInfoDataType
 }
 
 public enum RunPhaseType
-{ 
+{
     EarlyPhase,
     MiddlePhase,
     LateMiddlePhase,
