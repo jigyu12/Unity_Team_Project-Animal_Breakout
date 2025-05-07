@@ -678,6 +678,17 @@ MonoBehaviour:
   instantiateObj2: {fileID: 6128400909352889456, guid: 2292d44dd2bf4fd45beba74186a0c552, type: 3}
   objList1: []
   objList2: []
+--- !u!114 &83181485 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
+  m_PrefabInstance: {fileID: 4054455691724017053}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83181481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee1da3dd6bb380489d3989f411a21ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &90225076
 GameObject:
   m_ObjectHideFlags: 0
@@ -1846,6 +1857,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   staticCanvas: {fileID: 271345780}
   dynamicCanvas: {fileID: 271345779}
+--- !u!223 &271345786 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 9170904059728209099, guid: 2c93494aabfdcb140a0ae2cc93abd22f, type: 3}
+  m_PrefabInstance: {fileID: 271345776}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &301157777
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3111,6 +3127,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4edce04c13bd053459e5c8eaef5ce858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &558442097 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5802816178323728882, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
+  m_PrefabInstance: {fileID: 4177459958516455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &560902416
 GameObject:
   m_ObjectHideFlags: 0
@@ -3897,6 +3918,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1084048270}
     m_Modifications:
+    - target: {fileID: 1608841772412484788, guid: dba1b847f99b7434da67df59690a81f3, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608841772412484788, guid: dba1b847f99b7434da67df59690a81f3, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608841772412484788, guid: dba1b847f99b7434da67df59690a81f3, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 83181485}
+    - target: {fileID: 1608841772412484788, guid: dba1b847f99b7434da67df59690a81f3, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608841772412484788, guid: dba1b847f99b7434da67df59690a81f3, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SortUnlockAnimalPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608841772412484788, guid: dba1b847f99b7434da67df59690a81f3, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: OutGameUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1608841772412484788, guid: dba1b847f99b7434da67df59690a81f3, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4573903999201930825, guid: dba1b847f99b7434da67df59690a81f3, type: 3}
       propertyPath: m_Name
       value: AnimalListSortToggle
@@ -3999,6 +4048,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9172091550710168302, guid: dba1b847f99b7434da67df59690a81f3, type: 3}
   m_PrefabInstance: {fileID: 716378714}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &716378717 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1608841772412484788, guid: dba1b847f99b7434da67df59690a81f3, type: 3}
+  m_PrefabInstance: {fileID: 716378714}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &718949270 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4217097115614235319, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
@@ -6400,6 +6460,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1301141000143273685, guid: 0065fcda7fd546448be87884832176a5, type: 3}
   m_PrefabInstance: {fileID: 7718236432145847448}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1069552467 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1882655759552763728, guid: 0065fcda7fd546448be87884832176a5, type: 3}
+  m_PrefabInstance: {fileID: 7718236432145847448}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1077444711 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4237767001954713358, guid: 9b30ac9053b9eb1468374bb3122dd568, type: 3}
@@ -10750,6 +10821,11 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
+--- !u!224 &1899218490 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1195420087677430211, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
+  m_PrefabInstance: {fileID: 4177459958516455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1907561430 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6103503960085303949, guid: b09c0e319db304947ac265879a69abde, type: 3}
@@ -12394,6 +12470,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 271345786}
+    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: menuCanvas
       value: 
       objectReference: {fileID: 898884918}
@@ -12408,7 +12488,15 @@ PrefabInstance:
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: animalCanvas
       value: 
-      objectReference: {fileID: 271345782}
+      objectReference: {fileID: 271345786}
+    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
+      propertyPath: rectTransform
+      value: 
+      objectReference: {fileID: 558442097}
+    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
+      propertyPath: rectTransform2
+      value: 
+      objectReference: {fileID: 1899218490}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: gachaResultSlot
       value: 
@@ -12426,6 +12514,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1849237577376199906, guid: 5f6390b547adbc94b919785f3192cde2, type: 3}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
+      propertyPath: animalStatDropDown
+      value: 
+      objectReference: {fileID: 1069552467}
+    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: AlertPanelSpawnPanel
       value: 
       objectReference: {fileID: 1771671899}
@@ -12433,6 +12525,10 @@ PrefabInstance:
       propertyPath: alertPanelSpawnPanel
       value: 
       objectReference: {fileID: 1771671899}
+    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
+      propertyPath: animalListSortToggle
+      value: 
+      objectReference: {fileID: 716378717}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: lockAnimalPanelPrefab
       value: 

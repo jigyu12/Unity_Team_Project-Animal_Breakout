@@ -282,3 +282,9 @@ public enum AnimalGradeType
     TwoStar,
     ThreeStar,
 }
+
+public enum AnimalStatDropDownSortType
+{
+    Level = 0,
+    Grade,
+}

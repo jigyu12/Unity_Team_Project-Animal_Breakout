@@ -27,7 +27,7 @@ public class UnlockedAnimalPanel : MonoBehaviour
             Debug.Log($"Set Start Animal ID :{animalUserData.AnimalStatData.AnimalID}");
         });
     }
-    
+
     public void SetAnimalUserData(AnimalUserData userData)
     {
         animalUserData = userData;
