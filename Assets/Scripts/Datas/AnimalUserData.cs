@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AnimalUserData
+public class AnimalUserData : ISaveLoad
 {
     public AnimalStatData AnimalStatData
     {
@@ -43,12 +43,6 @@ public class AnimalUserData
         }
     }
 
-    public void UpdateData()
-    {
-        //저장한대로 복구하는 코드 들어있어야
-        UpdateAttackPower();
-    }
-
     public void UnlockAnimal()
     {
         if (!IsUnlock)
@@ -61,7 +55,7 @@ public class AnimalUserData
             Debug.Assert(false, $"Animal is already unlocked in : {AnimalStatData.AnimalID}");
         }
 
-        UpdateData();
+        Load();
     }
 
     public void LevelUp()
@@ -78,5 +72,25 @@ public class AnimalUserData
         {
             AttackPower += DataTableManager.enforceAnimalDataTable.Get(AnimalStatData.Grade, Level).AttackPower;
         }
+    }
+
+    public void Save()
+    {
+        var saveData = SaveLoadSystem.Instance.CurrentData.animalUserDataListSave;
+        saveData.animalUserDataList.Add(new AnimalUserDataSave { animalID = AnimalStatData.AnimalID, level = Level, isUnlock = IsUnlock });
+    }
+
+    public void Load()
+    {
+        Level = 1;
+        IsUnlock = false;
+        UpdateAttackPower();
+    }
+
+    public void Load(AnimalUserDataSave saveData)
+    {
+        Level = saveData.level;
+        IsUnlock = saveData.isUnlock;
+        UpdateAttackPower();
     }
 }

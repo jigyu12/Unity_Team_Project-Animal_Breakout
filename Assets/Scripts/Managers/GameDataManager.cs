@@ -123,6 +123,7 @@ public class GameDataManager : Singleton<GameDataManager>
         GachaManager.onTokenAdded += OnTokenAddedHandler;
 
         onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
+        SaveLoadSystem.Instance.Save();
     }
 
     private void OnDestroy()
@@ -141,6 +142,8 @@ public class GameDataManager : Singleton<GameDataManager>
         OutGameUIManager.onAnimalUnlockPanelInstantiated -= onAnimalUnlockPanelInstantiatedHandler;
         
         GachaManager.onTokenAdded -= OnTokenAddedHandler;
+
+        
     }
 
 

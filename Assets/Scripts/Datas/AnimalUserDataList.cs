@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class AnimalUserDataList
+public class AnimalUserDataList : ISaveLoad
 {
     public AnimalUserData CurrentAnimalPlayer
     {
@@ -30,32 +31,7 @@ public class AnimalUserDataList
     {
     }
 
-    public void Load()
-    {
-        //저장을 하면 여기서 불러오는 코드가 있으면 됨
-        //임시로 데이터 테이블기준으로 일단 세팅
-        string dataPath = "ScriptableData/AnimalStat/Animal_{0}";
-        foreach (var animalID in DataTableManager.animalDataTable.Keys)
-        {
-            var statData = Resources.Load<AnimalStatData>(string.Format(dataPath, animalID));
-            var animalUserData = new AnimalUserData(statData);
-
-            if (!animalUserDataTable.ContainsKey(animalID))
-            {
-                animalUserData.UpdateData();
-                animalUserDataTable.Add(animalID, animalUserData);
-                animalUserDataList.Add(animalUserData);
-            }
-            else
-            {
-                Debug.LogError($"AnimalDataList has {animalID} data already");
-            }
-        }
-
-        // public int startAnimalID { get; private set; } = 100112;
-        //코드를 여기에 이식했다 이것도 데이터가 로드될 수 있을때 변동되어야 하는 코드임
-        SetCurrentAnimalPlayer(initialAnimalID);
-    }
+    
 
     public AnimalUserData GetAnimalUserData(int animalID)
     {
@@ -82,5 +58,67 @@ public class AnimalUserDataList
         }
         
         animalUserDataTable[animalID].UnlockAnimal();
+    }
+
+    public void Save()
+    {
+        var saveData = SaveLoadSystem.Instance.CurrentData.animalUserDataListSave;
+        saveData.currentAnimalID = CurrentAnimalID;
+        foreach (var animal in animalUserDataList)
+        {
+            animal.Save();
+        }
+    }
+
+
+    public void Load()
+    {
+        //저장을 하면 여기서 불러오는 코드가 있으면 됨
+        //임시로 데이터 테이블기준으로 일단 세팅
+        string dataPath = "ScriptableData/AnimalStat/Animal_{0}";
+        foreach (var animalID in DataTableManager.animalDataTable.Keys)
+        {
+            var statData = Resources.Load<AnimalStatData>(string.Format(dataPath, animalID));
+            var animalUserData = new AnimalUserData(statData);
+
+            if (!animalUserDataTable.ContainsKey(animalID))
+            {
+                animalUserData.Load();
+                animalUserDataTable.Add(animalID, animalUserData);
+                animalUserDataList.Add(animalUserData);
+            }
+            else
+            {
+                Debug.LogError($"AnimalDataList has {animalID} data already");
+            }
+        }
+
+        // public int startAnimalID { get; private set; } = 100112;
+        //코드를 여기에 이식했다 이것도 데이터가 로드될 수 있을때 변동되어야 하는 코드임
+        SetCurrentAnimalPlayer(initialAnimalID);
+    }
+
+    public void Load(AnimalUserDataListSave saveData)
+    {
+        Dictionary<int, AnimalUserDataSave> animalUserDataTableSave = saveData.animalUserDataList.ToDictionary(kvp=>kvp.animalID);
+        string dataPath = "ScriptableData/AnimalStat/Animal_{0}";
+        foreach (var animalID in DataTableManager.animalDataTable.Keys)
+        {
+            var statData = Resources.Load<AnimalStatData>(string.Format(dataPath, animalID));
+            var animalUserData = new AnimalUserData(statData);
+
+            if (!animalUserDataTable.ContainsKey(animalID))
+            {
+                animalUserData.Load(animalUserDataTableSave[animalID]);
+                animalUserDataTable.Add(animalID, animalUserData);
+                animalUserDataList.Add(animalUserData);
+            }
+            else
+            {
+                Debug.LogError($"AnimalDataList has {animalID} data already");
+            }
+        }
+
+        SetCurrentAnimalPlayer(saveData.currentAnimalID);
     }
 }
