@@ -28,7 +28,7 @@ public class RunStageUI : UIElement
     {
         moveForward.moveForwardSum = 0;
     }
-    public void Show()
+    public override void Show()
     {
         panel.SetActive(true);
     }

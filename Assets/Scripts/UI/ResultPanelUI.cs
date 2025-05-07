@@ -15,7 +15,10 @@ public class ResultPanelUI : UIElement
     [SerializeField] InGameCountManager inGameCountManager;
     [SerializeField] TrackingTime trackingTime;
 
-
+    public float TrackingTime
+    {
+        get => trackingTime.PlayTime;
+    }
 
     public override void Initialize()
     {
@@ -26,17 +29,14 @@ public class ResultPanelUI : UIElement
 
         goMainButton.onClick.RemoveAllListeners();
         goMainButton.onClick.AddListener(OnGoMainClicked);
-        gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, SetCoinCount);
-        gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, SetScoreCount);
-        gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, SetExpCount);
         // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, trackingTime.StartTracking);
         // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameStop, trackingTime.StopTracking);
         // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, trackingTime.StopTracking);
-        gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, SetTimeCount);
+        gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, SetReslutValues);
         // panelRoot.SetActive(false);
     }
 
-    public void Show()
+    public override void Show()
     {
         panelRoot.SetActive(true);
     }
@@ -51,6 +51,15 @@ public class ResultPanelUI : UIElement
         Debug.Log("!!!!");
         gameUIManager.OnMainTitleButtonClicked();
     }
+
+    public void SetReslutValues()
+    {
+        SetCoinCount();
+        SetScoreCount();
+        SetExpCount();
+        SetTimeCount();
+    }
+
     public void SetCoinCount()
     {
         int coinCount = inGameCountManager.coinCount;
@@ -58,12 +67,12 @@ public class ResultPanelUI : UIElement
     }
     public void SetScoreCount()
     {
-        long scoreCount = inGameCountManager.ScoreCount;
+        long scoreCount = inGameCountManager.ScoreSystem.GetFinalScore();
         scoreCountText.text = $"{scoreCount}";
     }
     public void SetExpCount()
     {
-        long expCount = inGameCountManager.ScoreCount;
+        long expCount = gameManager.PlayerManager.playerExperience.TotalExperienceValue;
         expCountText.text = $"{expCount}";
     }
     public void SetTimeCount()

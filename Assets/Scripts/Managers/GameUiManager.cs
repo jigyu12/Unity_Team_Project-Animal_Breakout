@@ -29,9 +29,10 @@ public class GameUIManager : InGameManager
     [SerializeField] public BossWayUI bossWayUI;
     [SerializeField] public BossTimeLimit bossTimeLimit;
     [SerializeField] public BossDebuffUIController bossDebuffUI;
-
-
-
+    [SerializeField] public SupportSlotUI supportSlotUI;
+    [SerializeField] public AttackSlotUI attackSlotUI;
+    [SerializeField] private Button koreanButton; // 임시 한글 설정 버튼
+    [SerializeField] private Button englishButton; //임시 영어 설정 버튼
 
     public override void Initialize()
     {
@@ -55,6 +56,10 @@ public class GameUIManager : InGameManager
         {
             element.SetUIManager(GameManager, this);
         }
+    }
+
+    public void InitializedUIElements()
+    {
         //Start보다 이전에 값을 세팅해야하는 UI들의 UIElements은 Initialze에서 해주면 된다
         foreach (var element in uiElements)
         {

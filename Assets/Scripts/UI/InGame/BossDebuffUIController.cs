@@ -23,12 +23,17 @@ public class BossDebuffUIController : UIElement
         }
     }
 
+    private const float iconSpacing = 60f;
+
     public DebuffIcon AddDebuff(string debuffId)
     {
         if (activeIcons.ContainsKey(debuffId))
             return activeIcons[debuffId];
 
         GameObject iconObj = Instantiate(debuffIconPrefab, debuffIconArea);
+
+        int count = activeIcons.Count; // 이미 몇 개 있는지 세기
+        iconObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(count * iconSpacing, 0); // x축 이동
 
         if (debuffIconMap.TryGetValue(debuffId, out var icon))
         {
@@ -40,6 +45,7 @@ public class BossDebuffUIController : UIElement
 
         return debuffIcon;
     }
+
 
     public void RemoveDebuff(string debuffId)
     {

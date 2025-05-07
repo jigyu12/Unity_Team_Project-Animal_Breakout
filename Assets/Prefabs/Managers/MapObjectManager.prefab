@@ -46,11 +46,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trapBombPrefab: {fileID: 7037138832937157945, guid: 9c22a3b9b0274c7489fc15c6c77fde25, type: 3}
   trapHolePrefab: {fileID: 5459403099103474600, guid: 24dbbdcd47d35fb4abb7490ecfac0caa, type: 3}
-  itemRewardCoinPrefab: {fileID: 8975035450620130412, guid: 9870caf9645a4b74ab5925e867173907, type: 3}
-  itemHumanPrefab: {fileID: 1353977574298584, guid: f28a5a3141c071847b4b4750d56b40f2, type: 3}
+  itemRewardCoinPrefabs:
+  - {fileID: 1882746680347725972, guid: d89343be02b79c144afc1902098b9a5d, type: 3}
+  - {fileID: 1882746680347725972, guid: f5971f427d2705c4f9cf890b9b348806, type: 3}
+  - {fileID: 1882746680347725972, guid: fea8fa377bed10e4185a531a5138dec9, type: 3}
   itemHumanPrefabs:
   - {fileID: 6063029925804153583, guid: 363338a3ebd7d4a46871ce814a8286c6, type: 3}
   - {fileID: 9112743492322944808, guid: 5bc1da6b0f96b394ab0a2949e08de2a5, type: 3}
   - {fileID: 7073298571239309061, guid: c6ea452815d5d4d438e58e447bad0cdb, type: 3}
   itemPenaltyCoinPrefab: {fileID: 1202365330914209433, guid: c2eb562b7fe71994a93e4ec3a62df15a, type: 3}
   roadTransformRoot: {fileID: 0}
+  hillCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2
+      outSlope: -2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

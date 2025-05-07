@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ExperienceStatus : MonoBehaviour, IItemTaker
@@ -10,14 +10,20 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
 
     public float ExperienceRatio
     {
-        get => Mathf.Clamp01(ExperienceValue / experienceToNextLevel);
+        get => Mathf.Clamp01(experienceValue / experienceToNextLevel);
     }
 
-    public float ExperienceValue
+    private float experienceValue = 0;
+    public int ExperienceValue
     {
-        get;
-        private set;
-    } = 0;
+        get => Mathf.FloorToInt(experienceValue);
+    }
+
+    private float totalExperienceValue = 0;
+    public int TotalExperienceValue
+    {
+        get => Mathf.FloorToInt(totalExperienceValue);
+    }
 
     public bool IsMaxLevel
     {
@@ -32,6 +38,7 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
 
     public Action<int, int> onLevelChange; //level, maxexp
     public Action<int, int> onAddValue; //add, sum
+    [SerializeField] private TextMeshProUGUI levelGageBar;
 
     private void Start()
     {
@@ -44,7 +51,8 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
         experienceToNextLevel = experences[level].NextLvExp;
 
         onLevelChange(level, experienceToNextLevel);
-        onAddValue(0, (int)ExperienceValue);
+        onAddValue(0, (int)experienceValue);
+        levelGageBar?.SetText($"{level}");
     }
 
     public void AddAdditionalExperienceRateValue(float value)
@@ -59,15 +67,16 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
             return;
         }
 
-        ExperienceValue += value + value * additionalExperienceRate;
+        var addValue = value + value * additionalExperienceRate;
+        experienceValue += addValue;
+        totalExperienceValue += addValue;
 
-
-        if (ExperienceValue >= experienceToNextLevel)
+        if (experienceValue >= experienceToNextLevel)
         {
-            ExperienceValue -= experienceToNextLevel;
+            experienceValue -= experienceToNextLevel;
             LevelUp();
         }
-        onAddValue?.Invoke(value, (int)ExperienceValue);
+        onAddValue?.Invoke(value, (int)experienceValue);
     }
 
     private void LevelUp()
@@ -75,6 +84,7 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
         level = Mathf.Clamp(level + 1, 1, maxLevel);
         experienceToNextLevel = experences[level].NextLvExp;
         onLevelChange?.Invoke(level, experienceToNextLevel);
+        levelGageBar?.SetText($"{level}");
     }
 
     public void ApplyItem(int value)

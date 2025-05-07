@@ -26,7 +26,6 @@ public class SkillIcon : MonoBehaviour
         {
             UpdateFillTimer(attackSkill.CoolTimeRatio, attackSkill.CoolDownRemaining);
         }
-        levelText.text = targetSkill.Level.ToString();
     }
 
     public void SetTargetSkill(ISkill skill)
@@ -44,6 +43,7 @@ public class SkillIcon : MonoBehaviour
         {
             UpdateFillTimer(1f, 0f);
         }
+        levelText.text = targetSkill.Level.ToString();
     }
 
     //private static readonly string timeFormatString = $"{}";

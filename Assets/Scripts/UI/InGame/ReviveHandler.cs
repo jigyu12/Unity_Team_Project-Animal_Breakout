@@ -63,7 +63,7 @@ public class ReviveHandler
 
         playerManager.playerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         playerManager.playerAnimator.ResetTrigger("Run");
-        playerManager.playerAnimator.SetTrigger("idle");
+        playerManager.playerAnimator.SetTrigger("Idle");
 
         playerManager.playerStatus.isDead = false;
         playerManager.playerStatus.SetReviving(true);
@@ -89,6 +89,7 @@ public class ReviveHandler
                 trigger.ForceAutoTurnIfInside(playerManager.playerMove.gameObject);
         }
 
+        gameManager.PlayerManager.playerMove.isJumping = false;
         gameManager.PlayerManager.ResetMoveForward();
         playerManager.playerAnimator.SetTrigger("Run");
         coroutineHost.StartCoroutine(RemoveInvincibilityAfterDelay(2f));

@@ -10,15 +10,21 @@ public class BossManager : InGameManager
 
     private GameManager_new gameManager;
 
+    private float lastBossBaseHp;
+    private int bossStageSetCount;
+
     public static event Action<BossStatus> onSpawnBoss;
 
-    [SerializeField] private float bossMaxHp;
+    [SerializeField] [ReadOnly] private float bossMaxHp;
 
     private void Start()
     {
         GameObject.FindGameObjectWithTag("GameManager").TryGetComponent(out gameManager);
 
         GameManager.StageManager.onBossStageEnter += SpawnBoss;
+
+        lastBossBaseHp = 300000f;
+        bossStageSetCount = 0;
     }
 
     private void OnDestroy()
@@ -33,7 +39,40 @@ public class BossManager : InGameManager
         boss.TryGetComponent(out BossStatus bossStatus);
         boss.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
+        ++bossStageSetCount;
+        switch (bossStageSetCount)
+        {
+            case < 2:
+                {
+                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.15f, bossStageSetCount - 1);
+                }
+                break;
+            case 2:
+                {
+                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.15f, bossStageSetCount - 1);
+                    lastBossBaseHp = bossMaxHp;
+                }
+                break;
+            case < 4:
+                {
+                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.18f, bossStageSetCount - 2);
+                }
+                break;
+            case 4:
+                {
+                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.18f, bossStageSetCount - 2);
+                    lastBossBaseHp = bossMaxHp;
+                }
+                break;
+            case < Int32.MaxValue:
+                {
+                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.22f, bossStageSetCount - 4);
+                }
+                break;
+        }
         bossStatus.InitializeStatus(bossMaxHp);
+        
+        
         boss.TryGetComponent(out BossBehaviourController bossBehaviourController);
         bossBehaviourController?.InitBehaviorTree(BossBehaviourTreeType.Boss1BehaviourTree);
 

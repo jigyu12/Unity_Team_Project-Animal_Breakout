@@ -85,9 +85,9 @@ public abstract class AttackSkill : ISkill
 
     protected void ApplyElementalEffect(AttackPowerStatus attacker, DamageableStatus target, SkillElemental elemental)
     {
-        var ui = skillManager.gameManager.UIManager.bossDebuffUI;
-        string debuffId = null;
-        Color textColor = Color.white;
+        //var ui = skillManager.gameManager.UIManager.bossDebuffUI;
+        //string debuffId = null;
+        //Color textColor = Color.white;
         switch (elemental)
         {
 
@@ -95,49 +95,48 @@ public abstract class AttackSkill : ISkill
                 {
                     var burn = target.gameObject.GetComponent<BurnStatusEffect>();
                     burn?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Fire));
-                    textColor = Color.red;
-                    burn?.SetDebuffUI(ui);
-                    if (burn.IsPerforming)
-                    {
-                        debuffId = "Burn";
-                    }
+                    //textColor = Color.red;
+                    //burn?.SetDebuffUI(ui);
+                    //if (burn.IsPerforming)
+                    //{
+                    //    debuffId = "Burn";
+                    //}
                     break;
                 }
             case SkillElemental.Ice:
                 {
                     var freeze = target.GetComponent<FrozenStatusEffect>();
                     freeze?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Ice));
-                    freeze?.SetDebuffUI(ui);
-                    textColor = Color.cyan;
-                    debuffId = "Freeze";
+                    //freeze?.SetDebuffUI(ui);
+                    //textColor = Color.cyan;
+                    //debuffId = "Freeze";
                     break;
                 }
             case SkillElemental.Thunder:
                 {
                     var shock = target.GetComponent<ElectricShockStatusEffect>();
                     shock?.Perform(Id, attacker.GetElementalAdditionalAttackPower(SkillElemental.Thunder));
-                    shock?.SetDebuffUI(ui);
-                    textColor = new Color(0.6f, 0f, 1f);
-                    debuffId = "Thunder";
+                    //shock?.SetDebuffUI(ui);
+                    //textColor = new Color(0.6f, 0f, 1f);
+                    //debuffId = "Thunder";
                     break;
                 }
         }
-        if (!string.IsNullOrEmpty(debuffId))
-        {
-            ShowDebuffIcon(debuffId, SkillData.iconImage);
-            skillManager.gameManager.DamageTextManager.ShowDamage(target.transform.position, attacker.GetElementalAdditionalAttackPower(elemental), textColor);
-        }
+        //if (!string.IsNullOrEmpty(debuffId))
+        //{
+        //    ShowDebuffIcon(debuffId, SkillData.iconImage);
+        //    skillManager.gameManager.DamageTextManager.ShowDamage(target.transform.position, attacker.GetElementalAdditionalAttackPower(elemental), textColor);
+        //}
     }
 
-    private void ShowDebuffIcon(string debuffId, Sprite icon)
-    {
-        var gameManager = skillManager.gameManager;
-        if (gameManager != null && gameManager.StageManager.IsPlayerInBossStage)
-        {
-            gameManager.UIManager.bossDebuffUI.AddDebuff(debuffId);
-        }
-    }
-
+    //private void ShowDebuffIcon(string debuffId, Sprite icon)
+    //{
+    //    var gameManager = skillManager.gameManager;
+    //    if (gameManager != null && gameManager.StageManager.IsPlayerInBossStage)
+    //    {
+    //        gameManager.UIManager.bossDebuffUI.AddDebuff(debuffId);
+    //    }
+    //}
 
 
     public void Update()
@@ -184,7 +183,7 @@ public abstract class AttackSkill : ISkill
 
         for (int i = 0; i < count; i++)
         {
-            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * AttackSkillData.damageRate, target);
+            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * (AttackSkillData.damageRate + attacker.AdditionalSkillAttackPowerRate), target);
         }
     }
 

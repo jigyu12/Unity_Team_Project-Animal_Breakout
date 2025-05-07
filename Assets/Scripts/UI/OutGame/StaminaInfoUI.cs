@@ -10,12 +10,12 @@ public class StaminaInfoUI : MonoBehaviour
 
     private void Awake()
     {
-        GameDataManager.onStaminaChangedInGameDataManager += SetStaminaInfoText;
+        StaminaSystem.onStaminaChanged += SetStaminaInfoText;
     }
 
     private void OnDestroy()
     {
-        GameDataManager.onStaminaChangedInGameDataManager -= SetStaminaInfoText;
+        StaminaSystem.onStaminaChanged -= SetStaminaInfoText;
     }
 
     private void SetStaminaInfoText(int currentStamina, int maxStamina)

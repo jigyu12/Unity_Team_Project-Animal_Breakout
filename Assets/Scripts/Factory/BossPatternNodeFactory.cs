@@ -156,12 +156,12 @@ public static class BossPatternNodeFactory
             case BossActionNodeType.Boss1AttackPattern2:
                 {
                     return new(bossBehaviourController,
-                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.TestAttackToLane1));
+                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.Boss1AttackPattern2));
                 }
             case BossActionNodeType.Boss1AttackPattern3:
                 {
                     return new(bossBehaviourController, 
-                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.TestAttackToLane2));
+                        BossPatternFuncFactory.GetBossAttackPatternAction(BossAttackPatternActionType.Boss1AttackPattern3));
                 }
             case BossActionNodeType.Boss1AttackAnimation1:
                 {

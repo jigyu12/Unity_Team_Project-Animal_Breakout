@@ -39,13 +39,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536899206392104200}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 921e1f845d5f3274990b63bf78e2cb77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curvature: 0
-  trimming: 0
+  maxHorizonCurvatureValue: 1
+  maxVirticalCurvatureValue: 1
+  curvedWorldController: {fileID: 0}
 --- !u!1 &4160796323777910873
 GameObject:
   m_ObjectHideFlags: 0

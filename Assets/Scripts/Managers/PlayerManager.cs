@@ -11,7 +11,7 @@ public enum DeathType
 public class PlayerManager : InGameManager
 {
     //이 아이디 기준으로 플레이어를 생성함
-    private int animalID = 100301;//100301;
+    private int animalID = 100112;//100301;
 
     public GameObject playerRootGameObject;
     public GameObject playerGameObject;
@@ -62,17 +62,25 @@ public class PlayerManager : InGameManager
         base.Initialize();
 
         InitializePlayerComponents();
+
+
         GameManager.AddGameStateStartAction(GameManager_new.GameState.WaitLoading, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GameReady, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(playerStatus));
         GameManager.AddGameStateExitAction(GameManager_new.GameState.GamePlay, () => DisablePlayer(playerStatus));
 
+        //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, SetInitialSkill);
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));
 
 
+        SetInitialSkill();
     }
 
+    public void SetInitialSkill()
+    {
+        GameManager.SkillManager.SkillSelectionSystem.AddSkill(-1, playerStatus.statData.SkillData);
+    }
 
     private void InitializePlayerComponents()
     {
@@ -83,7 +91,9 @@ public class PlayerManager : InGameManager
         playerStatus = playerGameObject.GetComponent<PlayerStatus>();
         playerMove = playerGameObject.GetComponent<PlayerMove>();
 
-        var statData = Resources.Load<AnimalStatData>("Stats/Animal_" + animalID);
+        string dataPath = "ScriptableData/AnimalStat/Animal_{0}";
+
+        var statData = Resources.Load<AnimalStatData>(string.Format(dataPath, animalID));
         playerStatus.statData = statData;
         playerStatus.Initialize();
         playerAttack.InitializeValue(statData.AttackPower);
@@ -95,12 +105,16 @@ public class PlayerManager : InGameManager
         moveForward.speed = playerStatus.MoveSpeed;
 
         //playerMove.moveSpeed = 5f;
-
+        
+        //점수 카운터를 플레이어에 추가 
+        playerGameObject.GetComponent<ScoreCounter>().Initialize(GameManager.InGameCountManager.ScoreSystem);
     }
 
     public void SetPlayer()
     {
-        animalID = GameDataManager.Instance.StartAnimalID;
+        var animalUserData = GameDataManager.Instance.AnimalUserDataList.CurrentAnimalPlayer;
+
+        animalID = animalUserData.AnimalStatData.AnimalID;
         Debug.Log($"Set Player Start With Animal ID: {animalID}");
 
         ActivatePlayer();
@@ -117,6 +131,8 @@ public class PlayerManager : InGameManager
 
             Debug.Log($"Player {animalID} spawned successfully.");
 
+           
+            GameManager.PassiveEffectManager.PerformGlobalPassiveValues();
         }
         else
         {
@@ -192,6 +208,7 @@ public class PlayerManager : InGameManager
     {
         if (playerAnimator != null)
         {
+            playerAnimator.ResetTrigger("Run");
             playerAnimator.SetTrigger("Die");
             Debug.Log("Death animation triggered.");
         }

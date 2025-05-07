@@ -29,8 +29,7 @@ public class GoogleSheetCSVWindow : EditorWindow
 
             if (!string.IsNullOrEmpty(path))
             {
-                GoogleSheetManager.Load(sheetURL, path);
-                AssetDatabase.Refresh();
+                UpdateDataTableCSV(sheetURL, path);
             }
         }
 
@@ -38,6 +37,13 @@ public class GoogleSheetCSVWindow : EditorWindow
         LoadDataTableGUI(stringTableURL, LocalizationUtility.defaultStringTableName);
 
         LoadDataTableGUI(animalDataTableURL, Utils.AnimalTableName);
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("AnimalStat Scriptable");
+        if (GUILayout.Button("CreateScriptable"))
+        {
+            CreateAnimalStatScriptableData();
+        }
+        GUILayout.EndHorizontal();
 
         LoadDataTableGUI(itemDataTableURL, Utils.ItemTableName);
 
@@ -63,7 +69,9 @@ public class GoogleSheetCSVWindow : EditorWindow
 
         LoadDataTableGUI(additionalStatusEffectDataTableURL, Utils.AdditionalStatusEffectTableName);
         LoadDataTableGUI(ingameLevelDataTableURL, Utils.InGameLevelExperienceValueTableName);
-
+        LoadDataTableGUI(passiveEffectDataTableURL, Utils.PassiveEffectTableName);
+        LoadDataTableGUI(playerLevelTableURL, Utils.PlayerLevelTableName);
+        LoadDataTableGUI(enforceAnimalTableURL, Utils.EnforceAnimalTableName);
     }
 
     private void UpdateDataTableCSV(string url, string path)
@@ -80,6 +88,10 @@ public class GoogleSheetCSVWindow : EditorWindow
     private string supportSkillDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=831221530#gid=831221530";
     private string additionalStatusEffectDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1871340178#gid=1871340178";
     private string ingameLevelDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=2005332401#gid=2005332401";
+    private string passiveEffectDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=819605194#gid=819605194";
+    private string playerLevelTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1878574882#gid=1878574882";
+    private string enforceAnimalTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1330250473#gid=1330250473";
+
     //private void UpdateAnimalDataTable()
     //{
     //    var path = System.IO.Path.Combine(Application.dataPath, "Resources/") + string.Format(DataTable.FormatPath, Utils.AnimalTableName) + ".csv";
@@ -104,6 +116,37 @@ public class GoogleSheetCSVWindow : EditorWindow
             UpdateDataTableCSV(url, path);
         }
         GUILayout.EndHorizontal();
+    }
+
+    private void CreateAnimalStatScriptableData()
+    {
+        var animalStatDataTable = new AnimalDataTable();
+        animalStatDataTable.Load(Utils.AnimalTableName);
+
+        string dataPath = "Assets/Resources/ScriptableData/AnimalStat/{0}.asset";
+        string dataFileNameFormat = "Animal_{0}";
+        foreach (var key in animalStatDataTable.Keys)
+        {
+            var data = animalStatDataTable.Get(key);
+            string dataFileName = string.Format(dataFileNameFormat, key);
+
+            AnimalStatData scriptableData = AssetDatabase.LoadAssetAtPath<AnimalStatData>(string.Format(dataPath, dataFileName));
+            //AssetDatabase.DeleteAsset(string.Format(dataPath, dataFileName));
+            if (scriptableData == null)
+            {
+                //해당 데이터 ScriptableObject생성
+                scriptableData = ScriptableObject.CreateInstance<AnimalStatData>();
+                scriptableData.SetData(data);
+                AssetDatabase.CreateAsset(scriptableData, string.Format(dataPath, dataFileName));
+            }
+            else
+            {
+                scriptableData.SetData(data);
+            }
+            AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(scriptableData);
+        }
+        AssetDatabase.Refresh();
     }
 
     private void CreateAttackSkillScriptableData()

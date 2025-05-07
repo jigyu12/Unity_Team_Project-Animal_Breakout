@@ -31,4 +31,9 @@ public class SupportSkillData : SkillData
         rate = rawData.Value;
     }
 #endif
+
+    public override string GetDescriptionString()
+    {
+        return LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, descriptionID, (int)(rate*100f));
+    }
 }

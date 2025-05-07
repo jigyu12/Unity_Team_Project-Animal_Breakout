@@ -24,6 +24,13 @@ public abstract class SwitchableCanvas : DefaultCanvas
     {
         if(switchableCanvasType == showCanvasType)
         {
+            if (outGameManager is not null)
+            {
+                outGameManager.OutGameUIManager.CurrentSwitchableCanvasType = switchableCanvasType;
+
+                outGameManager.OutGameUIManager.SetCurrentDefaultCanvasTypeInSwitchableCanvasType(showCanvasType);
+            }
+            
             gameObject.SetActive(true);
         }
         else
@@ -34,28 +41,21 @@ public abstract class SwitchableCanvas : DefaultCanvas
 
     protected void SwitchVisualizeSwitchableCanvasHandler(SwitchableCanvasType showCanvasType, bool isVisibleOtherCanvas, bool isVisibleShowCanvasType = true)
     {
+        
         if (switchableCanvasType == showCanvasType)
         {
+            if (outGameManager is not null)
+            {
+                outGameManager.OutGameUIManager.CurrentSwitchableCanvasType = switchableCanvasType;
+                
+                outGameManager.OutGameUIManager.SetCurrentDefaultCanvasTypeInSwitchableCanvasType(showCanvasType);
+            }
+            
             VisualizeCanvas(isVisibleShowCanvasType);
         }
         else
         {
             VisualizeCanvas(isVisibleOtherCanvas);
         }
-    }
-
-    protected void VisualizeCanvas(bool isVisible)
-    {
-        if (isVisible)
-        {
-            canvasGroup.alpha = 1f;
-        }
-        else
-        {
-            canvasGroup.alpha = 0f;
-        }
-        
-        canvasGroup.interactable = isVisible;
-        canvasGroup.blocksRaycasts = isVisible;
     }
 }

@@ -6,6 +6,9 @@ public class ProjectileBehaviour : MonoBehaviour
     [SerializeField]
     protected float arrivalThreshold = 1f; //도착했다 치는 거리
 
+    [SerializeField]
+    public Vector3 firePositionOffset;
+
     protected float speed;
     private static float gloablSpeed = 5f;
     public float Speed
@@ -17,6 +20,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
     protected SkillManager skillManager;
 
+    protected bool isArrival;
     public Action onArrival; //도착후 실행할 함수
     public Action targetGone;
 
@@ -28,11 +32,12 @@ public class ProjectileBehaviour : MonoBehaviour
 
     public virtual void Fire(Transform attacker, Transform target, float speed)
     {
+        isArrival = false;
         this.target = target.position;
         this.speed = speed;
 
 
-        transform.position = attacker.position;
+        transform.position = attacker.position + firePositionOffset;
         gameObject.SetActive(true);
     }
 
@@ -49,10 +54,14 @@ public class ProjectileBehaviour : MonoBehaviour
         transform.LookAt(this.target);
     }
 
-    public void OnArrival()
+    public virtual void OnArrival()
     {
+        if (isArrival)
+            return;
+
+        isArrival = true;
         onArrival?.Invoke();
-        Destroy(gameObject);
+        Destroy(gameObject, 2f);
     }
 
     public void OnTargetGone()
