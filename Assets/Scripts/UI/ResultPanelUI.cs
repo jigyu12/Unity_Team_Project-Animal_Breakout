@@ -67,9 +67,11 @@ public class ResultPanelUI : UIElement
     }
     public void SetScoreCount()
     {
-        long scoreCount = inGameCountManager.ScoreSystem.GetFinalScore();
-        scoreCountText.text = $"{scoreCount}";
+        long baseScore = inGameCountManager.ScoreSystem.Score;
+        long additionalScore = inGameCountManager.ScoreSystem.AdditionalScore;
+        scoreCountText.text = $"{baseScore} + {additionalScore}";
     }
+
     public void SetExpCount()
     {
         long expCount = gameManager.PlayerManager.playerExperience.TotalExperienceValue;
