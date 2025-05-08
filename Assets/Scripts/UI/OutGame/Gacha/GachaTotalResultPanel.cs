@@ -66,6 +66,9 @@ public class GachaTotalResultPanel : GachaPanelBase
                 gachaResultSlotPanel.SetItemName(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
                         gachaDataList[i].AnimalID).AnimalStatData
                     .StringID);
+                gachaResultSlotPanel.SetItemImage(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                    gachaDataList[i].AnimalID).AnimalStatData
+                    .iconImage);
             }
             else
             {
