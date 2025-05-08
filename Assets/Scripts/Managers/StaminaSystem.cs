@@ -13,7 +13,7 @@ public class StaminaSystem : ISaveLoad
     public StaminaSystem()
     {
         SceneManager.sceneLoaded += OnChangeSceneHandler;
-                //Load(SaveLoadSystem.Instance.CurrentSaveData.staminaSystemSave);
+        //Load(SaveLoadSystem.Instance.CurrentSaveData.staminaSystemSave);
         SaveLoadSystem.Instance.RegisterOnSaveAction(this);
     }
 
@@ -65,7 +65,9 @@ public class StaminaSystem : ISaveLoad
             CurrentStamina = Mathf.Clamp(CurrentStamina += passedTimeStamina, minStamina, maxStaminaCanFilled);
             if (!IsStaminaFull)
             {
-                currentTimeToGetNextStamina -= (float)passedTime.TotalSeconds % TimeToGetNextStamina;
+                var remainingPassedTimeToNextStamina = (float)passedTime.TotalSeconds % TimeToGetNextStamina;
+                currentTimeToGetNextStamina -= remainingPassedTimeToNextStamina;
+                lastStaminaAddTime = DateTime.UtcNow.AddSeconds(-remainingPassedTimeToNextStamina);
             }
         }
 

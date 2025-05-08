@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class PlayerLevelSystemSave
 {
+    public bool tutorialCompleted;
     public int currentLevel;
     public int experienceValue;
 }

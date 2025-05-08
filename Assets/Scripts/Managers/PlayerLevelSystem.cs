@@ -9,6 +9,12 @@ public class PlayerLevelSystem :ISaveLoad
         get => DataSourceType.Local;
     }
 
+    public bool IsTutorialComplete
+    {
+        get;
+        private set;
+    }
+
     public PlayerLevelSystem()
     {
         SceneManager.sceneLoaded += OnChangeSceneHandler;
@@ -96,6 +102,11 @@ public class PlayerLevelSystem :ISaveLoad
         onExperienceValueChanged?.Invoke(value, ExperienceValue);
     }
 
+    public void OnTutorialComplete()
+    {
+        IsTutorialComplete = true;
+    }
+
     private void LevelUp()
     {
         CurrentLevel = Mathf.Clamp(CurrentLevel + 1, 1, maxLevel);
@@ -115,12 +126,14 @@ public class PlayerLevelSystem :ISaveLoad
     public void Save()
     {
         var saveData = SaveLoadSystem.Instance.CurrentSaveData.playerLevelSystemSave = new();
+        saveData.tutorialCompleted = IsTutorialComplete;
         saveData.currentLevel = CurrentLevel;
         saveData.experienceValue = ExperienceValue;
     }
 
     public void Load()
     {
+        IsTutorialComplete = false;
         SetInitialValue(1, 0);
     }
 
@@ -132,6 +145,7 @@ public class PlayerLevelSystem :ISaveLoad
             return;
         }
 
+        IsTutorialComplete = saveData.tutorialCompleted;
         SetInitialValue(saveData.currentLevel, saveData.experienceValue);
     }
 
