@@ -15,7 +15,9 @@ public class OutGameManager : MonoBehaviour
     
     private GachaManager gachaManager;
     public GachaManager GachaManager => gachaManager;
-    
+
+    private EnforceAnimalManager enforceAnimalManager;
+    public EnforceAnimalManager EnforceAnimalManager=>enforceAnimalManager;
     #endregion
 
     [HideInInspector] public bool isGameQuitPanelShow;
@@ -81,7 +83,11 @@ public class OutGameManager : MonoBehaviour
         GameObject.FindGameObjectWithTag("GachaManager").TryGetComponent(out gachaManager);
         gachaManager.SetOutGameManager(this);
         managers.Add(gachaManager);
-        
+
+        GameObject.FindGameObjectWithTag("EnforceAnimalManager").TryGetComponent(out enforceAnimalManager);
+        enforceAnimalManager.SetOutGameManager(this);
+        managers.Add(enforceAnimalManager);
+
         foreach (var manager in managers)
         {
             manager.Initialize();

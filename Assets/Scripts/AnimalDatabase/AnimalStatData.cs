@@ -16,11 +16,12 @@ public class AnimalStatData : ScriptableObject
     public PassiveType passive;
     public SkillData SkillData;
 
-    public Sprite AnimalSprite;
+    public Sprite iconImage;
 
 #if UNITY_EDITOR
     private string skillDataPath = "Assets/Resources/ScriptableData/Skill/Skill_Attack{0}.asset";
-    private string animalSpritePath = "Assets/Resources/PlayerIcon/{0}.png";
+    private string iconPath = "Assets/Resources/PlayerIcon/{0}.png";
+
     public void SetData(AnimalDataTable.AnimalRawData rawData)
     {
         this.AnimalID = rawData.AnimalID;
@@ -35,9 +36,9 @@ public class AnimalStatData : ScriptableObject
 
         string path = string.Format(skillDataPath, rawData.SkillID);
         SkillData = AssetDatabase.LoadAssetAtPath<SkillData>(string.Format(skillDataPath, rawData.SkillID));
-        
-        string spritePath = string.Format(animalSpritePath, rawData.AnimalID);
-        AnimalSprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
+
+        var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(iconPath, rawData.Prefab));
+        iconImage = sprite;
     }
 #endif
 }
