@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameDataManagerEditor : Editor
 {
     private int staminaAmountToAdd = 5;
+    private int payAmount = 1;
 
     public override void OnInspectorGUI()
     {
@@ -20,7 +21,6 @@ public class GameDataManagerEditor : Editor
             if (Application.isPlaying)
             {
                 gameDataManager.StaminaSystem.AddStamina(staminaAmountToAdd);
-
                 EditorUtility.SetDirty(gameDataManager);
             }
             else
@@ -33,17 +33,19 @@ public class GameDataManagerEditor : Editor
             GUILayout.Label($"Left Time : {gameDataManager.StaminaSystem.GetLeftTimeToGetNextStamina()}");
         }
 
-        if (GUILayout.Button("Pay 1 Stamina"))
+        EditorGUILayout.Space();
+
+        payAmount = EditorGUILayout.IntField("Stamina Amount to Pay", payAmount);
+        if (GUILayout.Button($"Pay {payAmount} Stamina"))
         {
             if (Application.isPlaying)
             {
-                gameDataManager.StaminaSystem.PayStamina(1);
-
+                gameDataManager.StaminaSystem.PayStamina(payAmount);
                 EditorUtility.SetDirty(gameDataManager);
             }
             else
             {
-                Debug.LogWarning("Stamina can only be increased while the game is running.");
+                Debug.LogWarning("Stamina can only be paid while the game is running.");
             }
         }
     }

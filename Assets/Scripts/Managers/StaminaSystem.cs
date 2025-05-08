@@ -45,7 +45,7 @@ public class StaminaSystem : ISaveLoad
     public const int maxStaminaCanFilled = 5;
     public const int maxStamina = 999;
 
-    private float timeToGetNextStamina = 480f;
+    public const float TimeToGetNextStamina = 480f;
     private float currentTimeToGetNextStamina = 0f;
 
     public static Action<int, int> onStaminaChanged; //currentStamina, maxStaminaCanFilled
@@ -56,16 +56,16 @@ public class StaminaSystem : ISaveLoad
     public void SetInitialValue(int stamina, DateTime lastTime)
     {
         CurrentStamina = stamina;
-        currentTimeToGetNextStamina = timeToGetNextStamina;
+        currentTimeToGetNextStamina = TimeToGetNextStamina;
         //지난 저장시간 기준으로 스태미나를 회복
         if (!IsStaminaFull)
         {
             var passedTime = DateTime.UtcNow - lastTime;
-            int passedTimeStamina = Mathf.FloorToInt((float)passedTime.TotalSeconds / timeToGetNextStamina);
+            int passedTimeStamina = Mathf.FloorToInt((float)passedTime.TotalSeconds / TimeToGetNextStamina);
             CurrentStamina = Mathf.Clamp(CurrentStamina += passedTimeStamina, minStamina, maxStaminaCanFilled);
             if (!IsStaminaFull)
             {
-                currentTimeToGetNextStamina += (float)passedTime.TotalSeconds % timeToGetNextStamina;
+                currentTimeToGetNextStamina -= (float)passedTime.TotalSeconds % TimeToGetNextStamina;
             }
         }
 
@@ -82,7 +82,7 @@ public class StaminaSystem : ISaveLoad
         else
         {
             var passedTime = DateTime.UtcNow-lastStaminaAddTime;
-            return currentTimeToGetNextStamina - (float)passedTime.TotalSeconds;
+            return TimeToGetNextStamina - (float)passedTime.TotalSeconds;
         }
     }
 
@@ -121,7 +121,7 @@ public class StaminaSystem : ISaveLoad
         while (!IsStaminaFull)
         {
             yield return new WaitForSecondsRealtime(currentTimeToGetNextStamina);
-            currentTimeToGetNextStamina = timeToGetNextStamina;
+            currentTimeToGetNextStamina = TimeToGetNextStamina;
             lastStaminaAddTime = DateTime.UtcNow;
             Debug.Log($"충전 1 {DateTime.UtcNow}");
             AddStamina(1);
