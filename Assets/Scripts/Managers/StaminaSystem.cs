@@ -1,9 +1,28 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StaminaSystem
 {
+    public StaminaSystem()
+    {
+        SceneManager.sceneLoaded += OnChangeSceneHandler;
+    }
+
+    ~StaminaSystem()
+    {
+        SceneManager.sceneLoaded -= OnChangeSceneHandler;
+    }
+
+    private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().name == "MainTitleScene")
+        {
+            onStaminaChanged?.Invoke(CurrentStamina, maxStaminaCanFilled);
+        }
+    }
+    
     public int CurrentStamina
     {
         get;

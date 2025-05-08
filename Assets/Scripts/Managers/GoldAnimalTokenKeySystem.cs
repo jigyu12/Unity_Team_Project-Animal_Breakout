@@ -1,8 +1,31 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GoldAnimalTokenKeySystem : ISaveLoad
 {
+    public GoldAnimalTokenKeySystem()
+    {
+        SceneManager.sceneLoaded += OnChangeSceneHandler;
+    }
+
+    ~GoldAnimalTokenKeySystem()
+    {
+        SceneManager.sceneLoaded -= OnChangeSceneHandler;
+    }
+
+    private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().name == "MainTitleScene")
+        {
+            onGoldChanged?.Invoke(CurrentGolds);
+            onBronzeTokenChanged?.Invoke(CurrentBronzeToken);
+            onSliverTokenChanged?.Invoke(CurrentSliverToken);
+            onGoldTokenChanged?.Invoke(CurrentGoldToken);
+            onKeyChanged?.Invoke(CurrentKey);
+        }
+    }
+    
     public DataSourceType SaveDataSouceType
     {
         get => DataSourceType.Local;
