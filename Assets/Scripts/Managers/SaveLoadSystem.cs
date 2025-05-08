@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using Unity.VisualScripting;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using SaveDataVC = SaveDataV1;
@@ -62,14 +61,19 @@ public class SaveLoadSystem : PersistentMonoSingleton<SaveLoadSystem>
     public void Load()
     {
         var path = Path.Combine(SavePathDirectory, CurrentSaveFileName);
-
+        string json;
         if (!File.Exists(path))
         {
             Debug.Log($"save file[{path}] not exist!");
-            path = Application.dataPath + "/Resources/Tables/defaultSave.json";
+            path = "Tables/defaultSave";
+            var textAsset = Resources.Load<TextAsset>(path);
+            json = textAsset.text;
         }
-
-        var json = File.ReadAllText(path);
+        else
+        {
+            json = File.ReadAllText(path);
+        }
+        
         var saveData = JsonConvert.DeserializeObject<SaveData>(json, settings);
         while (saveData.Version < SaveDataVersion)
         {
