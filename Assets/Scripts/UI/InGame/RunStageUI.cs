@@ -47,9 +47,13 @@ public class RunStageUI : UIElement
         BossWaySlider.value = progress;
 
     }
-    public void SetTotalByRoadWayCount(int roadWayCount)
+    public void SetTotalByRoadWayCount(int roadWayCount, int stagePlayCount)
     {
         total = roadWayCount * 60f + 60f;
+
+        if (stagePlayCount == 0)
+            total -= 60f;
     }
+
 
 }

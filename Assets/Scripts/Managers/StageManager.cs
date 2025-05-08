@@ -28,7 +28,7 @@ public class StageManager : InGameManager
     private int bossStageSetCount;
     public event Action<RunPhaseType> onBossStageSet;
     private bool isFirstBossSpawn;
-
+    private int stagePlayCount = 0;
 
     private void Awake()
     {
@@ -126,7 +126,7 @@ public class StageManager : InGameManager
         GameManager.UIManager.runStageUI.Reset();
         // int nonBossCount = GameManager.RoadMaker.GetNonBossRoadWayCountFromStageData(CurrentStageData);
         // GameManager.UIManager.runStageUI.SetTotalByRoadWayCount(nonBossCount);
-        GameManager.UIManager.runStageUI.SetTotalByRoadWayCount(CurrentStageData.roadWayCount);
+        GameManager.UIManager.runStageUI.SetTotalByRoadWayCount(CurrentStageData.roadWayCount, stagePlayCount);
         GameManager.UIManager.runStageUI.StartBossWayTracking();
         GameManager.UIManager.runStageUI.Show();
         GameManager.UIManager.bossWayUI.Hide();
@@ -147,6 +147,7 @@ public class StageManager : InGameManager
         GameManager.UIManager.bossWayUI.Show();
         GameManager.PlayerManager.StopAllMovements();
         GameManager.UIManager.bossTimeLimit.StartTimeOut();
+        stagePlayCount++;
         onBossStageEnter?.Invoke();
     }
 
@@ -158,10 +159,9 @@ public class StageManager : InGameManager
         GameManager.UIManager.runStageUI.Show();
         isTrackingStarted = false;
         RoadWayDistanceTracking();
-        // GameManager.UIManager.runStageUI.total = 100f;
+        // GameManager.UIManager.runStageUI.total += 60f;
         GameManager.UIManager.bossTimeLimit.StopTimeOut();
         OnCurrentStageClear();
-
         GameManager.PlayerManager.moveForward.AddSpeed(1f);
     }
 }
