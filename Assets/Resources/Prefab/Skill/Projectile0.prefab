@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aec266806bf9fd45bce4a5b64dc4c2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectile: {fileID: 8704411290358898834}
   arrivalThreshold: 1
-  skyOffset: {x: 0, y: 0, z: 0}
+  firePositionOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &8705347465978361120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,6 +177,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bde090df84b36794d85627fb397cae50, type: 3}
+--- !u!1 &8704411290358898834 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1086965613155762, guid: bde090df84b36794d85627fb397cae50, type: 3}
+  m_PrefabInstance: {fileID: 8705347465978361120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8709407479872283974 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4957220552200294, guid: bde090df84b36794d85627fb397cae50, type: 3}
