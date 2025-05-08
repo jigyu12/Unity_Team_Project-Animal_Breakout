@@ -174,6 +174,8 @@ public static class AlertPanelConfirmButtonFuncFactory
                     outGameManager.OutGameUIManager.HideLastAlertPanel();
                     
                     outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.EnforceSuccessScreen);
+
+                    outGameManager.OutGameUIManager.SortUnlockAnimalPanel();
                 }
             },
         };

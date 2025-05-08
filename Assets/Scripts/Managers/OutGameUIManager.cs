@@ -436,7 +436,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
         SortUnlockAnimalPanel();
     }
 
-    private void SortUnlockAnimalPanel()
+    public void SortUnlockAnimalPanel()
     {
         var dropDownValue = animalStatDropDown.value;
         var toggleValueIsOn = animalListSortToggle.isOn;
