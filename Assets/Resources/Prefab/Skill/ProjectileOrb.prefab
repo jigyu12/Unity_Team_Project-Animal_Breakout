@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5faee86b7fcaf904484aec5179fd2061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectile: {fileID: 1404834406109786798}
   arrivalThreshold: 1
+  firePositionOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &1403413549666685194
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4972865237748696, guid: 6dfe842c0a9000140bc5b8812d79af53, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4972865237748696, guid: 6dfe842c0a9000140bc5b8812d79af53, type: 3}
       propertyPath: m_LocalPosition.z
@@ -166,5 +168,10 @@ PrefabInstance:
 --- !u!4 &1398446829789076178 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4972865237748696, guid: 6dfe842c0a9000140bc5b8812d79af53, type: 3}
+  m_PrefabInstance: {fileID: 1403413549666685194}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1404834406109786798 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1992603179541412, guid: 6dfe842c0a9000140bc5b8812d79af53, type: 3}
   m_PrefabInstance: {fileID: 1403413549666685194}
   m_PrefabAsset: {fileID: 0}
