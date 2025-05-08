@@ -1,8 +1,34 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class PlayerLevelSystem 
+public class PlayerLevelSystem :ISaveLoad
 {
+    public DataSourceType SaveDataSouceType
+    {
+        get => DataSourceType.Local;
+    }
+
+    public PlayerLevelSystem()
+    {
+        SceneManager.sceneLoaded += OnChangeSceneHandler;
+         //Load(SaveLoadSystem.Instance.CurrentSaveData.playerLevelSystemSave);
+        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
+    }
+
+    ~PlayerLevelSystem()
+    {
+        SceneManager.sceneLoaded -= OnChangeSceneHandler;
+    }
+
+    private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().name == "MainTitleScene")
+        {
+            AddExperienceValue(100);
+        }
+    }
+    
     public PlayerLevelExperienceData CurrentLevelData
     {
         get;
@@ -36,8 +62,9 @@ public class PlayerLevelSystem
         get => CurrentLevelData.Exp;
     }
 
-    static public Action<int, int> onLevelChange; //level, maxexp
-    static public Action<int, int> onExperienceValueChanged; //add, sum
+    public static Action<int, int> onLevelChange; //level, maxexp
+    public static Action<int, int> onExperienceValueChanged; //add, sum
+
 
     //추후에 로드가 생기면 사용할 함수
     public void SetInitialValue(int level, int exp)
@@ -46,8 +73,9 @@ public class PlayerLevelSystem
         ExperienceValue = exp;
 
         CurrentLevelData = DataTableManager.playerLevelDataTalble.GetLevelData(CurrentLevel);
-        //onExperienceValueChanged?.Invoke(value, ExperienceValue);
-        //onLevelChange?.Invoke(CurrentLevel, ExperienceToNextLevel);
+        
+        onExperienceValueChanged?.Invoke(0, ExperienceValue);
+        onLevelChange?.Invoke(CurrentLevel, ExperienceToNextLevel);
     }
 
     public void AddExperienceValue(int value)
@@ -59,7 +87,7 @@ public class PlayerLevelSystem
 
         ExperienceValue += value;
 
-        if (ExperienceValue >= ExperienceToNextLevel)
+        while (ExperienceValue >= ExperienceToNextLevel)
         {
             ExperienceValue -= ExperienceToNextLevel;
             LevelUp();
@@ -84,5 +112,28 @@ public class PlayerLevelSystem
         onLevelChange?.Invoke(CurrentLevel, ExperienceToNextLevel);
     }
 
+    public void Save()
+    {
+        var saveData = SaveLoadSystem.Instance.CurrentSaveData.playerLevelSystemSave = new();
+        saveData.currentLevel = CurrentLevel;
+        saveData.experienceValue = ExperienceValue;
+    }
+
+    public void Load()
+    {
+        SetInitialValue(1, 0);
+    }
+
+    public void Load(PlayerLevelSystemSave saveData)
+    {
+        if (saveData == null)
+        {
+            Load();
+            return;
+        }
+
+        SetInitialValue(saveData.currentLevel, saveData.experienceValue);
+    }
 
 }
+

@@ -106,7 +106,7 @@ public class PlayerManager : InGameManager
         moveForward.speed = playerStatus.MoveSpeed;
 
         //playerMove.moveSpeed = 5f;
-        
+
         //점수 카운터를 플레이어에 추가 
         playerGameObject.GetComponent<ScoreCounter>().Initialize(GameManager.InGameCountManager.ScoreSystem);
     }
@@ -120,7 +120,7 @@ public class PlayerManager : InGameManager
 
         ActivatePlayer();
 
-        GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
+        GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalUserData.AnimalStatData.Prefab);
         if (prefab != null)
         {
 
@@ -132,7 +132,7 @@ public class PlayerManager : InGameManager
 
             Debug.Log($"Player {animalID} spawned successfully.");
 
-           
+
             GameManager.PassiveEffectManager.PerformGlobalPassiveValues();
         }
         else
@@ -144,8 +144,6 @@ public class PlayerManager : InGameManager
     public void ActivatePlayer()
     {
         ResetMoveForward();
-
-
     }
 
     public void OnPlayerDied(PlayerStatus status)
@@ -204,7 +202,7 @@ public class PlayerManager : InGameManager
         playerMove.EnableInput();  // 입력 활성화
         // GameManager.UIManager?.SetDirectionButtonsInteractable(true);
     }
-    
+
     private void PlayDeathAnimation()
     {
         if (playerAnimator != null)

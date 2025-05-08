@@ -64,18 +64,18 @@ public class LoadManager : Singleton<LoadManager>
     }
 
     // 캐릭터 프리로드 요청
-    public void PreloadCharacters(List<int> animalIDs, UnityAction onAllLoaded = null)
+    public void PreloadCharacters(List<string> prefabNames, UnityAction onAllLoaded = null)
     {
         if (playerLoadManager != null)
         {
-            playerLoadManager.PreloadCharacterModels(animalIDs, onAllLoaded);
+            playerLoadManager.PreloadCharacterModels(prefabNames, onAllLoaded);
         }
     }
 
     // 캐릭터 프리팹 가져오기
-    public GameObject GetCharacterPrefab(int animalID)
+    public GameObject GetCharacterPrefab(string prefabName)
     {
-        return playerLoadManager.GetLoadedCharacterPrefab(animalID);
+        return playerLoadManager.GetLoadedCharacterPrefab(prefabName);
     }
 
     // 게임 초기화 로직 통합
@@ -92,6 +92,13 @@ public class LoadManager : Singleton<LoadManager>
         InitializePlayerLoadManager();
         Debug.Log("Loading game data...");
         // 캐릭터 프리로드 요청
-        PreloadCharacters(DataTableManager.animalDataTable.GetAnimalIDs(), onInitialized);
+
+        List<string> prefabNames = new List<string>();
+        var animalDataTable = DataTableManager.animalDataTable;
+        foreach (int animalID in animalDataTable.GetAnimalIDs())
+        {
+            prefabNames.Add(animalDataTable.Get(animalID).Prefab);
+        }
+        PreloadCharacters(prefabNames, onInitialized);
     }
 }
