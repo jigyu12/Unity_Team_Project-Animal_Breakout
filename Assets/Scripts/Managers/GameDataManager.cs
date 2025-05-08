@@ -80,12 +80,18 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     
     public long staminaGoldUseCost { get; private set; }
     public int staminaToAdd { get; private set; }
+    
+    public TokenType requiredTokenType { get; private set; }
+    public int requiredTokenCount { get; private set; }
+    public long requiredGoldCount { get; private set; }
+    
+    public EnforceAnimalPanel targetEnforceAnimalPanel { get; private set; }
 
     public override void InitializeSingleton()
     {
         base.InitializeSingleton();
         SaveLoadSystem.Instance.Load();
-
+        
         //골드,토큰을 관리하는 시스템
         GoldAnimalTokenKeySystem = new();
         GoldAnimalTokenKeySystem.Load(SaveLoadSystem.Instance.CurrentSaveData.goldAnimalTokenKeySystemSave);
@@ -101,7 +107,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
         AnimalUserDataList = new();
         AnimalUserDataList.Load(SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave);
-
+        
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
         SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
         SetMaxRewardItemId(DataTableManager.rewardItemsDataTable.maxId);
@@ -112,8 +118,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         //BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
         SetInitializeData();
-
-
+        
         UnlockedAnimalPanel.onSetStartAnimalIDInPanel += OnSetAnimalIDInPanel;
 
         SceneManager.sceneLoaded += OnChangeSceneHandler;
@@ -130,6 +135,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         StaminaGoldUseButton.onStaminaGoldUseButtonClicked += OnStaminaGoldUseButtonClickedHandler;
 
         onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
+
+        EnforceAnimalPanel.onEnforceInfoSet += OnEnforceInfoSetHandler;
     }
 
     private void OnDestroy()
@@ -150,6 +157,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         GachaManager.onTokenAdded -= OnTokenAddedHandler;
         
         StaminaGoldUseButton.onStaminaGoldUseButtonClicked -= OnStaminaGoldUseButtonClickedHandler;
+
+        EnforceAnimalPanel.onEnforceInfoSet -= OnEnforceInfoSetHandler;
     }
 
 
@@ -201,6 +210,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
     private void SetInitializeData()
     {
+        
         //시스템클래스 생성중에 초기 값을 로드, 세팅한다
         //PlayerLevelSystem.SetInitialValue(1, 0);
         ////string temp = "05/06/2025 22:20:13";
@@ -461,5 +471,14 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         this.staminaGoldUseCost = staminaGoldUseCost;
         this.staminaToAdd = staminaToAdd;
+    }
+
+    private void OnEnforceInfoSetHandler(TokenType requiredTokenType, int requiredTokenCount,
+        long requiredGoldCount, EnforceAnimalPanel targetEnforceAnimalPanel)
+    {
+        this.requiredTokenType = requiredTokenType;
+        this.requiredTokenCount = requiredTokenCount;
+        this.requiredGoldCount = requiredGoldCount;
+        this.targetEnforceAnimalPanel = targetEnforceAnimalPanel;
     }
 }

@@ -20,6 +20,14 @@ public class LevelSlider : MonoBehaviour
         PlayerLevelSystem.onExperienceValueChanged += OnExperienceValueChangedHandler;
         PlayerLevelSystem.onLevelChange += OnLevelChangeHandler;
     }
+    
+    
+    private void Start()
+    {
+        OnExperienceValueChangedHandler(0, GameDataManager.Instance.PlayerLevelSystem.ExperienceValue);
+        OnLevelChangeHandler(GameDataManager.Instance.PlayerLevelSystem.CurrentLevel, GameDataManager.Instance.PlayerLevelSystem.ExperienceToNextLevel);
+    }
+
 
     private void OnDestroy()
     {

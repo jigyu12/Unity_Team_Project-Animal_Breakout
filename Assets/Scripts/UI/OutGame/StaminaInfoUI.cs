@@ -27,6 +27,8 @@ public class StaminaInfoUI : MonoBehaviour
     private void Start()
     {
         staminaImageButton.onClick.AddListener(SwitchActiveStaminaRecoveryPanel);
+
+        SetStaminaInfoText(GameDataManager.Instance.StaminaSystem.CurrentStamina, StaminaSystem.maxStaminaCanFilled);;
     }
 
     private void OnDestroy()

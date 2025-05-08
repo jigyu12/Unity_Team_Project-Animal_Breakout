@@ -233,11 +233,13 @@ public enum AlertPanelConfirmButtonFuncType
     NotEnoughKeyToDoSingleGacha,
     NotEnoughKeyToDoTenTimesGacha,
     CheckStaminaPurchase,
+    EnforceAnimal,
 }
 
 public enum AlertPanelCancelButtonFuncType
 {
     CloseAlertPanel,
+    CloseAlertPanelBySetActive,
 }
 
 public enum AlertPanelInfoDataType
@@ -254,6 +256,7 @@ public enum AlertPanelInfoDataType
     NotEnoughGold,
     TooManyStaminaToPurchaseStamina,
     CheckStaminaPurchase,
+    EnforceAnimal,
 }
 
 public enum RunPhaseType
@@ -274,6 +277,7 @@ public enum TokenType
 public enum FullScreenType
 {
     GachaScreen,
+    EnforceSuccessScreen,
 }
 
 public enum AnimalGradeType

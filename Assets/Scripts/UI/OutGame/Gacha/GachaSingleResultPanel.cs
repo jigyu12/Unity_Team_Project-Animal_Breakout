@@ -30,13 +30,17 @@ public class GachaSingleResultPanel : GachaPanelBase
         {
             if (animalFirstUnlockInfoList[currentGachaDataIndex])
             {
-                SetItemNameText(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
-                        gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData
-                    .StringID);
+                var animalUserData = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID);
+                
+                SetItemNameText(animalUserData.AnimalStatData.StringID);
+                SetItemImage(animalUserData.AnimalStatData.iconImage);
+                SetItemDescriptionText($"공격력     {animalUserData.AnimalStatData.AttackPower}\n보유효과     {animalUserData.AnimalStatData.passive.ToString()}\n스킬     {LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.SkillData.nameID, animalUserData.AnimalStatData.SkillData.level)}");
             }
             else
             {
                 SetItemNameText(gachaDataList[currentGachaDataIndex].TokenType.ToString() + $" By {GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData.StringID}");
+                SetItemImage(null);
+                SetItemDescriptionText($"변환 개수 :          {gachaDataList[currentGachaDataIndex].TokenValue}");
             }
         }
     }
@@ -60,13 +64,17 @@ public class GachaSingleResultPanel : GachaPanelBase
         {
             if (animalFirstUnlockInfoList[currentGachaDataIndex])
             {
-                SetItemNameText(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
-                        gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData
-                    .StringID);
+                var animalUserData = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID);
+                
+                SetItemNameText(animalUserData.AnimalStatData.StringID);
+                SetItemImage(animalUserData.AnimalStatData.iconImage);
+                SetItemDescriptionText($"공격력     {animalUserData.AnimalStatData.AttackPower}\n보유효과     {animalUserData.AnimalStatData.passive.ToString()}\n스킬     {LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.SkillData.nameID, animalUserData.AnimalStatData.SkillData.level)}");
             }
             else
             {
                 SetItemNameText(gachaDataList[currentGachaDataIndex].TokenType.ToString() + $" By {GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData.StringID}");
+                SetItemImage(null);
+                SetItemDescriptionText($"변환 개수 :          {gachaDataList[currentGachaDataIndex].TokenValue}");
             }
         }
     }

@@ -162,6 +162,22 @@ public static class AlertPanelConfirmButtonFuncFactory
                     }
                 }
             },
+            {
+                AlertPanelConfirmButtonFuncType.EnforceAnimal, () =>
+                {
+                    GameObject.FindGameObjectWithTag("OutGameManager")
+                        .TryGetComponent(out OutGameManager outGameManager);
+                    outGameManager.EnforceAnimalManager.EnforceAnimal(GameDataManager.Instance.targetEnforceAnimalPanel.animalUserData);
+                    
+                    GameDataManager.Instance.targetEnforceAnimalPanel.SetTargetAnimalUserData(GameDataManager.Instance.targetEnforceAnimalPanel.animalUserData);
+                    
+                    outGameManager.OutGameUIManager.HideLastAlertPanel();
+                    
+                    outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.EnforceSuccessScreen);
+
+                    outGameManager.OutGameUIManager.SortUnlockAnimalPanel();
+                }
+            },
         };
 
     public static UnityAction GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType type)

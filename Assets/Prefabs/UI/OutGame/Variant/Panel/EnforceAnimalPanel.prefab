@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 856456651948066395}
   - component: {fileID: 6793438970564583130}
   - component: {fileID: 4451518633311105313}
+  - component: {fileID: 1130018814180605842}
   m_Layer: 5
   m_Name: EnforceAnimalPanel
   m_TagString: Untagged
@@ -235,7 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -290,6 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264a1882438a49f4fa704108f1dda2b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enforceButton: {fileID: 1566439194087357086}
   animalImage: {fileID: 3495510624115691002}
   starImage: {fileID: 7999080322105142654}
   tokenImage: {fileID: 2207994020816566855}
@@ -299,9 +301,23 @@ MonoBehaviour:
   levelText: {fileID: 1831669642754413898}
   skillText: {fileID: 1532947935860187367}
   passiveText: {fileID: 8573793841100495116}
+  currentTokenText: {fileID: 0}
   requiredTokenText: {fileID: 5669421918675320705}
   enforceText: {fileID: 6592930010925235204}
   goldCostText: {fileID: 6084233962220185746}
+  detectTouchInOtherUIScreenDoHideAllAlertPanel: {fileID: 1130018814180605842}
+--- !u!114 &1130018814180605842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2529528789450126352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d95415a35a0b74cbf19c0cd2ad63c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4056449652207616410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1687,6 +1703,10 @@ PrefabInstance:
       propertyPath: m_text
       value: XXXX / XXXX
       objectReference: {fileID: 0}
+    - target: {fileID: 1114653878904954974, guid: e1505d2e746a7c84699978de2a610379, type: 3}
+      propertyPath: m_isRichText
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2349942949841196187, guid: e1505d2e746a7c84699978de2a610379, type: 3}
       propertyPath: m_Name
       value: RequiredTokenPanel
@@ -2330,6 +2350,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnimalImage
       objectReference: {fileID: 0}
+    - target: {fileID: 4771138433979479630, guid: 02ad49daa54528749aed7ccb5577df35, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4771138433979479630, guid: 02ad49daa54528749aed7ccb5577df35, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4771138433979479630, guid: 02ad49daa54528749aed7ccb5577df35, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7284435562233768795, guid: 02ad49daa54528749aed7ccb5577df35, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2613,6 +2645,17 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1566439194087357086 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7939386131313501319, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
+  m_PrefabInstance: {fileID: 8904533159224925721}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265674041166795093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5163788180336593534 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}

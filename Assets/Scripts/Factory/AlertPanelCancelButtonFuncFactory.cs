@@ -14,6 +14,14 @@ public static class AlertPanelCancelButtonFuncFactory
                     outGameManager.isGameQuitPanelShow = false;
                     outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
                 }
+            },
+            {
+                AlertPanelCancelButtonFuncType.CloseAlertPanelBySetActive, () =>
+                {
+                    GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
+                    outGameManager.isGameQuitPanelShow = false;
+                    outGameManager.OutGameUIManager.HideLastAlertPanel();
+                }
             }
         };
     
