@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameDataManager : Singleton<GameDataManager>
+public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 {
     #region globalDataSystems
 
@@ -38,14 +39,9 @@ public class GameDataManager : Singleton<GameDataManager>
     public readonly int maxLevel = 5;
     private static bool isAddToDictInInitialize;
 
-    private long maxScore;
-    private long currentGolds;
-    private int currentStamina;
     public int currentLevel { get; private set; }
     public int nextExp { get; private set; }
     public int currentExp { get; private set; }
-
-    private long inGameScore;
 
     private OutGameUIManager outGameUIManager;
     private OutGameManager outGameManager;
@@ -85,8 +81,11 @@ public class GameDataManager : Singleton<GameDataManager>
     public long staminaGoldUseCost { get; private set; }
     public int staminaToAdd { get; private set; }
 
-    private void Awake()
+    public override void InitializeSingleton()
     {
+        base.InitializeSingleton();
+        SaveLoadSystem.Instance.Load();
+
         //골드,토큰을 관리하는 시스템
         GoldAnimalTokenKeySystem = new();
 
@@ -98,7 +97,6 @@ public class GameDataManager : Singleton<GameDataManager>
 
         //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
         AnimalUserDataList = new();
-        AnimalUserDataList.Load();
 
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
         SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
@@ -202,8 +200,9 @@ public class GameDataManager : Singleton<GameDataManager>
         PlayerLevelSystem.SetInitialValue(1, 0);
         //string temp = "05/06/2025 22:20:13";
         //StaminaSystem.SetInitialValue(0, DateTime.Parse(temp));    //임시로 now갈겨놓은 것이니 추후 저장후 확인
-        GoldAnimalTokenKeySystem.SetInitialValue(100000, 1000, 1000, 1000, 12);
+        //GoldAnimalTokenKeySystem.SetInitialValue(100000, 1000, 1000, 1000, 12);
         StaminaSystem.SetInitialValue(900, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
+
 
 
         //// TempCode //

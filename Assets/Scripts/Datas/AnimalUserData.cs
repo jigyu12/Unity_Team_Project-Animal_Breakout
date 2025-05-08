@@ -1,7 +1,12 @@
+using System;
 using UnityEngine;
 
-public class AnimalUserData
+public class AnimalUserData : ISaveLoad
 {
+    public DataSourceType SaveDataSouceType
+    {
+        get => DataSourceType.Local;
+    }
     public AnimalStatData AnimalStatData
     {
         get;
@@ -32,36 +37,23 @@ public class AnimalUserData
         get => Level >= maxLevel;
     }
 
+
     public AnimalUserData(AnimalStatData animalStatData)
     {
         AnimalStatData = animalStatData;
-        //파라메터로 로드할때 뭔갈 받아와서 프로퍼티들 값을 적용해준다.
-        //아래코드는 테스트용이며 무조건 사라져야할 코드임
-        if (GameDataManager.Instance.AnimalUserDataList.initialAnimalID == AnimalStatData.AnimalID)
-        {
-            UnlockAnimal();
-        }
-    }
-
-    public void UpdateData()
-    {
-        //저장한대로 복구하는 코드 들어있어야
-        UpdateAttackPower();
     }
 
     public void UnlockAnimal()
     {
         if (!IsUnlock)
         {
+            Load(); //기본값 채워넣고
             IsUnlock = true;
-            Level = 1;
         }
         else
         {
             Debug.Assert(false, $"Animal is already unlocked in : {AnimalStatData.AnimalID}");
         }
-
-        UpdateData();
     }
 
     public void LevelUp()
@@ -79,4 +71,32 @@ public class AnimalUserData
             AttackPower += DataTableManager.enforceAnimalDataTable.Get(AnimalStatData.Grade, Level).AttackPower;
         }
     }
+
+    public void Save()
+    {
+        var saveData = SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave;
+        saveData.animalUserDataTable.Add(AnimalStatData.AnimalID, new AnimalUserDataSave { animalID = AnimalStatData.AnimalID, level = Level, isUnlock = IsUnlock });
+    }
+
+    public void Load()
+    {
+        Level = 1;
+        IsUnlock = false;
+        UpdateAttackPower();
+    }
+
+    public void Load(AnimalUserDataSave saveData)
+    {
+        if (saveData == null)
+        {
+            Load();
+            return;
+        }
+
+        Level = saveData.level;
+        IsUnlock = saveData.isUnlock;
+        UpdateAttackPower();
+    }
+
+
 }

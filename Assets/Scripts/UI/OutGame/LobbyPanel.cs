@@ -65,7 +65,7 @@ public class LobbyPanel : MonoBehaviour
         {
             gameStartButton.interactable = false;
 
-            Debug.Assert(false, "Invalid animal ID");
+            Debug.Assert(false, $"Invalid animal ID{animalID}");
             
             return;
         }
