@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlusButton
       objectReference: {fileID: 0}
+    - target: {fileID: 3809685072985256857, guid: d0691f70e623f114c9a063346bc61d25, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8131267527142287538, guid: d0691f70e623f114c9a063346bc61d25, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -112,6 +116,113 @@ MonoBehaviour:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8131267527142287538, guid: d0691f70e623f114c9a063346bc61d25, type: 3}
   m_PrefabInstance: {fileID: 1685896426739658548}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2979266187072783632
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5747478200965253417}
+    m_Modifications:
+    - target: {fileID: 6209720228353195277, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_Name
+      value: StaminaRecoveryPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+--- !u!224 &6605066497736759379 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8282561941623315779, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+  m_PrefabInstance: {fileID: 2979266187072783632}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9184283755823691805 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6209720228353195277, guid: 4cb97fb5a7564004e877002b7bfe5484, type: 3}
+  m_PrefabInstance: {fileID: 2979266187072783632}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4833229943700738905
 PrefabInstance:
@@ -228,6 +339,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 388724317558049581, guid: a6721e17bce65ec4982b7f65216cc42a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7475290807589062534}
+    - targetCorrespondingSourceObject: {fileID: 923292891991087728, guid: a6721e17bce65ec4982b7f65216cc42a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6605066497736759379}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7944296496870364698, guid: a6721e17bce65ec4982b7f65216cc42a, type: 3}
       insertIndex: -1
@@ -264,9 +378,15 @@ MonoBehaviour:
   staminaInfoText: {fileID: 7511407913517620098}
   staminaImageButton: {fileID: 2150272149600106953}
   plusButton: {fileID: 3866895234140436326}
+  StaminaRecoveryPanel: {fileID: 9184283755823691805}
 --- !u!224 &5077267292506216564 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 388724317558049581, guid: a6721e17bce65ec4982b7f65216cc42a, type: 3}
+  m_PrefabInstance: {fileID: 4833229943700738905}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &5747478200965253417 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 923292891991087728, guid: a6721e17bce65ec4982b7f65216cc42a, type: 3}
   m_PrefabInstance: {fileID: 4833229943700738905}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &7511407913517620098 stripped
