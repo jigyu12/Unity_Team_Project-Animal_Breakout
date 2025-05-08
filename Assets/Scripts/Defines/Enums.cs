@@ -277,6 +277,7 @@ public enum TokenType
 public enum FullScreenType
 {
     GachaScreen,
+    EnforceSuccessScreen,
 }
 
 public enum AnimalGradeType

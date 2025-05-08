@@ -91,7 +91,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         base.InitializeSingleton();
         SaveLoadSystem.Instance.Load();
-
+        
         //골드,토큰을 관리하는 시스템
         GoldAnimalTokenKeySystem = new();
         GoldAnimalTokenKeySystem.Load(SaveLoadSystem.Instance.CurrentSaveData.goldAnimalTokenKeySystemSave);
@@ -107,7 +107,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
         AnimalUserDataList = new();
         AnimalUserDataList.Load(SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave);
-
+        
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
         SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
         SetMaxRewardItemId(DataTableManager.rewardItemsDataTable.maxId);
@@ -118,8 +118,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         //BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
         SetInitializeData();
-
-
+        
         UnlockedAnimalPanel.onSetStartAnimalIDInPanel += OnSetAnimalIDInPanel;
 
         SceneManager.sceneLoaded += OnChangeSceneHandler;
@@ -211,6 +210,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
     private void SetInitializeData()
     {
+        
         //시스템클래스 생성중에 초기 값을 로드, 세팅한다
         //PlayerLevelSystem.SetInitialValue(1, 0);
         ////string temp = "05/06/2025 22:20:13";

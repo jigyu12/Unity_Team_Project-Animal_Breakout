@@ -199,6 +199,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TouchEnforce",
+                    "type": "Button",
+                    "id": "e1a6cc6a-d764-46bd-8086-a59920b9ec42",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -232,6 +241,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "TouchGacha3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a25c1449-ec5e-4b00-bbc2-91e8cc9c37fa",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchEnforce",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -172,6 +172,8 @@ public static class AlertPanelConfirmButtonFuncFactory
                     GameDataManager.Instance.targetEnforceAnimalPanel.SetTargetAnimalUserData(GameDataManager.Instance.targetEnforceAnimalPanel.animalUserData);
                     
                     outGameManager.OutGameUIManager.HideLastAlertPanel();
+                    
+                    outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.EnforceSuccessScreen);
                 }
             },
         };

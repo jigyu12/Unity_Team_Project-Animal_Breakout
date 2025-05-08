@@ -11,6 +11,11 @@ public class CurrentKeyCountPanel : MonoBehaviour
     {
         GoldAnimalTokenKeySystem.onKeyChanged += SetCurrentKeyCountText;
     }
+
+    private void Start()
+    {
+        SetCurrentKeyCountText(GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentKey);
+    }
     
     private void OnDestroy()
     {

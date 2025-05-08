@@ -47,6 +47,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     public static event Action<DefaultCanvasType, bool, bool> onSwitchActiveDefaultCanvas;
 
     public static event Action onGachaScreenActive;
+    public static event Action<AnimalUserData> onEnforceSuccessScreenActive;
     
     [SerializeField] private GameObject gachaResultSlot;
     private ObjectPool<GameObject> gachaResultSlotPool;
@@ -66,6 +67,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private readonly List<GameObject> enforceAnimalPanelList = new();
 
     private GameObject lastAlertPanel;
+    
+    public static event Action<FullScreenType> onSpecificFullScreenActive;
     
     private void Start()
     {
@@ -329,11 +332,18 @@ public class OutGameUIManager : MonoBehaviour, IManager
     {
         SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, true, true);
 
+        onSpecificFullScreenActive?.Invoke(type);
+        
         switch (type)
         {
             case FullScreenType.GachaScreen:
                 {
                     onGachaScreenActive?.Invoke();
+                }
+                break;
+            case FullScreenType.EnforceSuccessScreen:
+                {
+                    onEnforceSuccessScreenActive?.Invoke(GameDataManager.Instance.targetEnforceAnimalPanel.animalUserData);
                 }
                 break;
         }

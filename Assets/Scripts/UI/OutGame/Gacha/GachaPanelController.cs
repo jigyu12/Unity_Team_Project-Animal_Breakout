@@ -32,9 +32,12 @@ public class GachaPanelController : MonoBehaviour
         if (currentGachaPanelIndex >= gachaPanels.Count)
         {
             currentGachaPanelIndex = 0;
-
-            SetActiveCurrentGachaPanel();
             
+            for (int i = 0; i < gachaPanels.Count; ++i)
+            {
+                gachaPanels[i].SetActive(false);
+            }
+
             outGameUIManager.HideFullScreenPanel();
             
             return;
