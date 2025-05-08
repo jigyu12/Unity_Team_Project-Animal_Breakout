@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LockedAnimalPanel : MonoBehaviour
 {
@@ -7,10 +8,10 @@ public class LockedAnimalPanel : MonoBehaviour
     //private AnimalDataTable.AnimalRawData animalStatData;
 
     private AnimalUserData animalUserData;
-    [SerializeField] private TMP_Text tempAnimalNameText;
+     [SerializeField] private Image animalImage;
 
     public int animalId => animalUserData.AnimalStatData.AnimalID;
-
+    
     //public void SetAnimalStatData(AnimalDataTable.AnimalRawData statData)
     //{
     //    animalStatData = statData;
@@ -20,6 +21,6 @@ public class LockedAnimalPanel : MonoBehaviour
     public void SetAnimalUserData(AnimalUserData userData)
     {
         animalUserData = userData;
-        tempAnimalNameText.text = animalUserData.AnimalStatData.StringID;
+        animalImage.sprite = animalUserData.AnimalStatData.AnimalSprite;
     }
 }

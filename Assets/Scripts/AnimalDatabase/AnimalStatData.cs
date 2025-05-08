@@ -17,6 +17,8 @@ public class AnimalStatData : ScriptableObject
     public SkillData SkillData;
     public Sprite iconImage;
 
+    public Sprite AnimalSprite;
+
 #if UNITY_EDITOR
     private string skillDataPath = "Assets/Resources/ScriptableData/Skill/Skill_Attack{0}.asset";
     private string iconPath = "Assets/Resources/PlayerIcon/{0}.png";
