@@ -63,17 +63,17 @@ public class StageManager : InGameManager
     {
         currentStageDataIndex++;
         //currentStageDataIndex %= stageDatas.Count;
-        
+
         if (currentStageDataIndex == stageDatas.Count)
         {
             currentStageDataIndex -= 2;
         }
-        
+
         if (CurrentStageData.isBossStage)
         {
             ++bossStageSetCount;
         }
-        
+
         switch (bossStageSetCount)
         {
             case < 2:
@@ -97,18 +97,19 @@ public class StageManager : InGameManager
                 }
                 break;
         }
-        
+
         if (isFirstBossSpawn && CurrentStageData.isBossStage)
         {
+            //GameManager.UIManager.runStageUI.SetTotalByRoadWayCount(CurrentStageData.roadWayCount); //추가
             GameManager.RoadMaker.PushNextStageRoadWayData(CurrentStageData);
-            
+
             currentStageDataIndex = -1;
-            
+
             isFirstBossSpawn = false;
-            
+
             return;
         }
-        
+
         Debug.Log("Stage " + currentStageDataIndex + "is boss stage " + CurrentStageData.isBossStage);
 
         var currStageData = stageDatas[currentStageDataIndex];
@@ -123,6 +124,9 @@ public class StageManager : InGameManager
         isTrackingStarted = true;
 
         GameManager.UIManager.runStageUI.Reset();
+        // int nonBossCount = GameManager.RoadMaker.GetNonBossRoadWayCountFromStageData(CurrentStageData);
+        // GameManager.UIManager.runStageUI.SetTotalByRoadWayCount(nonBossCount);
+        GameManager.UIManager.runStageUI.SetTotalByRoadWayCount(CurrentStageData.roadWayCount);
         GameManager.UIManager.runStageUI.StartBossWayTracking();
         GameManager.UIManager.runStageUI.Show();
         GameManager.UIManager.bossWayUI.Hide();
@@ -154,10 +158,10 @@ public class StageManager : InGameManager
         GameManager.UIManager.runStageUI.Show();
         isTrackingStarted = false;
         RoadWayDistanceTracking();
-        GameManager.UIManager.runStageUI.total = 100f;
+        // GameManager.UIManager.runStageUI.total = 100f;
         GameManager.UIManager.bossTimeLimit.StopTimeOut();
         OnCurrentStageClear();
-        
+
         GameManager.PlayerManager.moveForward.AddSpeed(1f);
     }
 }
