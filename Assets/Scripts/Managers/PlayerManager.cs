@@ -120,7 +120,7 @@ public class PlayerManager : InGameManager
 
         ActivatePlayer();
 
-        GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalID);
+        GameObject prefab = LoadManager.Instance.GetCharacterPrefab(animalUserData.AnimalStatData.Prefab);
         if (prefab != null)
         {
 

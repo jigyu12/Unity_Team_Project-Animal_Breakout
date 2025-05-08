@@ -11,6 +11,7 @@ public class AnimalStatData : ScriptableObject
     public float StartSpeed;
     public float MaxSpeed;
     public float Jump;
+    public string Prefab;
 
     public PassiveType passive;
     public SkillData SkillData;
@@ -27,6 +28,7 @@ public class AnimalStatData : ScriptableObject
         this.MaxSpeed = rawData.MaxSpeed;
         this.Jump = rawData.Jump;
         this.passive = (PassiveType)rawData.PassiveType;
+        this.Prefab = rawData.Prefab;
 
         string path = string.Format(skillDataPath, rawData.SkillID);
         SkillData = AssetDatabase.LoadAssetAtPath<SkillData>(string.Format(skillDataPath, rawData.SkillID));
