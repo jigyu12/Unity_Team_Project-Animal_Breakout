@@ -19,6 +19,15 @@ public class SaveLoadSystem : PersistentMonoSingleton<SaveLoadSystem>
         get;
         set;
     }
+    public static string CurrentSaveFileName
+    {
+        get => "TempJsonFile.json";
+    }
+
+    public static string SavePathDirectory
+    {
+        get => $"{Application.persistentDataPath}/Save";
+    }
 
     public Action onApplicationQuitSave;
 
@@ -35,10 +44,7 @@ public class SaveLoadSystem : PersistentMonoSingleton<SaveLoadSystem>
         //Converters = { new Vector3Converter(), new QuaternionConverter(), new Vector3IntConverter() }
     };
 
-    private static string SavePathDirectory
-    {
-        get => $"{Application.persistentDataPath}/Save";
-    }
+
 
     public void Save()
     {
@@ -48,14 +54,14 @@ public class SaveLoadSystem : PersistentMonoSingleton<SaveLoadSystem>
         {
             Directory.CreateDirectory(SavePathDirectory);
         }
-        var path = Path.Combine(SavePathDirectory, "TempJsonFile.json");
+        var path = Path.Combine(SavePathDirectory, CurrentSaveFileName);
         var json = JsonConvert.SerializeObject(CurrentSaveData, settings);
         File.WriteAllText(path, json);
     }
 
     public void Load()
     {
-        var path = Path.Combine(SavePathDirectory, "TempJsonFile.json");
+        var path = Path.Combine(SavePathDirectory, CurrentSaveFileName);
 
         if (!File.Exists(path))
         {

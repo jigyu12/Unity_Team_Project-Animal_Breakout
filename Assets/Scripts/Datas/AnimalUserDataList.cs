@@ -35,7 +35,7 @@ public class AnimalUserDataList : ISaveLoad
 
     public AnimalUserDataList()
     {
-        Load(SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave);
+        //Load(SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave);
         SaveLoadSystem.Instance.RegisterOnSaveAction(this);
     }
     
@@ -64,11 +64,6 @@ public class AnimalUserDataList : ISaveLoad
         }
 
         animalUserDataTable[animalID].UnlockAnimal();
-    }
-
-    public void RegisterOnSaveAction(Action onSave)
-    {
-
     }
 
 
@@ -105,8 +100,6 @@ public class AnimalUserDataList : ISaveLoad
             }
         }
 
-        // public int startAnimalID { get; private set; } = 100112;
-        //코드를 여기에 이식했다 이것도 데이터가 로드될 수 있을때 변동되어야 하는 코드임
         SetCurrentAnimalPlayer(initialAnimalID);
     }
 
