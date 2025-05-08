@@ -232,6 +232,7 @@ public enum AlertPanelConfirmButtonFuncType
     DoTenTimesGacha,
     NotEnoughKeyToDoSingleGacha,
     NotEnoughKeyToDoTenTimesGacha,
+    CheckStaminaPurchase,
 }
 
 public enum AlertPanelCancelButtonFuncType
@@ -251,6 +252,8 @@ public enum AlertPanelInfoDataType
     NotEnoughKeyToDoSingleGacha,
     NotEnoughKeyToDoTenTimesGacha,
     NotEnoughGold,
+    TooManyStaminaToPurchaseStamina,
+    CheckStaminaPurchase,
 }
 
 public enum RunPhaseType
@@ -278,4 +281,10 @@ public enum AnimalGradeType
     OneStar = 1,
     TwoStar,
     ThreeStar,
+}
+
+public enum AnimalStatDropDownSortType
+{
+    Level = 0,
+    Grade,
 }
