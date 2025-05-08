@@ -7,7 +7,7 @@ using Color = UnityEngine.Color;
 public class EnforceAnimalPanel : MonoBehaviour
 {
     //모르겠다 일단 이렇게 받아오겠다 수정해달라
-    public EnforceAnimalManager enforceAnimalManager;
+    private EnforceAnimalManager enforceAnimalManager;
 
     [SerializeField] private Image animalImage;
     [SerializeField] private Image starImage;
@@ -19,7 +19,6 @@ public class EnforceAnimalPanel : MonoBehaviour
     [SerializeField] private TMP_Text originAttackPowerText;
     [SerializeField] private TMP_Text enforcedAttackPowerText;
 
-
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text skillText;
     [SerializeField] private TMP_Text passiveText;
@@ -27,6 +26,12 @@ public class EnforceAnimalPanel : MonoBehaviour
     [SerializeField] private TMP_Text requiredTokenText;
     [SerializeField] private TMP_Text enforceText;
     [SerializeField] private TMP_Text goldCostText;
+
+    private void Start()
+    {
+        GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
+        enforceAnimalManager = outGameManager.EnforceAnimalManager;
+    }
 
     public void SetTargetAnimalUserData(AnimalUserData animalUserData)
     {

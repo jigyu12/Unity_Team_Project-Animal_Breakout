@@ -15,9 +15,8 @@ public class AnimalStatData : ScriptableObject
 
     public PassiveType passive;
     public SkillData SkillData;
-    public Sprite iconImage;
 
-    public Sprite AnimalSprite;
+    public Sprite iconImage;
 
 #if UNITY_EDITOR
     private string skillDataPath = "Assets/Resources/ScriptableData/Skill/Skill_Attack{0}.asset";

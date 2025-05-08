@@ -84,9 +84,9 @@ public class OutGameManager : MonoBehaviour
         gachaManager.SetOutGameManager(this);
         managers.Add(gachaManager);
 
-        //GameObject.FindGameObjectWithTag("EnforceAnimalManager").TryGetComponent(out enforceAnimalManager);
-        //enforceAnimalManager.SetOutGameManager(this);
-        //managers.Add(enforceAnimalManager);
+        GameObject.FindGameObjectWithTag("EnforceAnimalManager").TryGetComponent(out enforceAnimalManager);
+        enforceAnimalManager.SetOutGameManager(this);
+        managers.Add(enforceAnimalManager);
 
         foreach (var manager in managers)
         {
