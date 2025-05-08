@@ -12,6 +12,8 @@ public abstract class SaveData
 public class SaveDataV1 : SaveData
 {
     public GoldAnimalTokenKeySystemSave goldAnimalTokenKeySystemSave = new();
+    public PlayerLevelSystemSave playerLevelSystemSave = new();
+    public StaminaSystemSave staminaSystemSave = new();
     public AnimalUserDataListSave animalUserDataTableSave = new();
     public DateTime saveTime = DateTime.Now;
 

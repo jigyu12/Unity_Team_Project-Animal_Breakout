@@ -88,15 +88,19 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
         //골드,토큰을 관리하는 시스템
         GoldAnimalTokenKeySystem = new();
+        GoldAnimalTokenKeySystem.Load(SaveLoadSystem.Instance.CurrentSaveData.goldAnimalTokenKeySystemSave);
 
         //플레이어 레벨, 경험치를 관리하는 시스템
         PlayerLevelSystem = new();
+        PlayerLevelSystem.Load(SaveLoadSystem.Instance.CurrentSaveData.playerLevelSystemSave);
 
         //스테미나를 관리하는 시스템
         StaminaSystem = new();
+        StaminaSystem.Load(SaveLoadSystem.Instance.CurrentSaveData.staminaSystemSave);
 
         //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
         AnimalUserDataList = new();
+        AnimalUserDataList.Load(SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave);
 
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
         SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
@@ -197,11 +201,12 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
     private void SetInitializeData()
     {
-        PlayerLevelSystem.SetInitialValue(1, 0);
-        //string temp = "05/06/2025 22:20:13";
-        //StaminaSystem.SetInitialValue(0, DateTime.Parse(temp));    //임시로 now갈겨놓은 것이니 추후 저장후 확인
-        //GoldAnimalTokenKeySystem.SetInitialValue(100000, 1000, 1000, 1000, 12);
-        StaminaSystem.SetInitialValue(900, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
+        //시스템클래스 생성중에 초기 값을 로드, 세팅한다
+        //PlayerLevelSystem.SetInitialValue(1, 0);
+        ////string temp = "05/06/2025 22:20:13";
+        ////StaminaSystem.SetInitialValue(0, DateTime.Parse(temp));    //임시로 now갈겨놓은 것이니 추후 저장후 확인
+        ////GoldAnimalTokenKeySystem.SetInitialValue(100000, 1000, 1000, 1000, 12);
+        //StaminaSystem.SetInitialValue(900, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
 
 
 
@@ -412,14 +417,18 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         initialData.SaveLevelUpInfoData(this.currentLevel, this.nextExp, this.currentExp);
     }
 
-
-    public void AddStaminaRepeat(int currentStamina, int maxStaminaCanFilled)
+    public Coroutine StartAddStaminaCoroutine()
     {
-        if (StaminaSystem.coAddStamina == null&&!StaminaSystem.IsStaminaFull)
-        {
-            StaminaSystem.coAddStamina = StartCoroutine(StaminaSystem.CoAddStamina());
-        }
+        return StartCoroutine(StaminaSystem.CoAddStamina());
     }
+
+    //public void AddStaminaRepeat(int currentStamina, int maxStaminaCanFilled)
+    //{
+    //    if (StaminaSystem.coAddStamina == null&&!StaminaSystem.IsStaminaFull)
+    //    {
+    //        StaminaSystem.coAddStamina = StartCoroutine(StaminaSystem.CoAddStamina());
+    //    }
+    //}
 
     private void OnTokenAddedHandler(TokenType type, int tokenValue)
     {

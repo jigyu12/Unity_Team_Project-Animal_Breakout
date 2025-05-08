@@ -2,11 +2,18 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerLevelSystem 
+public class PlayerLevelSystem :ISaveLoad
 {
+    public DataSourceType SaveDataSouceType
+    {
+        get => DataSourceType.Local;
+    }
+
     public PlayerLevelSystem()
     {
         SceneManager.sceneLoaded += OnChangeSceneHandler;
+         //Load(SaveLoadSystem.Instance.CurrentSaveData.playerLevelSystemSave);
+        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
     }
 
     ~PlayerLevelSystem()
@@ -58,6 +65,7 @@ public class PlayerLevelSystem
     public static Action<int, int> onLevelChange; //level, maxexp
     public static Action<int, int> onExperienceValueChanged; //add, sum
 
+
     //추후에 로드가 생기면 사용할 함수
     public void SetInitialValue(int level, int exp)
     {
@@ -103,4 +111,29 @@ public class PlayerLevelSystem
 
         onLevelChange?.Invoke(CurrentLevel, ExperienceToNextLevel);
     }
+
+    public void Save()
+    {
+        var saveData = SaveLoadSystem.Instance.CurrentSaveData.playerLevelSystemSave = new();
+        saveData.currentLevel = CurrentLevel;
+        saveData.experienceValue = ExperienceValue;
+    }
+
+    public void Load()
+    {
+        SetInitialValue(1, 0);
+    }
+
+    public void Load(PlayerLevelSystemSave saveData)
+    {
+        if (saveData == null)
+        {
+            Load();
+            return;
+        }
+
+        SetInitialValue(saveData.currentLevel, saveData.experienceValue);
+    }
+
 }
+
