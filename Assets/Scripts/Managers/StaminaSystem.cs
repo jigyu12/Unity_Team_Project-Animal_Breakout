@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StaminaSystem : ISaveLoad
 {
@@ -9,6 +10,26 @@ public class StaminaSystem : ISaveLoad
         get => DataSourceType.Local;
     }
 
+    public StaminaSystem()
+    {
+        SceneManager.sceneLoaded += OnChangeSceneHandler;
+                //Load(SaveLoadSystem.Instance.CurrentSaveData.staminaSystemSave);
+        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
+    }
+
+    ~StaminaSystem()
+    {
+        SceneManager.sceneLoaded -= OnChangeSceneHandler;
+    }
+
+    private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().name == "MainTitleScene")
+        {
+            onStaminaChanged?.Invoke(CurrentStamina, maxStaminaCanFilled);
+        }
+    }
+    
     public int CurrentStamina
     {
         get;
@@ -31,12 +52,6 @@ public class StaminaSystem : ISaveLoad
 
     private DateTime lastStaminaAddTime = DateTime.MinValue;
     public Coroutine coAddStamina = null;
-
-    public StaminaSystem()
-    {
-        //Load(SaveLoadSystem.Instance.CurrentSaveData.staminaSystemSave);
-        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
-    }
 
     public void SetInitialValue(int stamina, DateTime lastTime)
     {

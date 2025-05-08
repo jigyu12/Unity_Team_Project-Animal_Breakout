@@ -1,8 +1,34 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GoldAnimalTokenKeySystem : ISaveLoad
 {
+    public GoldAnimalTokenKeySystem()
+    {
+        Load(SaveLoadSystem.Instance.CurrentSaveData.goldAnimalTokenKeySystemSave);
+        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
+        
+        SceneManager.sceneLoaded += OnChangeSceneHandler;
+    }
+
+    ~GoldAnimalTokenKeySystem()
+    {
+        SceneManager.sceneLoaded -= OnChangeSceneHandler;
+    }
+
+    private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().name == "MainTitleScene")
+        {
+            onGoldChanged?.Invoke(CurrentGolds);
+            onBronzeTokenChanged?.Invoke(CurrentBronzeToken);
+            onSliverTokenChanged?.Invoke(CurrentSliverToken);
+            onGoldTokenChanged?.Invoke(CurrentGoldToken);
+            onKeyChanged?.Invoke(CurrentKey);
+        }
+    }
+    
     public DataSourceType SaveDataSouceType
     {
         get => DataSourceType.Local;
@@ -55,12 +81,6 @@ public class GoldAnimalTokenKeySystem : ISaveLoad
     public const int maxKey = 9999;
 
     public static Action<int> onKeyChanged;
-
-    public GoldAnimalTokenKeySystem()
-    {
-        Load(SaveLoadSystem.Instance.CurrentSaveData.goldAnimalTokenKeySystemSave);
-        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
-    }
 
     public void SetInitialValue(long gold, int bronzeToken, int sliverToken, int goldToken, int key)
     {
