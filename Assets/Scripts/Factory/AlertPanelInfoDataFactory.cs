@@ -117,6 +117,16 @@ public static class AlertPanelInfoDataFactory
                     
                     return alertPanelInfoData;
                 }
+            case AlertPanelInfoDataType.EnforceAnimal:
+                {
+                    AlertPanelInfoData alertPanelInfoData = new();
+                    
+                    alertPanelInfoData.description = $"{GameDataManager.Instance.requiredTokenType.ToString()} {GameDataManager.Instance.requiredTokenCount}개와 코인 {GameDataManager.Instance.requiredGoldCount}개를 소모하여 강화를 진행하시겠습니까?";
+                    alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.EnforceAnimal);
+                    alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanelBySetActive);
+                    
+                    return alertPanelInfoData;
+                }
         }
         
         Debug.Assert(false, $"Cant find AlertPanelInfoData in AlertPanelInfoDataType: {type}");

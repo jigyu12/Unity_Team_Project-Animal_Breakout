@@ -48,11 +48,11 @@ public class EnforceAnimalManager : MonoBehaviour, IManager
 
     public void EnforceAnimal(AnimalUserData animalUserData)
     {
-        animalUserData.LevelUp();
-
         EnforceAnimalData data = DataTableManager.enforceAnimalDataTable.Get(animalUserData.AnimalStatData.Grade, animalUserData.Level + 1);
         GameDataManager.Instance.GoldAnimalTokenKeySystem.PayToken(animalUserData.AnimalStatData.Grade, data.TokenValue);
         GameDataManager.Instance.GoldAnimalTokenKeySystem.PayGold(data.Cost);
+        
+        animalUserData.LevelUp();
     }
 
 }

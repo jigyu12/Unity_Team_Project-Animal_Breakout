@@ -59,7 +59,14 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private readonly WaitForEndOfFrame waitEndOfFrame = new();
 
     [SerializeField] private GameObject settingPanel;
+    
+    [SerializeField] private GameObject enforceAnimalPanel;
+    private ObjectPool<GameObject> enforceAnimalPanelPool;
+    [SerializeField] private GameObject enforceAnimalPanelReleaseParent;
+    private readonly List<GameObject> enforceAnimalPanelList = new();
 
+    private GameObject lastAlertPanel;
+    
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
@@ -81,6 +88,11 @@ public class OutGameUIManager : MonoBehaviour, IManager
         
         gachaResultSlotPool = outGameManager.ObjectPoolManager.CreateObjectPool(gachaResultSlot,
             () => Instantiate(gachaResultSlot),
+            obj => { obj.SetActive(true); },
+            obj => { obj.SetActive(false); });
+        
+        enforceAnimalPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(enforceAnimalPanel,
+            () => Instantiate(enforceAnimalPanel),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
 
@@ -230,8 +242,11 @@ public class OutGameUIManager : MonoBehaviour, IManager
         
         alertPanel.TryGetComponent(out AlertPanel alertPanelComponent);
         alertPanelComponent.SetDescriptionTextAndButtonAction(alertPanelInfoData);
+        alertPanelComponent.SetReleaseBySelf(alertSingleButtonPanelPool, alertSingleButtonPanelList, alertPanelReleaseParent);
         
         alertSingleButtonPanelList.Add(alertPanel);
+
+        lastAlertPanel = alertPanel;
     }
     
     public void ShowAlertDoubleButtonPanel(AlertPanelInfoData alertPanelInfoData)
@@ -244,8 +259,25 @@ public class OutGameUIManager : MonoBehaviour, IManager
         
         alertPanel.TryGetComponent(out AlertPanel alertPanelComponent);
         alertPanelComponent.SetDescriptionTextAndButtonAction(alertPanelInfoData);
+        alertPanelComponent.SetReleaseBySelf(alertDoubleButtonPanelPool, alertDoubleButtonPanelList, alertPanelReleaseParent);
         
         alertDoubleButtonPanelList.Add(alertPanel);
+        
+        lastAlertPanel = alertPanel;
+    }
+
+    public void ShowEnforceAnimalPanel(AnimalUserData animalUserData)
+    {
+        alertPanelSpawnPanelRoot.SetActive(true);
+
+        var enforcePanel = enforceAnimalPanelPool.Get();
+        enforcePanel.transform.SetParent(alertPanelSpawnPanel.transform);
+        enforcePanel.transform.localPosition = Vector3.zero;
+
+        enforcePanel.TryGetComponent(out EnforceAnimalPanel enforceAnimalPanelComponent);
+        enforceAnimalPanelComponent.SetTargetAnimalUserData(animalUserData);
+        
+        enforceAnimalPanelList.Add(enforcePanel);
     }
 
     public void ShowSettingPanel()
@@ -268,13 +300,29 @@ public class OutGameUIManager : MonoBehaviour, IManager
             alertDoubleButtonPanelList[i].transform.SetParent(alertPanelReleaseParent.transform);
             alertDoubleButtonPanelPool.Release(alertDoubleButtonPanelList[i]);
         }
+
+        for (int i = 0; i < enforceAnimalPanelList.Count; ++i)
+        {
+            enforceAnimalPanelList[i].transform.SetParent(enforceAnimalPanelReleaseParent.transform);
+            enforceAnimalPanelPool.Release(enforceAnimalPanelList[i]);
+        }
         
         alertSingleButtonPanelList.Clear();
         alertDoubleButtonPanelList.Clear();
+        enforceAnimalPanelList.Clear();
         
         settingPanel.SetActive(false);
         
         alertPanelSpawnPanelRoot.SetActive(false);
+    }
+
+    public void HideLastAlertPanel()
+    {
+        if (lastAlertPanel != null)
+        {
+            lastAlertPanel.TryGetComponent(out AlertPanel alertPanelComponent);
+            alertPanelComponent.Release();
+        }
     }
 
     public void ShowFullScreenPanel(FullScreenType type)

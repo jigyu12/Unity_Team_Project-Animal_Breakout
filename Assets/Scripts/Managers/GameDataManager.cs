@@ -80,6 +80,12 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     
     public long staminaGoldUseCost { get; private set; }
     public int staminaToAdd { get; private set; }
+    
+    public TokenType requiredTokenType { get; private set; }
+    public int requiredTokenCount { get; private set; }
+    public long requiredGoldCount { get; private set; }
+    
+    public EnforceAnimalPanel targetEnforceAnimalPanel { get; private set; }
 
     public override void InitializeSingleton()
     {
@@ -130,6 +136,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         StaminaGoldUseButton.onStaminaGoldUseButtonClicked += OnStaminaGoldUseButtonClickedHandler;
 
         onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
+
+        EnforceAnimalPanel.onEnforceInfoSet += OnEnforceInfoSetHandler;
     }
 
     private void OnDestroy()
@@ -150,6 +158,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         GachaManager.onTokenAdded -= OnTokenAddedHandler;
         
         StaminaGoldUseButton.onStaminaGoldUseButtonClicked -= OnStaminaGoldUseButtonClickedHandler;
+
+        EnforceAnimalPanel.onEnforceInfoSet -= OnEnforceInfoSetHandler;
     }
 
 
@@ -461,5 +471,14 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         this.staminaGoldUseCost = staminaGoldUseCost;
         this.staminaToAdd = staminaToAdd;
+    }
+
+    private void OnEnforceInfoSetHandler(TokenType requiredTokenType, int requiredTokenCount,
+        long requiredGoldCount, EnforceAnimalPanel targetEnforceAnimalPanel)
+    {
+        this.requiredTokenType = requiredTokenType;
+        this.requiredTokenCount = requiredTokenCount;
+        this.requiredGoldCount = requiredGoldCount;
+        this.targetEnforceAnimalPanel = targetEnforceAnimalPanel;
     }
 }

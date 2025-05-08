@@ -17,7 +17,7 @@ public class OutGameManager : MonoBehaviour
     public GachaManager GachaManager => gachaManager;
 
     private EnforceAnimalManager enforceAnimalManager;
-    public EnforceAnimalManager EnforceAnimalManager=>enforceAnimalManager;
+    public EnforceAnimalManager EnforceAnimalManager => enforceAnimalManager;
     #endregion
 
     [HideInInspector] public bool isGameQuitPanelShow;

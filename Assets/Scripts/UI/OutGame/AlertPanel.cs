@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.UI;
 
 public class AlertPanel : MonoBehaviour
@@ -7,6 +9,10 @@ public class AlertPanel : MonoBehaviour
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private Button confirmButton;
     [SerializeField] private Button cancelButton;
+    
+    private ObjectPool<GameObject> alertPanelObjectPool;
+    private List<GameObject> alertPanelList;
+    private GameObject releaseParent;
     
     public void SetDescriptionTextAndButtonAction(AlertPanelInfoData alertPanelInfoData)
     {
@@ -23,5 +29,19 @@ public class AlertPanel : MonoBehaviour
             cancelButton.onClick.RemoveAllListeners();
             cancelButton.onClick.AddListener(alertPanelInfoData.cancelButtonAction);
         }
+    }
+
+    public void SetReleaseBySelf(ObjectPool<GameObject> alertPanelObjectPool, List<GameObject> alertPanelList, GameObject releaseParent)
+    {
+        this.alertPanelObjectPool = alertPanelObjectPool;
+        this.alertPanelList = alertPanelList;
+        this.releaseParent = releaseParent;
+    }
+
+    public void Release()
+    {
+        alertPanelList.Remove(gameObject);
+        gameObject.transform.SetParent(releaseParent.transform);
+        alertPanelObjectPool.Release(gameObject);
     }
 }
