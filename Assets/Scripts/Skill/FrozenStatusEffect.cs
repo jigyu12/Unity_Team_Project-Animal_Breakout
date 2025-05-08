@@ -26,6 +26,7 @@ public class FrozenStatusEffect : StatusEffect
         SetEffectData(effectId, SkillElemental.Ice);
         SetDamagerableTarget(GetComponent<DamageableStatus>());
         isPerforming = false;
+
     }
 
     public override void SetDamagerableTarget(DamageableStatus damageable)
@@ -42,8 +43,8 @@ public class FrozenStatusEffect : StatusEffect
             isPerforming = true;
             currentCount = 0;
             attackPower = elementalAttackPower;
-
-            debuffIcon = debuffUI?.AddDebuff("Freeze");
+            var gameManager = skillManager.gameManager;
+            debuffIcon = gameManager.UIManager.bossDebuffUI.AddDebuff("Freeze");
         }
     }
 
@@ -65,7 +66,8 @@ public class FrozenStatusEffect : StatusEffect
         {
             isPerforming = false;
             // 디버프 아이콘 제거
-            debuffUI?.RemoveDebuff("Freeze");
+            var gameManager = skillManager.gameManager;
+            gameManager.UIManager.bossDebuffUI.RemoveDebuff("Freeze");
 
         }
         // debuffUI.RemoveDebuff("Freeze");

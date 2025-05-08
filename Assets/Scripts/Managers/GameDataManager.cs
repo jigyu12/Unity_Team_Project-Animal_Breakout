@@ -77,6 +77,9 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     private LevelUpInfoData initialData;
     
     public const long keyPrice = 5000;
+    
+    public long staminaGoldUseCost { get; private set; }
+    public int staminaToAdd { get; private set; }
 
     public override void InitializeSingleton()
     {
@@ -119,6 +122,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         OutGameUIManager.onAnimalUnlockPanelInstantiated += onAnimalUnlockPanelInstantiatedHandler;
 
         GachaManager.onTokenAdded += OnTokenAddedHandler;
+        
+        StaminaGoldUseButton.onStaminaGoldUseButtonClicked += OnStaminaGoldUseButtonClickedHandler;
 
         onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
     }
@@ -139,8 +144,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         OutGameUIManager.onAnimalUnlockPanelInstantiated -= onAnimalUnlockPanelInstantiatedHandler;
         
         GachaManager.onTokenAdded -= OnTokenAddedHandler;
-
         
+        StaminaGoldUseButton.onStaminaGoldUseButtonClicked -= OnStaminaGoldUseButtonClickedHandler;
     }
 
 
@@ -196,7 +201,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         //string temp = "05/06/2025 22:20:13";
         //StaminaSystem.SetInitialValue(0, DateTime.Parse(temp));    //임시로 now갈겨놓은 것이니 추후 저장후 확인
         //GoldAnimalTokenKeySystem.SetInitialValue(100000, 1000, 1000, 1000, 12);
-        StaminaSystem.SetInitialValue(3, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
+        StaminaSystem.SetInitialValue(900, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
+
 
 
         //// TempCode //
@@ -440,5 +446,11 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         }
         
         Debug.Assert(false, "Invalid tokenType");
+    }
+
+    private void OnStaminaGoldUseButtonClickedHandler(long staminaGoldUseCost, int staminaToAdd)
+    {
+        this.staminaGoldUseCost = staminaGoldUseCost;
+        this.staminaToAdd = staminaToAdd;
     }
 }

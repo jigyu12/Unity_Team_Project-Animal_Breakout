@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UI;
 
 public class OutGameUIManager : MonoBehaviour, IManager
 {
@@ -17,6 +19,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private ObjectPool<GameObject> unlockAnimalPanelPool;
     public static event Action<GameObject> onAnimalUnlockPanelInstantiated;
     private readonly Dictionary<int, GameObject> animalUnlockPanelDictionary = new();
+    private readonly List<GameObject> animalUnlockPanelList = new();
     
     [SerializeField] private GameObject lockAnimalPanelPrefab;
     private ObjectPool<GameObject> lockAnimalPanelPool;
@@ -49,6 +52,12 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private ObjectPool<GameObject> gachaResultSlotPool;
     [SerializeField] private GameObject gachaResultSlotPanelReleaseParent;
 
+    [SerializeField] private TMP_Dropdown animalStatDropDown;
+    [SerializeField] private Toggle animalListSortToggle;
+    [SerializeField] private Canvas animalCanvas;
+    private CanvasGroup animalCanvasGroup;
+    private readonly WaitForEndOfFrame waitEndOfFrame = new();
+
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
@@ -74,6 +83,9 @@ public class OutGameUIManager : MonoBehaviour, IManager
             obj => { obj.SetActive(false); });
 
         GachaManager.onAnimalUnlocked += OnAnimalUnlockedHandler;
+        GachaManager.onAnimalUnlockedFinished += StartSortUnlockAnimalPanelCoroutine;
+        animalStatDropDown.onValueChanged.AddListener(SortUnlockAnimalPanel);
+        animalListSortToggle.onValueChanged.AddListener(SortUnlockAnimalPanel);
         
         // TempCode //
         
@@ -111,6 +123,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
                 onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
                 unlockAnimalPanel.transform.localScale = Vector3.one;
                 animalUnlockPanelDictionary.Add(animalUnlockPanel.animalId, unlockAnimalPanel);
+                animalUnlockPanelList.Add(unlockAnimalPanel);
             }
             else
             {
@@ -122,13 +135,19 @@ public class OutGameUIManager : MonoBehaviour, IManager
                 animalLockPanelDictionary.Add(animalLockPanel.animalId, lockAnimalPanel);
             }
         }
-        
+
+        animalCanvas.TryGetComponent(out animalCanvasGroup);
+        SortUnlockAnimalPanel();
+
         // TempCode //
     }
     
     private void OnDestroy()
     {
         GachaManager.onAnimalUnlocked -= OnAnimalUnlockedHandler;
+        GachaManager.onAnimalUnlockedFinished -= StartSortUnlockAnimalPanelCoroutine;
+        animalStatDropDown.onValueChanged.RemoveAllListeners();
+        animalListSortToggle.onValueChanged.RemoveAllListeners();
     }
     
     public void Initialize()
@@ -335,5 +354,149 @@ public class OutGameUIManager : MonoBehaviour, IManager
         onAnimalUnlockPanelInstantiated?.Invoke(unlockAnimalPanel);
         unlockAnimalPanel.transform.localScale = Vector3.one;
         animalUnlockPanelDictionary.Add(animalUnlockPanel.animalId, unlockAnimalPanel);
+        animalUnlockPanelList.Add(unlockAnimalPanel);
+    }
+    
+    private void SortUnlockAnimalPanel(int dropDownValue)
+    {
+        SortUnlockAnimalPanel();
+    }
+
+    public void SortUnlockAnimalPanel(bool toggleValue)
+    {
+        SortUnlockAnimalPanel();
+    }
+
+    private void SortUnlockAnimalPanel()
+    {
+        var dropDownValue = animalStatDropDown.value;
+        var toggleValueIsOn = animalListSortToggle.isOn;
+        
+        switch (dropDownValue)
+        {
+            case (int)AnimalStatDropDownSortType.Level:
+                {
+                    if (toggleValueIsOn)
+                    {
+                        animalUnlockPanelList.Sort((animalUnlockPanel1, animalUnlockPanel2) =>
+                        {
+                            animalUnlockPanel1.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent1);
+                            var animalId1 = animalUnlockPanelComponent1.animalId;
+                            
+                            animalUnlockPanel2.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent2);
+                            var animalId2 = animalUnlockPanelComponent2.animalId;
+                            
+                            var animalUserData1 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId1);
+                            var animalUserData2 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId2);
+                        
+                            var compare1 = animalUserData1.Level.CompareTo(animalUserData2.Level);
+                            if (compare1 != 0)
+                            {
+                                return compare1;
+                            }
+                        
+                            return animalUserData1.AnimalStatData.AnimalID.CompareTo(animalUserData2.AnimalStatData.AnimalID);
+                        });
+                    }
+                    else
+                    {
+                        animalUnlockPanelList.Sort((animalUnlockPanel1, animalUnlockPanel2) =>
+                        {
+                            animalUnlockPanel1.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent1);
+                            var animalId1 = animalUnlockPanelComponent1.animalId;
+                            
+                            animalUnlockPanel2.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent2);
+                            var animalId2 = animalUnlockPanelComponent2.animalId;
+                            
+                            var animalUserData1 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId2);
+                            var animalUserData2 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId1);
+                        
+                            var compare = animalUserData1.Level.CompareTo(animalUserData2.Level);
+                            if (compare != 0)
+                            {
+                                return compare;
+                            }
+                        
+                            return animalUserData1.AnimalStatData.AnimalID.CompareTo(animalUserData2.AnimalStatData.AnimalID);
+                        });
+                    }
+                }
+                break;
+            case (int)AnimalStatDropDownSortType.Grade:
+                {
+                    if (toggleValueIsOn)
+                    {
+                        animalUnlockPanelList.Sort((animalUnlockPanel1, animalUnlockPanel2) =>
+                        {
+                            animalUnlockPanel1.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent1);
+                            var animalId1 = animalUnlockPanelComponent1.animalId;
+                            
+                            animalUnlockPanel2.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent2);
+                            var animalId2 = animalUnlockPanelComponent2.animalId;
+                            
+                            var animalUserData1 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId1);
+                            var animalUserData2 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId2);
+                        
+                            var compare = animalUserData1.AnimalStatData.Grade.CompareTo(animalUserData2.AnimalStatData.Grade);
+                            if (compare != 0)
+                            {
+                                return compare;
+                            }
+                        
+                            return animalUserData1.AnimalStatData.AnimalID.CompareTo(animalUserData2.AnimalStatData.AnimalID);
+                        });
+                    }
+                    else
+                    {
+                        animalUnlockPanelList.Sort((animalUnlockPanel1, animalUnlockPanel2) =>
+                        {
+                            animalUnlockPanel1.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent1);
+                            var animalId1 = animalUnlockPanelComponent1.animalId;
+                            
+                            animalUnlockPanel2.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent2);
+                            var animalId2 = animalUnlockPanelComponent2.animalId;
+                            
+                            var animalUserData1 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId2);
+                            var animalUserData2 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId1);
+                        
+                            var compare = animalUserData1.AnimalStatData.Grade.CompareTo(animalUserData2.AnimalStatData.Grade);
+                            if (compare != 0)
+                            {
+                                return compare;
+                            }
+                        
+                            return animalUserData1.AnimalStatData.AnimalID.CompareTo(animalUserData2.AnimalStatData.AnimalID);
+                        });
+                    }
+                }
+                break;
+        }
+
+        for (int i = 0; i < animalUnlockPanelList.Count; ++i)
+        {
+            animalUnlockPanelList[i].transform.SetSiblingIndex(i);
+        }
+    }
+
+    private void StartSortUnlockAnimalPanelCoroutine()
+    {
+        StartCoroutine(SortUnlockAnimalPanelCoroutine());
+    }
+    
+    private IEnumerator SortUnlockAnimalPanelCoroutine()
+    {
+        SortUnlockAnimalPanel();
+
+        animalCanvas.gameObject.SetActive(true);
+        animalCanvasGroup.alpha = 0;
+        animalCanvasGroup.interactable = false;
+        animalCanvasGroup.blocksRaycasts = false;
+
+        yield return waitEndOfFrame;
+
+        animalCanvas.gameObject.SetActive(false);
+        animalCanvasGroup.alpha = 1;
+        animalCanvasGroup.interactable = true;
+        animalCanvasGroup.blocksRaycasts = true;
     }
 }

@@ -98,6 +98,25 @@ public static class AlertPanelInfoDataFactory
                     
                     return alertPanelInfoData;
                 }
+            case AlertPanelInfoDataType.TooManyStaminaToPurchaseStamina:
+                {
+                    AlertPanelInfoData alertPanelInfoData = new();
+                    
+                    alertPanelInfoData.description = "행동력은 999를 넘을 수 없습니다.\n행동력을 구매 할 수 없습니다.";
+                    alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.CloseAlertPanel);
+                    
+                    return alertPanelInfoData;
+                }
+            case AlertPanelInfoDataType.CheckStaminaPurchase:
+                {
+                    AlertPanelInfoData alertPanelInfoData = new();
+
+                    alertPanelInfoData.description = "구매하시겠습니까?";
+                    alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.CheckStaminaPurchase);
+                    alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
+                    
+                    return alertPanelInfoData;
+                }
         }
         
         Debug.Assert(false, $"Cant find AlertPanelInfoData in AlertPanelInfoDataType: {type}");

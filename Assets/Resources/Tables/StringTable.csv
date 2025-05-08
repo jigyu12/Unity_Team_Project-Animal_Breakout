@@ -92,7 +92,7 @@ ANIMAL_NAME_DEER,사슴,Deer
 ANIMAL_NAME_FOX,여우,FOX
 ANIMAL_NAME_GOLILLA,고릴라,Gorilla
 ANIMAL_NAME_ELEPHANT,코끼리,Elephant
-ANIMAL_NAME_Rhinoceros,코뿔소,Rhinoceros
+ANIMAL_NAME_RHINO,코뿔소,Rhino
 ANIMAL_NAME_BUFFALO,물소,Buffalo
 ANIMAL_SKILLDAMAGE_UP,스킬 대미지 {0}% 증가,Skill Damage +{0}%
 ANIMAL_ATTACKPOWER_UP,공격력 {0} 증가,Attack power +{0}
@@ -111,21 +111,21 @@ INGAME_SKILL_NAME_COOLTIME_UP,쿨타임 감소 LV.{0},Cooldown Reduction LV.{0}
 INGAME_SKILL_NAME_FIREDMG_UP,불 속성 대미지 증가 LV.{0},Fire Damage Up LV.{0}
 INGAME_SKILL_NAME_ICEDMG_UP,얼음 속성 대미지 증가 LV.{0},Ice Damage Up LV.{0}
 INGAME_SKILL_NAME_LIGHTNINGDMG_UP,번개 속성 대미지 증가 LV.{0},Lightning Damage Up LV.{0}
-INGAME_SKILL_DESCRIPTION_FIREBALL_ I,1회 공격하는 화염 구체를 1개 발사하여 대미지를 입힌다. 공격 당한 적은 화상 피해를 입는다.,Fires 1 Fireball that deals damage. The enemy hit takes burn damage.
+INGAME_SKILL_DESCRIPTION_FIREBALL_ I,화염 구체를 발사해 대미지를 입힌다. 공격 당한 적은화상 피해를 입는다.,Fires 1 Fireball that deals damage. The enemy hit takes burn damage.
 INGAME_SKILL_DESCRIPTION_FIREBALL_II,대미지 20% 증가 구체 1개 증가,"Plus 20% Damage, Plus 1 Ball"
 INGAME_SKILL_DESCRIPTION_FIREBALL_III,대미지 40% 증가 공격 횟수 1 증가 구체 1개 증가,"Plus 40% Damage, Plus 1 Attack Count, Plus 1 Ball"
-INGAME_SKILL_DESCRIPTION_METEOR_I,1회 공격하는 화염 운석을 떨어트린다. 공격 당한 적은 화상 피해를 입는다.,Drops a single flame meteor that deals damage. The enemy hit takes burn damage.
+INGAME_SKILL_DESCRIPTION_METEOR_I,화염 운석을 떨어트린다. 공격 당한 적은 화상 피해를 입는다.,Drops a single flame meteor that deals damage. The enemy hit takes burn damage.
 INGAME_SKILL_DESCRIPTION_METEOR_II,대미지 50% 증가,Plus 50% Damage
 INGAME_SKILL_DESCRIPTION_METEOR_III,공격 횟수 1 증가,Plus 1 Attack Count
-INGAME_SKILL_DESCRIPTION_BLIZZARD_I,하늘에서 15회 공격하는 얼음 창을 떨어트린다. 공격 당한 적은 냉기 효과를 입는다.,Summons 15 ice spears from the sky to attack. The enemy hit is inflicted with a chilling effect.
+INGAME_SKILL_DESCRIPTION_BLIZZARD_I,얼음 창을 떨어트린다. 공격 당한 적은 냉기 효과를 입는다.,Summons 15 ice spears from the sky to attack. The enemy hit is inflicted with a chilling effect.
 INGAME_SKILL_DESCRIPTION_BLIZZARD_II,대미지 2% 증가,Plus 2% damage
 INGAME_SKILL_DESCRIPTION_BLIZZARD_III,대미지 2% 증가 공격 횟수 1 증가,"Plus 2% damage, Plus 1 Attack Count"
-INGAME_SKILL_DESCRIPTION_ICESHOT_I,1회 공격하는 얼음 창을 3개 발사한다. 공격 당한 적은 냉기 효과를 입는다.,Fires 3 ice spears that attack once. The enemy hit is inflicted with a chilling effect.
+INGAME_SKILL_DESCRIPTION_ICESHOT_I,얼음 창을 3개 발사한다. 공격 당한 적은 냉기 효과를 입는다.,Fires 3 ice spears that attack once. The enemy hit is inflicted with a chilling effect.
 INGAME_SKILL_DESCRIPTION_ICESHOT_II,얼음 창 1개 증가,Plus 1 ice spears
 INGAME_SKILL_DESCRIPTION_ICESHOT_III,얼음 창 1개 증가 공격 횟수 1 증가,"Plus 1 ice spears, Plus 1 Attack Count"
-INGAME_SKILL_DESCRIPTION_LIGHTNINGSHOCK_I,"1회 공격하는 고압 전류를 2개 발사한다. 공격 당한 적은 번개 스택이 쌓이고, 6스택 달성 시 천벌 스킬이 발동한다.","Fires 2 high-voltage currents. The enemy gains lightning stacks, and upon reaching 6 stacks, Judgment is activated."
+INGAME_SKILL_DESCRIPTION_LIGHTNINGSHOCK_I,고압 전류 발사한다. 공격 당한 적은 번개 스택이 쌓인다.,"Fires 2 high-voltage currents. The enemy gains lightning stacks, and upon reaching 6 stacks, Judgment is activated."
 INGAME_SKILL_DESCRIPTION_LIGHTNINGSHOCK_II,투사체 2개 증가,Plus 2 projectiles
-INGAME_SKILL_DESCRIPTION_LIGHTNINGORB_I,"3회 공격하는 번개 구체를 발사한다. 공격 당한 적은 번개 스택이 쌓이고, 6스택 달성 시 천벌 스킬이 발동한다.","Fires a lightning orb that attacks 3 times. The enemy gains lightning stacks, and at 6 stacks, Judgment is activated."
+INGAME_SKILL_DESCRIPTION_LIGHTNINGORB_I,번개 구체를 발사한다. 공격 당한 적은 번개 스택이 쌓인다.,"Fires a lightning orb that attacks 3 times. The enemy gains lightning stacks, and at 6 stacks, Judgment is activated."
 INGAME_SKILL_DESCRIPTION_LIGHTNINGORB_II,대미지 10% 증가,Plus 10% damage
 INGAME_SKILL_DESCRIPTION_LIGHTNINGORB_III,대미지 40% 증가 공격 횟수 2 증가,"Plus 40% damage, Plus 2 Attack Count"
 INGAME_SKILL_DESCRIPTION_EXPGAIN_UP,경험치 획득량 {0}% 증가,EXP gain +{0}%
@@ -182,7 +182,7 @@ INGAME_GAINS_CORE,획득 점수,Score
 INGAME_GAIN_EXP,획득 경험치,EXP
 INGAME_GAIN_COIN,획득 코인,Coin
 INGAME_PALYTIMES,플레이 타임,Playtimes
-INGAME_REMAKE,다시하기,Remake
+INGAME_RESTART,다시하기,Restart
 INGAME_MOVEROBBY,메인화면 ,MainRobby
 INGAME_PAUSE,일시정지,Pause
 INGAME_CONTINUE,계속하기,Continue
@@ -190,3 +190,4 @@ INGAME_QUIT,포기하기,Quit
 INGAME_OPTIONSETTING,옵션설정,Option
 INGAME_REALLYGIVEUP,정말로 포기하시겠습니까?,Are you sure you want to quit?
 INGAME_RESULT,게임 결과,Result
+INGAME_SCORETEXT,점수:,Score:

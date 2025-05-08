@@ -35,5 +35,4 @@ public class EnforceAnimalManager : MonoBehaviour, IManager
         GameDataManager.Instance.GoldAnimalTokenKeySystem.PayToken(animalUserData.AnimalStatData.Grade, data.TokenValue);
         GameDataManager.Instance.GoldAnimalTokenKeySystem.PayGold(data.Cost);
     }
-
 }

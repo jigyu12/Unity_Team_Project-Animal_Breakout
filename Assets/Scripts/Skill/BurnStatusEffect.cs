@@ -82,7 +82,7 @@ public class BurnStatusEffect : StatusEffect
             }
             else
             {
-                debuffUI?.RemoveDebuff("Burn"); // 0 안 보이게 바로 삭제
+                gameManager.UIManager.bossDebuffUI.RemoveDebuff("Burn"); // 0 안 보이게 바로 삭제
             }
         }
         isPerforming = false;

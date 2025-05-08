@@ -18,6 +18,8 @@ public class GachaManager : MonoBehaviour, IManager
     
     private readonly List<bool> animalFirstUnlockInfoList = new();
     public static event Action<List<bool>> onAnimalFirstUnlockedListSet;
+    
+    public static event Action onAnimalUnlockedFinished;
 
     public void GenerateRandomSingleGachaData()
     {
@@ -124,5 +126,7 @@ public class GachaManager : MonoBehaviour, IManager
                 Debug.Log($"Give Token By AnimalId: {acquiredAnimalId}, name : {animalUserList.GetAnimalUserData(acquiredAnimalId).AnimalStatData.StringID}");
             }
         }
+        
+        onAnimalUnlockedFinished?.Invoke();
     }
 }
