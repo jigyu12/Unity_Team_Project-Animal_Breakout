@@ -6,6 +6,9 @@ public class GoldAnimalTokenKeySystem : ISaveLoad
 {
     public GoldAnimalTokenKeySystem()
     {
+        Load(SaveLoadSystem.Instance.CurrentSaveData.goldAnimalTokenKeySystemSave);
+        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
+        
         SceneManager.sceneLoaded += OnChangeSceneHandler;
     }
 
@@ -78,12 +81,6 @@ public class GoldAnimalTokenKeySystem : ISaveLoad
     public const int maxKey = 9999;
 
     public static Action<int> onKeyChanged;
-
-    public GoldAnimalTokenKeySystem()
-    {
-        Load(SaveLoadSystem.Instance.CurrentSaveData.goldAnimalTokenKeySystemSave);
-        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
-    }
 
     public void SetInitialValue(long gold, int bronzeToken, int sliverToken, int goldToken, int key)
     {
