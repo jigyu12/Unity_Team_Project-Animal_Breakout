@@ -2,8 +2,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class StaminaSystem
+public class StaminaSystem : ISaveLoad
 {
+    public DataSourceType SaveDataSouceType
+    {
+        get => DataSourceType.Local;
+    }
+
     public int CurrentStamina
     {
         get;
@@ -22,27 +27,48 @@ public class StaminaSystem
     private float timeToGetNextStamina = 480f;
     private float currentTimeToGetNextStamina = 0f;
 
-    public static Action<int, int> onStaminaChanged;
+    public static Action<int, int> onStaminaChanged; //currentStamina, maxStaminaCanFilled
 
+    private DateTime lastStaminaAddTime = DateTime.MinValue;
     public Coroutine coAddStamina = null;
 
-    //lastTime을 시간으로 바꾸든가해서~ 코드를 바꿔야 할것이다,
-    //첫 저장때는 Now를 넣으면 될듯
+    public StaminaSystem()
+    {
+        //Load(SaveLoadSystem.Instance.CurrentSaveData.staminaSystemSave);
+        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
+    }
+
     public void SetInitialValue(int stamina, DateTime lastTime)
     {
         CurrentStamina = stamina;
-
-        //자동으로 회복하는 스태미나
-        if (CurrentStamina < maxStaminaCanFilled)
+        currentTimeToGetNextStamina = timeToGetNextStamina;
+        //지난 저장시간 기준으로 스태미나를 회복
+        if (!IsStaminaFull)
         {
-            var passedTime = DateTime.Now - lastTime;
+            var passedTime = DateTime.UtcNow - lastTime;
             int passedTimeStamina = Mathf.FloorToInt((float)passedTime.TotalSeconds / timeToGetNextStamina);
             CurrentStamina = Mathf.Clamp(CurrentStamina += passedTimeStamina, minStamina, maxStaminaCanFilled);
-            currentTimeToGetNextStamina += (float)passedTime.TotalSeconds % timeToGetNextStamina;
+            if (!IsStaminaFull)
+            {
+                currentTimeToGetNextStamina += (float)passedTime.TotalSeconds % timeToGetNextStamina;
+            }
         }
 
-        onStaminaChanged += GameDataManager.Instance.AddStaminaRepeat;
+        onStaminaChanged += AddStaminaRepeat;
         onStaminaChanged?.Invoke(CurrentStamina, maxStaminaCanFilled);
+    }
+
+    public float GetLeftTimeToGetNextStamina()
+    {
+        if (IsStaminaFull)
+        {
+            return 0f;
+        }
+        else
+        {
+            var passedTime = DateTime.UtcNow-lastStaminaAddTime;
+            return currentTimeToGetNextStamina - (float)passedTime.TotalSeconds;
+        }
     }
 
     public void AddStamina(int value)
@@ -63,6 +89,11 @@ public class StaminaSystem
             return;
         }
 
+        if (IsStaminaFull)
+        {
+            lastStaminaAddTime = DateTime.UtcNow;
+        }
+
         CurrentStamina -= value;
         Debug.Log($"pay stamina success! -> current stamina : {CurrentStamina}");
         onStaminaChanged?.Invoke(CurrentStamina, maxStaminaCanFilled);
@@ -70,14 +101,49 @@ public class StaminaSystem
 
     public IEnumerator CoAddStamina()
     {
-        //완전 정확하게 하려면 마지막 스테미나를 먹은 시점을 기준으로 계산해야하는데 일단은 이대로 둠
+        Debug.Log($"충전 시작 {DateTime.UtcNow}");
+
         while (!IsStaminaFull)
         {
             yield return new WaitForSecondsRealtime(currentTimeToGetNextStamina);
             currentTimeToGetNextStamina = timeToGetNextStamina;
+            lastStaminaAddTime = DateTime.UtcNow;
+            Debug.Log($"충전 1 {DateTime.UtcNow}");
             AddStamina(1);
         }
 
         coAddStamina = null;
     }
+    public void AddStaminaRepeat(int currentStamina, int maxStaminaCanFilled)
+    {
+        if (coAddStamina == null && !IsStaminaFull)
+        {
+            coAddStamina = GameDataManager.Instance.StartAddStaminaCoroutine();
+        }
+    }
+
+    public void Save()
+    {
+        var saveData = SaveLoadSystem.Instance.CurrentSaveData.staminaSystemSave = new();
+        saveData.currentStamina = CurrentStamina;
+        saveData.lastStaminaAddTime = lastStaminaAddTime;
+    }
+
+    public void Load()
+    {
+        SetInitialValue(0, DateTime.MinValue);
+    }
+
+    public void Load(StaminaSystemSave saveData)
+    {
+        if (saveData == null)
+        {
+            Load();
+            return;
+        }
+
+        lastStaminaAddTime = saveData.lastStaminaAddTime;
+        SetInitialValue(saveData.currentStamina, saveData.lastStaminaAddTime);
+    }
+
 }
