@@ -90,8 +90,8 @@ public class ElectricShockStatusEffect : StatusEffect
     {
         isPerforming = false;
         skillManager.PerformSkill(effectSkill);
-
-        debuffUI?.RemoveDebuff("Thunder");
+        var gameManager = skillManager.gameManager;
+        gameManager.UIManager.bossDebuffUI.RemoveDebuff("Thunder");
     }
 
 }
