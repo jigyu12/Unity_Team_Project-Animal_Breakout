@@ -24,6 +24,7 @@ public class SkillIconListUI : UIElement
             skillIcon.gameObject.SetActive(false);
             skillIcons.Add(skillIcon);
         }
+        gameManager.SkillManager.SkillSelectionSystem.OnSkillUpdated();
     }
 
     private void OnSkillListUpdated(List<ISkill> skills)
