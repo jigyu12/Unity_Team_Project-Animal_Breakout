@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class BossHpSlider : MonoBehaviour
 {
     private Slider hpSlider;
-    [SerializeField] private GameObject StartPointSlider;
+    // [SerializeField] private GameObject StartPointSlider;
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class BossHpSlider : MonoBehaviour
     private void OnEnable()
     {
         hpSlider.value = 1;
-        StartPointSlider.SetActive(true);
+        // StartPointSlider.SetActive(true);
     }
     private void OnDestroy()
     {
@@ -52,7 +52,7 @@ public class BossHpSlider : MonoBehaviour
         hpSlider.value = currentHp / maxHp;
         if (hpSlider.value <= 0)
         {
-            StartPointSlider.SetActive(false);
+            // StartPointSlider.SetActive(false);
         }
     }
 }

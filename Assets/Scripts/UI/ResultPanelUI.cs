@@ -42,13 +42,11 @@ public class ResultPanelUI : UIElement
     }
     private void OnRestartClicked()
     {
-        Debug.Log("!");
         gameUIManager.RestartGame();
     }
 
     private void OnGoMainClicked()
     {
-        Debug.Log("!!!!");
         gameUIManager.OnMainTitleButtonClicked();
     }
 
