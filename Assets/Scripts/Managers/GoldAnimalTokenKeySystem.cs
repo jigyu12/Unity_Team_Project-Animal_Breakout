@@ -1,8 +1,13 @@
 using System;
 using UnityEngine;
 
-public class GoldAnimalTokenKeySystem
+public class GoldAnimalTokenKeySystem : ISaveLoad
 {
+    public DataSourceType SaveDataSouceType
+    {
+        get => DataSourceType.Local;
+    }
+
     public long CurrentGolds
     {
         get;
@@ -50,6 +55,12 @@ public class GoldAnimalTokenKeySystem
     public const int maxKey = 9999;
 
     public static Action<int> onKeyChanged;
+
+    public GoldAnimalTokenKeySystem()
+    {
+        Load(SaveLoadSystem.Instance.CurrentSaveData.goldAnimalTokenKeySystemSave);
+        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
+    }
 
     public void SetInitialValue(long gold, int bronzeToken, int sliverToken, int goldToken, int key)
     {
@@ -237,5 +248,31 @@ public class GoldAnimalTokenKeySystem
         onKeyChanged?.Invoke(CurrentKey);
 
         return true;
+    }
+
+    public void Save()
+    {
+        var saveData = SaveLoadSystem.Instance.CurrentSaveData.goldAnimalTokenKeySystemSave = new();
+        saveData.currentGold = CurrentGolds;
+        saveData.currentBronzeToken = CurrentBronzeToken;
+        saveData.currentSilverToken = CurrentSliverToken;
+        saveData.currentGoldToken = CurrentGoldToken;
+        saveData.currentKey = CurrentKey;
+    }
+
+    public void Load()
+    {
+        SetInitialValue(1000, 0, 0, 0, 0);
+    }
+
+    public void Load(GoldAnimalTokenKeySystemSave saveData)
+    {
+        if (saveData == null)
+        {
+            Load();
+            return;
+        }
+
+        SetInitialValue(saveData.currentGold, saveData.currentBronzeToken, saveData.currentSilverToken, saveData.currentGoldToken, saveData.currentKey);
     }
 }

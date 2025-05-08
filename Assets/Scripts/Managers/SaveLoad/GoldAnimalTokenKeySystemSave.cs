@@ -1,18 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoldAnimalTokenKeySystemSave : MonoBehaviour
+[Serializable]
+public class GoldAnimalTokenKeySystemSave
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public long currentGold;
+    public int currentBronzeToken;
+    public int currentSilverToken;
+    public int currentGoldToken;
+    public int currentKey;
 }

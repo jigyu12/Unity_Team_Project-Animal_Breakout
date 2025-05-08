@@ -192,12 +192,10 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
     private void SetInitializeData()
     {
-     
-
         PlayerLevelSystem.SetInitialValue(1, 0);
         //string temp = "05/06/2025 22:20:13";
         //StaminaSystem.SetInitialValue(0, DateTime.Parse(temp));    //임시로 now갈겨놓은 것이니 추후 저장후 확인
-        GoldAnimalTokenKeySystem.SetInitialValue(100000, 1000, 1000, 1000, 12);
+        //GoldAnimalTokenKeySystem.SetInitialValue(100000, 1000, 1000, 1000, 12);
         StaminaSystem.SetInitialValue(3, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
 
 

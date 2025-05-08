@@ -1,9 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class AnimalUserDataList : ISaveLoad
 {
+    public DataSourceType SaveDataSouceType
+    {
+        get => DataSourceType.Local;
+    }
     public AnimalUserData CurrentAnimalPlayer
     {
         get;
@@ -24,12 +29,14 @@ public class AnimalUserDataList : ISaveLoad
         get => animalUserDataList;
     }
 
+
     private Dictionary<int, AnimalUserData> animalUserDataTable = new();
     private List<AnimalUserData> animalUserDataList = new();
 
     public AnimalUserDataList()
     {
-        Load(SaveLoadSystem.Instance.CurrentData.animalUserDataTableSave);
+        Load(SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave);
+        SaveLoadSystem.Instance.RegisterOnSaveAction(this);
     }
 
 
@@ -61,9 +68,15 @@ public class AnimalUserDataList : ISaveLoad
         animalUserDataTable[animalID].UnlockAnimal();
     }
 
+    public void RegisterOnSaveAction(Action onSave)
+    {
+
+    }
+
+
     public void Save()
     {
-        var saveData = SaveLoadSystem.Instance.CurrentData.animalUserDataTableSave = new();
+        var saveData = SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave = new();
         saveData.currentAnimalID = CurrentAnimalID;
         foreach (var animal in animalUserDataList)
         {

@@ -1,7 +1,12 @@
+using System;
 using UnityEngine;
 
 public class AnimalUserData : ISaveLoad
 {
+    public DataSourceType SaveDataSouceType
+    {
+        get => DataSourceType.Local;
+    }
     public AnimalStatData AnimalStatData
     {
         get;
@@ -31,6 +36,7 @@ public class AnimalUserData : ISaveLoad
     {
         get => Level >= maxLevel;
     }
+
 
     public AnimalUserData(AnimalStatData animalStatData)
     {
@@ -68,7 +74,7 @@ public class AnimalUserData : ISaveLoad
 
     public void Save()
     {
-        var saveData = SaveLoadSystem.Instance.CurrentData.animalUserDataTableSave;
+        var saveData = SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave;
         saveData.animalUserDataTable.Add(AnimalStatData.AnimalID, new AnimalUserDataSave { animalID = AnimalStatData.AnimalID, level = Level, isUnlock = IsUnlock });
     }
 
@@ -91,4 +97,6 @@ public class AnimalUserData : ISaveLoad
         IsUnlock = saveData.isUnlock;
         UpdateAttackPower();
     }
+
+
 }
