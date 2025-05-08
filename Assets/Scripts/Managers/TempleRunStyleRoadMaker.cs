@@ -45,9 +45,9 @@ public class TempleRunStyleRoadMaker : InGameManager
     public Transform BossEntryRoadTransform => bossEntryRoadWay?.transform;
 
     //
-    
+
     private RunPhaseType runPhaseType;
-    
+
     public struct NextRoadWayData
     {
         public int roadWayIndex;
@@ -171,7 +171,7 @@ public class TempleRunStyleRoadMaker : InGameManager
 
         foreach (var trs in startPoints)
         {
-            var roadWay = CreateRoadWay(previousRoadWay.index + 1, nextRoadWayData.roadWayIndex, nextRoadWayData.isBossEnter ? GameManager.StageManager.OnBossStageEnter : GameManager.StageManager.RoadWayDistanceTracking );
+            var roadWay = CreateRoadWay(previousRoadWay.index + 1, nextRoadWayData.roadWayIndex, nextRoadWayData.isBossEnter ? GameManager.StageManager.OnBossStageEnter : GameManager.StageManager.RoadWayDistanceTracking);
             roadWay.transform.SetPositionAndRotation(trs.position, trs.rotation);
 
             if (nextRoadWayData.itemMode == ItemSetMode.TrapAndReward)
@@ -253,7 +253,7 @@ public class TempleRunStyleRoadMaker : InGameManager
     {
         GameManager.StageManager.onBossStageSet += OnBossStageSetHandler;
     }
-    
+
     private void OnDestroy()
     {
         GameManager.StageManager.onBossStageSet -= OnBossStageSetHandler;
@@ -360,6 +360,31 @@ public class TempleRunStyleRoadMaker : InGameManager
 
         return stageRoadWayDataQueue.Dequeue();
 
+    }
+    // 민재 로드 카운트 계산 코드
+
+    public int GetNonBossRoadWayCountFromStageData(StageData data)
+    {
+        int count = 0;
+
+        if (data.roadMode == RoadMakeMode.RandomWay)
+        {
+            for (int i = 0; i < data.roadWayCount; i++)
+            {
+                bool isBoss = (i == data.roadWayCount - 1) && data.isBossStage; // 마지막 하나가 보스일 때만
+                if (!isBoss) count++;
+            }
+        }
+        else if (data.roadMode == RoadMakeMode.Vertical)
+        {
+            for (int i = 0; i < data.roadWayCount; i++)
+            {
+                bool isBoss = (i == data.roadWayCount - 1) && data.isBossStage;
+                if (!isBoss) count++;
+            }
+        }
+
+        return count;
     }
 
     #endregion
