@@ -38,9 +38,7 @@ public class AnimalUserDataList : ISaveLoad
         //Load(SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave);
         SaveLoadSystem.Instance.RegisterOnSaveAction(this);
     }
-
-
-
+    
     public AnimalUserData GetAnimalUserData(int animalID)
     {
         if (!animalUserDataTable.ContainsKey(animalID))

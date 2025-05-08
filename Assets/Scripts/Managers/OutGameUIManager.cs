@@ -58,6 +58,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private CanvasGroup animalCanvasGroup;
     private readonly WaitForEndOfFrame waitEndOfFrame = new();
 
+    [SerializeField] private GameObject settingPanel;
+
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
@@ -246,6 +248,13 @@ public class OutGameUIManager : MonoBehaviour, IManager
         alertDoubleButtonPanelList.Add(alertPanel);
     }
 
+    public void ShowSettingPanel()
+    {
+        alertPanelSpawnPanelRoot.SetActive(true);
+        
+        settingPanel.SetActive(true);
+    }
+
     public void HideAlertPanelSpawnPanelRoot()
     {
         for (int i = 0; i < alertSingleButtonPanelList.Count; ++i)
@@ -262,6 +271,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
         
         alertSingleButtonPanelList.Clear();
         alertDoubleButtonPanelList.Clear();
+        
+        settingPanel.SetActive(false);
         
         alertPanelSpawnPanelRoot.SetActive(false);
     }
