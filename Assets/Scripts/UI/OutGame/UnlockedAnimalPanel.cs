@@ -36,7 +36,7 @@ public class UnlockedAnimalPanel : MonoBehaviour
     public void SetAnimalUserData(AnimalUserData userData)
     {
         animalUserData = userData;
-        animalImage.sprite = animalUserData.AnimalStatData.AnimalSprite;
+        animalImage.sprite = animalUserData.AnimalStatData.iconImage;
         animalChooseButtonScript.SetAnimalID(animalUserData.AnimalStatData.AnimalID);
     }
 }

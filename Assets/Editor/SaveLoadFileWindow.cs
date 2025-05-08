@@ -27,16 +27,16 @@ public class SaveLoadFileWindow : EditorWindow
         }
         GUILayout.EndHorizontal();
 
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Open CurrentSaveFile");
-        if (GUILayout.Button("Open"))
-        {
-            var path = Path.Combine(SaveLoadSystem.SavePathDirectory, SaveLoadSystem.CurrentSaveFileName);
-            if (File.Exists(path))
-            {
-                EditorUtility.OpenFilePanel("Save File Directory", SaveLoadSystem.SavePathDirectory, "json");
-            }
-        }
-        GUILayout.EndHorizontal();
+        //GUILayout.BeginHorizontal();
+        //GUILayout.Label("Open CurrentSaveFile");
+        //if (GUILayout.Button("Open"))
+        //{
+        //    var path = Path.Combine(SaveLoadSystem.SavePathDirectory, SaveLoadSystem.CurrentSaveFileName);
+        //    if (File.Exists(path))
+        //    {
+        //        EditorUtility.OpenFilePanel("Save File Directory", SaveLoadSystem.SavePathDirectory, "json");
+        //    }
+        //}
+        //GUILayout.EndHorizontal();
     }
 }
