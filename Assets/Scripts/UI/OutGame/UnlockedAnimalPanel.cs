@@ -1,5 +1,4 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +9,19 @@ public class UnlockedAnimalPanel : MonoBehaviour
 
     private AnimalUserData animalUserData;
     [SerializeField] private Button animalChooseButton;
-    [SerializeField] private TMP_Text tempAnimalNameText;
+    [SerializeField] private Button animalImageButton;
+    private Image animalImage;
     [SerializeField] private AnimalChooseButton animalChooseButtonScript;
     
     public int animalId => animalUserData.AnimalStatData.AnimalID;
     
     public static event Action<int> onSetStartAnimalIDInPanel;
 
+    private void Awake()
+    {
+        animalImageButton.gameObject.TryGetComponent(out animalImage);
+    }
+    
     private void Start()
     {
         animalChooseButton.onClick.RemoveAllListeners();
@@ -31,7 +36,7 @@ public class UnlockedAnimalPanel : MonoBehaviour
     public void SetAnimalUserData(AnimalUserData userData)
     {
         animalUserData = userData;
-        tempAnimalNameText.text = animalUserData.AnimalStatData.StringID;
+        animalImage.sprite = animalUserData.AnimalStatData.AnimalSprite;
         animalChooseButtonScript.SetAnimalID(animalUserData.AnimalStatData.AnimalID);
     }
 }
