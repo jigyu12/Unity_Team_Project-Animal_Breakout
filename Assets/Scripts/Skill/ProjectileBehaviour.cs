@@ -4,6 +4,9 @@ using UnityEngine;
 public class ProjectileBehaviour : MonoBehaviour
 {
     [SerializeField]
+    protected GameObject projectile;
+
+    [SerializeField]
     protected float arrivalThreshold = 1f; //도착했다 치는 거리
 
     [SerializeField]
@@ -61,7 +64,8 @@ public class ProjectileBehaviour : MonoBehaviour
 
         isArrival = true;
         onArrival?.Invoke();
-        Destroy(gameObject, 2f);
+        projectile.SetActive(false);
+        Destroy(gameObject,2f);
     }
 
     public void OnTargetGone()

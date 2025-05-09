@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aec266806bf9fd45bce4a5b64dc4c2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectile: {fileID: 1486469423507802870}
   arrivalThreshold: 1
-  skyOffset: {x: 0, y: 0, z: 0}
+  firePositionOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &1487374191351017830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55,6 +56,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4161559189259110063}
     m_Modifications:
+    - target: {fileID: 1041923356261888, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111089471287340, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1207960046611732, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1510446252515522, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625134025805902, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1648451675218304, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1839445213900760, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
       propertyPath: m_Name
       value: Meteor
@@ -99,9 +124,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82637769133787220, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114021943827715266, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
       propertyPath: Repeating
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021943827715266, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114021943827715266, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
       propertyPath: RepeatTime
@@ -184,6 +217,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
+--- !u!1 &1486469423507802870 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1467723303762832, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
+  m_PrefabInstance: {fileID: 1487374191351017830}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1491870290791660430 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4511100218886888, guid: 4bdd1910193d9794e9fd405d20063344, type: 3}
