@@ -10,10 +10,12 @@ public class ResultPanelUI : UIElement
     [SerializeField] private TMP_Text coinCountText;
     [SerializeField] private TMP_Text scoreCountText;
     [SerializeField] private TMP_Text expCountText;
-
+    [SerializeField] private TMP_Text rewardGoldText;
+    [SerializeField] private TMP_Text rewardExpText;
     [SerializeField] private TMP_Text playTimeText;
     [SerializeField] InGameCountManager inGameCountManager;
     [SerializeField] TrackingTime trackingTime;
+
 
     public float TrackingTime
     {
@@ -33,9 +35,18 @@ public class ResultPanelUI : UIElement
         // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameStop, trackingTime.StopTracking);
         // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, trackingTime.StopTracking);
         gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, SetReslutValues);
+
+        GameDataManager.onStaminaChangedInGameDataManager += OnStaminaChanged;
         // panelRoot.SetActive(false);
     }
-
+    private void OnDestroy()
+    {
+        GameDataManager.onStaminaChangedInGameDataManager -= OnStaminaChanged;
+    }
+    private void OnStaminaChanged(int currentStamina, int maxStamina)
+    {
+        UpdateRestartButtonInteractable();
+    }
     public override void Show()
     {
         panelRoot.SetActive(true);
@@ -56,8 +67,15 @@ public class ResultPanelUI : UIElement
         SetScoreCount();
         SetExpCount();
         SetTimeCount();
+        SetRewardTexts();
+        UpdateRestartButtonInteractable();
     }
-
+    private void UpdateRestartButtonInteractable()
+    {
+        int staminaRequiredToRestart = 1; // 필요 행동력 설정
+        bool isEnoughStamina = GameDataManager.Instance.StaminaSystem.CurrentStamina >= staminaRequiredToRestart;
+        restartButton.interactable = isEnoughStamina;
+    }
     public void SetCoinCount()
     {
         int coinCount = inGameCountManager.coinCount;
@@ -67,8 +85,13 @@ public class ResultPanelUI : UIElement
     {
         long baseScore = inGameCountManager.ScoreSystem.Score;
         long additionalScore = inGameCountManager.ScoreSystem.AdditionalScore;
-        scoreCountText.text = $"{baseScore} + {additionalScore}";
+
+        if (additionalScore > 0)
+            scoreCountText.text = $"{baseScore} + {additionalScore}";
+        else
+            scoreCountText.text = $"{baseScore}";
     }
+
 
     public void SetExpCount()
     {
@@ -79,5 +102,20 @@ public class ResultPanelUI : UIElement
     {
         playTimeText.text = trackingTime.GetFormattedPlayTime();
     }
+    private void SetRewardTexts()
+    {
+        long finalScore = inGameCountManager.ScoreSystem.GetFinalScore();
+        float playTime = trackingTime.PlayTime;
+
+        long rewardGold = finalScore / 10;
+        float bonusRate = GameDataManager.Instance.GetAdditionalScoreGoldRate();
+        rewardGold += Mathf.FloorToInt(rewardGold * bonusRate);
+
+        int rewardExp = 40 + Mathf.RoundToInt(playTime * 0.31f);
+
+        rewardGoldText.text = $"{rewardGold}";
+        rewardExpText.text = $"{rewardExp}";
+    }
+
 }
 

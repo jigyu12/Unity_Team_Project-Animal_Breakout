@@ -81,9 +81,17 @@ public class GameUIManager : InGameManager
         onShowGameOverPanel?.Invoke();
         resultPanelUI.Show();
     }
-
     public void RestartGame()
     {
+        int requiredStamina = 1;
+
+        if (GameDataManager.Instance.StaminaSystem.CurrentStamina < requiredStamina)
+        {
+            Debug.LogWarning("Not enough stamina to restart the game.");
+            return;
+        }
+
+        GameDataManager.Instance.StaminaSystem.PayStamina(requiredStamina);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
