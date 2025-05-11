@@ -35,7 +35,10 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     #endregion
 
     private float additionalScoreGoldRate;
-
+    public float GetAdditionalScoreGoldRate()
+    {
+        return additionalScoreGoldRate;
+    }
     public static event Action<LevelUpInfoData> onLevelExpInitialized;
     public static Action<int> onExpChanged;
 
@@ -68,7 +71,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     }
     //public int StartAnimalID => startAnimalID;
 
-    public static event Action<int, int> onSetStartAnimalIDInGameDataManager;
+    public static event Action<int, int, AnimalUserData> onSetStartAnimalIDInGameDataManager;
 
     public int MinMapObjectId { get; private set; } = 0;
     public int MinRewardItemId { get; private set; } = 0;
@@ -97,10 +100,6 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         base.InitializeSingleton();
         SaveLoadSystem.Instance.Load();
-
-        //계정 정보를 관리하는 시스템 옵션도 추후에 여기 넣으면 되겠다
-        PlayerAccountData = new();
-        PlayerAccountData.Load(SaveLoadSystem.Instance.CurrentSaveData.playerAccountDataSave);
 
         //골드,토큰을 관리하는 시스템
         GoldAnimalTokenKeySystem = new();
@@ -144,7 +143,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
         StaminaGoldUseButton.onStaminaGoldUseButtonClicked += OnStaminaGoldUseButtonClickedHandler;
 
-        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
+        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina
+        , AnimalUserDataList.GetAnimalUserData(startAnimalID));
 
         EnforceAnimalPanel.onEnforceInfoSet += OnEnforceInfoSetHandler;
     }
@@ -343,7 +343,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         //수정필
 
         //임시 값 적용
-        var resultGold = score / 100;
+        var resultGold = score / 10;
 
         GoldAnimalTokenKeySystem.AddGold(resultGold + Mathf.FloorToInt(resultGold * additionalScoreGoldRate));
         PlayerLevelSystem.AddExperienceValue(40 + Mathf.RoundToInt(playTime * 0.31f));
@@ -382,7 +382,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         //startAnimalID = id;
 
         AnimalUserDataList.SetCurrentAnimalPlayer(id);
-        onSetStartAnimalIDInGameDataManager?.Invoke(id, StaminaSystem.CurrentStamina);
+        onSetStartAnimalIDInGameDataManager?.Invoke(id, StaminaSystem.CurrentStamina, 
+            AnimalUserDataList.GetAnimalUserData(startAnimalID));
     }
 
     //private void OnLevelUpHandler(int nextLevel, int nextExp, int remainingExp)
@@ -416,7 +417,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
     private void onAnimalUnlockPanelInstantiatedHandler(GameObject animalUnlockPanel)
     {
-        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
+        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina,
+            AnimalUserDataList.GetAnimalUserData(startAnimalID));
     }
 
     //public void IncreaseStamina(int staminaAmount)

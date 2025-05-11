@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerLevelSystem :ISaveLoad
+public class PlayerLevelSystem : ISaveLoad
 {
     public DataSourceType SaveDataSouceType
     {
@@ -12,7 +12,7 @@ public class PlayerLevelSystem :ISaveLoad
     public PlayerLevelSystem()
     {
         SceneManager.sceneLoaded += OnChangeSceneHandler;
-         //Load(SaveLoadSystem.Instance.CurrentSaveData.playerLevelSystemSave);
+        //Load(SaveLoadSystem.Instance.CurrentSaveData.playerLevelSystemSave);
         SaveLoadSystem.Instance.RegisterOnSaveAction(this);
     }
 
@@ -28,7 +28,7 @@ public class PlayerLevelSystem :ISaveLoad
             AddExperienceValue(100);
         }
     }
-    
+
     public PlayerLevelExperienceData CurrentLevelData
     {
         get;
@@ -56,7 +56,7 @@ public class PlayerLevelSystem :ISaveLoad
         get;
         private set;
     }
-    
+
     public int ExperienceToNextLevel
     {
         get => CurrentLevelData.Exp;
@@ -73,7 +73,7 @@ public class PlayerLevelSystem :ISaveLoad
         ExperienceValue = exp;
 
         CurrentLevelData = DataTableManager.playerLevelDataTalble.GetLevelData(CurrentLevel);
-        
+
         onExperienceValueChanged?.Invoke(0, ExperienceValue);
         onLevelChange?.Invoke(CurrentLevel, ExperienceToNextLevel);
     }
