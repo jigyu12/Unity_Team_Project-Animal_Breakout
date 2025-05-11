@@ -1,3 +1,13 @@
+public enum BgmClipId
+{
+    
+}
+
+public enum SfxClipId
+{
+    
+}
+
 public enum MapObjectCSVType
 {
     Bomb = 1,

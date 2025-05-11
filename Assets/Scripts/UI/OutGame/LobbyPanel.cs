@@ -11,6 +11,8 @@ public class LobbyPanel : MonoBehaviour
     private readonly WaitForSeconds waitTime = new(Utils.GameStartWaitTime);
     private readonly int staminaRequiredToStartGame = 1;
     private bool isStaminaEnoughToStartGame;
+
+    [SerializeField] private Image animalImage;
     
     public static event Action<int> onGameStartButtonClicked;
 
@@ -59,7 +61,7 @@ public class LobbyPanel : MonoBehaviour
         SceneManager.LoadScene("Run");
     }
 
-    private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID, int currentStamina)
+    private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID, int currentStamina, AnimalUserData animalUserData)
     {
         if (animalID == 0 || !IsContainsAnimalIdInTable(animalID))
         {
@@ -69,6 +71,8 @@ public class LobbyPanel : MonoBehaviour
             
             return;
         }
+        
+        animalImage.sprite = animalUserData.AnimalStatData.iconImage;
 
         if (currentStamina < staminaRequiredToStartGame)
         {
