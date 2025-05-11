@@ -19,26 +19,26 @@ public class SoundManagerEditor : Editor
         
         if (GUILayout.Button($"Add AudioSource"))
         {
-            if (soundManager.audioSourceParent is null)
+            if (soundManager.audioSourcePlayer is null)
             {
-                Debug.LogError("Assing AudioSource Parent");
+                Debug.LogError("Missing AudioSource Parent");
                 
                 return;
             }
             
-            var components = soundManager.audioSourceParent.GetComponents<AudioSource>();
+            var components = soundManager.audioSourcePlayer.GetComponents<AudioSource>();
             foreach (var component in components)
             {
                 Undo.DestroyObjectImmediate(component);
             }
 
-            soundManager.bgmAudioSource = soundManager.audioSourceParent.AddComponent<AudioSource>();
+            soundManager.bgmAudioSource = soundManager.audioSourcePlayer.AddComponent<AudioSource>();
             soundManager.bgmAudioSource.outputAudioMixerGroup = soundManager.audioMixer.FindMatchingGroups("Master")[0];
 
             soundManager.sfxAudioSourceList.Clear();
             for (int i = 0; i < channelCount; ++i)
             {
-                soundManager.sfxAudioSourceList.Add(soundManager.audioSourceParent.AddComponent<AudioSource>());
+                soundManager.sfxAudioSourceList.Add(soundManager.audioSourcePlayer.AddComponent<AudioSource>());
                 soundManager.sfxAudioSourceList[i].outputAudioMixerGroup = soundManager.audioMixer.FindMatchingGroups("Master")[1];
             }
             
