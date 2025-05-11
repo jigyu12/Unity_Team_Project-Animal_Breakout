@@ -41,11 +41,11 @@ public class GachaSingleAdsButton : GachaButton
 
     protected void SetGachaButtonText()
     {
-        if (GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount < 0)
-        {
-            GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount = 0;
-            Debug.Assert(false, "Invalid adsRemainCount");
-        }
+        //if (GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount < 0)
+        //{
+        //    GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount = 0;
+        //    Debug.Assert(false, "Invalid adsRemainCount");
+        //}
 
         this.countText.text = $"광고 {GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount}/{GameDataManager.Instance.PlayerAccountData.GachaSingleAdsCount}";
     }
