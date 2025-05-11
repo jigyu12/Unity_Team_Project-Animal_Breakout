@@ -2,12 +2,18 @@ using UnityEngine;
 
 public class GachaSingleAdsButton : GachaButton
 {
-    private int adsRemainCount;
-    
+    //private int adsRemainCount;
+    //UI에 정보나 기능이 있으면 안됩니다
+
+    public bool IsAdsRemain
+    {
+        get => GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
+    }
+
     protected void Awake()
     {
-        adsRemainCount = 1;
-        
+        //adsRemainCount = 1;
+
         AlertPanelConfirmButtonFuncFactory.onGachaByAds += SetGachaButtonText;
     }
 
@@ -19,32 +25,28 @@ public class GachaSingleAdsButton : GachaButton
     protected override void Start()
     {
         base.Start();
-        
+
         this.headerText.text = "일일 무료";
-        this.countText.text = $"광고 {adsRemainCount}/1";
+        SetGachaButtonText();
+        gachaButton.interactable = IsAdsRemain;
     }
-    
+
     public override void DoGacha()
     {
         outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.DoSingleGachaByAds));
+        GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
+        
+        gachaButton.interactable = IsAdsRemain;
     }
-    
+
     protected void SetGachaButtonText()
     {
-        --adsRemainCount;
-
-        if (adsRemainCount < 0)
+        if (GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount < 0)
         {
-            adsRemainCount = 0;
-            
+            GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount = 0;
             Debug.Assert(false, "Invalid adsRemainCount");
         }
 
-        if (adsRemainCount == 0)
-        {
-            gachaButton.interactable = false;
-        }
-        
-        this.countText.text = $"광고 {adsRemainCount}/1";
+        this.countText.text = $"광고 {GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount}/{GameDataManager.Instance.PlayerAccountData.GachaSingleAdsCount}";
     }
 }

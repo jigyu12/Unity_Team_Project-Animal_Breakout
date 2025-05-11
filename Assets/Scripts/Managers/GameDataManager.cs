@@ -8,6 +8,12 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 {
     #region globalDataSystems
 
+    public PlayerAccountData PlayerAccountData
+    {
+        get;
+        private set;
+    }
+
     public GoldAnimalTokenKeySystem GoldAnimalTokenKeySystem
     {
         get;
@@ -75,23 +81,27 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     public const int maxStamina = 999;
 
     private LevelUpInfoData initialData;
-    
+
     public const long keyPrice = 5000;
-    
+
     public long staminaGoldUseCost { get; private set; }
     public int staminaToAdd { get; private set; }
-    
+
     public TokenType requiredTokenType { get; private set; }
     public int requiredTokenCount { get; private set; }
     public long requiredGoldCount { get; private set; }
-    
+
     public EnforceAnimalPanel targetEnforceAnimalPanel { get; private set; }
 
     public override void InitializeSingleton()
     {
         base.InitializeSingleton();
         SaveLoadSystem.Instance.Load();
-        
+
+        //계정 정보를 관리하는 시스템 옵션도 추후에 여기 넣으면 되겠다
+        PlayerAccountData = new();
+        PlayerAccountData.Load(SaveLoadSystem.Instance.CurrentSaveData.playerAccountDataSave);
+
         //골드,토큰을 관리하는 시스템
         GoldAnimalTokenKeySystem = new();
         GoldAnimalTokenKeySystem.Load(SaveLoadSystem.Instance.CurrentSaveData.goldAnimalTokenKeySystemSave);
@@ -107,7 +117,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
         AnimalUserDataList = new();
         AnimalUserDataList.Load(SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave);
-        
+
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
         SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
         SetMaxRewardItemId(DataTableManager.rewardItemsDataTable.maxId);
@@ -118,7 +128,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         //BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
         SetInitializeData();
-        
+
         UnlockedAnimalPanel.onSetStartAnimalIDInPanel += OnSetAnimalIDInPanel;
 
         SceneManager.sceneLoaded += OnChangeSceneHandler;
@@ -131,7 +141,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         OutGameUIManager.onAnimalUnlockPanelInstantiated += onAnimalUnlockPanelInstantiatedHandler;
 
         GachaManager.onTokenAdded += OnTokenAddedHandler;
-        
+
         StaminaGoldUseButton.onStaminaGoldUseButtonClicked += OnStaminaGoldUseButtonClickedHandler;
 
         onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
@@ -153,9 +163,9 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         LobbyPanel.onGameStartButtonClicked -= OnGameStartButtonClickedHandler;
 
         OutGameUIManager.onAnimalUnlockPanelInstantiated -= onAnimalUnlockPanelInstantiatedHandler;
-        
+
         GachaManager.onTokenAdded -= OnTokenAddedHandler;
-        
+
         StaminaGoldUseButton.onStaminaGoldUseButtonClicked -= OnStaminaGoldUseButtonClickedHandler;
 
         EnforceAnimalPanel.onEnforceInfoSet -= OnEnforceInfoSetHandler;
@@ -210,7 +220,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
     private void SetInitializeData()
     {
-        
+
         //시스템클래스 생성중에 초기 값을 로드, 세팅한다
         //PlayerLevelSystem.SetInitialValue(1, 0);
         ////string temp = "05/06/2025 22:20:13";
@@ -335,7 +345,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         //임시 값 적용
         var resultGold = score / 100;
 
-        GoldAnimalTokenKeySystem.AddGold(resultGold+ Mathf.FloorToInt(resultGold*additionalScoreGoldRate));
+        GoldAnimalTokenKeySystem.AddGold(resultGold + Mathf.FloorToInt(resultGold * additionalScoreGoldRate));
         PlayerLevelSystem.AddExperienceValue(40 + Mathf.RoundToInt(playTime * 0.31f));
     }
 
@@ -447,23 +457,23 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
             case TokenType.BronzeToken:
                 {
                     GoldAnimalTokenKeySystem.AddBronzeToken(tokenValue);
-                    
+
                     return;
                 }
             case TokenType.SilverToken:
                 {
                     GoldAnimalTokenKeySystem.AddSliverToken(tokenValue);
-                    
+
                     return;
                 }
             case TokenType.GoldToken:
                 {
                     GoldAnimalTokenKeySystem.AddGoldToken(tokenValue);
-                    
+
                     return;
                 }
         }
-        
+
         Debug.Assert(false, "Invalid tokenType");
     }
 

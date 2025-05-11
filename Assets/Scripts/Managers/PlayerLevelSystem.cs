@@ -9,12 +9,6 @@ public class PlayerLevelSystem :ISaveLoad
         get => DataSourceType.Local;
     }
 
-    public bool IsTutorialComplete
-    {
-        get;
-        private set;
-    }
-
     public PlayerLevelSystem()
     {
         SceneManager.sceneLoaded += OnChangeSceneHandler;
@@ -102,10 +96,7 @@ public class PlayerLevelSystem :ISaveLoad
         onExperienceValueChanged?.Invoke(value, ExperienceValue);
     }
 
-    public void OnTutorialComplete()
-    {
-        IsTutorialComplete = true;
-    }
+
 
     private void LevelUp()
     {
@@ -118,7 +109,8 @@ public class PlayerLevelSystem :ISaveLoad
         //스태미나 보상 지급
         GameDataManager.Instance.StaminaSystem.AddStamina(CurrentLevelData.LifeReward);
 
-        //티켓 보상 미적용
+        //티켓 보상 지급
+        GameDataManager.Instance.GoldAnimalTokenKeySystem.AddKey(CurrentLevelData.TicketValue);
 
         onLevelChange?.Invoke(CurrentLevel, ExperienceToNextLevel);
     }
@@ -126,14 +118,12 @@ public class PlayerLevelSystem :ISaveLoad
     public void Save()
     {
         var saveData = SaveLoadSystem.Instance.CurrentSaveData.playerLevelSystemSave = new();
-        saveData.tutorialCompleted = IsTutorialComplete;
         saveData.currentLevel = CurrentLevel;
         saveData.experienceValue = ExperienceValue;
     }
 
     public void Load()
     {
-        IsTutorialComplete = false;
         SetInitialValue(1, 0);
     }
 
@@ -145,7 +135,6 @@ public class PlayerLevelSystem :ISaveLoad
             return;
         }
 
-        IsTutorialComplete = saveData.tutorialCompleted;
         SetInitialValue(saveData.currentLevel, saveData.experienceValue);
     }
 
