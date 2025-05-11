@@ -29,7 +29,6 @@ public class AnimalUserDataList : ISaveLoad
         get => animalUserDataList;
     }
 
-
     private Dictionary<int, AnimalUserData> animalUserDataTable = new();
     private List<AnimalUserData> animalUserDataList = new();
 

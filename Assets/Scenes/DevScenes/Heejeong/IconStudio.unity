@@ -205,6 +205,120 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &723455263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 723455266}
+  - component: {fileID: 723455265}
+  - component: {fileID: 723455264}
+  m_Layer: 0
+  m_Name: Camera (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &723455264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723455263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c47ce9ebe6e35194ba33bf2b2ddb9d9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetCamera: {fileID: 723455265}
+  GameObjectToTextureQueue:
+  - {fileID: 5688514589227935463, guid: 1815d5898fc5bc043a010b0271a8bbba, type: 3}
+  - {fileID: 6647131506220806907, guid: 31822a15dae7d384297fc01c4a716459, type: 3}
+  - {fileID: 8492855724649928609, guid: 85ef18886ac3c1e4c935f9168e345184, type: 3}
+  - {fileID: 1693816920450361209, guid: b295ab871fbee334094f301745bbd5df, type: 3}
+  - {fileID: 8480472685412960705, guid: c865a1b0c4ffda14ca228cbd25e1bb2e, type: 3}
+  - {fileID: 4586020781640647465, guid: e939c9660ab8be841b1f2bb486ed5583, type: 3}
+  - {fileID: 5331078080104531923, guid: 6bf84d91b6ce3944c94346da89ac6548, type: 3}
+  - {fileID: 8667090005096231960, guid: 92f4da0d86bb8a242a98b73425385d2a, type: 3}
+  - {fileID: 8670454184925558629, guid: 7d445f85625b3b542b2aa022ff67f50b, type: 3}
+  - {fileID: 1069540666348384564, guid: 355644f44430dac4989ae47812cb3997, type: 3}
+  - {fileID: 512172159506703077, guid: 4dfc2e110e69a484192839ed0bde550d, type: 3}
+  - {fileID: 5922740808719458606, guid: 45f89c1779149cf46a21c6b728572f4c, type: 3}
+  - {fileID: 9074739552759902731, guid: d38685a6fb7bd5446bcdeef4abaf1fbc, type: 3}
+  - {fileID: 2996241165480011711, guid: 2434d6191910a4b4982323e2f0d123f8, type: 3}
+  - {fileID: 4698780902317873821, guid: 79edaed4a057cac4c8792c910b05774e, type: 3}
+  icontexturePath: Assets/Resources/PlayerIcon/{0}Face
+--- !u!20 &723455265
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723455263}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 0.32
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 8400000, guid: c871cf578287eb741b687bf084659571, type: 2}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &723455266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723455263}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.9057168, z: 0, w: 0.42388338}
+  m_LocalPosition: {x: -2.89, y: 0.64, z: 2.752}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 129.84, z: 0}
 --- !u!1 &766193665
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,3 +534,4 @@ SceneRoots:
   - {fileID: 464602026}
   - {fileID: 766193667}
   - {fileID: 1304307740}
+  - {fileID: 723455266}
