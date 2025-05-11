@@ -70,6 +70,11 @@ public class ResultPanelUI : UIElement
         SetRewardTexts();
         UpdateRestartButtonInteractable();
     }
+    private void Update()
+    {
+        UpdateRestartButtonInteractable();
+    }
+
     private void UpdateRestartButtonInteractable()
     {
         int staminaRequiredToRestart = 1; // 필요 행동력 설정

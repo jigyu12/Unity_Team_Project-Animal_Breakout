@@ -108,6 +108,10 @@ public class GameUIManager : InGameManager
         pauseButtonUI.SetInteractable(interactable);
     }
 
+    // public void SetRestartButtonInteractable(bool interactable)
+    // {
+    //     RestartButton.SetInteractable(interactable);
+    // }
     public void Pause()
     {
         pauseHandler.TogglePause();
