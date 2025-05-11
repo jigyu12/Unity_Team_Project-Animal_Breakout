@@ -18,7 +18,7 @@ public class SoundManager : PersistentMonoSingleton<SoundManager>
     [SerializeField] [ReadOnly] public List<AudioSource> sfxAudioSourceList; 
     private float sfxVolume;
     private int channelIndex;
-    public GameObject audioSourceParent;
+    public GameObject audioSourcePlayer;
 
     private void Start()
     {
@@ -37,6 +37,8 @@ public class SoundManager : PersistentMonoSingleton<SoundManager>
             sfxAudioSource.playOnAwake = false;
             sfxAudioSource.volume = sfxVolume;
         }
+        
+        audioSourcePlayer.transform.SetParent(transform);
     }
     
     public void PlayBgm(BgmClipId clipId)
