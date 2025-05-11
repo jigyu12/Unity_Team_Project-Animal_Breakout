@@ -81,9 +81,17 @@ public class GameUIManager : InGameManager
         onShowGameOverPanel?.Invoke();
         resultPanelUI.Show();
     }
-
     public void RestartGame()
     {
+        int requiredStamina = 1;
+
+        if (GameDataManager.Instance.StaminaSystem.CurrentStamina < requiredStamina)
+        {
+            Debug.LogWarning("Not enough stamina to restart the game.");
+            return;
+        }
+
+        GameDataManager.Instance.StaminaSystem.PayStamina(requiredStamina);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -100,6 +108,10 @@ public class GameUIManager : InGameManager
         pauseButtonUI.SetInteractable(interactable);
     }
 
+    // public void SetRestartButtonInteractable(bool interactable)
+    // {
+    //     RestartButton.SetInteractable(interactable);
+    // }
     public void Pause()
     {
         pauseHandler.TogglePause();
