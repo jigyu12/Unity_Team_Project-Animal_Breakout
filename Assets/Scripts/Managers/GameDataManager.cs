@@ -62,7 +62,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     }
     //public int StartAnimalID => startAnimalID;
 
-    public static event Action<int, int> onSetStartAnimalIDInGameDataManager;
+    public static event Action<int, int, AnimalUserData> onSetStartAnimalIDInGameDataManager;
 
     public int MinMapObjectId { get; private set; } = 0;
     public int MinRewardItemId { get; private set; } = 0;
@@ -134,7 +134,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         
         StaminaGoldUseButton.onStaminaGoldUseButtonClicked += OnStaminaGoldUseButtonClickedHandler;
 
-        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
+        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina
+        , AnimalUserDataList.GetAnimalUserData(startAnimalID));
 
         EnforceAnimalPanel.onEnforceInfoSet += OnEnforceInfoSetHandler;
     }
@@ -372,7 +373,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         //startAnimalID = id;
 
         AnimalUserDataList.SetCurrentAnimalPlayer(id);
-        onSetStartAnimalIDInGameDataManager?.Invoke(id, StaminaSystem.CurrentStamina);
+        onSetStartAnimalIDInGameDataManager?.Invoke(id, StaminaSystem.CurrentStamina, 
+            AnimalUserDataList.GetAnimalUserData(startAnimalID));
     }
 
     //private void OnLevelUpHandler(int nextLevel, int nextExp, int remainingExp)
@@ -406,7 +408,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
     private void onAnimalUnlockPanelInstantiatedHandler(GameObject animalUnlockPanel)
     {
-        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina);
+        onSetStartAnimalIDInGameDataManager?.Invoke(startAnimalID, StaminaSystem.CurrentStamina,
+            AnimalUserDataList.GetAnimalUserData(startAnimalID));
     }
 
     //public void IncreaseStamina(int staminaAmount)
