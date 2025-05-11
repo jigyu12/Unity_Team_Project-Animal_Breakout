@@ -8,6 +8,12 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 {
     #region globalDataSystems
 
+    public PlayerAccountData PlayerAccountData
+    {
+        get;
+        private set;
+    }
+
     public GoldAnimalTokenKeySystem GoldAnimalTokenKeySystem
     {
         get;
