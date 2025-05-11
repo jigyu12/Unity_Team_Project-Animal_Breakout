@@ -6,7 +6,7 @@ using UnityEngine;
 public class GachaManager : MonoBehaviour, IManager
 {
     private OutGameManager outGameManager;
-    
+
     private GachaTable gachaTable;
     private readonly List<GachaData> gachaDataList = new();
     private List<float> cumulativeChanceList;
@@ -15,11 +15,13 @@ public class GachaManager : MonoBehaviour, IManager
     public static event Action<List<GachaData>> onGachaDo;
     public static event Action<int> onAnimalUnlocked;
     public static event Action<TokenType, int> onTokenAdded;
-    
+
     private readonly List<bool> animalFirstUnlockInfoList = new();
     public static event Action<List<bool>> onAnimalFirstUnlockedListSet;
-    
+
     public static event Action onAnimalUnlockedFinished;
+
+   
 
     public void GenerateRandomSingleGachaData()
     {
@@ -29,51 +31,51 @@ public class GachaManager : MonoBehaviour, IManager
     private IEnumerator GenerateRandomSingleGachaDataCoroutine()
     {
         yield return null;
-        
+
         var randomIndex = Utils.GetIndexRandomChanceHitInCumulativeChanceList(cumulativeChanceList);
-        
+
         doGachaDataList.Clear();
         doGachaDataList.Add(gachaDataList[randomIndex]);
-        
+
         animalFirstUnlockInfoList.Clear();
-        
+
         onGachaDo?.Invoke(doGachaDataList);
 
         SetAnimalUserDataByGachaResult();
-        
+
         onAnimalFirstUnlockedListSet?.Invoke(animalFirstUnlockInfoList);
-        
+
         Debug.Log("Generate Single Gacha Data");
     }
-    
+
     public void GenerateRandomTenTimeGachaData()
     {
         StartCoroutine(GenerateRandomTenTimeGachaDataCoroutine());
     }
-    
+
     private IEnumerator GenerateRandomTenTimeGachaDataCoroutine()
     {
         yield return null;
-        
+
         doGachaDataList.Clear();
         animalFirstUnlockInfoList.Clear();
-        
+
         for (int i = 0; i < 10; ++i)
         {
             var randomIndex = Utils.GetIndexRandomChanceHitInCumulativeChanceList(cumulativeChanceList);
 
             doGachaDataList.Add(gachaDataList[randomIndex]);
         }
-        
+
         onGachaDo?.Invoke(doGachaDataList);
 
         SetAnimalUserDataByGachaResult();
-        
+
         onAnimalFirstUnlockedListSet?.Invoke(animalFirstUnlockInfoList);
-        
+
         Debug.Log("Generate Ten Times Gacha Data");
     }
-    
+
     public void Initialize()
     {
         gachaTable = DataTableManager.gachaTable;
@@ -89,9 +91,9 @@ public class GachaManager : MonoBehaviour, IManager
 
     public void Clear()
     {
-        
+ 
     }
-    
+
     public void SetOutGameManager(OutGameManager outGameManager)
     {
         this.outGameManager = outGameManager;
@@ -109,24 +111,26 @@ public class GachaManager : MonoBehaviour, IManager
             {
                 Debug.Assert(false, "Invalid animal Id in Gacha.");
             }
-            
+
             if (!animalUserData.IsUnlock)
             {
                 animalUserList.UnlockAnimal(acquiredAnimalId);
                 onAnimalUnlocked?.Invoke(acquiredAnimalId);
-                
+
                 animalFirstUnlockInfoList.Add(true);
             }
             else
             {
                 onTokenAdded?.Invoke(doGachaDataList[i].TokenType, doGachaDataList[i].TokenValue);
-                
+
                 animalFirstUnlockInfoList.Add(false);
-                
+
                 Debug.Log($"Give Token By AnimalId: {acquiredAnimalId}, name : {animalUserList.GetAnimalUserData(acquiredAnimalId).AnimalStatData.StringID}");
             }
         }
-        
+
         onAnimalUnlockedFinished?.Invoke();
     }
+
+    
 }

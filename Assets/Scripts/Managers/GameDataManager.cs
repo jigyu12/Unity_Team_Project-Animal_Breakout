@@ -8,6 +8,12 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 {
     #region globalDataSystems
 
+    public PlayerAccountData PlayerAccountData
+    {
+        get;
+        private set;
+    }
+
     public GoldAnimalTokenKeySystem GoldAnimalTokenKeySystem
     {
         get;
@@ -94,6 +100,10 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         base.InitializeSingleton();
         SaveLoadSystem.Instance.Load();
+
+        //플레이어 정보를 관리하는 시스템
+        PlayerAccountData = new();
+        PlayerAccountData.Load(SaveLoadSystem.Instance.CurrentSaveData.playerAccountDataSave);
 
         //골드,토큰을 관리하는 시스템
         GoldAnimalTokenKeySystem = new();

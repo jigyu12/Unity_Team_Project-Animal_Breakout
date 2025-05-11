@@ -1,5 +1,11 @@
 {
   "$type": "SaveDataV1, Assembly-CSharp",
+  "playerAccountDataSave": {
+    "$type": "PlayerAccountDataSave, Assembly-CSharp",
+    "tutorialCompleted": false,
+    "gachaSingleAdsRemainCount": 1,
+    "gachaLastUpdate": "2025-05-01T16:12:52.261797+09:00"
+  },
   "goldAnimalTokenKeySystemSave": {
     "$type": "GoldAnimalTokenKeySystemSave, Assembly-CSharp",
     "currentGold": 100000,
@@ -10,7 +16,6 @@
   },
   "playerLevelSystemSave": {
     "$type": "PlayerLevelSystemSave, Assembly-CSharp",
-    "tutorialCompleted": false,
     "currentLevel": 1,
     "experienceValue": 0
   },

@@ -20,7 +20,7 @@ public class TutorialUI : UIElement
     {
         base.Initialize();
 
-        if (GameDataManager.Instance.PlayerLevelSystem.IsTutorialComplete)
+        if (GameDataManager.Instance.PlayerAccountData.IsTutorialComplete)
         {
             return;
         }
@@ -43,7 +43,7 @@ public class TutorialUI : UIElement
         {
             gameManager.SetTimeScale(1f);
             gameObject.SetActive(false);
-            GameDataManager.Instance.PlayerLevelSystem.OnTutorialComplete();
+            GameDataManager.Instance.PlayerAccountData.OnTutorialComplete();
             return;
         }
 
