@@ -33,13 +33,13 @@ public class SoundManagerEditor : Editor
             }
 
             soundManager.bgmAudioSource = soundManager.audioSourcePlayer.AddComponent<AudioSource>();
-            soundManager.bgmAudioSource.outputAudioMixerGroup = soundManager.audioMixer.FindMatchingGroups("Master")[0];
+            soundManager.bgmAudioSource.outputAudioMixerGroup = soundManager.audioMixer.FindMatchingGroups("Master")[1];
 
             soundManager.sfxAudioSourceList.Clear();
             for (int i = 0; i < channelCount; ++i)
             {
                 soundManager.sfxAudioSourceList.Add(soundManager.audioSourcePlayer.AddComponent<AudioSource>());
-                soundManager.sfxAudioSourceList[i].outputAudioMixerGroup = soundManager.audioMixer.FindMatchingGroups("Master")[1];
+                soundManager.sfxAudioSourceList[i].outputAudioMixerGroup = soundManager.audioMixer.FindMatchingGroups("Master")[2];
             }
             
             EditorUtility.SetDirty(soundManager);
