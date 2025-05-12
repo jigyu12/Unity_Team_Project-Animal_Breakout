@@ -277,7 +277,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
         enforcePanel.transform.SetParent(alertPanelSpawnPanel.transform);
         enforcePanel.transform.localPosition = Vector3.zero;
 
-        enforcePanel.TryGetComponent(out EnforceAnimalPanel enforceAnimalPanelComponent);
+        enforcePanel.transform.GetChild(0).TryGetComponent(out EnforceAnimalPanel enforceAnimalPanelComponent);
         enforceAnimalPanelComponent.SetTargetAnimalUserData(animalUserData);
         
         enforceAnimalPanelList.Add(enforcePanel);
