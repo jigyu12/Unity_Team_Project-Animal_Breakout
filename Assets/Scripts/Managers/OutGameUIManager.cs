@@ -9,18 +9,18 @@ using UnityEngine.UI;
 public class OutGameUIManager : MonoBehaviour, IManager
 {
     private OutGameManager outGameManager;
-    
+
     public static event Action<bool> onSwitchActiveLayoutGroupControllers;
     public static event Action<bool> onSwitchActiveAllDefaultCanvas;
     public static event Action<SwitchableCanvasType> onSwitchActiveSwitchableCanvas;
     public static event Action<SwitchableCanvasType, bool, bool> onSwitchVisualizeSwitchableCanvas;
-    
+
     [SerializeField] private GameObject unlockAnimalPanelPrefab;
     private ObjectPool<GameObject> unlockAnimalPanelPool;
     public static event Action<GameObject> onAnimalUnlockPanelInstantiated;
     private readonly Dictionary<int, GameObject> animalUnlockPanelDictionary = new();
     private readonly List<GameObject> animalUnlockPanelList = new();
-    
+
     [SerializeField] private GameObject lockAnimalPanelPrefab;
     private ObjectPool<GameObject> lockAnimalPanelPool;
     public static event Action<GameObject> onAnimalLockPanelInstantiated;
@@ -34,21 +34,21 @@ public class OutGameUIManager : MonoBehaviour, IManager
 
     [SerializeField] private GameObject alertPanelSpawnPanelRoot;
     [SerializeField] private GameObject alertPanelSpawnPanel;
-    
+
     [SerializeField] private GameObject alertSingleButtonPanel;
     [SerializeField] private GameObject alertDoubleButtonPanel;
     private ObjectPool<GameObject> alertSingleButtonPanelPool;
     private ObjectPool<GameObject> alertDoubleButtonPanelPool;
     [SerializeField] private GameObject alertPanelReleaseParent;
-    
+
     private readonly List<GameObject> alertSingleButtonPanelList = new();
     private readonly List<GameObject> alertDoubleButtonPanelList = new();
-    
+
     public static event Action<DefaultCanvasType, bool, bool> onSwitchActiveDefaultCanvas;
 
     public static event Action onGachaScreenActive;
     public static event Action<AnimalUserData> onEnforceSuccessScreenActive;
-    
+
     [SerializeField] private GameObject gachaResultSlot;
     private ObjectPool<GameObject> gachaResultSlotPool;
     [SerializeField] private GameObject gachaResultSlotPanelReleaseParent;
@@ -60,16 +60,16 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private readonly WaitForEndOfFrame waitEndOfFrame = new();
 
     [SerializeField] private GameObject settingPanel;
-    
+
     [SerializeField] private GameObject enforceAnimalPanel;
     private ObjectPool<GameObject> enforceAnimalPanelPool;
     [SerializeField] private GameObject enforceAnimalPanelReleaseParent;
     private readonly List<GameObject> enforceAnimalPanelList = new();
 
     private GameObject lastAlertPanel;
-    
+
     public static event Action<FullScreenType> onSpecificFullScreenActive;
-    
+
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
@@ -83,17 +83,17 @@ public class OutGameUIManager : MonoBehaviour, IManager
             () => Instantiate(alertSingleButtonPanel),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
-        
+
         alertDoubleButtonPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(alertDoubleButtonPanel,
             () => Instantiate(alertDoubleButtonPanel),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
-        
+
         gachaResultSlotPool = outGameManager.ObjectPoolManager.CreateObjectPool(gachaResultSlot,
             () => Instantiate(gachaResultSlot),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
-        
+
         enforceAnimalPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(enforceAnimalPanel,
             () => Instantiate(enforceAnimalPanel),
             obj => { obj.SetActive(true); },
@@ -103,9 +103,9 @@ public class OutGameUIManager : MonoBehaviour, IManager
         GachaManager.onAnimalUnlockedFinished += StartSortUnlockAnimalPanelCoroutine;
         animalStatDropDown.onValueChanged.AddListener(SortUnlockAnimalPanel);
         animalListSortToggle.onValueChanged.AddListener(SortUnlockAnimalPanel);
-        
+
         // TempCode //
-        
+
         unlockAnimalPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(unlockAnimalPanelPrefab,
             () => Instantiate(unlockAnimalPanelPrefab),
             obj => { obj.SetActive(true); },
@@ -117,7 +117,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
             obj => { obj.SetActive(false); });
 
         //var animalIdList = DataTableManager.animalDataTable.GetAnimalIDs();
-        
+
         //for (int i = 0; i < animalIdList.Count; ++i)
         //{
         //    if (GameDataManager.Instance.startAnimalID == animalIdList[i])
@@ -129,7 +129,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
         //        animalIsUnlockInfoList.Add(false);
         //    }
         //}
-        
+
         foreach (var animalUserData in GameDataManager.Instance.AnimalUserDataList.AnimalUserDatas)
         {
             if (animalUserData.IsUnlock)
@@ -158,7 +158,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
 
         // TempCode //
     }
-    
+
     private void OnDestroy()
     {
         GachaManager.onAnimalUnlocked -= OnAnimalUnlockedHandler;
@@ -166,47 +166,47 @@ public class OutGameUIManager : MonoBehaviour, IManager
         animalStatDropDown.onValueChanged.RemoveAllListeners();
         animalListSortToggle.onValueChanged.RemoveAllListeners();
     }
-    
+
     public void Initialize()
     {
-        
+
     }
 
     public void Clear()
     {
-        
+
     }
-    
+
     public void EnableAllLayoutGroup(SwitchableCanvasType showCanvasType)
     {
         SwitchActiveDefaultCanvas(true);
-        
+
         SwitchActiveLayoutGroupController(true);
-        
+
         SwitchActiveSwitchableCanvas(showCanvasType);
     }
-    
+
     public void DisableAllLayoutGroup(SwitchableCanvasType showCanvasType)
     {
         SwitchActiveDefaultCanvas(true);
-        
+
         SwitchActiveLayoutGroupController(false);
-        
+
         SwitchActiveSwitchableCanvas(showCanvasType);
     }
-    
+
     public IEnumerator DisableAfterFrameAllLayoutGroup(SwitchableCanvasType showCanvasType)
     {
         SwitchActiveDefaultCanvas(true);
-        
+
         SwitchVisualizeSwitchableCanvas(showCanvasType, false);
-        
+
         yield return null;
 
         SwitchActiveLayoutGroupController(false);
 
         SwitchVisualizeSwitchableCanvas(showCanvasType, true);
-        
+
         SwitchActiveSwitchableCanvas(showCanvasType);
     }
 
@@ -214,19 +214,19 @@ public class OutGameUIManager : MonoBehaviour, IManager
     {
         onSwitchVisualizeSwitchableCanvas?.Invoke(showCanvasType, isVisibleOtherCanvas, isVisibleShowCanvasType);
     }
-    
+
     public void SwitchActiveSwitchableCanvas(SwitchableCanvasType type)
     {
         onSwitchActiveSwitchableCanvas?.Invoke(type);
     }
-    
+
     private void SwitchActiveDefaultCanvas(bool isActive)
     {
         onSwitchActiveAllDefaultCanvas?.Invoke(isActive);
     }
 
     private void SwitchActiveLayoutGroupController(bool isActive)
-    { 
+    {
         onSwitchActiveLayoutGroupControllers?.Invoke(isActive);
     }
 
@@ -242,30 +242,30 @@ public class OutGameUIManager : MonoBehaviour, IManager
         var alertPanel = alertSingleButtonPanelPool.Get();
         alertPanel.transform.SetParent(alertPanelSpawnPanel.transform);
         alertPanel.transform.localPosition = Vector3.zero;
-        
-        alertPanel.TryGetComponent(out AlertPanel alertPanelComponent);
+
+        alertPanel.transform.GetChild(0).TryGetComponent(out AlertPanel alertPanelComponent);
         alertPanelComponent.SetDescriptionTextAndButtonAction(alertPanelInfoData);
         alertPanelComponent.SetReleaseBySelf(alertSingleButtonPanelPool, alertSingleButtonPanelList, alertPanelReleaseParent);
-        
+
         alertSingleButtonPanelList.Add(alertPanel);
 
         lastAlertPanel = alertPanel;
     }
-    
+
     public void ShowAlertDoubleButtonPanel(AlertPanelInfoData alertPanelInfoData)
     {
         alertPanelSpawnPanelRoot.SetActive(true);
-        
+
         var alertPanel = alertDoubleButtonPanelPool.Get();
-        alertPanel.transform.SetParent(alertPanelSpawnPanel.transform);  
+        alertPanel.transform.SetParent(alertPanelSpawnPanel.transform);
         alertPanel.transform.localPosition = Vector3.zero;
-        
-        alertPanel.TryGetComponent(out AlertPanel alertPanelComponent);
+
+        alertPanel.transform.GetChild(0).TryGetComponent(out AlertPanel alertPanelComponent);
         alertPanelComponent.SetDescriptionTextAndButtonAction(alertPanelInfoData);
         alertPanelComponent.SetReleaseBySelf(alertDoubleButtonPanelPool, alertDoubleButtonPanelList, alertPanelReleaseParent);
-        
+
         alertDoubleButtonPanelList.Add(alertPanel);
-        
+
         lastAlertPanel = alertPanel;
     }
 
@@ -279,14 +279,14 @@ public class OutGameUIManager : MonoBehaviour, IManager
 
         enforcePanel.transform.GetChild(0).TryGetComponent(out EnforceAnimalPanel enforceAnimalPanelComponent);
         enforceAnimalPanelComponent.SetTargetAnimalUserData(animalUserData);
-        
+
         enforceAnimalPanelList.Add(enforcePanel);
     }
 
     public void ShowSettingPanel()
     {
         alertPanelSpawnPanelRoot.SetActive(true);
-        
+
         settingPanel.SetActive(true);
     }
 
@@ -297,7 +297,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
             alertSingleButtonPanelList[i].transform.SetParent(alertPanelReleaseParent.transform);
             alertSingleButtonPanelPool.Release(alertSingleButtonPanelList[i]);
         }
-        
+
         for (int i = 0; i < alertDoubleButtonPanelList.Count; ++i)
         {
             alertDoubleButtonPanelList[i].transform.SetParent(alertPanelReleaseParent.transform);
@@ -309,13 +309,13 @@ public class OutGameUIManager : MonoBehaviour, IManager
             enforceAnimalPanelList[i].transform.SetParent(enforceAnimalPanelReleaseParent.transform);
             enforceAnimalPanelPool.Release(enforceAnimalPanelList[i]);
         }
-        
+
         alertSingleButtonPanelList.Clear();
         alertDoubleButtonPanelList.Clear();
         enforceAnimalPanelList.Clear();
-        
+
         settingPanel.SetActive(false);
-        
+
         alertPanelSpawnPanelRoot.SetActive(false);
     }
 
@@ -333,7 +333,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
         SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, true, true);
 
         onSpecificFullScreenActive?.Invoke(type);
-        
+
         switch (type)
         {
             case FullScreenType.GachaScreen:
@@ -382,7 +382,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
                 break;
             default:
                 {
-                    Debug.Assert(false,$"Invalid SwitchableCanvasType in {type}");
+                    Debug.Assert(false, $"Invalid SwitchableCanvasType in {type}");
                 }
                 break;
         }
@@ -391,14 +391,14 @@ public class OutGameUIManager : MonoBehaviour, IManager
     public GameObject GetGachaResultSlot()
     {
         var gachaResultSlot = gachaResultSlotPool.Get();
-        
+
         return gachaResultSlot;
     }
-    
+
     public void ReleaseGachaResultSlot(GameObject gachaResultSlot)
     {
         gachaResultSlot.transform.SetParent(gachaResultSlotPanelReleaseParent.transform);
-        
+
         gachaResultSlotPool.Release(gachaResultSlot);
     }
 
@@ -407,16 +407,16 @@ public class OutGameUIManager : MonoBehaviour, IManager
         if (!animalLockPanelDictionary.ContainsKey(animalID))
         {
             Debug.Assert(false, $"Invalid animalId in lockPanel {animalID}");
-            
+
             return;
         }
-        
+
         var lockAnimalPanel = animalLockPanelDictionary[animalID];
         animalLockPanelDictionary.Remove(animalID);
         lockAnimalPanelPool.Release(lockAnimalPanel);
-            
+
         var animalUserData = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalID);
-            
+
         var unlockAnimalPanel = unlockAnimalPanelPool.Get();
         unlockAnimalPanel.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanel);
         animalUnlockPanel.SetAnimalUserData(animalUserData);
@@ -425,7 +425,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
         animalUnlockPanelDictionary.Add(animalUnlockPanel.animalId, unlockAnimalPanel);
         animalUnlockPanelList.Add(unlockAnimalPanel);
     }
-    
+
     private void SortUnlockAnimalPanel(int dropDownValue)
     {
         SortUnlockAnimalPanel();
@@ -440,7 +440,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     {
         var dropDownValue = animalStatDropDown.value;
         var toggleValueIsOn = animalListSortToggle.isOn;
-        
+
         switch (dropDownValue)
         {
             case (int)AnimalStatDropDownSortType.Level:
@@ -451,19 +451,19 @@ public class OutGameUIManager : MonoBehaviour, IManager
                         {
                             animalUnlockPanel1.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent1);
                             var animalId1 = animalUnlockPanelComponent1.animalId;
-                            
+
                             animalUnlockPanel2.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent2);
                             var animalId2 = animalUnlockPanelComponent2.animalId;
-                            
+
                             var animalUserData1 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId1);
                             var animalUserData2 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId2);
-                        
+
                             var compare1 = animalUserData1.Level.CompareTo(animalUserData2.Level);
                             if (compare1 != 0)
                             {
                                 return compare1;
                             }
-                        
+
                             return animalUserData1.AnimalStatData.AnimalID.CompareTo(animalUserData2.AnimalStatData.AnimalID);
                         });
                     }
@@ -473,19 +473,19 @@ public class OutGameUIManager : MonoBehaviour, IManager
                         {
                             animalUnlockPanel1.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent1);
                             var animalId1 = animalUnlockPanelComponent1.animalId;
-                            
+
                             animalUnlockPanel2.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent2);
                             var animalId2 = animalUnlockPanelComponent2.animalId;
-                            
+
                             var animalUserData1 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId2);
                             var animalUserData2 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId1);
-                        
+
                             var compare = animalUserData1.Level.CompareTo(animalUserData2.Level);
                             if (compare != 0)
                             {
                                 return compare;
                             }
-                        
+
                             return animalUserData1.AnimalStatData.AnimalID.CompareTo(animalUserData2.AnimalStatData.AnimalID);
                         });
                     }
@@ -499,19 +499,19 @@ public class OutGameUIManager : MonoBehaviour, IManager
                         {
                             animalUnlockPanel1.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent1);
                             var animalId1 = animalUnlockPanelComponent1.animalId;
-                            
+
                             animalUnlockPanel2.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent2);
                             var animalId2 = animalUnlockPanelComponent2.animalId;
-                            
+
                             var animalUserData1 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId1);
                             var animalUserData2 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId2);
-                        
+
                             var compare = animalUserData1.AnimalStatData.Grade.CompareTo(animalUserData2.AnimalStatData.Grade);
                             if (compare != 0)
                             {
                                 return compare;
                             }
-                        
+
                             return animalUserData1.AnimalStatData.AnimalID.CompareTo(animalUserData2.AnimalStatData.AnimalID);
                         });
                     }
@@ -521,19 +521,19 @@ public class OutGameUIManager : MonoBehaviour, IManager
                         {
                             animalUnlockPanel1.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent1);
                             var animalId1 = animalUnlockPanelComponent1.animalId;
-                            
+
                             animalUnlockPanel2.TryGetComponent(out UnlockedAnimalPanel animalUnlockPanelComponent2);
                             var animalId2 = animalUnlockPanelComponent2.animalId;
-                            
+
                             var animalUserData1 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId2);
                             var animalUserData2 = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(animalId1);
-                        
+
                             var compare = animalUserData1.AnimalStatData.Grade.CompareTo(animalUserData2.AnimalStatData.Grade);
                             if (compare != 0)
                             {
                                 return compare;
                             }
-                        
+
                             return animalUserData1.AnimalStatData.AnimalID.CompareTo(animalUserData2.AnimalStatData.AnimalID);
                         });
                     }
@@ -551,7 +551,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     {
         StartCoroutine(SortUnlockAnimalPanelCoroutine());
     }
-    
+
     private IEnumerator SortUnlockAnimalPanelCoroutine()
     {
         SortUnlockAnimalPanel();
