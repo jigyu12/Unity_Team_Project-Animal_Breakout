@@ -45,7 +45,9 @@ public class GoogleSheetCSVWindow : EditorWindow
         }
         GUILayout.EndHorizontal();
 
+        LoadDataTableGUI(mapObjectDataTableURL, Utils.MapObjectsTableName);
         LoadDataTableGUI(itemDataTableURL, Utils.ItemTableName);
+        LoadDataTableGUI(coinDataTableURL, Utils.RewardItemsTableName);
 
         LoadDataTableGUI(attackSkillDataTableURL, Utils.AttackSkillTableName);
         GUILayout.BeginHorizontal();
@@ -82,8 +84,9 @@ public class GoogleSheetCSVWindow : EditorWindow
     private string stringTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=776232144#gid=776232144";
 
     private string animalDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1280379651#gid=1280379651";
+    private string mapObjectDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=0#gid=0";
     private string itemDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=100321918#gid=100321918";
-
+    private string coinDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=759094955#gid=759094955";
     private string attackSkillDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=420672475#gid=420672475";
     private string supportSkillDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=831221530#gid=831221530";
     private string additionalStatusEffectDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1871340178#gid=1871340178";

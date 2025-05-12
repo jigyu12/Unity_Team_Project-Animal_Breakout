@@ -11,7 +11,7 @@ public class AnimalModelToTexture : MonoBehaviour
     public List<GameObject> GameObjectToTextureQueue = new();
     private Queue<GameObject> textureQueue = new();
 
-    public string icontexturePath = "Assets/Resources/PlayerIcon/{0}Face";
+    public string icontexturePath = "Assets/Resources/Textures/PlayerIcon/{0}Face";
 
     private bool isProcessing = false;
 
