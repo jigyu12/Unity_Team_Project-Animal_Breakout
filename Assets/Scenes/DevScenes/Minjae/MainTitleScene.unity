@@ -745,35 +745,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &83181481 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 354884469007804838, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-  m_PrefabInstance: {fileID: 4054455691724017053}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &83181484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 83181481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebae3d1066bac0d458dae0a14ff03164, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parent: {fileID: 1011017282}
-  instantiateObj: {fileID: 1849237577376199906, guid: 5f6390b547adbc94b919785f3192cde2, type: 3}
-  parent2: {fileID: 874142041}
-  instantiateObj2: {fileID: 6128400909352889456, guid: 2292d44dd2bf4fd45beba74186a0c552, type: 3}
-  objList1: []
-  objList2: []
 --- !u!114 &83181485 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
   m_PrefabInstance: {fileID: 4054455691724017053}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 83181481}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dee1da3dd6bb380489d3989f411a21ea, type: 3}
@@ -4085,11 +4062,6 @@ MonoBehaviour:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8236285544950228749, guid: ef8d392a70469784cb6b93aa3b668a7a, type: 3}
   m_PrefabInstance: {fileID: 932388884}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &558442097 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5802816178323728882, guid: a7ffef0c572432044a40f7cc3ff54f0d, type: 3}
-  m_PrefabInstance: {fileID: 4177459958516455}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &560902416
 GameObject:
@@ -17948,10 +17920,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: OutGameUIManager
       objectReference: {fileID: 0}
-    - target: {fileID: 354884469007804838, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 1166109820831588698, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 1011017282}
+    - target: {fileID: 1166109820831588698, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
+      propertyPath: parent2
+      value: 
+      objectReference: {fileID: 874142041}
     - target: {fileID: 5571578632722136237, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -17993,22 +17969,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: canvas
-      value: 
-      objectReference: {fileID: 271345786}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: menuCanvas
-      value: 
-      objectReference: {fileID: 898884918}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: shopCanvas
-      value: 
-      objectReference: {fileID: 1321442594}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: lobbyCanvas
-      value: 
-      objectReference: {fileID: 864037235}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: animalCanvas
       value: 
       objectReference: {fileID: 271345786}
@@ -18017,41 +17977,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1916789490}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: rectTransform
-      value: 
-      objectReference: {fileID: 558442097}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: rectTransform2
-      value: 
-      objectReference: {fileID: 1899218490}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: gachaResultSlot
-      value: 
-      objectReference: {fileID: 8527978006630676737, guid: a4a9589fa4afbfa498f29b9b4c240a6d, type: 3}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: LobbyGameObjects
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: UnlockAnimalPanel
-      value: 
-      objectReference: {fileID: 1849237577376199906, guid: 5f6390b547adbc94b919785f3192cde2, type: 3}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: unlockAnimalPanel
-      value: 
-      objectReference: {fileID: 1849237577376199906, guid: 5f6390b547adbc94b919785f3192cde2, type: 3}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: animalStatDropDown
       value: 
       objectReference: {fileID: 1069552467}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: enforceAnimalPanel
-      value: 
-      objectReference: {fileID: 2529528789450126352, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: AlertPanelSpawnPanel
-      value: 
-      objectReference: {fileID: 1771671899}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: alertPanelSpawnPanel
       value: 
@@ -18061,108 +17989,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 716378717}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: lockAnimalPanelPrefab
-      value: 
-      objectReference: {fileID: 8851467644951625118, guid: 06cd05a522440804d9a29831faac9036, type: 3}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: AlertDoubleButtonPanel
-      value: 
-      objectReference: {fileID: 6169433851634178292, guid: bdd66cff207b4fc4e8488e334dc48b3f, type: 3}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: AlertSingleButtonPanel
-      value: 
-      objectReference: {fileID: 2991835593867230595, guid: 0cd7b82fcca88a042a2cc16b08cbb01e, type: 3}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: alertDoubleButtonPanel
-      value: 
-      objectReference: {fileID: 6169433851634178292, guid: bdd66cff207b4fc4e8488e334dc48b3f, type: 3}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: alertSingleButtonPanel
-      value: 
-      objectReference: {fileID: 2991835593867230595, guid: 0cd7b82fcca88a042a2cc16b08cbb01e, type: 3}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: alertPanelReleaseParent
       value: 
       objectReference: {fileID: 467085151}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: unlockAnimalPanelPrefab
-      value: 
-      objectReference: {fileID: 1849237577376199906, guid: 5f6390b547adbc94b919785f3192cde2, type: 3}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: AlertPanelSpawnPanelRoot
-      value: 
-      objectReference: {fileID: 467664069}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: alertPanelSpawnPanelRoot
       value: 
       objectReference: {fileID: 467664069}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: animalLockPanelReleaseParent
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: animalUnlockPanelReleaseParent
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: enforceAnimalPanelReleaseParent
       value: 
       objectReference: {fileID: 1918149223}
     - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: switchableCanvasList.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
       propertyPath: gachaResultSlotPanelReleaseParent
       value: 
       objectReference: {fileID: 956506483}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: switchableCanvasList.Array.data[0]
-      value: 
-      objectReference: {fileID: 1321442594}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: switchableCanvasList.Array.data[1]
-      value: 
-      objectReference: {fileID: 864037235}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: switchableCanvasList.Array.data[2]
-      value: 
-      objectReference: {fileID: 271345782}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: layoutGroupControllerList.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: layoutGroupControllerList.Array.data[0]
-      value: 
-      objectReference: {fileID: 301951137}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: layoutGroupControllerList.Array.data[1]
-      value: 
-      objectReference: {fileID: 549612197}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: layoutGroupControllerList.Array.data[2]
-      value: 
-      objectReference: {fileID: 1373800542}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: layoutGroupControllerList.Array.data[3]
-      value: 
-      objectReference: {fileID: 49479392}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: layoutGroupControllerList.Array.data[4]
-      value: 
-      objectReference: {fileID: 212396726}
-    - target: {fileID: 6624001765353169408, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      propertyPath: layoutGroupControllerList.Array.data[5]
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 354884469007804838, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 83181484}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e784d83077ab35a458cfc535c7d301ea, type: 3}
 --- !u!1001 &4206452949326777028
 PrefabInstance:
