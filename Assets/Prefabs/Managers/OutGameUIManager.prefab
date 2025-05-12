@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5571578632722136237}
   - component: {fileID: 6624001765353169408}
+  - component: {fileID: 1166109820831588698}
   m_Layer: 0
   m_Name: OutGameUIManager
   m_TagString: OutGameUIManager
@@ -44,3 +45,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee1da3dd6bb380489d3989f411a21ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlockAnimalPanelPrefab: {fileID: 1849237577376199906, guid: 5f6390b547adbc94b919785f3192cde2, type: 3}
+  lockAnimalPanelPrefab: {fileID: 8851467644951625118, guid: 06cd05a522440804d9a29831faac9036, type: 3}
+  alertPanelSpawnPanelRoot: {fileID: 0}
+  alertPanelSpawnPanel: {fileID: 0}
+  alertSingleButtonPanel: {fileID: 2991835593867230595, guid: 0cd7b82fcca88a042a2cc16b08cbb01e, type: 3}
+  alertDoubleButtonPanel: {fileID: 6169433851634178292, guid: bdd66cff207b4fc4e8488e334dc48b3f, type: 3}
+  alertPanelReleaseParent: {fileID: 0}
+  gachaResultSlot: {fileID: 8527978006630676737, guid: a4a9589fa4afbfa498f29b9b4c240a6d, type: 3}
+  gachaResultSlotPanelReleaseParent: {fileID: 0}
+  animalStatDropDown: {fileID: 0}
+  animalListSortToggle: {fileID: 0}
+  animalCanvas: {fileID: 0}
+  settingPanel: {fileID: 0}
+  enforceAnimalPanel: {fileID: 7122475093438272015, guid: 8b898e16d953d42ddadf03d19cc5058a, type: 3}
+  enforceAnimalPanelReleaseParent: {fileID: 0}
+--- !u!114 &1166109820831588698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354884469007804838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebae3d1066bac0d458dae0a14ff03164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 0}
+  instantiateObj: {fileID: 1849237577376199906, guid: 5f6390b547adbc94b919785f3192cde2, type: 3}
+  parent2: {fileID: 0}
+  instantiateObj2: {fileID: 6128400909352889456, guid: 2292d44dd2bf4fd45beba74186a0c552, type: 3}
+  objList1: []
+  objList2: []
