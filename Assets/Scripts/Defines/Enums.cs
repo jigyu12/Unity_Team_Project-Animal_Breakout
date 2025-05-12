@@ -8,6 +8,20 @@ public enum SfxClipId
     
 }
 
+public enum LanguageSettingType
+{
+    Korean = 0,
+    English,
+    
+    Count
+}
+
+public enum CloseButtonType
+{
+    OutGame,
+    InGame,
+}
+
 public enum MapObjectCSVType
 {
     Bomb = 1,
