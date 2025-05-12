@@ -11,19 +11,31 @@ public class SoundManager : PersistentMonoSingleton<SoundManager>
     [SerializedDictionary("BgmClipId", "AudioClip")]
     [SerializeField] private SerializedDictionary<BgmClipId, AudioClip> bgmClips;
     [SerializeField] [ReadOnly] public AudioSource bgmAudioSource;
-    private float bgmVolume;
+    public float bgmVolume { get; private set; }
     
     [SerializedDictionary("SfxClipId", "AudioClip")]
     [SerializeField] private SerializedDictionary<SfxClipId, AudioClip> sfxClips;
     [SerializeField] [ReadOnly] public List<AudioSource> sfxAudioSourceList; 
-    private float sfxVolume;
+    public float sfxVolume { get; private set; }
     private int channelIndex;
     public GameObject audioSourcePlayer;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        SettingPanel.onBgmVolumeChanged += OnBgmVolumeChangedHandler;
+    }
+
+    private void OnDestroy()
+    {
+        SettingPanel.onBgmVolumeChanged -= OnBgmVolumeChangedHandler;
+    }
+
     private void Start()
     {
-        bgmVolume = 0f;
-        sfxVolume = 0f;
+        bgmVolume = GameDataManager.Instance.PlayerAccountData.bgmVolume;
+        sfxVolume = GameDataManager.Instance.PlayerAccountData.sfxVolume;
         channelIndex = 0;
         
         bgmAudioSource.loop = true;
@@ -156,5 +168,14 @@ public class SoundManager : PersistentMonoSingleton<SoundManager>
         {
             sfxAudioSource.volume = sfxVolume;
         }
+    }
+    
+    private void OnBgmVolumeChangedHandler(float bgmVolume, float sfxVolume)
+    {
+       SetBgmVolume(bgmVolume);
+       SetSfxVolume(sfxVolume);
+       
+       Debug.Log($"BGM Value : {this.bgmVolume}");
+       Debug.Log($"SFX Value : {this.sfxVolume}");
     }
 }

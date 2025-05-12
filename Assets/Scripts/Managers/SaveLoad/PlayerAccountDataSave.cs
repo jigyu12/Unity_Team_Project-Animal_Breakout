@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class PlayerAccountDataSave
@@ -10,4 +7,9 @@ public class PlayerAccountDataSave
 
     public int gachaSingleAdsRemainCount;
     public DateTime gachaLastUpdate;
+    
+    public float bgmVolume;
+    public float sfxVolume;
+    public int frameRateIndex;
+    public int languageSettingType;
 }
