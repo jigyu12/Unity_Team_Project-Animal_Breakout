@@ -95,6 +95,18 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     public long requiredGoldCount { get; private set; }
 
     public EnforceAnimalPanel targetEnforceAnimalPanel { get; private set; }
+    
+    public int frameRateIndex { get; private set; }
+    public LanguageSettingType languageSettingType { get; private set; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        QualitySettings.vSyncCount = 0;
+        SettingPanel.onFrameRateIndexChanged += OnFrameRateIndexChangedHandler;
+        SettingPanel.onLanguageSettingTypeChanged += OnLanguageSettingTypeChangedHandler;
+    }
 
     public override void InitializeSingleton()
     {
@@ -120,6 +132,9 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         //동물당 해금 여부, 강화여부 등을 들고있는 데이터 초기화
         AnimalUserDataList = new();
         AnimalUserDataList.Load(SaveLoadSystem.Instance.CurrentSaveData.animalUserDataTableSave);
+        
+        SetFrameRateIndex(PlayerAccountData.frameRateIndex);
+        OnFrameRateIndexChangedHandler(frameRateIndex);
 
         SetMaxMapObjectId(DataTableManager.mapObjectsDataTable.maxId);
         SetMinMapObjectId(DataTableManager.mapObjectsDataTable.minId);
@@ -129,15 +144,9 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
     private void Start()
     {
-        //BaseCollisionBehaviour.OnScoreChanged += AddScoreInGame;
-        SetInitializeData();
-
         UnlockedAnimalPanel.onSetStartAnimalIDInPanel += OnSetAnimalIDInPanel;
 
         SceneManager.sceneLoaded += OnChangeSceneHandler;
-
-        //LevelSlider.onLevelUp += OnLevelUpHandler;
-        //LevelSlider.onExpChangedInSameLevel += onExpChangedInSameLevelHandler;
 
         LobbyPanel.onGameStartButtonClicked += OnGameStartButtonClickedHandler;
 
@@ -161,9 +170,6 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
         SceneManager.sceneLoaded -= OnChangeSceneHandler;
 
-        //LevelSlider.onLevelUp -= OnLevelUpHandler;
-        //LevelSlider.onExpChangedInSameLevel -= onExpChangedInSameLevelHandler;
-
         LobbyPanel.onGameStartButtonClicked -= OnGameStartButtonClickedHandler;
 
         OutGameUIManager.onAnimalUnlockPanelInstantiated -= onAnimalUnlockPanelInstantiatedHandler;
@@ -173,6 +179,10 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         StaminaGoldUseButton.onStaminaGoldUseButtonClicked -= OnStaminaGoldUseButtonClickedHandler;
 
         EnforceAnimalPanel.onEnforceInfoSet -= OnEnforceInfoSetHandler;
+
+        SettingPanel.onFrameRateIndexChanged -= OnFrameRateIndexChangedHandler;
+        
+        SettingPanel.onLanguageSettingTypeChanged -= OnLanguageSettingTypeChangedHandler;
     }
 
 
@@ -222,115 +232,6 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         , "Cant find GameManager");
     }
 
-    private void SetInitializeData()
-    {
-
-        //시스템클래스 생성중에 초기 값을 로드, 세팅한다
-        //PlayerLevelSystem.SetInitialValue(1, 0);
-        ////string temp = "05/06/2025 22:20:13";
-        ////StaminaSystem.SetInitialValue(0, DateTime.Parse(temp));    //임시로 now갈겨놓은 것이니 추후 저장후 확인
-        ////GoldAnimalTokenKeySystem.SetInitialValue(100000, 1000, 1000, 1000, 12);
-        //StaminaSystem.SetInitialValue(900, DateTime.Now);    //임시로 now갈겨놓은 것이니 추후 저장후 확인
-
-
-
-        //// TempCode //
-
-        //if (!isAddToDictInInitialize)
-        //{
-        //    isAddToDictInInitialize = true;
-
-        //    expToLevelUpDictionary.Add(1, 110);
-        //    expToLevelUpDictionary.Add(2, 120);
-        //    expToLevelUpDictionary.Add(3, 130);
-        //    expToLevelUpDictionary.Add(4, 140);
-        //    expToLevelUpDictionary.Add(5, 150);
-
-        //    int maxStamina1 = 5;
-        //    int maxStamina2 = 10;
-        //    int maxStamina3 = 15;
-        //    int maxStamina4 = 20;
-        //    int maxStamina5 = 25;
-
-        //    maxStaminaByLevelDictionary.Add(1, maxStamina1);
-        //    maxStaminaByLevelDictionary.Add(2, maxStamina2);
-        //    maxStaminaByLevelDictionary.Add(3, maxStamina3);
-        //    maxStaminaByLevelDictionary.Add(4, maxStamina4);
-        //    maxStaminaByLevelDictionary.Add(5, maxStamina5);
-
-        //    {
-        //        var levelUpRewardData1 = new LevelUpRewardData();
-        //        levelUpRewardData1.SaveLevelUpRewardData(maxStamina1, 1000);
-        //        levelUpRewardDataDictionary.Add(1, levelUpRewardData1);
-        //    }
-        //    {
-        //        var levelUpRewardData2 = new LevelUpRewardData();
-        //        levelUpRewardData2.SaveLevelUpRewardData(maxStamina2, 2000);
-        //        levelUpRewardDataDictionary.Add(2, levelUpRewardData2);
-        //    }
-        //    {
-        //        var levelUpRewardData3 = new LevelUpRewardData();
-        //        levelUpRewardData3.SaveLevelUpRewardData(maxStamina3, 3000);
-        //        levelUpRewardDataDictionary.Add(3, levelUpRewardData3);
-        //    }
-        //    {
-        //        var levelUpRewardData4 = new LevelUpRewardData();
-        //        levelUpRewardData4.SaveLevelUpRewardData(maxStamina4, 4000);
-        //        levelUpRewardDataDictionary.Add(4, levelUpRewardData4);
-        //    }
-        //    {
-        //        var levelUpRewardData5 = new LevelUpRewardData();
-        //        levelUpRewardData5.SaveLevelUpRewardData(5, 5000);
-        //        levelUpRewardDataDictionary.Add(5, levelUpRewardData5);
-        //    }
-        //}
-
-
-
-        //currentStamina = 10; // 5
-        //currentLevel = 1;
-        //nextExp = expToLevelUpDictionary[currentLevel];
-        //currentExp = 0;
-
-        //initialData = new(maxLevel);
-        //initialData.SaveLevelUpInfoData(currentLevel, nextExp, currentExp);
-
-        //onLevelExpInitialized?.Invoke(initialData);
-
-        //// TempCode //
-
-        //currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
-
-        //onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
-
-        ////ClearInGameData();
-    }
-
-    //private void ClearInGameData()
-    //{
-    //    inGameScore = 0;
-    //}
-
-    //private void AddScoreInGame(long scoreToAdd)
-    //{
-    //    inGameScore += scoreToAdd;
-
-    //    if (inGameScore <= 0)
-    //    {
-    //        inGameScore = 0;
-    //    }
-
-    //    UpdateScoreUI();
-    //}
-
-    //private void UpdateScoreUI()
-    //{
-    //    if (GameObject.FindGameObjectWithTag("ScoreUI")?.TryGetComponent(out ScoreUI scoreUI) == true)
-    //    {
-    //        scoreUI.UpdateScore(inGameScore);
-    //    }
-    //}
-
     public void ClearAdditionalScoreGoldRate()
     {
         additionalScoreGoldRate = 0f;
@@ -359,23 +260,13 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         {
             TryFindOutGameUIManager();
 
-            //if (maxScore < inGameScore)
-            //{
-            //    maxScore = inGameScore;
-            //}
-            //Debug.Log($"InGameScore : {inGameScore}");
-            //Debug.Log($"MaxScore : {maxScore}");
-
-            //GoldTokenSystem.AddGold(inGameScore / 100);
-
-            //onLevelExpInitialized?.Invoke(initialData);
-            //onExpChanged?.Invoke(100);
-            //currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
-            //onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
+            OnFrameRateIndexChangedHandler(frameRateIndex);
         }
         else if (SceneManager.GetActiveScene().name == "Run")
         {
             TryFindGameManager();
+
+            OnFrameRateIndexChangedHandler(frameRateIndex);
         }
 
         Time.timeScale = 1;
@@ -390,21 +281,6 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
             AnimalUserDataList.GetAnimalUserData(startAnimalID));
     }
 
-    //private void OnLevelUpHandler(int nextLevel, int nextExp, int remainingExp)
-    //{
-    //    currentLevel = nextLevel;
-    //    this.nextExp = nextExp;
-    //    currentExp = remainingExp;
-    //    initialData.SaveLevelUpInfoData(currentLevel, this.nextExp, currentExp);
-
-    //    GoldTokenSystem.AddGold(levelUpRewardDataDictionary[currentLevel].goldToAdd);
-
-    //    currentStamina += levelUpRewardDataDictionary[currentLevel].staminaToAdd;
-    //    currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
-
-    //    onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
-    //}
-
     private void OnGameStartButtonClickedHandler(int staminaRequiredToStartGame)
     {
         if (StaminaSystem.CurrentStamina < staminaRequiredToStartGame)
@@ -415,8 +291,6 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         }
 
         StaminaSystem.PayStamina(staminaRequiredToStartGame);
-        //currentStamina -= staminaRequiredToStartGame;
-        //onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
     }
 
     private void onAnimalUnlockPanelInstantiatedHandler(GameObject animalUnlockPanel)
@@ -425,15 +299,6 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
             AnimalUserDataList.GetAnimalUserData(startAnimalID));
     }
 
-    //public void IncreaseStamina(int staminaAmount)
-    //{
-    //    currentStamina += staminaAmount;
-    //    currentStamina = Math.Clamp(currentStamina, minStamina, maxStamina);
-
-    //    onStaminaChangedInGameDataManager?.Invoke(currentStamina, maxStaminaByLevelDictionary[currentLevel]);
-
-    //    Debug.Log($"Stamina has been increased. Current Stamina : {currentStamina}");
-    //}
 
     private void onExpChangedInSameLevelHandler(int currentLevel, int nextExp, int currentExp)
     {
@@ -447,15 +312,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         return StartCoroutine(StaminaSystem.CoAddStamina());
     }
-
-    //public void AddStaminaRepeat(int currentStamina, int maxStaminaCanFilled)
-    //{
-    //    if (StaminaSystem.coAddStamina == null&&!StaminaSystem.IsStaminaFull)
-    //    {
-    //        StaminaSystem.coAddStamina = StartCoroutine(StaminaSystem.CoAddStamina());
-    //    }
-    //}
-
+    
     private void OnTokenAddedHandler(TokenType type, int tokenValue)
     {
         switch (type)
@@ -496,5 +353,70 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         this.requiredTokenCount = requiredTokenCount;
         this.requiredGoldCount = requiredGoldCount;
         this.targetEnforceAnimalPanel = targetEnforceAnimalPanel;
+    }
+    
+    private void OnFrameRateIndexChangedHandler(int frameRateIndex)
+    {
+        this.frameRateIndex = frameRateIndex;
+        
+        switch ((FrameRateType)frameRateIndex)
+        {
+            case FrameRateType.Frame30:
+                {
+                    Application.targetFrameRate = 30;
+                }
+                break;
+            case FrameRateType.Frame60:
+                {
+                    Application.targetFrameRate = 60;
+                }
+                break;
+            case FrameRateType.Frame120:
+                {
+                    Application.targetFrameRate = 120;
+                }
+                break;
+            default:
+                {
+                    Debug.Assert(false, "FrameRateType is not defined.");
+                }
+                break;
+        }
+        
+        Debug.Log($"Frame Rate Index : {frameRateIndex}");
+    }
+
+    public void SetFrameRateIndex(int frameRateIndex)
+    {
+        this.frameRateIndex = frameRateIndex;
+    }
+
+    private void OnLanguageSettingTypeChangedHandler(LanguageSettingType languageSettingType)
+    {
+        SetLanguageSettingType(languageSettingType);
+    }
+
+    public void SetLanguageSettingType(LanguageSettingType languageSettingType)
+    {
+        this.languageSettingType = languageSettingType;
+
+        switch (this.languageSettingType)
+        {
+            case LanguageSettingType.Korean:
+                {
+                    LocalizationUtility.ChangeLocaleNow("Korean (South Korea) (ko-KR)");
+                }
+                break;
+            case LanguageSettingType.English:
+                {
+                    LocalizationUtility.ChangeLocaleNow("English (United States) (en-US)");
+                }
+                break;
+            default:
+                {
+                    Debug.Assert(false, "LanguageSettingType is not defined.");
+                }
+                break;
+        }
     }
 }

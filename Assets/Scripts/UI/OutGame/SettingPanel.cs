@@ -13,7 +13,6 @@ public class SettingPanel : MonoBehaviour
 
     [SerializeField] private List<Toggle> frameToggles;
     [SerializeField] private ToggleGroup frameToggleGroup;
-
     
     [SerializeField] private TMP_Text languageText;
     [SerializeField] private Image countryImage;
@@ -29,17 +28,15 @@ public class SettingPanel : MonoBehaviour
     public LanguageSettingType languageSettingType { get; private set; }
     
     [SerializeField] private CloseButtonType closeButtonType;
+    
+    public static event Action<float, float> onBgmVolumeChanged;
+    public static event Action<int> onFrameRateIndexChanged;
+    public static event Action<LanguageSettingType> onLanguageSettingTypeChanged;
 
     private void Awake()
     {
         bgmSlider.onValueChanged.AddListener(OnBgmSliderValueChangedHandler);
         sfxSlider.onValueChanged.AddListener(OnSfxSliderValueChanged);
-
-        for (int i = 0; i < frameToggles.Count; ++i)
-        {
-            frameToggles[i].group = frameToggleGroup;
-            frameToggles[i].onValueChanged.AddListener(OnFrameToggleValueChanged);
-        }
         
         languageSwitchButton.onClick.AddListener(() =>
         {
@@ -83,15 +80,24 @@ public class SettingPanel : MonoBehaviour
             }
         });
         
-        bgmValue = 0.5f;
-        sfxValue = 0.2f;
-        frameRateIndex = 2;
-        languageSettingType = LanguageSettingType.Korean;
+        bgmValue = GameDataManager.Instance.PlayerAccountData.bgmVolume;
+        sfxValue = GameDataManager.Instance.PlayerAccountData.sfxVolume;
+        
+        frameRateIndex = GameDataManager.Instance.frameRateIndex;
+        
+        languageSettingType = GameDataManager.Instance.languageSettingType;
         
         SetSettingText("설정");
         SetBgmSliderValue(bgmValue);
         SetSfxSliderValue(sfxValue);
+        
         SetFrameRateToggle(frameRateIndex);
+        for (int i = 0; i < frameToggles.Count; ++i)
+        {
+            int index = i;
+            frameToggles[i].onValueChanged.AddListener((isOn) => OnFrameToggleValueChanged(index, isOn));
+        }
+        
         SetLanguageSettingType(languageSettingType);
         SetCloseButtonText("닫기");
     }
@@ -121,8 +127,18 @@ public class SettingPanel : MonoBehaviour
         }
         
         frameRateIndex = index;
-        
-        frameToggles[index].isOn = true;
+
+        for (int i = 0; i < frameToggles.Count; ++i)
+        {
+            if (i == frameRateIndex)
+            {
+                frameToggles[frameRateIndex].isOn = true;
+            }
+            else
+            {
+                frameToggles[i].isOn = false;
+            }
+        }
     }
     
     public void SetLanguageSettingType(LanguageSettingType languageSettingType)
@@ -149,9 +165,12 @@ public class SettingPanel : MonoBehaviour
             default:
                 {
                     Debug.Assert(false, "LanguageSettingType is not defined.");
+                    
+                    return;
                 }
-                break;
         }
+        
+        onLanguageSettingTypeChanged?.Invoke(this.languageSettingType);
     }
 
     public void SetCloseButtonText(string closeText)
@@ -163,28 +182,23 @@ public class SettingPanel : MonoBehaviour
     {
         bgmValue = value;
         
-        Debug.Log($"BGM Value : {bgmValue}");
+        onBgmVolumeChanged?.Invoke(bgmValue, sfxValue);
     }
     
     private void OnSfxSliderValueChanged(float value)
     {
         sfxValue = value;
         
-        Debug.Log($"SFX Value : {sfxValue}");
+        onBgmVolumeChanged?.Invoke(bgmValue, sfxValue);
     }
     
-    private void OnFrameToggleValueChanged(bool isOn)
+    private void OnFrameToggleValueChanged(int index, bool isOn)
     {
-        for (int i = 0; i < frameToggles.Count; ++i)
+        if (isOn)
         {
-            if (frameToggles[i].isOn)
-            {
-                frameRateIndex = i;
-                
-                break;
-            }
+            frameRateIndex = index;
+            
+            onFrameRateIndexChanged?.Invoke(frameRateIndex);
         }
-        
-        Debug.Log($"Frame Rate Index : {frameRateIndex}");
     }
 }

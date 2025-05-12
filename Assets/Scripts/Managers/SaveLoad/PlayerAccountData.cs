@@ -28,6 +28,11 @@ public class PlayerAccountData : ISaveLoad
     }
 
     private DateTime gachaLastUpdate;
+    
+    public float bgmVolume { get; private set; }
+    public float sfxVolume { get; private set; }
+    public int frameRateIndex { get; private set; }
+    public LanguageSettingType languageSettingType { get; private set; }
 
     public PlayerAccountData()
     {
@@ -46,6 +51,11 @@ public class PlayerAccountData : ISaveLoad
 
         saveData.gachaSingleAdsRemainCount = GachaSingleAdsRemainCount;
         saveData.gachaLastUpdate = DateTime.Now;
+        
+        saveData.bgmVolume = SoundManager.Instance.bgmVolume;
+        saveData.sfxVolume = SoundManager.Instance.sfxVolume;
+        saveData.frameRateIndex = GameDataManager.Instance.frameRateIndex;
+        saveData.languageSettingType = (int)GameDataManager.Instance.languageSettingType;
     }
 
     public void Load()
@@ -73,5 +83,16 @@ public class PlayerAccountData : ISaveLoad
             GachaSingleAdsRemainCount = saveData.gachaSingleAdsRemainCount;
         }
 
+        bgmVolume = saveData.bgmVolume;
+        SoundManager.Instance.SetBgmVolume(bgmVolume);
+        
+        sfxVolume = saveData.sfxVolume;
+        SoundManager.Instance.SetSfxVolume(sfxVolume);
+        
+        frameRateIndex = saveData.frameRateIndex;
+        GameDataManager.Instance.SetFrameRateIndex(frameRateIndex);
+        
+        languageSettingType = (LanguageSettingType)saveData.languageSettingType;
+        GameDataManager.Instance.SetLanguageSettingType(languageSettingType);
     }
 }
