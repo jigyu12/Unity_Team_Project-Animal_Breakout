@@ -87,7 +87,6 @@ public class SettingPanel : MonoBehaviour
         
         languageSettingType = GameDataManager.Instance.languageSettingType;
         
-        SetSettingText("설정");
         SetBgmSliderValue(bgmValue);
         SetSfxSliderValue(sfxValue);
         
@@ -99,7 +98,6 @@ public class SettingPanel : MonoBehaviour
         }
         
         SetLanguageSettingType(languageSettingType);
-        SetCloseButtonText("닫기");
     }
     
     public void SetSettingText(string settingText)
