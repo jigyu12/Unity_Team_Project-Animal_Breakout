@@ -15,6 +15,16 @@ public class StaminaGoldUseButton : MonoBehaviour
     
     private OutGameUIManager outGameUIManager;
 
+    private void Awake()
+    {
+        GameDataManager.onLocaleChange += SetStaminaGoldUseText;
+    }
+
+    private void OnDestroy()
+    {
+        GameDataManager.onLocaleChange -= SetStaminaGoldUseText;
+    }
+
     private void Start()
     {
         GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
@@ -26,12 +36,10 @@ public class StaminaGoldUseButton : MonoBehaviour
             onStaminaGoldUseButtonClicked?.Invoke(staminaGoldUseCost, staminaToAdd);
             outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.CheckStaminaPurchase));
         });
-        
-        SetStaminaGoldUseText(staminaGoldUseCost);
     }
 
-    public void SetStaminaGoldUseText(long staminaGoldUseCost)
+    public void SetStaminaGoldUseText()
     {
-        staminaGoldUseText.text = $"{staminaGoldUseCost} 골드";
+        staminaGoldUseText.text = LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.StaminaGoldUseStringKey, staminaGoldUseCost);
     }
 }

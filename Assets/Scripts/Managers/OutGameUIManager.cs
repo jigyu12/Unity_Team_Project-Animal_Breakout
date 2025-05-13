@@ -26,9 +26,6 @@ public class OutGameUIManager : MonoBehaviour, IManager
     public static event Action<GameObject> onAnimalLockPanelInstantiated;
     private readonly Dictionary<int, GameObject> animalLockPanelDictionary = new();
 
-    //대신 GameDataManager.Instance.AnimalUserDataList.AnimalUserDatas를 사용하세요
-    //private readonly List<bool> animalIsUnlockInfoList = new();
-
     public SwitchableCanvasType CurrentSwitchableCanvasType { get; set; }
     public DefaultCanvasType CurrentDefaultCanvasTypeInSwitchableCanvasType { get; set; }
 
