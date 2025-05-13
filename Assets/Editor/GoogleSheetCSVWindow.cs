@@ -41,17 +41,21 @@ public class GoogleSheetCSVWindow : EditorWindow
         GUILayout.Label("AnimalStat Scriptable");
         if (GUILayout.Button("CreateScriptable"))
         {
+            AssetDatabase.Refresh();
             CreateAnimalStatScriptableData();
         }
         GUILayout.EndHorizontal();
 
+        LoadDataTableGUI(mapObjectDataTableURL, Utils.MapObjectsTableName);
         LoadDataTableGUI(itemDataTableURL, Utils.ItemTableName);
+        LoadDataTableGUI(coinDataTableURL, Utils.RewardItemsTableName);
 
         LoadDataTableGUI(attackSkillDataTableURL, Utils.AttackSkillTableName);
         GUILayout.BeginHorizontal();
         GUILayout.Label("AttackSkill Scriptable");
         if (GUILayout.Button("CreateScriptable"))
         {
+            AssetDatabase.Refresh();
             CreateAttackSkillScriptableData();
         }
         GUILayout.EndHorizontal();
@@ -82,8 +86,9 @@ public class GoogleSheetCSVWindow : EditorWindow
     private string stringTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=776232144#gid=776232144";
 
     private string animalDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1280379651#gid=1280379651";
+    private string mapObjectDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=0#gid=0";
     private string itemDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=100321918#gid=100321918";
-
+    private string coinDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=759094955#gid=759094955";
     private string attackSkillDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=420672475#gid=420672475";
     private string supportSkillDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=831221530#gid=831221530";
     private string additionalStatusEffectDataTableURL = "https://docs.google.com/spreadsheets/d/1lgeY8ZIuS4VGB0Ii2VdqcRd126eV1GDp4h0aw2hoVBA/edit?gid=1871340178#gid=1871340178";
@@ -125,6 +130,8 @@ public class GoogleSheetCSVWindow : EditorWindow
 
         string dataPath = "Assets/Resources/ScriptableData/AnimalStat/{0}.asset";
         string dataFileNameFormat = "Animal_{0}";
+
+        AssetDatabase.Refresh();
         foreach (var key in animalStatDataTable.Keys)
         {
             var data = animalStatDataTable.Get(key);
@@ -138,6 +145,7 @@ public class GoogleSheetCSVWindow : EditorWindow
                 scriptableData = ScriptableObject.CreateInstance<AnimalStatData>();
                 scriptableData.SetData(data);
                 AssetDatabase.CreateAsset(scriptableData, string.Format(dataPath, dataFileName));
+                //AssetDatabase.ImportAsset(string.Format(dataPath, dataFileName));
             }
             else
             {
@@ -145,6 +153,7 @@ public class GoogleSheetCSVWindow : EditorWindow
             }
             AssetDatabase.SaveAssets();
             EditorUtility.SetDirty(scriptableData);
+
         }
         AssetDatabase.Refresh();
     }
@@ -156,6 +165,8 @@ public class GoogleSheetCSVWindow : EditorWindow
 
         string dataPath = "Assets/Resources/ScriptableData/Skill/{0}.asset";
         string dataFileNameFormat = "Skill_Attack{0}";
+
+        AssetDatabase.Refresh();
         foreach (var key in attackSkillDataTable.Keys)
         {
             var data = attackSkillDataTable.Get(key);
@@ -167,12 +178,18 @@ public class GoogleSheetCSVWindow : EditorWindow
             {
                 //해당 데이터 ScriptableObject생성
                 scriptableData = ScriptableObject.CreateInstance<AttackSkillData>();
-                scriptableData.SetData(data);
+                //EditorApplication.delayCall += () =>
+                //{
+                    scriptableData.SetData(data);
+                //};
                 AssetDatabase.CreateAsset(scriptableData, string.Format(dataPath, dataFileName));
             }
             else
             {
-                scriptableData.SetData(data);
+                //EditorApplication.delayCall += () =>
+                //{
+                    scriptableData.SetData(data);
+                //};
             }
             AssetDatabase.SaveAssets();
             EditorUtility.SetDirty(scriptableData);
@@ -187,6 +204,8 @@ public class GoogleSheetCSVWindow : EditorWindow
 
         string dataPath = "Assets/Resources/ScriptableData/Skill/{0}.asset";
         string dataFileNameFormat = "Skill_Support{0}";
+
+        AssetDatabase.Refresh();
         foreach (var key in supportSkillDataTable.Keys)
         {
             var data = supportSkillDataTable.Get(key);

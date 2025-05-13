@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SkillQueue
 {
@@ -12,6 +13,10 @@ public class SkillQueue
     {
         list.Add(skillPriorityItem);
         list.Sort(comparer);
+        foreach (var item in list)
+        {
+            Debug.Log($"스킬큐 순서->{item.skill.AttackSkillData.skillGroup}");
+        }
     }
 
     public void Enqueue(int value, AttackSkill skill)
@@ -24,8 +29,13 @@ public class SkillQueue
         list.Sort(comparer);
         var value = list[0].skill;
         list.RemoveAt(0);
+        foreach (var item in list)
+        {
+            Debug.Log($"스킬큐 순서->{item.skill.AttackSkillData.skillGroup}");
+        }
         return value;
     }
+
     public void Remove(AttackSkill skill)
     {
         int index = list.FindIndex(x => x.skill.Id == skill.Id);

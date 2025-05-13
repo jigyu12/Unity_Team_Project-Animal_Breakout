@@ -41,10 +41,6 @@ public class SaveLoadFileWindow : EditorWindow
             {
                 UnityEngine.Debug.Log("파일을 열거나 실행할 수 없습니다: " + e.Message);
             }
-            //if (File.Exists(path))
-            //{
-            //    EditorUtility.OpenFilePanel("Save File Directory", SaveLoadSystem.SavePathDirectory, "json");
-            //}
         }
         GUILayout.EndHorizontal();
 

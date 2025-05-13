@@ -10,7 +10,7 @@ public class SupportSkillData : SkillData
     public float rate;
 
 #if UNITY_EDITOR
-    private string iconPath = "Assets/Resources/SkillIcon/{0}.png";
+    private string iconPath = "Assets/Resources/Textures/SkillIcon/{0}.png";
 
     public void SetData(SupportSkillRawData rawData)
     {

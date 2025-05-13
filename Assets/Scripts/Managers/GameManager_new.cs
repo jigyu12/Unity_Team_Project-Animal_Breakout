@@ -27,6 +27,7 @@ public class GameManager_new : MonoBehaviour
     private GameState previousState;
     private GameState currentState;
 
+    [ReadOnly]
     public float previousTimeScale;
     private float previousStopTimeScale;
 
