@@ -9,7 +9,7 @@ public class GachaSingleButton : GachaButton
     {
         base.Start();
         
-        SetGachaButtonText("1회", "1");
+        SetGachaButtonCountText("1");
     }
     
     public override void DoGacha()

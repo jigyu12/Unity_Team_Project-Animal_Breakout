@@ -20,7 +20,7 @@ public class AnimalStatData : ScriptableObject
 
 #if UNITY_EDITOR
     private string skillDataPath = "Assets/Resources/ScriptableData/Skill/Skill_Attack{0}.asset";
-    private string iconPath = "Assets/Resources/PlayerIcon/{0}.png";
+    private string iconPath = "Assets/Resources/Textures/PlayerIcon/{0}.png";
 
     public void SetData(AnimalDataTable.AnimalRawData rawData)
     {

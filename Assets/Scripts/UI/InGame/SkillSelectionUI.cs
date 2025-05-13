@@ -20,13 +20,15 @@ public class SkillSelectionUI : UIElement
     [SerializeField] private Button rerollButton;
 
     [SerializeField] private TMP_Text rerollCountText;
-    private int rerollCount = 5;
+    private int rerollCount;
 
     private int priority = 1;
 
     public override void Initialize()
     {
         base.Initialize();
+
+        rerollCount = gameManager.SkillManager.SkillSelectionRerollMaxCount;
 
         for (int i = 0; i < skillButtonCount; i++)
         {

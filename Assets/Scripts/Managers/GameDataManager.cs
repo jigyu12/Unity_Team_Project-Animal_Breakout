@@ -98,6 +98,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     
     public int frameRateIndex { get; private set; }
     public LanguageSettingType languageSettingType { get; private set; }
+    
+    public static event Action onLocaleChange;
 
     protected override void Awake()
     {
@@ -404,11 +406,13 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         {
             case LanguageSettingType.Korean:
                 {
+                    //StartCoroutine(LocalizationUtility.LocaleChange("Korean (South Korea) (ko-KR)"));
                     LocalizationUtility.ChangeLocaleNow("Korean (South Korea) (ko-KR)");
                 }
                 break;
             case LanguageSettingType.English:
                 {
+                    //StartCoroutine(LocalizationUtility.LocaleChange("English (United States) (en-US)"));
                     LocalizationUtility.ChangeLocaleNow("English (United States) (en-US)");
                 }
                 break;
@@ -418,5 +422,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
                 }
                 break;
         }
+        
+        onLocaleChange?.Invoke();
     }
 }

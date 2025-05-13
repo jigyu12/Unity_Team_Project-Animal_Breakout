@@ -10,7 +10,7 @@ public class GameObjectToTexture : MonoBehaviour
     public List<GameObject> GameObjectToTextureQueue = new();
     private Queue<GameObject> textureQueue = new();
 
-    public string icontexturePath = "Assets/Resources/PlayerIcon/{0}";
+    public string icontexturePath = "Assets/Resources/Textures/PlayerIcon/{0}";
 
     private bool isProcessing = false;
 

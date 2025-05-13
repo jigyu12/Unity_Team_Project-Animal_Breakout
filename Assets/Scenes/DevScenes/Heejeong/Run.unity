@@ -1229,11 +1229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3612961042289590281, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.9643939
+      value: 0.95089287
       objectReference: {fileID: 0}
     - target: {fileID: 3612961042289590281, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.03794643
       objectReference: {fileID: 0}
     - target: {fileID: 3691444031488023415, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_IsActive
@@ -2229,11 +2229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9154763438929502054, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.9643939
+      value: 0.95089287
       objectReference: {fileID: 0}
     - target: {fileID: 9154763438929502054, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.03794643
       objectReference: {fileID: 0}
     - target: {fileID: 9171140500389391539, guid: 0fa21128b356e49ee80816950e62f0b9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -5387,6 +5387,22 @@ PrefabInstance:
       propertyPath: currentSkillData
       value: 
       objectReference: {fileID: 11400000, guid: a6e8890a06323cb47a4b5e167e06d91e, type: 2}
+    - target: {fileID: 4258889134660983066, guid: 975f828a2796894429cf44e6cd3020a3, type: 3}
+      propertyPath: currentSkillDatas.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4258889134660983066, guid: 975f828a2796894429cf44e6cd3020a3, type: 3}
+      propertyPath: currentSkillDatas.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 30fe669192903a54b85758a6466de9e9, type: 2}
+    - target: {fileID: 4258889134660983066, guid: 975f828a2796894429cf44e6cd3020a3, type: 3}
+      propertyPath: currentSkillDatas.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 867ac3b04732f67439efa91a60939b37, type: 2}
+    - target: {fileID: 4258889134660983066, guid: 975f828a2796894429cf44e6cd3020a3, type: 3}
+      propertyPath: currentSkillDatas.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a0bef74b0049bc74aaeba28df834cf4f, type: 2}
     - target: {fileID: 5125569633227755141, guid: 975f828a2796894429cf44e6cd3020a3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

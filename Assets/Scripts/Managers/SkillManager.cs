@@ -26,6 +26,11 @@ public class SkillManager : InGameManager
         get => skills;
     }
 
+    public int SkillSelectionRerollMaxCount
+    {
+        get => 5;
+    }
+
     private SkillQueue readyAttackSkillQueue = new SkillQueue();
 
 
