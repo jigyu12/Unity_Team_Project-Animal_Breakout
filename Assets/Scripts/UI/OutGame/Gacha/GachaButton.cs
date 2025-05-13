@@ -26,6 +26,11 @@ public abstract class GachaButton : MonoBehaviour
         this.headerText.text = headerText;
         this.countText.text = countText;
     }
+    
+    protected void SetGachaButtonCountText(string countText)
+    {
+        this.countText.text = countText;
+    }
 
     public abstract void DoGacha();
     
