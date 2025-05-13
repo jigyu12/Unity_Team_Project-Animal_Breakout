@@ -323,7 +323,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
     {
         if (lastAlertPanel != null)
         {
-            lastAlertPanel.TryGetComponent(out AlertPanel alertPanelComponent);
+            lastAlertPanel.transform.GetChild(0).TryGetComponent(out AlertPanel alertPanelComponent);
             alertPanelComponent.Release();
         }
     }

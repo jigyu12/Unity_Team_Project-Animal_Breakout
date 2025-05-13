@@ -108,5 +108,4 @@ public static class LocalizationUtility
         }
         Debug.LogWarning($"Locale '{localeName}' not found!");
     }
-
 }
