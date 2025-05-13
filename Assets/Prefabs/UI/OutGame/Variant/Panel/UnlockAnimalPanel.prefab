@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 442004699007776598, guid: c880f35eb76ec58489d67943c846fa34, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1052952207520691156, guid: c880f35eb76ec58489d67943c846fa34, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 64c3f26338c7b4f6194ec85a5102f1c9, type: 3}
+    - target: {fileID: 1052952207520691156, guid: c880f35eb76ec58489d67943c846fa34, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1942722667728486700, guid: c880f35eb76ec58489d67943c846fa34, type: 3}
       propertyPath: m_fontSize
       value: 40
@@ -299,7 +311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 40
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4339838672051049575, guid: 75985a5fc53a0de409f6d348dc7f4ec0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
