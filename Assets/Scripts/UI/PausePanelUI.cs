@@ -27,7 +27,11 @@ public class PausePanelUI : UIElement
         //gameUIManager = uiManager;
         base.Initialize();
         resumeButton.onClick.RemoveAllListeners();
-        resumeButton.onClick.AddListener(OnResumeClicked);
+        resumeButton.onClick.AddListener(() =>
+        {
+            OnResumeClicked();
+            SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+        });
 
         giveUpButton.onClick.RemoveAllListeners();
         giveUpButton.onClick.AddListener(OnGiveUpClicked);
