@@ -6,15 +6,20 @@ public class SettingButton : MonoBehaviour
 {
     private Button settingButton;
     private OutGameUIManager outGameUIManager;
-    
+
     private void Start()
     {
         TryGetComponent(out settingButton);
 
         GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
         outGameUIManager = outGameManager.OutGameUIManager;
-        
-        settingButton.onClick.AddListener(outGameUIManager.ShowSettingPanel);
+
+        settingButton.onClick.AddListener(() =>
+        {
+            outGameUIManager.ShowSettingPanel();
+
+            SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+        });
     }
 
     private void OnDestroy()
