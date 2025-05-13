@@ -21,8 +21,8 @@ public static class Utils
     
     public const string GameManagerTag = "GameManager";
 
-    public const string AnimalSelectedString = "OUTGAME_SELECTED";
-    public const string AnimalSelectableString = "OUTGAME_SELECT";
+    public const string AnimalSelectedString = "선택됨";
+    public const string AnimalSelectableString = "선택하기";
 
     public const string ItemHumanAnimatorDefaultString = "Default";
     public static readonly int ItemHumanAnimatorDefaultHash = Animator.StringToHash(ItemHumanAnimatorDefaultString);

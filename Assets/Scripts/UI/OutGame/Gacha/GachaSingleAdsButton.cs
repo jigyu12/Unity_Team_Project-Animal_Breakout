@@ -10,13 +10,11 @@ public class GachaSingleAdsButton : GachaButton
     protected void Awake()
     {
         AlertPanelConfirmButtonFuncFactory.onGachaByAds += SetGachaButtonText;
-        GameDataManager.onLocaleChange += SetGachaButtonText;
     }
 
     protected void OnDestroy()
     {
         AlertPanelConfirmButtonFuncFactory.onGachaByAds -= SetGachaButtonText;
-        GameDataManager.onLocaleChange -= SetGachaButtonText;
     }
 
     protected override void Start()
@@ -24,8 +22,6 @@ public class GachaSingleAdsButton : GachaButton
         base.Start();
 
         gachaButton.interactable = IsAdsRemain;
-
-        SetGachaButtonText();
     }
 
     public override void DoGacha()

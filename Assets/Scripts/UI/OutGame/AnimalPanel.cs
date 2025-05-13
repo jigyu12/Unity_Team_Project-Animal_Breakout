@@ -4,7 +4,6 @@ using UnityEngine;
 public class AnimalPanel : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown animalStatDropDown;
-    [SerializeField] private TMP_Text labelText;
 
     private void Awake()
     {
@@ -27,8 +26,5 @@ public class AnimalPanel : MonoBehaviour
         
         animalStatDropDown.options.Add(new TMP_Dropdown.OptionData(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalLevelSortDropDownStringKey)));
         animalStatDropDown.options.Add(new TMP_Dropdown.OptionData(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalGradeSortDropDownStringKey)));
-        
-        
-        labelText.text = animalStatDropDown.options[animalStatDropDown.value].text;
     }
 }

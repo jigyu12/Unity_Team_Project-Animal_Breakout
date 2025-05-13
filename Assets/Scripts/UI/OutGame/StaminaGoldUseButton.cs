@@ -36,8 +36,6 @@ public class StaminaGoldUseButton : MonoBehaviour
             onStaminaGoldUseButtonClicked?.Invoke(staminaGoldUseCost, staminaToAdd);
             outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.CheckStaminaPurchase));
         });
-
-        SetStaminaGoldUseText();
     }
 
     public void SetStaminaGoldUseText()
