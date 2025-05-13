@@ -15,7 +15,6 @@ public class RunStageUI : UIElement
 
     public void StartBossWayTracking()
     {
-
         BossWaySlider.value = 0f;
         tracking = true;
     }

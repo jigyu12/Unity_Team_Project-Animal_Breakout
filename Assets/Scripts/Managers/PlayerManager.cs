@@ -68,7 +68,10 @@ public class PlayerManager : InGameManager
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GameReady, () => DisablePlayer(playerStatus));
         GameManager.AddGameStateStartAction(GameManager_new.GameState.GamePlay, () => EnablePlayer(playerStatus));
         GameManager.AddGameStateExitAction(GameManager_new.GameState.GamePlay, () => DisablePlayer(playerStatus));
-
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () =>
+             {
+                 SoundManager.Instance.PlayBgm(BgmClipId.IngameBGM);
+             });
         //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, SetInitialSkill);
 
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => ContinuePlayerWithCountdown(gameUIManager.countdownText));

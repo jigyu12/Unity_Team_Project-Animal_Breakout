@@ -63,6 +63,7 @@ public class ReviveHandler
 
         playerManager.playerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
         playerManager.playerAnimator.ResetTrigger("Run");
+        SoundManager.Instance.PlaySfx(SfxClipId.Revive);
         playerManager.playerAnimator.SetTrigger("Idle");
 
         playerManager.playerStatus.isDead = false;
