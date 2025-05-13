@@ -11,7 +11,7 @@ public class AnimalModelToTexture : MonoBehaviour
     public List<GameObject> GameObjectToTextureQueue = new();
     private Queue<GameObject> textureQueue = new();
 
-    public string icontexturePath = "Assets/Resources/Textures/PlayerIcon/{0}Face";
+    public string icontexturePath = "Assets/Resources/Textures/PlayerIcon/PlayerFace/{0}Face";
 
     private bool isProcessing = false;
 
@@ -59,6 +59,7 @@ public class AnimalModelToTexture : MonoBehaviour
         SaveTextureToFileUtility.SaveRenderTextureToFile(TargetCamera.targetTexture, string.Format(icontexturePath, gobj.name));
 
         Debug.Log("Mug shot : " + gobj.name);
+        gobj.SetActive(false);
         DestroyImmediate(gobj);
     }
     public void Test()
