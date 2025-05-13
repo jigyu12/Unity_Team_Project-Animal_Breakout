@@ -104,7 +104,7 @@ public class EnforceAnimalPanel : MonoBehaviour
         SetAnimalImage(animalUserData.AnimalStatData.iconImage);
         SetEnforceText("강화하기");
         SetPassiveText(animalUserData.AnimalStatData.passive.ToString());
-        SetAnimalNameText(animalUserData.AnimalStatData.StringID);
+        SetAnimalNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.StringID));
         SetLevelText(animalUserData.Level, animalUserData.Level + 1);
         SetSkillText();
     }
