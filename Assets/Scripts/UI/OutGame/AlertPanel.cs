@@ -40,8 +40,8 @@ public class AlertPanel : MonoBehaviour
 
     public void Release()
     {
-        alertPanelList.Remove(gameObject);
-        gameObject.transform.SetParent(releaseParent.transform);
-        alertPanelObjectPool.Release(gameObject);
+        alertPanelList.Remove(transform.parent.gameObject);
+        transform.parent.SetParent(releaseParent.transform);
+        alertPanelObjectPool.Release(transform.parent.gameObject);
     }
 }

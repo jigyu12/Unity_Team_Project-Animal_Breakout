@@ -46,6 +46,10 @@ public static class AlertPanelConfirmButtonFuncFactory
                     //보상형 광고 재생
                     NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, ()=>
         {
+                    GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
+                    
+                    GameDataManager.Instance.GachaSingleAdsButton.interactable =  GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
+            
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
                     outGameManager.GachaManager.GenerateRandomSingleGachaData();

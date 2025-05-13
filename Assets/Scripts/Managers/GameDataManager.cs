@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityCommunity.UnitySingleton;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 {
@@ -100,6 +101,9 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     public LanguageSettingType languageSettingType { get; private set; }
     
     public static event Action onLocaleChange;
+
+    private Button gachaSingleAdsButton;
+    public Button GachaSingleAdsButton { get; private set; }
 
     protected override void Awake()
     {
@@ -209,11 +213,11 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
 
     public void Initialize()
     {
-        if (SceneManager.GetActiveScene().name == "MainTitleSceneCopy")
+        if (SceneManager.GetActiveScene().name == "MainTitleScene")
         {
-            TryFindOutGameUIManager();
+            TryFindOutGameObject();
         }
-        else if (SceneManager.GetActiveScene().name == "Run_new")
+        else if (SceneManager.GetActiveScene().name == "Run")
         {
             TryFindGameManager();
         }
@@ -221,11 +225,15 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         //ClearInGameData();
     }
 
-    private void TryFindOutGameUIManager()
+    private void TryFindOutGameObject()
     {
         //Debug.Assert(GameObject.FindGameObjectWithTag("OutGameUIManager").TryGetComponent(out outGameUIManager), "Cant find OutGameUIManager");
         GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out outGameManager);
         outGameUIManager = outGameManager.OutGameUIManager;
+
+        var btn = GameObject.FindGameObjectWithTag("AdsButton");
+        btn.TryGetComponent(out gachaSingleAdsButton);
+        GachaSingleAdsButton = gachaSingleAdsButton;
     }
 
     private void TryFindGameManager()
@@ -260,7 +268,7 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         if (SceneManager.GetActiveScene().name == "MainTitleScene")
         {
-            TryFindOutGameUIManager();
+            TryFindOutGameObject();
 
             OnFrameRateIndexChangedHandler(frameRateIndex);
         }

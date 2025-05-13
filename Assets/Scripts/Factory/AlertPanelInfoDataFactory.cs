@@ -29,7 +29,7 @@ public static class AlertPanelInfoDataFactory
                 {
                     AlertPanelInfoData alertPanelInfoData = new();
 
-                    alertPanelInfoData.description = "게임을 종료하시겠습니까?";
+                    alertPanelInfoData.description = LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalQuitGameStringKey);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.QuitGame);
                     alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
                     
@@ -39,7 +39,7 @@ public static class AlertPanelInfoDataFactory
                 {
                     AlertPanelInfoData alertPanelInfoData = new();
 
-                    alertPanelInfoData.description = "1개 열쇠 사용하여 진행하시겠습니까?";
+                    alertPanelInfoData.description = alertPanelInfoData.description = LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalTicketStringKey, 1);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.DoSingleGacha);
                     alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
                     
@@ -49,7 +49,7 @@ public static class AlertPanelInfoDataFactory
                 {
                     AlertPanelInfoData alertPanelInfoData = new();
                     
-                    alertPanelInfoData.description = "광고를 보고 진행하시겠습니까?";
+                    alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalAdsStringKey);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.DoSingleGachaByAds);
                     alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
                     
@@ -59,7 +59,7 @@ public static class AlertPanelInfoDataFactory
                 {
                     AlertPanelInfoData alertPanelInfoData = new();
                     
-                    alertPanelInfoData.description = "10개 열쇠 사용하여 진행하시겠습니까?";
+                    alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalTicketStringKey, 10);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.DoTenTimesGacha);
                     alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
                     
@@ -71,7 +71,7 @@ public static class AlertPanelInfoDataFactory
                     
                     GameObject.FindGameObjectWithTag("GachaSingleButton").TryGetComponent(out GachaSingleButton gachaSingleButton);
                     var lackKeyAndGold = gachaSingleButton.GetLackKeyAndGoldCount(1);
-                    alertPanelInfoData.description = $"열쇠 {lackKeyAndGold.lackKey}가 부족합니다.\n{lackKeyAndGold.lackGold} 골드를 사용하여 열쇠를 구매하시겠습니까?";
+                    alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalTicketBuyStringKey, lackKeyAndGold.lackKey, lackKeyAndGold.lackGold);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.NotEnoughKeyToDoSingleGacha);
                     alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
                     
@@ -83,7 +83,7 @@ public static class AlertPanelInfoDataFactory
                     
                     GameObject.FindGameObjectWithTag("GachaTenTimesButton").TryGetComponent(out GachaTenTimesButton gachaTenTimesButton);
                     var lackKeyAndGold = gachaTenTimesButton.GetLackKeyAndGoldCount(10);
-                    alertPanelInfoData.description = $"열쇠 {lackKeyAndGold.lackKey}가 부족합니다.\n{lackKeyAndGold.lackGold} 골드를 사용하여 열쇠를 구매하시겠습니까?";
+                    alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalTicketBuyStringKey, lackKeyAndGold.lackKey, lackKeyAndGold.lackGold);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.NotEnoughKeyToDoTenTimesGacha);
                     alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
                     
@@ -93,7 +93,7 @@ public static class AlertPanelInfoDataFactory
                 {
                     AlertPanelInfoData alertPanelInfoData = new();
 
-                    alertPanelInfoData.description = "골드가 부족합니다.";
+                    alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalNoMoneyStringKey);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.CloseAlertPanel);
                     
                     return alertPanelInfoData;
@@ -102,7 +102,7 @@ public static class AlertPanelInfoDataFactory
                 {
                     AlertPanelInfoData alertPanelInfoData = new();
                     
-                    alertPanelInfoData.description = "행동력은 999를 넘을 수 없습니다.\n행동력을 구매 할 수 없습니다.";
+                    alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalManyStaminaStringKey);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.CloseAlertPanel);
                     
                     return alertPanelInfoData;
@@ -111,7 +111,7 @@ public static class AlertPanelInfoDataFactory
                 {
                     AlertPanelInfoData alertPanelInfoData = new();
 
-                    alertPanelInfoData.description = "구매하시겠습니까?";
+                    alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalBuyStringKey);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.CheckStaminaPurchase);
                     alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanel);
                     
@@ -120,8 +120,8 @@ public static class AlertPanelInfoDataFactory
             case AlertPanelInfoDataType.EnforceAnimal:
                 {
                     AlertPanelInfoData alertPanelInfoData = new();
-                    
-                    alertPanelInfoData.description = $"{GameDataManager.Instance.requiredTokenType.ToString()} {GameDataManager.Instance.requiredTokenCount}개와 코인 {GameDataManager.Instance.requiredGoldCount}개를 소모하여 강화를 진행하시겠습니까?";
+                    alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalUpgradeStringKey,
+                        GameDataManager.Instance.requiredTokenType.ToString() ,GameDataManager.Instance.requiredTokenCount, GameDataManager.Instance.requiredGoldCount);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.EnforceAnimal);
                     alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanelBySetActive);
                     
