@@ -22,6 +22,13 @@ public enum CloseButtonType
     InGame,
 }
 
+public enum FrameRateType
+{
+    Frame30 = 0,
+    Frame60,
+    Frame120,
+}
+
 public enum MapObjectCSVType
 {
     Bomb = 1,
