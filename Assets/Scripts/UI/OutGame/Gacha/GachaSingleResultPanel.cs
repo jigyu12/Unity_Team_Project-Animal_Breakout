@@ -28,19 +28,45 @@ public class GachaSingleResultPanel : GachaPanelBase
 
         if (gachaDataList is not null && animalFirstUnlockInfoList is not null)
         {
+            var animalUserData = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID);
+
             if (animalFirstUnlockInfoList[currentGachaDataIndex])
             {
-                var animalUserData = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID);
-                
-                SetItemNameText(animalUserData.AnimalStatData.StringID);
+                SetItemNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.StringID));
                 SetItemImage(animalUserData.AnimalStatData.iconImage);
-                SetItemDescriptionText($"공격력     {animalUserData.AnimalStatData.AttackPower}\n보유효과     {animalUserData.AnimalStatData.passive.ToString()}\n스킬     {LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.SkillData.nameID, animalUserData.AnimalStatData.SkillData.level)}");
+                SetStarImage(animalUserData.AnimalStatData.starIconImage);
+                
+                var passiveEffectData = DataTableManager.passiveEffectDataTable.GetPassiveEffectData((int)animalUserData.AnimalStatData.passive, animalUserData.AnimalStatData.Grade, 1);
+                float value = (PassiveType)passiveEffectData.PassiveType is PassiveType.SkillDamage or PassiveType.ResultScoreUp or PassiveType.CoinValue ? passiveEffectData.Value * 100f : passiveEffectData.Value;
+                SetItemDescriptionText($"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalAttackPowerStringKey)}     {animalUserData.AnimalStatData.AttackPower}\n{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalEndowmentStringKey)}     {LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, passiveEffectData.StringID, value)}\n{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalSkillStringKey)}     {LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.SkillData.nameID, animalUserData.AnimalStatData.SkillData.level)}");
             }
             else
             {
-                SetItemNameText(gachaDataList[currentGachaDataIndex].TokenType.ToString() + $" By {GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData.StringID}");
-                SetItemImage(null);
-                SetItemDescriptionText($"변환 개수 :          {gachaDataList[currentGachaDataIndex].TokenValue}");
+                if (gachaDataList[currentGachaDataIndex].TokenType == TokenType.BronzeToken)
+                {
+                    SetItemNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                        Utils.AnimalBronzeDuplicateStringKey,
+                        LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                            animalUserData.AnimalStatData.StringID)));
+                }
+                else if (gachaDataList[currentGachaDataIndex].TokenType == TokenType.SilverToken)
+                {
+                    SetItemNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                        Utils.AnimalSliverDuplicateStringKey,
+                        LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                            animalUserData.AnimalStatData.StringID)));
+                }
+                else
+                {
+                    SetItemNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                        Utils.AnimalGoldDuplicateStringKey,
+                        LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                            animalUserData.AnimalStatData.StringID)));
+                }
+                
+                SetItemImage(animalUserData.AnimalStatData.tokenIconImage);
+                SetStarImage(animalUserData.AnimalStatData.starIconImage);
+                SetItemDescriptionText($"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalTokenChangeStringKey)} :          {gachaDataList[currentGachaDataIndex].TokenValue}");
             }
         }
     }
@@ -62,19 +88,45 @@ public class GachaSingleResultPanel : GachaPanelBase
         }
         else
         {
+            var animalUserData = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID);
+
             if (animalFirstUnlockInfoList[currentGachaDataIndex])
             {
-                var animalUserData = GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID);
-                
-                SetItemNameText(animalUserData.AnimalStatData.StringID);
+                SetItemNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.StringID));
                 SetItemImage(animalUserData.AnimalStatData.iconImage);
-                SetItemDescriptionText($"공격력     {animalUserData.AnimalStatData.AttackPower}\n보유효과     {animalUserData.AnimalStatData.passive.ToString()}\n스킬     {LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.SkillData.nameID, animalUserData.AnimalStatData.SkillData.level)}");
+                SetStarImage(animalUserData.AnimalStatData.starIconImage);
+                
+                var passiveEffectData = DataTableManager.passiveEffectDataTable.GetPassiveEffectData((int)animalUserData.AnimalStatData.passive, animalUserData.AnimalStatData.Grade, 1);
+                float value = (PassiveType)passiveEffectData.PassiveType is PassiveType.SkillDamage or PassiveType.ResultScoreUp or PassiveType.CoinValue ? passiveEffectData.Value * 100f : passiveEffectData.Value;
+                SetItemDescriptionText($"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalAttackPowerStringKey)}     {animalUserData.AnimalStatData.AttackPower}\n{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalEndowmentStringKey)}     {LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, passiveEffectData.StringID, value)}\n{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalSkillStringKey)}     {LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.SkillData.nameID, animalUserData.AnimalStatData.SkillData.level)}");
             }
             else
             {
-                SetItemNameText(gachaDataList[currentGachaDataIndex].TokenType.ToString() + $" By {GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[currentGachaDataIndex].AnimalID).AnimalStatData.StringID}");
-                SetItemImage(null);
-                SetItemDescriptionText($"변환 개수 :          {gachaDataList[currentGachaDataIndex].TokenValue}");
+                if (gachaDataList[currentGachaDataIndex].TokenType == TokenType.BronzeToken)
+                {
+                    SetItemNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                        Utils.AnimalBronzeDuplicateStringKey,
+                        LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                            animalUserData.AnimalStatData.StringID)));
+                }
+                else if (gachaDataList[currentGachaDataIndex].TokenType == TokenType.SilverToken)
+                {
+                    SetItemNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                        Utils.AnimalSliverDuplicateStringKey,
+                        LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                            animalUserData.AnimalStatData.StringID)));
+                }
+                else
+                {
+                    SetItemNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                        Utils.AnimalGoldDuplicateStringKey,
+                        LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                            animalUserData.AnimalStatData.StringID)));
+                }
+                
+                SetItemImage(animalUserData.AnimalStatData.tokenIconImage);
+                SetStarImage(animalUserData.AnimalStatData.starIconImage);
+                SetItemDescriptionText($"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalTokenChangeStringKey)} :          {gachaDataList[currentGachaDataIndex].TokenValue}");
             }
         }
     }
