@@ -63,7 +63,9 @@ public class OutGameUIManager : MonoBehaviour, IManager
     [SerializeField] private GameObject enforceAnimalPanelReleaseParent;
     private readonly List<GameObject> enforceAnimalPanelList = new();
 
-    private GameObject lastAlertPanel;
+    public GameObject lastAlertPanel { get; private set; }
+
+    public bool isFullScreenActive { get; private set; }
 
     public static event Action<FullScreenType> onSpecificFullScreenActive;
 
@@ -101,8 +103,6 @@ public class OutGameUIManager : MonoBehaviour, IManager
         animalStatDropDown.onValueChanged.AddListener(SortUnlockAnimalPanel);
         animalListSortToggle.onValueChanged.AddListener(SortUnlockAnimalPanel);
 
-        // TempCode //
-
         unlockAnimalPanelPool = outGameManager.ObjectPoolManager.CreateObjectPool(unlockAnimalPanelPrefab,
             () => Instantiate(unlockAnimalPanelPrefab),
             obj => { obj.SetActive(true); },
@@ -112,21 +112,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
             () => Instantiate(lockAnimalPanelPrefab),
             obj => { obj.SetActive(true); },
             obj => { obj.SetActive(false); });
-
-        //var animalIdList = DataTableManager.animalDataTable.GetAnimalIDs();
-
-        //for (int i = 0; i < animalIdList.Count; ++i)
-        //{
-        //    if (GameDataManager.Instance.startAnimalID == animalIdList[i])
-        //    {
-        //        animalIsUnlockInfoList.Add(true);
-        //    }
-        //    else
-        //    {
-        //        animalIsUnlockInfoList.Add(false);
-        //    }
-        //}
-
+        
         foreach (var animalUserData in GameDataManager.Instance.AnimalUserDataList.AnimalUserDatas)
         {
             if (animalUserData.IsUnlock)
@@ -153,7 +139,7 @@ public class OutGameUIManager : MonoBehaviour, IManager
         animalCanvas.TryGetComponent(out animalCanvasGroup);
         SortUnlockAnimalPanel();
 
-        // TempCode //
+        isFullScreenActive = false;
     }
 
     private void OnDestroy()
@@ -314,6 +300,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
         settingPanel.SetActive(false);
 
         alertPanelSpawnPanelRoot.SetActive(false);
+        
+        outGameManager.isGameQuitPanelShow = false;
     }
 
     public void HideLastAlertPanel()
@@ -322,11 +310,15 @@ public class OutGameUIManager : MonoBehaviour, IManager
         {
             lastAlertPanel.transform.GetChild(0).TryGetComponent(out AlertPanel alertPanelComponent);
             alertPanelComponent.Release();
+            
+            outGameManager.isGameQuitPanelShow = false;
         }
     }
 
     public void ShowFullScreenPanel(FullScreenType type)
     {
+        isFullScreenActive = true;
+        
         SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, true, true);
 
         onSpecificFullScreenActive?.Invoke(type);
@@ -351,6 +343,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
         SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, false, true);
         SwitchActiveDefaultCanvas(DefaultCanvasType.Menu, true);
         SwitchActiveDefaultCanvas(CurrentDefaultCanvasTypeInSwitchableCanvasType, true);
+
+        isFullScreenActive = false;
     }
 
     public void SwitchActiveDefaultCanvas(DefaultCanvasType defaultCanvasType, bool isActive, bool inActiveOtherCanvas = false)

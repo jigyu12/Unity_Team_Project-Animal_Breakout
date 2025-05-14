@@ -41,26 +41,32 @@ public static class AlertPanelConfirmButtonFuncFactory
             {
                 AlertPanelConfirmButtonFuncType.DoSingleGachaByAds, () =>
                 {
-
                     Debug.Log("Gacha By Ads");
-                    //보상형 광고 재생
-                    NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, ()=>
-        {
-                    GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
                     
-                    GameDataManager.Instance.GachaSingleAdsButton.interactable =  GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
-            
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
-                    outGameManager.GachaManager.GenerateRandomSingleGachaData();
-                    onGachaByAds?.Invoke();
+                    
+                    // GameDataManager.Instance.GachaSingleAdsButton.interactable = false; 
+                    // outGameManager.OutGameUIManager.lastAlertPanel.transform.GetChild(0).TryGetComponent(out AlertPanel alertPanel);
+                    // alertPanel.SetInteractableButton(false);
+                    
+                    //보상형 광고 재생
+                    NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, () =>
+                        {
+                            GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
 
-                    outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
-                    outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
-        }
-        , Time.timeScale);
+                            GameDataManager.Instance.GachaSingleAdsButton.interactable =
+                                GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
 
+                            outGameManager.GachaManager.GenerateRandomSingleGachaData();
+                            onGachaByAds?.Invoke();
 
+                            outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                            outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
+                            
+                            //alertPanel.SetInteractableButton(true);
+                        }
+                        , Time.timeScale);
                 }
             },
             {
@@ -141,18 +147,19 @@ public static class AlertPanelConfirmButtonFuncFactory
                 {
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
-                    if (StaminaSystem.maxStamina < 
+                    if (StaminaSystem.maxStamina <
                         GameDataManager.Instance.StaminaSystem.CurrentStamina + GameDataManager.Instance.staminaToAdd)
                     {
                         outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
                         outGameManager.OutGameUIManager.ShowAlertSingleButtonPanel(
-                            AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.TooManyStaminaToPurchaseStamina));
-                        
+                            AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType
+                                .TooManyStaminaToPurchaseStamina));
+
                         return;
                     }
-                    
+
                     var isSuccessPayGold = GameDataManager.Instance.GoldAnimalTokenKeySystem.PayGold
-                    (GameDataManager.Instance.staminaGoldUseCost);
+                        (GameDataManager.Instance.staminaGoldUseCost);
                     if (isSuccessPayGold)
                     {
                         GameDataManager.Instance.StaminaSystem.AddStamina(GameDataManager.Instance.staminaToAdd);
@@ -171,26 +178,28 @@ public static class AlertPanelConfirmButtonFuncFactory
                 {
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
-                    outGameManager.EnforceAnimalManager.EnforceAnimal(GameDataManager.Instance.targetEnforceAnimalPanel.animalUserData);
-                    
-                    GameDataManager.Instance.targetEnforceAnimalPanel.SetTargetAnimalUserData(GameDataManager.Instance.targetEnforceAnimalPanel.animalUserData);
-                    
+                    outGameManager.EnforceAnimalManager.EnforceAnimal(GameDataManager.Instance.targetEnforceAnimalPanel
+                        .animalUserData);
+
+                    GameDataManager.Instance.targetEnforceAnimalPanel.SetTargetAnimalUserData(GameDataManager.Instance
+                        .targetEnforceAnimalPanel.animalUserData);
+
                     outGameManager.OutGameUIManager.HideLastAlertPanel();
-                    
+
                     outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.EnforceSuccessScreen);
 
                     outGameManager.OutGameUIManager.SortUnlockAnimalPanel();
                 }
             },
             {
-              AlertPanelConfirmButtonFuncType.DoSingleTutorialGacha, () =>
-              {
-                  GameObject.FindGameObjectWithTag("OutGameManager")
-                      .TryGetComponent(out OutGameManager outGameManager);
-                  outGameManager.GachaManager.GenerateTutorialGachaData();
-                  outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
-                  outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
-              }
+                AlertPanelConfirmButtonFuncType.DoSingleTutorialGacha, () =>
+                {
+                    GameObject.FindGameObjectWithTag("OutGameManager")
+                        .TryGetComponent(out OutGameManager outGameManager);
+                    outGameManager.GachaManager.GenerateTutorialGachaData();
+                    outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                    outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
+                }
             },
         };
 

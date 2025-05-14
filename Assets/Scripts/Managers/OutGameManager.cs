@@ -46,6 +46,14 @@ public class OutGameManager : MonoBehaviour
         if (UnityEngine.InputSystem.Keyboard.current != null &&
             UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
         {
+            if (outGameUIManager.isFullScreenActive)
+            {
+                return;
+            }
+            
+            outGameUIManager.HideLastAlertPanel();
+            outGameUIManager.HideAlertPanelSpawnPanelRoot();
+            
             if (outGameUIManager.CurrentSwitchableCanvasType == SwitchableCanvasType.Lobby)
             {
                 if (!isGameQuitPanelShow)

@@ -44,4 +44,10 @@ public class AlertPanel : MonoBehaviour
         transform.parent.SetParent(releaseParent.transform);
         alertPanelObjectPool.Release(transform.parent.gameObject);
     }
+
+    public void SetInteractableButton(bool interactable)
+    {
+        confirmButton.interactable = interactable;
+        cancelButton.interactable = interactable;
+    }
 }
