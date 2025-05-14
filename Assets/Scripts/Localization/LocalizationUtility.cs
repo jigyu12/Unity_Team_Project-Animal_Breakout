@@ -38,6 +38,19 @@ public static class LocalizationUtility
             Debug.Log(locale.LocaleName);
         }
         Debug.Log("현재 언어 : " + CurrentLocale);
+
+        
+    }
+
+    public static void PreloadLocalizedTables()
+    {
+        var tables = LocalizationSettings.StringDatabase.GetAllTables();
+        tables.WaitForCompletion();
+
+        foreach (var table in tables.Result)
+        {
+            Debug.Log("Loaded " + table.TableCollectionName);
+        }
     }
 
     //public static void ChangeLocale(string targetLocal)

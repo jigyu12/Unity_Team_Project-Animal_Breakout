@@ -25,18 +25,20 @@ public class TutorialUI : UIElement
         {
             return;
         }
-        InitializeTutorialImage();
 
         tutorialButton.onClick.AddListener(SetTutorialImage);
-        SetTutorialImage();
+        
         gameManager.AddGameStateExitAction(GameManager_new.GameState.WaitLoading, Show);
     }
 
     public override void Show()
     {
         base.Show();
+        InitializeTutorialImage();
+
         gameObject.SetActive(true);
         gameManager.SetTimeScale(0f);
+        SetTutorialImage();
     }
 
     private void SetTutorialImage()
