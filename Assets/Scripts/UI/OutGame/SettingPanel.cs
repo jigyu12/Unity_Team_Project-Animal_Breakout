@@ -169,6 +169,10 @@ public class SettingPanel : MonoBehaviour
         }
         
         onLanguageSettingTypeChanged?.Invoke(this.languageSettingType);
+        
+        countryImage.sprite =
+            LocalizationUtility.GetLocalizeSprite(LocalizationUtility.defaultSpriteTableName,
+                Utils.CountryIconSpriteKey);
     }
 
     public void SetCloseButtonText(string closeText)

@@ -301,7 +301,6 @@ MonoBehaviour:
   levelText: {fileID: 1831669642754413898}
   skillText: {fileID: 1532947935860187367}
   passiveText: {fileID: 8573793841100495116}
-  currentTokenText: {fileID: 0}
   requiredTokenText: {fileID: 5669421918675320705}
   enforceText: {fileID: 6592930010925235204}
   goldCostText: {fileID: 6084233962220185746}
@@ -752,6 +751,18 @@ PrefabInstance:
     - target: {fileID: 2350847865761168593, guid: 02ad49daa54528749aed7ccb5577df35, type: 3}
       propertyPath: m_Name
       value: GoldImage
+      objectReference: {fileID: 0}
+    - target: {fileID: 4771138433979479630, guid: 02ad49daa54528749aed7ccb5577df35, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4771138433979479630, guid: 02ad49daa54528749aed7ccb5577df35, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4771138433979479630, guid: 02ad49daa54528749aed7ccb5577df35, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7284435562233768795, guid: 02ad49daa54528749aed7ccb5577df35, type: 3}
       propertyPath: m_Pivot.x
@@ -1387,6 +1398,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6877418995514189208, guid: e1505d2e746a7c84699978de2a610379, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877418995514189208, guid: e1505d2e746a7c84699978de2a610379, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877418995514189208, guid: e1505d2e746a7c84699978de2a610379, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8669568437221095565, guid: e1505d2e746a7c84699978de2a610379, type: 3}
       propertyPath: m_Pivot.y
       value: 1
@@ -1798,6 +1821,18 @@ PrefabInstance:
     - target: {fileID: 5358965511130286968, guid: e1505d2e746a7c84699978de2a610379, type: 3}
       propertyPath: m_Name
       value: RequiredTokenText
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877418995514189208, guid: e1505d2e746a7c84699978de2a610379, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877418995514189208, guid: e1505d2e746a7c84699978de2a610379, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6877418995514189208, guid: e1505d2e746a7c84699978de2a610379, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8669568437221095565, guid: e1505d2e746a7c84699978de2a610379, type: 3}
       propertyPath: m_SizeDelta.x
