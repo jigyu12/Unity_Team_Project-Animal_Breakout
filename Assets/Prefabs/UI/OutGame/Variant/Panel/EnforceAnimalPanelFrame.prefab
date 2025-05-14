@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4660692011180310196}
   - component: {fileID: 8608608326959131554}
   - component: {fileID: 726660448328028347}
+  - component: {fileID: 1937572893583418362}
   m_Layer: 5
   m_Name: EnforceAnimalPanelFrame
   m_TagString: Untagged
@@ -76,6 +77,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1937572893583418362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7122475093438272015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d95415a35a0b74cbf19c0cd2ad63c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5041009513074985693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118,6 +131,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1116266037458550204, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130018814180605842, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1167469684267319705, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
@@ -615,6 +632,10 @@ PrefabInstance:
     - target: {fileID: 8573793841100495116, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
       propertyPath: m_fontSize
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8573793841100495116, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
+      propertyPath: m_isRichText
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8573793841100495116, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
       propertyPath: m_fontSizeBase

@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: SpriteTable Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: SpriteTable
+  m_TableCollectionNameGuidString: abcafa2949d62e94193e8aa1fbc5f835
+  m_Entries:
+  - m_Id: 68091248640
+    m_Key: Tutorial01
+    m_Metadata:
+      m_Items: []
+  - m_Id: 78329544704
+    m_Key: Tutorial02
+    m_Metadata:
+      m_Items: []
+  - m_Id: 80657383424
+    m_Key: Tutorial03
+    m_Metadata:
+      m_Items: []
+  - m_Id: 82662260736
+    m_Key: Tutorial04
+    m_Metadata:
+      m_Items: []
+  - m_Id: 144113008640
+    m_Key: Tutorial05
+    m_Metadata:
+      m_Items: []
+  - m_Id: 146747031552
+    m_Key: Tutorial06
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items:
+    - rid: 6770057349412159489
+  m_KeyGenerator:
+    rid: 6770057349412159488
+  references:
+    version: 2
+    RefIds:
+    - rid: 6770057349412159488
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1747187503527
+    - rid: 6770057349412159489
+      type: {class: AssetTypeMetadata, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries:
+        - m_KeyId: 68091248640
+          m_TableCodes:
+          - ko-KR
+          - en-US
+        - m_KeyId: 78329544704
+          m_TableCodes:
+          - ko-KR
+          - en-US
+        - m_KeyId: 80657383424
+          m_TableCodes:
+          - ko-KR
+          - en-US
+        - m_KeyId: 82662260736
+          m_TableCodes:
+          - ko-KR
+          - en-US
+        - m_KeyId: 144113008640
+          m_TableCodes:
+          - ko-KR
+          - en-US
+        - m_KeyId: 146747031552
+          m_TableCodes:
+          - ko-KR
+          - en-US
+        m_TypeString: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null

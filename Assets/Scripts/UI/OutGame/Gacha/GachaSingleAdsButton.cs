@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class GachaSingleAdsButton : GachaButton
 {
     public bool IsAdsRemain
@@ -31,9 +29,6 @@ public class GachaSingleAdsButton : GachaButton
     public override void DoGacha()
     {
         outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.DoSingleGachaByAds));
-        GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
-        
-        gachaButton.interactable = IsAdsRemain;
     }
 
     protected void SetGachaButtonText()

@@ -120,6 +120,8 @@ public class SoundManager : PersistentMonoSingleton<SoundManager>
             
             sfxAudioSourceList[loopIndex].Play();
             
+            Debug.Log($"Play SFX Index: {loopIndex}");
+            
             break;
         }
     }

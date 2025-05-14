@@ -102,8 +102,8 @@ public class EnforceAnimalPanel : MonoBehaviour
         }
 
         SetAnimalImage(animalUserData.AnimalStatData.iconImage);
-        SetEnforceText("강화하기");
-        SetPassiveText(animalUserData.AnimalStatData.passive.ToString());
+        SetEnforceText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalUpgradeStringKey));
+        SetPassiveText(DataTableManager.passiveEffectDataTable.GetPassiveEffectData((int)animalUserData.AnimalStatData.passive, animalUserData.AnimalStatData.Grade, animalUserData.Level), animalUserData.Level);
         SetAnimalNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.StringID));
         SetLevelText(animalUserData.Level, animalUserData.Level + 1);
         SetSkillText();
@@ -118,11 +118,11 @@ public class EnforceAnimalPanel : MonoBehaviour
     {
         if (!animalUserData.IsMaxLevel)
         {
-            attackPowerText.text = $"공격력   {power} -> {enforcedAttackPower}";
+            attackPowerText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalAttackPowerStringKey)}   {power} -> {enforcedAttackPower}";
         }
         else
         {
-            attackPowerText.text = $"공격력   {power}(MAX)";
+            attackPowerText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalAttackPowerStringKey)}   {power}(MAX)";
         }
     }
 
@@ -130,23 +130,31 @@ public class EnforceAnimalPanel : MonoBehaviour
     {
         if (!animalUserData.IsMaxLevel)
         {
-            levelText.text = $"레벨   Lv.{level} -> Lv.{nextLevel}";
+            levelText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalLevelStringKey)}   Lv.{level} -> Lv.{nextLevel}";
         }
         else
         {
-            levelText.text = $"레벨   Lv.{level}(MAX)";
+            levelText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalLevelStringKey)}   Lv.{level}(MAX)";
         }
     }
 
     public void SetSkillText()
     {
-        skillText.text = "스킬   " + LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, 
-            animalUserData.AnimalStatData.SkillData.nameID, animalUserData.AnimalStatData.SkillData.level);
+        skillText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalSkillStringKey)}   {LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.SkillData.nameID, animalUserData.AnimalStatData.SkillData.level)}";
     }
 
-    public void SetPassiveText(string text)
+    public void SetPassiveText(PassiveEffectData passiveEffectData, int level)
     {
-        passiveText.text = $"보유 효과\n{text}";
+        float value = (PassiveType)passiveEffectData.PassiveType is PassiveType.SkillDamage or PassiveType.ResultScoreUp or PassiveType.CoinValue ? passiveEffectData.Value * 100f : passiveEffectData.Value;
+
+        if (level <= 4)
+        {
+            passiveText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalEndowmentStringKey)}\n<color=grey>{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, passiveEffectData.StringID, value)}</color>";
+        }
+        else
+        {
+            passiveText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalEndowmentStringKey)}\n{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, passiveEffectData.StringID, value)}"; 
+        }
     }
     
     public void SetByRequiredToken(int currentCost, int costToNeed, bool hasEnoughTokens)

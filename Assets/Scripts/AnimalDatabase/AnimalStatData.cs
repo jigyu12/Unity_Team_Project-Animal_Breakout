@@ -17,10 +17,20 @@ public class AnimalStatData : ScriptableObject
     public SkillData SkillData;
 
     public Sprite iconImage;
+    public Sprite tokenIconImage;
+    public Sprite starIconImage;
 
 #if UNITY_EDITOR
     private string skillDataPath = "Assets/Resources/ScriptableData/Skill/Skill_Attack{0}.asset";
     private string iconPath = "Assets/Resources/Textures/PlayerIcon/{0}.png";
+    
+    private string bronzeTokenIconPath = "Assets/Resources/Textures/TokenIcon/Icon_Badge03_Bronze.png";
+    private string sliverTokenIconPath = "Assets/Resources/Textures/TokenIcon/Icon_Badge03_Silver.png";
+    private string goldTokenIconPath = "Assets/Resources/Textures/TokenIcon/Icon_Badge03_Gold.png";
+    
+    private string star1IconPath = "Assets/Resources/Textures/StarIcon/Icon_RankIcon_Star05_s.png";
+    private string star2IconPath = "Assets/Resources/Textures/StarIcon/Icon_RankIcon_Star05_s2.png";
+    private string star3IconPath = "Assets/Resources/Textures/StarIcon/Icon_RankIcon_Star05_s1.png";
 
     public void SetData(AnimalDataTable.AnimalRawData rawData)
     {
@@ -39,6 +49,26 @@ public class AnimalStatData : ScriptableObject
 
         var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(iconPath, rawData.Prefab));
         iconImage = sprite;
+        
+        Sprite tokenSprite;
+        Sprite starSprite;
+        if (Grade == 1)
+        {
+            tokenSprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(bronzeTokenIconPath));
+            starSprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(star1IconPath));
+        }
+        else if (Grade == 2)
+        {
+            tokenSprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(sliverTokenIconPath));
+            starSprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(star2IconPath));
+        }
+        else 
+        {
+            tokenSprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(goldTokenIconPath));
+            starSprite = AssetDatabase.LoadAssetAtPath<Sprite>(string.Format(star3IconPath));
+        }
+        this.tokenIconImage = tokenSprite;
+        this.starIconImage = starSprite;
     }
 #endif
 }

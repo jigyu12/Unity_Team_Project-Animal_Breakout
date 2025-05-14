@@ -54,4 +54,16 @@ public class PassiveEffectDataTable : DataTable
             return null;
         return table[(passiveType, grade)];
     }
+    
+    public PassiveEffectData GetPassiveEffectData(int passiveType, int grade, int level)
+    {
+        if (level <= 9)
+        {
+            return Get(passiveType, grade).passiveEffectDatas[0];
+        }
+        else
+        {
+            return Get(passiveType, grade).passiveEffectDatas[1];
+        }
+    }
 }
