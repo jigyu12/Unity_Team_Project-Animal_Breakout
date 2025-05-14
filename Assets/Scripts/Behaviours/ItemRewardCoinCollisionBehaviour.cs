@@ -10,10 +10,11 @@ public class BronzeCoinCollisionBehaviour : BaseCollisionBehaviour
         foreach (var taker in list)
         {
             taker.ApplyItem((int)scoreToAdd);
+            SoundManager.Instance.PlaySfx(SfxClipId.EarnCoin);
         }
-        
+
         self.SetActive(false);
-        
+
         OnCoinAcquired?.Invoke(1);
     }
 }
@@ -29,10 +30,10 @@ public class SilverCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
-        
+
         self.SetActive(false);
-        
-        OnCoinAcquired?.Invoke(1); 
+
+        OnCoinAcquired?.Invoke(1);
     }
 }
 
@@ -47,9 +48,9 @@ public class GoldCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
-        
+
         self.SetActive(false);
-        
+
         OnCoinAcquired?.Invoke(1);
     }
 }
@@ -65,7 +66,7 @@ public class PlatinumCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
-        
+
         self.SetActive(false);
     }
 }
@@ -81,7 +82,7 @@ public class DiamondCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
-        
+
         self.SetActive(false);
     }
 }

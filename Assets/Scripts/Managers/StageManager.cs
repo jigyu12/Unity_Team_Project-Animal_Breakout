@@ -145,9 +145,11 @@ public class StageManager : InGameManager
         GameManager.UIManager.runStageUI.StopBossWayTracking(); //추가
         GameManager.UIManager.runStageUI.Hide();
         GameManager.UIManager.bossWayUI.Show();
+        SoundManager.Instance.PlayBgm(BgmClipId.BossBGM);
         GameManager.PlayerManager.StopAllMovements();
         GameManager.UIManager.bossTimeLimit.StartTimeOut();
         stagePlayCount++;
+
         onBossStageEnter?.Invoke();
     }
 
@@ -157,6 +159,7 @@ public class StageManager : InGameManager
         GameManager.PlayerManager.ActivatePlayer();
         GameManager.UIManager.bossWayUI.Hide();
         GameManager.UIManager.runStageUI.Show();
+        SoundManager.Instance.PlayBgm(BgmClipId.IngameBGM);
         isTrackingStarted = false;
         RoadWayDistanceTracking();
         // GameManager.UIManager.runStageUI.total += 60f;

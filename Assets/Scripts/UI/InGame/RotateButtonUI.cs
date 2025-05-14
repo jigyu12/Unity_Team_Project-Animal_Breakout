@@ -14,11 +14,12 @@ public class RotateButtonUI : UIElement
         rotateButton.onClick.AddListener(() =>
         {
             controller.OnRotateButtonClicked();
+
             Hide();
         });
     }
 
     public void SetInteractable(bool value) => rotateButton.interactable = value;
-    public void Show() => rotateButton.gameObject.SetActive(true);
+    public override void Show() => rotateButton.gameObject.SetActive(true);
     public void Hide() => rotateButton.gameObject.SetActive(false);
 }
