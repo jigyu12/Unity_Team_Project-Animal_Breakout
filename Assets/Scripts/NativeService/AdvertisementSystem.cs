@@ -18,6 +18,8 @@ public class AdvertisementSystem : PersistentMonoSingleton<AdvertisementSystem>
     //테스트 코드
     private string bannerAdUnitId = "ca-app-pub-3940256099942544/9214589741";
     private string rewardAdUnitId = "ca-app-pub-3940256099942544/5224354917";
+    //진짜 광고코드
+    //private string rewardAdUnitId = "ca-app-pub-9819783257891765/5740570359";
 #elif UNITY_IPHONE
    private string bannerAdUnitId = "ca-app-pub-3940256099942544/2934735716
     private string rewardAdUnitId = "ca-app-pub-3940256099942544/1712485313

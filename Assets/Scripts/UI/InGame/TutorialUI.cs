@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 public class TutorialUI : UIElement
@@ -26,20 +27,23 @@ public class TutorialUI : UIElement
         }
 
         tutorialButton.onClick.AddListener(SetTutorialImage);
-        SetTutorialImage();
+        
         gameManager.AddGameStateExitAction(GameManager_new.GameState.WaitLoading, Show);
     }
 
     public override void Show()
     {
         base.Show();
+        InitializeTutorialImage();
+
         gameObject.SetActive(true);
         gameManager.SetTimeScale(0f);
+        SetTutorialImage();
     }
 
     private void SetTutorialImage()
     {
-        if(tutorialIndex>= tutorialImages.Count)
+        if (tutorialIndex >= tutorialImages.Count)
         {
             gameManager.SetTimeScale(1f);
             gameObject.SetActive(false);
@@ -49,5 +53,15 @@ public class TutorialUI : UIElement
 
         tutorialImage.sprite = tutorialImages[tutorialIndex];
         tutorialIndex++;
+    }
+
+    private void InitializeTutorialImage()
+    {
+        tutorialImages.Clear();
+        for (int i = 1; i <= 6; i++)
+        {
+            Sprite tutorialSprite = LocalizationUtility.GetLocalizeSprite(LocalizationUtility.defaultSpriteTableName, "Tutorial0" + i.ToString());
+            tutorialImages.Add(tutorialSprite);
+        }
     }
 }

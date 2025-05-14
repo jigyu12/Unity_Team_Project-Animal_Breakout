@@ -22,6 +22,7 @@ public static class LocalizationUtility
     }
 
     public const string defaultStringTableName = "StringTable";
+    public const string defaultSpriteTableName = "SpriteTable";
 
     private static Dictionary<string, int> localeIndexTable = new();
     private static int defaultIndex = 0;
@@ -37,6 +38,19 @@ public static class LocalizationUtility
             Debug.Log(locale.LocaleName);
         }
         Debug.Log("현재 언어 : " + CurrentLocale);
+
+        
+    }
+
+    public static void PreloadLocalizedTables()
+    {
+        var tables = LocalizationSettings.StringDatabase.GetAllTables();
+        tables.WaitForCompletion();
+
+        foreach (var table in tables.Result)
+        {
+            Debug.Log("Loaded " + table.TableCollectionName);
+        }
     }
 
     //public static void ChangeLocale(string targetLocal)
@@ -109,5 +123,33 @@ public static class LocalizationUtility
             }
         }
         Debug.LogWarning($"Locale '{localeName}' not found!");
+    }
+
+    public static Sprite GetLocalizeSprite(string table, string key)
+    {
+        if (int.TryParse(key, out int number))
+        {
+            Debug.LogError($"String Id : {number} need to Change!");
+        }
+
+        LocalizedSprite lzSprite = new LocalizedSprite() { TableReference = table, TableEntryReference = key };
+        return GetLocalizeSprite(lzSprite);
+    }
+
+    public static Sprite GetLocalizeSprite(LocalizedSprite lzSprite)
+    {
+        var spriteOperation = lzSprite.LoadAssetAsync();
+
+        //Async가 끝날때까지 기다린다.
+        spriteOperation.WaitForCompletion();
+        if (spriteOperation.Status == AsyncOperationStatus.Succeeded)
+        {
+            return spriteOperation.Result;
+        }
+        else
+        {
+            Debug.LogError($"GetLocalizeSprite| spriteOperation fail : {lzSprite.TableEntryReference} is not exist in {lzSprite.TableEntryReference}");
+            return null;
+        }
     }
 }
