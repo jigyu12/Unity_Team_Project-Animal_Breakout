@@ -120,7 +120,7 @@ public static class AlertPanelInfoDataFactory
             case AlertPanelInfoDataType.EnforceAnimal:
                 {
                     AlertPanelInfoData alertPanelInfoData = new();
-                    alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalUpgradeStringKey,
+                    alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalUpgradeProcessStringKey,
                         GameDataManager.Instance.requiredTokenType.ToString() ,GameDataManager.Instance.requiredTokenCount, GameDataManager.Instance.requiredGoldCount);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.EnforceAnimal);
                     alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanelBySetActive);
