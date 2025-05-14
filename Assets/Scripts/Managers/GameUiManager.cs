@@ -38,6 +38,12 @@ public class GameUIManager : InGameManager
     {
         base.Initialize();
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, ShowGameOverPanel);
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () =>
+        {
+            SoundManager.Instance.PlaySfx(SfxClipId.Death);
+            SoundManager.Instance.StopBgm();
+        });
+
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => SetDirectionButtonsInteractable(false));
         //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => CountDown());
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetDirectionButtonsInteractable(true));
