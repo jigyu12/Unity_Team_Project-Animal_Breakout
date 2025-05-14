@@ -57,6 +57,7 @@ public static class Utils
     public const string AnimalSkillStringKey = "OUTGAME_SKILL";
     public const string AnimalEndowmentStringKey = "OUTGAME_ENDOWMENT_EFFECT";
     public const string AnimalUpgradeStringKey = "OUTGAME_UPGRADE";
+    public const string AnimalUpgradeCompleteStringKey = "OUTGAME_UPGRADE_COMPLETE";
 
     public static bool IsChanceHit(float chance)
     {

@@ -73,13 +73,13 @@ public class EnforceSuccessPanel : MonoBehaviour
             outGameUIManager = outGameManager.OutGameUIManager;
         }
         
-        SetEnforceSuccessText("강화 성공");
-        SetAnimalNameText(animalUserData.AnimalStatData.StringID);
-        SetAttackPowerText(animalUserData.AttackPower);
-        SetLevelText(animalUserData.Level);
-        SetPassiveText(animalUserData.AnimalStatData.passive.ToString());
+        SetEnforceSuccessText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalUpgradeCompleteStringKey));
+        SetAnimalNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.StringID));
+        SetAttackPowerText(animalUserData, animalUserData.AttackPower);
+        SetLevelText(animalUserData, animalUserData.Level);
+        SetPassiveText(DataTableManager.passiveEffectDataTable.GetPassiveEffectData((int)animalUserData.AnimalStatData.passive, animalUserData.AnimalStatData.Grade, animalUserData.Level), animalUserData.Level);
         SetAnimalImage(animalUserData.AnimalStatData.iconImage);
-        //SetStarImage();
+        SetStarImage(animalUserData.AnimalStatData.starIconImage);
     }
 
     public void SetEnforceSuccessText(string text)
@@ -92,19 +92,42 @@ public class EnforceSuccessPanel : MonoBehaviour
         animalNameText.text = text;
     }
 
-    public void SetAttackPowerText(int attackPower)
+    public void SetAttackPowerText(AnimalUserData animalUserData, int attackPower)
     {
-        attackPowerText.text = $"공격력          {attackPower}";
+        if (!animalUserData.IsMaxLevel)
+        {
+            attackPowerText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalAttackPowerStringKey)}   {attackPower}";
+        }
+        else
+        {
+            attackPowerText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalAttackPowerStringKey)}   {attackPower}(MAX)";
+        }
     }
 
-    public void SetLevelText(int level)
+    public void SetLevelText(AnimalUserData animalUserData, int level)
     {
-        levelText.text = $"레벨          Lv.{level}";
+        if (!animalUserData.IsMaxLevel)
+        {
+            levelText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalLevelStringKey)}   Lv.{level}";
+        }
+        else
+        {
+            levelText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalLevelStringKey)}   Lv.{level}(MAX)";
+        }
     }
 
-    public void SetPassiveText(string text)
+    public void SetPassiveText(PassiveEffectData passiveEffectData, int level)
     {
-        passiveText.text = $"보유 효과          {text}";
+        float value = (PassiveType)passiveEffectData.PassiveType is PassiveType.SkillDamage or PassiveType.ResultScoreUp or PassiveType.CoinValue ? passiveEffectData.Value * 100f : passiveEffectData.Value;
+
+        if (level <= 4)
+        {
+            passiveText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalEndowmentStringKey)}\n<color=grey>{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, passiveEffectData.StringID, value)}</color>";
+        }
+        else
+        {
+            passiveText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalEndowmentStringKey)}\n{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, passiveEffectData.StringID, value)}"; 
+        }
     }
     
     public void SetAnimalImage(Sprite animalImage)
