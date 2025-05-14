@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class GachaSingleAdsButton : GachaButton
 {
-    //private int adsRemainCount;
-    //UI에 정보나 기능이 있으면 안됩니다
-
     public bool IsAdsRemain
     {
         get => GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
@@ -12,23 +9,23 @@ public class GachaSingleAdsButton : GachaButton
 
     protected void Awake()
     {
-        //adsRemainCount = 1;
-
         AlertPanelConfirmButtonFuncFactory.onGachaByAds += SetGachaButtonText;
+        GameDataManager.onLocaleChange += SetGachaButtonText;
     }
 
     protected void OnDestroy()
     {
         AlertPanelConfirmButtonFuncFactory.onGachaByAds -= SetGachaButtonText;
+        GameDataManager.onLocaleChange -= SetGachaButtonText;
     }
 
     protected override void Start()
     {
         base.Start();
 
-        this.headerText.text = "일일 무료";
-        SetGachaButtonText();
         gachaButton.interactable = IsAdsRemain;
+
+        SetGachaButtonText();
     }
 
     public override void DoGacha()
@@ -41,12 +38,7 @@ public class GachaSingleAdsButton : GachaButton
 
     protected void SetGachaButtonText()
     {
-        //if (GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount < 0)
-        //{
-        //    GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount = 0;
-        //    Debug.Assert(false, "Invalid adsRemainCount");
-        //}
-
-        this.countText.text = $"광고 {GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount}/{GameDataManager.Instance.PlayerAccountData.GachaSingleAdsCount}";
+        this.countText.text = LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.GachaSingleAdsStringKey
+            , GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount, GameDataManager.Instance.PlayerAccountData.GachaSingleAdsCount);
     }
 }

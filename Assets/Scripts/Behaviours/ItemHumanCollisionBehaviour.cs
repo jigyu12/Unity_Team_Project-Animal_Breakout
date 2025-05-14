@@ -10,6 +10,7 @@ public class JuniorResearcherCollisionBehaviour : BaseCollisionBehaviour
         foreach (var taker in list)
         {
             taker.ApplyItem((int)scoreToAdd);
+            SoundManager.Instance.PlaySfx(SfxClipId.RobotHit);
         }
     }
 }

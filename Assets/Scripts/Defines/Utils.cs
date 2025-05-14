@@ -21,8 +21,8 @@ public static class Utils
     
     public const string GameManagerTag = "GameManager";
 
-    public const string AnimalSelectedString = "선택됨";
-    public const string AnimalSelectableString = "선택하기";
+    public const string AnimalSelectedString = "OUTGAME_SELECTED";
+    public const string AnimalSelectableString = "OUTGAME_SELECT";
 
     public const string ItemHumanAnimatorDefaultString = "Default";
     public static readonly int ItemHumanAnimatorDefaultHash = Animator.StringToHash(ItemHumanAnimatorDefaultString);
@@ -39,6 +39,11 @@ public static class Utils
     public const string BossDeathAnimatorString = "Death";
 
     public const float GameStartWaitTime = 1f;
+    
+    public const string StaminaGoldUseStringKey = "OUTGAME_GOLD";
+    public const string GachaSingleAdsStringKey = "OUTGAME_ADS";
+    public const string AnimalGradeSortDropDownStringKey = "OUTGAME_GRADE";
+    public const string AnimalLevelSortDropDownStringKey = "OUTGAME_LEVEL";
 
     public static bool IsChanceHit(float chance)
     {

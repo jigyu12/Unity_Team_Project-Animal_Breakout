@@ -11,7 +11,15 @@ public class PauseButtonUI : UIElement
         base.Initialize();
 
         pauseButton.onClick.RemoveAllListeners();
-        pauseButton.onClick.AddListener(() => gameUIManager.Pause());
+        // pauseButton.onClick.AddListener(() => gameUIManager.Pause());
+        pauseButton.onClick.AddListener(() =>
+   {
+       gameUIManager.Pause();
+
+       SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+       SoundManager.Instance.StopBgm();
+       //    SoundManager.Instance.StopSfx();
+   });
     }
 
     public void SetInteractable(bool interactable)

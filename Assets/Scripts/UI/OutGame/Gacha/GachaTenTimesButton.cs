@@ -9,7 +9,7 @@ public class GachaTenTimesButton : GachaButton
     {
         base.Start();
         
-        SetGachaButtonText("10회", "10");
+        SetGachaButtonCountText("10");
     }
 
     public override void DoGacha()

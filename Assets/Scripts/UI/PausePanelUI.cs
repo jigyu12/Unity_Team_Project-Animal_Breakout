@@ -27,16 +27,40 @@ public class PausePanelUI : UIElement
         //gameUIManager = uiManager;
         base.Initialize();
         resumeButton.onClick.RemoveAllListeners();
-        resumeButton.onClick.AddListener(OnResumeClicked);
+        resumeButton.onClick.AddListener(() =>
+        {
+            OnResumeClicked();
+            SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+            if (gameManager.StageManager.IsPlayerInBossStage)
+            {
+                SoundManager.Instance.PlayBgm(BgmClipId.BossBGM);
+            }
+            else
+            {
+                SoundManager.Instance.PlayBgm(BgmClipId.IngameBGM);
+            }
+        });
 
         giveUpButton.onClick.RemoveAllListeners();
-        giveUpButton.onClick.AddListener(OnGiveUpClicked);
-
+        giveUpButton.onClick.AddListener(() =>
+            {
+                OnGiveUpClicked();
+                SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+            });
         settingsButton.onClick.RemoveAllListeners();
-        settingsButton.onClick.AddListener(OnSettingsClicked);
-
+        // settingsButton.onClick.AddListener(OnSettingsClicked);
+        settingsButton.onClick.AddListener(() =>
+                 {
+                     OnSettingsClicked();
+                     SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+                 });
         settingsOkbutton.onClick.RemoveAllListeners();
-        settingsOkbutton.onClick.AddListener(OnSettingOkClikced);
+        // settingsOkbutton.onClick.AddListener(OnSettingOkClikced);
+        settingsOkbutton.onClick.AddListener(() =>
+              {
+                  OnSettingOkClikced();
+                  SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+              });
 
     }
     private void Start()

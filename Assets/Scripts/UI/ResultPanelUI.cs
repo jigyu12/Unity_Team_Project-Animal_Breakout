@@ -27,10 +27,19 @@ public class ResultPanelUI : UIElement
         //gameUIManager = uiManager;
         base.Initialize();
         restartButton.onClick.RemoveAllListeners();
-        restartButton.onClick.AddListener(OnRestartClicked);
-
+        // restartButton.onClick.AddListener(OnRestartClicked);
+        restartButton.onClick.AddListener(() =>
+                 {
+                     OnRestartClicked();
+                     SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+                 });
         goMainButton.onClick.RemoveAllListeners();
         goMainButton.onClick.AddListener(OnGoMainClicked);
+        goMainButton.onClick.AddListener(() =>
+              {
+                  OnGoMainClicked();
+                  SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+              });
         // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, trackingTime.StartTracking);
         // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameStop, trackingTime.StopTracking);
         // gameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, trackingTime.StopTracking);

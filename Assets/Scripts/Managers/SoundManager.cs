@@ -41,7 +41,6 @@ public class SoundManager : PersistentMonoSingleton<SoundManager>
         bgmAudioSource.loop = true;
         bgmAudioSource.playOnAwake = true;
         bgmAudioSource.volume = bgmVolume;
-        //bgmAudioSource.clip = bgmClips[];
         
         foreach (var sfxAudioSource in sfxAudioSourceList)
         {

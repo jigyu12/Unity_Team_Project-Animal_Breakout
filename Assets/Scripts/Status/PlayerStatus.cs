@@ -42,7 +42,6 @@ public class PlayerStatus : MonoBehaviour
         var GameManager = GameObject.FindGameObjectWithTag(Utils.GameManagerTag);
         var GameManager_new = GameManager.GetComponent<GameManager_new>();
         playerManager = GameManager_new.PlayerManager;
-
         //if (animalDB == null)
         //{
         //    animalDB = FindObjectOfType<AnimalDatabase>();
@@ -74,6 +73,7 @@ public class PlayerStatus : MonoBehaviour
         // animalData = DataTableManager.animalDataTable.Get(animalID);
         //animalDB = database;
         //SetAnimal(animalID);
+
         defaultLayer = LayerMask.NameToLayer("Player");
         invincibleLayer = LayerMask.NameToLayer("InvinciblePlayer");
     }

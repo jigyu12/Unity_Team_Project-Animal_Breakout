@@ -15,6 +15,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public static class LocalizationUtility
 {
     static private Coroutine coLocaleChange;
+    
     static public string CurrentLocale
     {
         get => LocalizationSettings.SelectedLocale.LocaleName;
@@ -47,7 +48,7 @@ public static class LocalizationUtility
     //    coLocaleChange = StartCoroutine(LocaleChange(GetAvaliableLocaleIndex(targetLocal)));
     //}
 
-    private static IEnumerator LocaleChange(string targetLocal)
+    public static IEnumerator LocaleChange(string targetLocal)
     {
         if (coLocaleChange != null || CurrentLocale == targetLocal)
             yield break;

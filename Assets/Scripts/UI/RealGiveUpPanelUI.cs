@@ -12,10 +12,22 @@ public class RealGiveUpPanelUI : MonoBehaviour
     {
 
         noButton.onClick.RemoveAllListeners();
-        noButton.onClick.AddListener(OnNoButtonClicked);
+        // noButton.onClick.AddListener(OnNoButtonClicked);
 
+        noButton.onClick.AddListener(() =>
+        {
+            OnNoButtonClicked();
+
+            SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+        });
         yesButton.onClick.RemoveAllListeners();
-        yesButton.onClick.AddListener(OnYesButtonClicked);
+        // yesButton.onClick.AddListener(OnYesButtonClicked);
+        yesButton.onClick.AddListener(() =>
+    {
+        OnYesButtonClicked();
+
+        SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+    });
 
     }
     private void OnNoButtonClicked()
