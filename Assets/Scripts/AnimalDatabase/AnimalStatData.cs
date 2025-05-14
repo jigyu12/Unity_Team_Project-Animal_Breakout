@@ -28,9 +28,9 @@ public class AnimalStatData : ScriptableObject
     private string sliverTokenIconPath = "Assets/Resources/Textures/TokenIcon/Icon_Badge03_Silver.png";
     private string goldTokenIconPath = "Assets/Resources/Textures/TokenIcon/Icon_Badge03_Gold.png";
     
-    private string star1IconPath = "Assets/Resources/Textures/StarIcon/Icon_RankIcon_Star05_s.png";
-    private string star2IconPath = "Assets/Resources/Textures/StarIcon/Icon_RankIcon_Star05_s2.png";
-    private string star3IconPath = "Assets/Resources/Textures/StarIcon/Icon_RankIcon_Star05_s1.png";
+    private string star1IconPath = "Assets/Resources/Textures/StarIcon/star1.png";
+    private string star2IconPath = "Assets/Resources/Textures/StarIcon/star2.png";
+    private string star3IconPath = "Assets/Resources/Textures/StarIcon/star3.png";
 
     public void SetData(AnimalDataTable.AnimalRawData rawData)
     {

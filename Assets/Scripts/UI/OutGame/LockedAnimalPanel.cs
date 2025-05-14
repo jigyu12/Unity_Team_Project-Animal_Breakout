@@ -8,7 +8,8 @@ public class LockedAnimalPanel : MonoBehaviour
     //private AnimalDataTable.AnimalRawData animalStatData;
 
     private AnimalUserData animalUserData;
-     [SerializeField] private Image animalImage;
+    [SerializeField] private Image animalImage;
+    [SerializeField] private Image starImage;
 
     public int animalId => animalUserData.AnimalStatData.AnimalID;
     
@@ -22,5 +23,6 @@ public class LockedAnimalPanel : MonoBehaviour
     {
         animalUserData = userData;
         animalImage.sprite = animalUserData.AnimalStatData.iconImage;
+        starImage.sprite = animalUserData.AnimalStatData.starIconImage;
     }
 }
