@@ -182,6 +182,16 @@ public static class AlertPanelConfirmButtonFuncFactory
                     outGameManager.OutGameUIManager.SortUnlockAnimalPanel();
                 }
             },
+            {
+              AlertPanelConfirmButtonFuncType.DoSingleTutorialGacha, () =>
+              {
+                  GameObject.FindGameObjectWithTag("OutGameManager")
+                      .TryGetComponent(out OutGameManager outGameManager);
+                  outGameManager.GachaManager.GenerateTutorialGachaData();
+                  outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
+                  outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
+              }
+            },
         };
 
     public static UnityAction GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType type)
