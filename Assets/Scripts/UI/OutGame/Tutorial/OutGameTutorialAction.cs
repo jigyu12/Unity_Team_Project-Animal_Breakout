@@ -32,6 +32,8 @@ public class OutGameTutorialAction : MonoBehaviour
     {
         //var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
         //pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialDoGachaAction);
+
+        AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.DoSingleTutorialGacha).Invoke();
     }
 
     private void CompleteTutorialDoGachaAction()
