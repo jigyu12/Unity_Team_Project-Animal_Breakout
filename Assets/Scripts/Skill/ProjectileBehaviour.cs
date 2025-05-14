@@ -11,7 +11,8 @@ public class ProjectileBehaviour : MonoBehaviour
 
     [SerializeField]
     public Vector3 firePositionOffset;
-
+    public SfxClipId sfxClipThorwId;
+    public SfxClipId sfxClipHitId;
     protected float speed;
     private static float gloablSpeed = 5f;
     public float Speed
@@ -42,6 +43,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
         transform.position = attacker.position + firePositionOffset;
         gameObject.SetActive(true);
+        SoundManager.Instance.PlaySfx(sfxClipThorwId);
     }
 
     private void Update()
@@ -63,9 +65,10 @@ public class ProjectileBehaviour : MonoBehaviour
             return;
 
         isArrival = true;
+        SoundManager.Instance.PlaySfx(sfxClipHitId);
         onArrival?.Invoke();
         projectile.SetActive(false);
-        Destroy(gameObject,2f);
+        Destroy(gameObject, 2f);
     }
 
     public void OnTargetGone()

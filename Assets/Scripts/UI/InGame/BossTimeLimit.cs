@@ -54,10 +54,12 @@ public class BossTimeLimit : UIElement
                 timeRemaining = 0;
                 isRunning = false;
                 TriggerTimeOut();
+                SoundManager.Instance.PlaySfx(SfxClipId.TimeUp);
             }
             else if (timeRemaining <= 15f && !hasShownSecondsLeft)
             {
                 TriggerSecondsLeft();
+                SoundManager.Instance.PlaySfx(SfxClipId.BossAlert);
             }
 
             UpdateTimerText();
