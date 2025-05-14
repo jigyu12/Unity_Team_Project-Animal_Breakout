@@ -44,6 +44,20 @@ public static class Utils
     public const string GachaSingleAdsStringKey = "OUTGAME_ADS";
     public const string AnimalGradeSortDropDownStringKey = "OUTGAME_GRADE";
     public const string AnimalLevelSortDropDownStringKey = "OUTGAME_LEVEL";
+    public const string AnimalQuitGameStringKey = "OUTGAME_END";
+    public const string AnimalTicketStringKey = "OUTGAME_TICKET_PROCESS";
+    public const string AnimalAdsStringKey = "OUTGMAE_CONFIRMADS";
+    public const string AnimalTicketBuyStringKey = "OUTGAME_TICKET_BUY";
+    public const string AnimalNoMoneyStringKey = "OUTGAME_NO_MONEY";
+    public const string AnimalBuyStringKey = "OUTGAME_BUY";
+    public const string AnimalUpgradeProcessStringKey = "OUTGAME_UPGRADE_PROCESS";
+    public const string AnimalManyStaminaStringKey = "OUTGAME_MANYSTAMINA";
+    public const string AnimalAttackPowerStringKey = "OUTGAME_ATTACKPOWER";
+    public const string AnimalLevelStringKey = "OUTGAME_LEVEL";
+    public const string AnimalSkillStringKey = "OUTGAME_SKILL";
+    public const string AnimalEndowmentStringKey = "OUTGAME_ENDOWMENT_EFFECT";
+    public const string AnimalUpgradeStringKey = "OUTGAME_UPGRADE";
+    public const string AnimalUpgradeCompleteStringKey = "OUTGAME_UPGRADE_COMPLETE";
 
     public static bool IsChanceHit(float chance)
     {
