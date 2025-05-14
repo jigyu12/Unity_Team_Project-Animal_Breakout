@@ -34,7 +34,7 @@ public class AnimalModelToTexture : MonoBehaviour
         if (!isProcessing)
         {
             isProcessing = true;
-            EditorApplication.update += ProcessQueue;
+            EditorApplication.update += ProcessQueue2;
         }
     }
 
@@ -62,6 +62,47 @@ public class AnimalModelToTexture : MonoBehaviour
         gobj.SetActive(false);
         DestroyImmediate(gobj);
     }
+
+    private GameObject currentObj = null;
+    private int frameWait = 0;
+
+    private void ProcessQueue2()
+    {
+        if (currentObj == null)
+        {
+            if (textureQueue.Count == 0)
+            {
+                isProcessing = false;
+                EditorApplication.update -= ProcessQueue2;
+                AssetDatabase.Refresh();
+                return;
+            }
+
+            currentObj = textureQueue.Dequeue();
+            currentObj.SetActive(true);
+            currentObj.GetComponent<Animator>().SetTrigger("EyeExcited");
+
+            frameWait = 10; 
+            return;
+        }
+
+        if (frameWait > 0)
+        {
+            frameWait--;
+            return;
+        }
+
+        SceneView.RepaintAll();
+
+        TargetCamera.Render();
+        SaveTextureToFileUtility.SaveRenderTextureToFile(TargetCamera.targetTexture, string.Format(icontexturePath, currentObj.name));
+
+        Debug.Log("Mug shot : " + currentObj.name);
+        currentObj.SetActive(false);
+        DestroyImmediate(currentObj);
+        currentObj = null;
+    }
+
     public void Test()
     {
         SaveTextureToFileUtility.SaveRenderTextureToFile(TargetCamera.targetTexture, string.Format(icontexturePath, "temp"));
