@@ -188,6 +188,7 @@ public class PlayerMove : MonoBehaviour
             isJumping = true;
             verticalVelocity = Mathf.Sqrt(-2f * gravity * JumpHeight);
             animator?.SetBool("Jump", true);
+            SoundManager.Instance.PlaySfx(SfxClipId.Jump);
             OnJumpCounting?.Invoke(1);
         }
     }

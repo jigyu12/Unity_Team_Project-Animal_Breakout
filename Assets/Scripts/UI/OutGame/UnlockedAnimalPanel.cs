@@ -14,6 +14,7 @@ public class UnlockedAnimalPanel : MonoBehaviour
     [SerializeField] private Button animalImageButton;
     private Image animalImage;
     [SerializeField] private AnimalChooseButton animalChooseButtonScript;
+    [SerializeField] private Image starImage;
     
     public int animalId => animalUserData.AnimalStatData.AnimalID;
     
@@ -53,5 +54,6 @@ public class UnlockedAnimalPanel : MonoBehaviour
         animalUserData = userData;
         animalImage.sprite = animalUserData.AnimalStatData.iconImage;
         animalChooseButtonScript.SetAnimalID(animalUserData.AnimalStatData.AnimalID);
+        starImage.sprite = animalUserData.AnimalStatData.starIconImage;
     }
 }

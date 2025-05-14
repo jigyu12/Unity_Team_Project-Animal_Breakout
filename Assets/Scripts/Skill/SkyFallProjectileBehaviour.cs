@@ -17,6 +17,8 @@ public class SkyFallProjectileBehaviour : ProjectileBehaviour
         gameObject.SetActive(true);
 
         firedTime = Time.time;
+
+        SoundManager.Instance.PlaySfx(sfxClipThorwId);
     }
 
     private void Update()

@@ -37,7 +37,7 @@ public enum SfxClipId
     LightningShockHit,
     LightningShockThrow,
     LightningStrike,
-
+    None,
 }
 
 public enum LanguageSettingType
