@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,7 @@ public static class LocalizationUtility
     }
 
     public const string defaultStringTableName = "StringTable";
+    public const string defaultSpriteTableName = "SpriteTable";
 
     private static Dictionary<string, int> localeIndexTable = new();
     private static int defaultIndex = 0;
@@ -107,5 +109,33 @@ public static class LocalizationUtility
             }
         }
         Debug.LogWarning($"Locale '{localeName}' not found!");
+    }
+
+    public static Sprite GetLocalizeSprite(string table, string key)
+    {
+        if (int.TryParse(key, out int number))
+        {
+            Debug.LogError($"String Id : {number} need to Change!");
+        }
+
+        LocalizedSprite lzSprite = new LocalizedSprite() { TableReference = table, TableEntryReference = key };
+        return GetLocalizeSprite(lzSprite);
+    }
+
+    public static Sprite GetLocalizeSprite(LocalizedSprite lzSprite)
+    {
+        var spriteOperation = lzSprite.LoadAssetAsync();
+
+        //Async가 끝날때까지 기다린다.
+        spriteOperation.WaitForCompletion();
+        if (spriteOperation.Status == AsyncOperationStatus.Succeeded)
+        {
+            return spriteOperation.Result;
+        }
+        else
+        {
+            Debug.LogError($"GetLocalizeSprite| spriteOperation fail : {lzSprite.TableEntryReference} is not exist in {lzSprite.TableEntryReference}");
+            return null;
+        }
     }
 }
