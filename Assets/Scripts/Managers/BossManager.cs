@@ -15,7 +15,7 @@ public class BossManager : InGameManager
 
     public static event Action<BossStatus> onSpawnBoss;
 
-    [SerializeField] [ReadOnly] private float bossMaxHp;
+    [SerializeField][ReadOnly] private float bossMaxHp;
 
     private void Start()
     {
@@ -71,8 +71,9 @@ public class BossManager : InGameManager
                 break;
         }
         bossStatus.InitializeStatus(bossMaxHp);
-        
-        
+
+        SoundManager.Instance.PlaySfx(SfxClipId.BossTimeAlert);
+
         boss.TryGetComponent(out BossBehaviourController bossBehaviourController);
         bossBehaviourController?.InitBehaviorTree(BossBehaviourTreeType.Boss1BehaviourTree);
 

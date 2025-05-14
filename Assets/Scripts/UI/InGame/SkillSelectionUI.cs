@@ -39,13 +39,18 @@ public class SkillSelectionUI : UIElement
             skillButton.InitializeButtonAction(() =>
             {
                 SelectSkill(index);
+                SoundManager.Instance.PlaySfx(SfxClipId.SkillSelect);
             });
         }
         gameObject.SetActive(false);
 
         rerollButton.onClick.RemoveAllListeners();
-        rerollButton.onClick.AddListener(OnRerollButtonClicked);
-
+        // rerollButton.onClick.AddListener(OnRerollButtonClicked);
+        rerollButton.onClick.AddListener(() =>
+             {
+                 OnRerollButtonClicked();
+                 SoundManager.Instance.PlaySfx(SfxClipId.SkillReroll);
+             }); ;
         UpdateRerollUI();
     }
 

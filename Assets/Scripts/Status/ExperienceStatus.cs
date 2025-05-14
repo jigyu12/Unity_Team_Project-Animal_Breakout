@@ -85,6 +85,8 @@ public class ExperienceStatus : MonoBehaviour, IItemTaker
         experienceToNextLevel = experences[level].NextLvExp;
         onLevelChange?.Invoke(level, experienceToNextLevel);
         levelGageBar?.SetText($"{level}");
+        SoundManager.Instance.PlaySfx(SfxClipId.LvlUp);
+
     }
 
     public void ApplyItem(int value)
