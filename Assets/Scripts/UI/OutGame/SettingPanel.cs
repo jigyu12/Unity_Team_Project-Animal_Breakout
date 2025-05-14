@@ -77,7 +77,7 @@ public class SettingPanel : MonoBehaviour
             }
             else
             {
-                gameObject.SetActive(false);
+                transform.parent.gameObject.SetActive(false);
             }
         });
 

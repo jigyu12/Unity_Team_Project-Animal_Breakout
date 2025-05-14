@@ -21,8 +21,6 @@ public class GachaManager : MonoBehaviour, IManager
 
     public static event Action onAnimalUnlockedFinished;
 
-   
-
     public void GenerateRandomSingleGachaData()
     {
         StartCoroutine(GenerateRandomSingleGachaDataCoroutine());
