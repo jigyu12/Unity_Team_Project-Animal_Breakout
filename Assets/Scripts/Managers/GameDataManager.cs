@@ -115,6 +115,8 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         base.InitializeSingleton();
         SaveLoadSystem.Instance.Load();
 
+        LocalizationUtility.PreloadLocalizedTables();
+
         //플레이어 정보를 관리하는 시스템
         PlayerAccountData = new();
         PlayerAccountData.Load(SaveLoadSystem.Instance.CurrentSaveData.playerAccountDataSave);
