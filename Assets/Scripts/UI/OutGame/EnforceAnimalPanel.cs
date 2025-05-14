@@ -107,6 +107,8 @@ public class EnforceAnimalPanel : MonoBehaviour
         SetAnimalNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.StringID));
         SetLevelText(animalUserData.Level, animalUserData.Level + 1);
         SetSkillText();
+        SetStarImage(animalUserData.AnimalStatData.starIconImage);
+        SetTokenImage(animalUserData.AnimalStatData.tokenIconImage);
     }
     
     public void SetAnimalNameText(string text)

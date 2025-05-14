@@ -63,16 +63,51 @@ public class GachaTotalResultPanel : GachaPanelBase
             
             if (animalFirstUnlockInfoList[i])
             {
-                gachaResultSlotPanel.SetItemName(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                gachaResultSlotPanel.SetItemName(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, 
+                    GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
                         gachaDataList[i].AnimalID).AnimalStatData
-                    .StringID);
+                    .StringID));
+                
+                
                 gachaResultSlotPanel.SetItemImage(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
                     gachaDataList[i].AnimalID).AnimalStatData
                     .iconImage);
+                
+                gachaResultSlotPanel.SetStarImage(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                        gachaDataList[i].AnimalID).AnimalStatData
+                    .starIconImage);
             }
             else
             {
-                gachaResultSlotPanel.SetItemName(gachaDataList[i].TokenType.ToString() + $" By {GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[i].AnimalID).AnimalStatData.StringID}");
+                if (gachaDataList[i].TokenType == TokenType.BronzeToken)
+                {
+                    gachaResultSlotPanel.SetItemName(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                        Utils.AnimalBronzeDuplicateStringKey,
+                        LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                            GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[i].AnimalID).AnimalStatData.StringID)));
+                }
+                else if (gachaDataList[i].TokenType == TokenType.SilverToken)
+                {
+                    gachaResultSlotPanel.SetItemName(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                        Utils.AnimalSliverDuplicateStringKey,
+                        LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                            GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[i].AnimalID).AnimalStatData.StringID)));
+                }
+                else
+                {
+                    gachaResultSlotPanel.SetItemName(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                        Utils.AnimalGoldDuplicateStringKey,
+                        LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName,
+                            GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(gachaDataList[i].AnimalID).AnimalStatData.StringID)));
+                }
+                
+                gachaResultSlotPanel.SetItemImage(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                        gachaDataList[i].AnimalID).AnimalStatData
+                    .tokenIconImage);
+                
+                gachaResultSlotPanel.SetStarImage(GameDataManager.Instance.AnimalUserDataList.GetAnimalUserData(
+                        gachaDataList[i].AnimalID).AnimalStatData
+                    .starIconImage);
             }
             
         }

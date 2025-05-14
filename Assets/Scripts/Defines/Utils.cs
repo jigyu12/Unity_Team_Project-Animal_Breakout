@@ -58,6 +58,11 @@ public static class Utils
     public const string AnimalEndowmentStringKey = "OUTGAME_ENDOWMENT_EFFECT";
     public const string AnimalUpgradeStringKey = "OUTGAME_UPGRADE";
     public const string AnimalUpgradeCompleteStringKey = "OUTGAME_UPGRADE_COMPLETE";
+    public const string AnimalBronzeDuplicateStringKey = "OUTGAME_BRONZETOKENDUPLICATE";
+    public const string AnimalSliverDuplicateStringKey = "OUTGAME_SLIVERTOKENDUPLICATE";
+    public const string AnimalGoldDuplicateStringKey = "OUTGAME_GOLDTOKENDUPLICATE";
+    public const string AnimalTokenChangeStringKey = "OUTGAME_CHANGE";
+    public const string CountryIconSpriteKey = "CountryIcon";
 
     public static bool IsChanceHit(float chance)
     {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GachaManager : MonoBehaviour, IManager
@@ -21,8 +22,27 @@ public class GachaManager : MonoBehaviour, IManager
 
     public static event Action onAnimalUnlockedFinished;
 
-   
+    public void GenerateTutorialGachaData()
+    {
+        StartCoroutine(GenerateTutorialGachaDataCoroutine());
+    }
 
+    private IEnumerator GenerateTutorialGachaDataCoroutine()
+    {
+        yield return null;
+        
+        doGachaDataList.Clear();
+        var tutorialGachaData = gachaDataList.Find(gachaData => gachaData.AnimalID == GameDataManager.Instance.startAnimalID);
+        doGachaDataList.Add(tutorialGachaData);
+        
+        animalFirstUnlockInfoList.Clear();
+        animalFirstUnlockInfoList.Add(true);
+        
+        onGachaDo?.Invoke(doGachaDataList);
+        
+        onAnimalFirstUnlockedListSet?.Invoke(animalFirstUnlockInfoList);
+    }
+    
     public void GenerateRandomSingleGachaData()
     {
         StartCoroutine(GenerateRandomSingleGachaDataCoroutine());

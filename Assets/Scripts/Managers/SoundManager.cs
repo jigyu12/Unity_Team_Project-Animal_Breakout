@@ -99,6 +99,11 @@ public class SoundManager : PersistentMonoSingleton<SoundManager>
             
             return;
         }
+
+        if (clipId == SfxClipId.None)
+        {
+            return;
+        }
         
         PlaySfx(sfxClips[clipId]);
     }

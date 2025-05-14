@@ -37,7 +37,7 @@ public enum SfxClipId
     LightningShockHit,
     LightningShockThrow,
     LightningStrike,
-
+    None,
 }
 
 public enum LanguageSettingType
@@ -297,6 +297,8 @@ public enum AlertPanelConfirmButtonFuncType
     NotEnoughKeyToDoTenTimesGacha,
     CheckStaminaPurchase,
     EnforceAnimal,
+    
+    DoSingleTutorialGacha,
 }
 
 public enum AlertPanelCancelButtonFuncType
