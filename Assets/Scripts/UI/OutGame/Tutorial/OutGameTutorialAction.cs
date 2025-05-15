@@ -94,6 +94,13 @@ public class OutGameTutorialAction : MonoBehaviour
 
     public void InitializeTutorialAnimalElementClickAction()
     {
+        StartCoroutine(SearchAnimalElementHighlightTargetCoroutine());
+    }
+
+    private IEnumerator SearchAnimalElementHighlightTargetCoroutine()
+    {
+        yield return null;
+        
         var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
         pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialAnimalElementClickAction);
     }
@@ -108,6 +115,13 @@ public class OutGameTutorialAction : MonoBehaviour
 
     public void InitializeTutorialAnimalEnforceClickAction()
     {
+        StartCoroutine(SearchAnimalEnforceHighlightTargetCoroutine());
+    }
+    
+    private IEnumerator SearchAnimalEnforceHighlightTargetCoroutine()
+    {
+        yield return null;
+        
         var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
         pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialAnimalEnforcetClickAction);
     }
