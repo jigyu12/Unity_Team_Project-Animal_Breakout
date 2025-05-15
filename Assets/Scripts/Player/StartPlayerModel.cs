@@ -55,7 +55,8 @@ public class StartPlayerModel : MonoBehaviour
 
                 startAnimalModel = Instantiate(characterPrefab, gameObject.transform);
                 startAnimalModel.GetComponent<Animator>().SetTrigger("Idle");
-                startAnimalModel.GetComponent<Animator>().SetTrigger("EyeExcited");
+                startAnimalModel.GetComponent<PlayerEyeExpressionController>().SetEyeExpression(PlayerEyeState.Excited);
+
             }
             else
             {

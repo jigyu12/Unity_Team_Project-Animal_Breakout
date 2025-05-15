@@ -654,6 +654,8 @@ GameObject:
   - component: {fileID: 8480472685412960718}
   - component: {fileID: 8480472685412960719}
   - component: {fileID: 8480472685412960704}
+  - component: {fileID: -374731775626430937}
+  - component: {fileID: -4017670178021690670}
   m_Layer: 0
   m_Name: Elephant
   m_TagString: Untagged
@@ -733,6 +735,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-374731775626430937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8480472685412960705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5cde9855d260f4da08dced2351af38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8480472685412960704}
+--- !u!114 &-4017670178021690670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8480472685412960705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f09839a56e94b1e49b1557d0dc25cbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8480472685412960704}
 --- !u!1 &8480472685525696889
 GameObject:
   m_ObjectHideFlags: 0

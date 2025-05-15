@@ -201,6 +201,8 @@ GameObject:
   - component: {fileID: 4698780902317873822}
   - component: {fileID: 4698780902317873823}
   - component: {fileID: 4698780902317873820}
+  - component: {fileID: -8175551451309863800}
+  - component: {fileID: 8378393151916623157}
   m_Layer: 0
   m_Name: Squirrel
   m_TagString: Untagged
@@ -280,6 +282,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-8175551451309863800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4698780902317873821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5cde9855d260f4da08dced2351af38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4698780902317873820}
+--- !u!114 &8378393151916623157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4698780902317873821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f09839a56e94b1e49b1557d0dc25cbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4698780902317873820}
 --- !u!1 &4698780902663969526
 GameObject:
   m_ObjectHideFlags: 0

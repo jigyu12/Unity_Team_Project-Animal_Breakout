@@ -706,6 +706,8 @@ GameObject:
   - component: {fileID: 8492855724649928610}
   - component: {fileID: 8492855724649928611}
   - component: {fileID: 8492855724649928608}
+  - component: {fileID: -6194423486914403095}
+  - component: {fileID: -8344613709677258586}
   m_Layer: 0
   m_Name: Deer
   m_TagString: Untagged
@@ -785,3 +787,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-6194423486914403095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8492855724649928609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5cde9855d260f4da08dced2351af38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8492855724649928608}
+--- !u!114 &-8344613709677258586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8492855724649928609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f09839a56e94b1e49b1557d0dc25cbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8492855724649928608}
