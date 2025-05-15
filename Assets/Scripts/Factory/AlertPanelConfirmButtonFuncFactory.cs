@@ -45,17 +45,16 @@ public static class AlertPanelConfirmButtonFuncFactory
 
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
-                    
+
                     // GameDataManager.Instance.GachaSingleAdsButton.interactable = false; 
                     // outGameManager.OutGameUIManager.lastAlertPanel.transform.GetChild(0).TryGetComponent(out AlertPanel alertPanel);
                     // alertPanel.SetInteractableButton(false);
-                    
-                    //보상형 광고 재생, 광고가 실패할경우에 대한 안전장치가 없다
-                            GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
 
-                            GameDataManager.Instance.GachaSingleAdsButton.interactable =
-                                GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
-                    
+                    //보상형 광고 재생, 광고가 실패할경우에 대한 안전장치가 없다
+                    GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
+                    GameDataManager.Instance.GachaSingleAdsButton.interactable =
+                        GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
+
                     NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, () =>
                         {
                             outGameManager.GachaManager.GenerateRandomSingleGachaData();
@@ -63,7 +62,7 @@ public static class AlertPanelConfirmButtonFuncFactory
 
                             outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
                             outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
-                            
+
                             //alertPanel.SetInteractableButton(true);
                         }
                         , Time.timeScale);

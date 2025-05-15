@@ -81,6 +81,7 @@ public class PausePanelUI : UIElement
         resultPanelUI.SetCoinCount();
         resultPanelUI.SetExpCount();
         resultPanelUI.SetTimeCount();
+        resultPanelUI.SetRewardTexts();
     }
 
     private void OnSettingsClicked()

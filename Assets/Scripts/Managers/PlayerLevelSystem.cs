@@ -11,23 +11,10 @@ public class PlayerLevelSystem : ISaveLoad
 
     public PlayerLevelSystem()
     {
-        SceneManager.sceneLoaded += OnChangeSceneHandler;
         //Load(SaveLoadSystem.Instance.CurrentSaveData.playerLevelSystemSave);
         SaveLoadSystem.Instance.RegisterOnSaveAction(this);
     }
 
-    ~PlayerLevelSystem()
-    {
-        SceneManager.sceneLoaded -= OnChangeSceneHandler;
-    }
-
-    private void OnChangeSceneHandler(Scene scene, LoadSceneMode mode)
-    {
-        if (SceneManager.GetActiveScene().name == "MainTitleScene")
-        {
-            AddExperienceValue(100);
-        }
-    }
 
     public PlayerLevelExperienceData CurrentLevelData
     {
@@ -104,7 +91,7 @@ public class PlayerLevelSystem : ISaveLoad
         {
             return;
         }
-        
+
         CurrentLevel = Mathf.Clamp(CurrentLevel + 1, 1, maxLevel);
         CurrentLevelData = DataTableManager.playerLevelDataTalble.GetLevelData(CurrentLevel);
 

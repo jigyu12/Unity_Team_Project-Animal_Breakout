@@ -119,7 +119,7 @@ public class ResultPanelUI : UIElement
     {
         playTimeText.text = trackingTime.GetFormattedPlayTime();
     }
-    private void SetRewardTexts()
+    public void SetRewardTexts()
     {
         long finalScore = inGameCountManager.ScoreSystem.GetFinalScore();
         float playTime = trackingTime.PlayTime;
