@@ -17,9 +17,20 @@ public class ReviveContinueUI : UIElement
         base.Initialize();
 
         ReviveYesButton.onClick.RemoveAllListeners();
-        ReviveYesButton.onClick.AddListener(() => OnClickContinue());
+        ReviveYesButton.onClick.AddListener(() =>
+        {
+            SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+
+            OnClickContinue();
+        });
+
         ReviveNoButton.onClick.RemoveAllListeners();
-        ReviveNoButton.onClick.AddListener(() => OnClickGiveUp());
+        ReviveNoButton.onClick.AddListener(() =>
+            {
+                SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+
+                OnClickGiveUp();
+            });
     }
     private Coroutine countdown;
     private bool isDisplayed = false;
@@ -51,7 +62,7 @@ public class ReviveContinueUI : UIElement
         NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, gameUIManager.RequestContinue, Time.timeScale);
         Hide();
 
-     
+
         //gameUIManager.RequestContinue();
     }
 

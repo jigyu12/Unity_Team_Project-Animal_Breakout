@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class PlayerAccountData : ISaveLoad
 {
@@ -29,8 +30,27 @@ public class PlayerAccountData : ISaveLoad
 
     private DateTime gachaLastUpdate;
     
-    public float bgmVolume { get; private set; }
-    public float sfxVolume { get; private set; }
+    private float bgmVolume;
+    public float BgmVolume
+    {
+        get => bgmVolume;
+        set
+        {
+            bgmVolume = Mathf.Clamp(value, 0.0001f, 1f);
+        }
+    }
+
+    private float sfxVolume;
+
+    public float SfxVolume
+    {
+        get => sfxVolume;
+        set
+        {
+            sfxVolume = Mathf.Clamp(value, 0.0001f, 1f);
+        }
+        
+    }
     public int frameRateIndex { get; private set; }
     public LanguageSettingType languageSettingType { get; private set; }
 
@@ -83,11 +103,11 @@ public class PlayerAccountData : ISaveLoad
             GachaSingleAdsRemainCount = saveData.gachaSingleAdsRemainCount;
         }
 
-        bgmVolume = saveData.bgmVolume;
-        SoundManager.Instance.SetBgmVolume(bgmVolume);
+        BgmVolume = saveData.bgmVolume;
+        SoundManager.Instance.SetBgmVolume(BgmVolume);
         
-        sfxVolume = saveData.sfxVolume;
-        SoundManager.Instance.SetSfxVolume(sfxVolume);
+        SfxVolume = saveData.sfxVolume;
+        SoundManager.Instance.SetSfxVolume(SfxVolume);
         
         frameRateIndex = saveData.frameRateIndex;
         GameDataManager.Instance.SetFrameRateIndex(frameRateIndex);

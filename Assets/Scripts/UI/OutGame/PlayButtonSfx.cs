@@ -19,6 +19,6 @@ public class PlayButtonSfx : MonoBehaviour
     
     private void OnDestroy()
     {
-        buttonToPlaySfx.onClick.RemoveAllListeners();
+        buttonToPlaySfx?.onClick.RemoveAllListeners();
     }
 }

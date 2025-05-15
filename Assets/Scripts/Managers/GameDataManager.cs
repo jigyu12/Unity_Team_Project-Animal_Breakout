@@ -40,9 +40,6 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     {
         return additionalScoreGoldRate;
     }
-    public static event Action<LevelUpInfoData> onLevelExpInitialized;
-    public static Action<int> onExpChanged;
-
     public static readonly Dictionary<int, int> expToLevelUpDictionary = new();
     public static readonly Dictionary<int, int> maxStaminaByLevelDictionary = new();
     public static readonly Dictionary<int, LevelUpRewardData> levelUpRewardDataDictionary = new();
@@ -434,5 +431,10 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         }
         
         onLocaleChange?.Invoke();
+    }
+
+    private void OnBgmVolumeChangedHandler(float bgmValue, float sfxValue)
+    {
+        
     }
 }
