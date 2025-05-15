@@ -42,7 +42,8 @@ namespace Excellcube.EasyTutorial.Widget
             if(placeOnTop)
             {
                 position.y += indicatordist;
-                rotation = Quaternion.Euler(0, 0, -90.0f);
+                position.x -= -200f;
+                rotation = Quaternion.identity;
             }
             else
             {
