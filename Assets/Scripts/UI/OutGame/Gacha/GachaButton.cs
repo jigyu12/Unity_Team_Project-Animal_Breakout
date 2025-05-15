@@ -22,7 +22,7 @@ public abstract class GachaButton : MonoBehaviour
     
     protected virtual void OnDestroy()
     {
-        gachaButton.onClick.RemoveAllListeners();
+        gachaButton?.onClick.RemoveAllListeners();
     }
 
     protected void SetGachaButtonText(string headerText, string countText)

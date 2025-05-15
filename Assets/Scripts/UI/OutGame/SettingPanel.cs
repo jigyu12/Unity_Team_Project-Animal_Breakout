@@ -81,8 +81,8 @@ public class SettingPanel : MonoBehaviour
             }
         });
 
-        bgmValue = GameDataManager.Instance.PlayerAccountData.bgmVolume;
-        sfxValue = GameDataManager.Instance.PlayerAccountData.sfxVolume;
+        bgmValue = GameDataManager.Instance.PlayerAccountData.BgmVolume;
+        sfxValue = GameDataManager.Instance.PlayerAccountData.SfxVolume;
 
         frameRateIndex = GameDataManager.Instance.frameRateIndex;
 

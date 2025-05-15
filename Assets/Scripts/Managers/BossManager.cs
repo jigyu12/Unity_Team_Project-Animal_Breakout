@@ -55,18 +55,18 @@ public class BossManager : InGameManager
                 break;
             case < 4:
                 {
-                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.18f, bossStageSetCount - 2);
+                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.3f, bossStageSetCount - 2);
                 }
                 break;
             case 4:
                 {
-                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.18f, bossStageSetCount - 2);
+                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.3f, bossStageSetCount - 2);
                     lastBossBaseHp = bossMaxHp;
                 }
                 break;
             case < Int32.MaxValue:
                 {
-                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.22f, bossStageSetCount - 4);
+                    bossMaxHp = lastBossBaseHp * MathF.Pow(1.5f, bossStageSetCount - 4);
                 }
                 break;
         }

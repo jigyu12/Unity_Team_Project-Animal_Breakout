@@ -34,8 +34,8 @@ public class SoundManager : PersistentMonoSingleton<SoundManager>
 
     private void Start()
     {
-        bgmVolume = GameDataManager.Instance.PlayerAccountData.bgmVolume;
-        sfxVolume = GameDataManager.Instance.PlayerAccountData.sfxVolume;
+        bgmVolume = GameDataManager.Instance.PlayerAccountData.BgmVolume;
+        sfxVolume = GameDataManager.Instance.PlayerAccountData.SfxVolume;
         channelIndex = 0;
         
         bgmAudioSource.loop = true;
@@ -180,6 +180,9 @@ public class SoundManager : PersistentMonoSingleton<SoundManager>
     {
        SetBgmVolume(bgmVolume);
        SetSfxVolume(sfxVolume);
+       
+       GameDataManager.Instance.PlayerAccountData.BgmVolume = bgmVolume;
+       GameDataManager.Instance.PlayerAccountData.SfxVolume = sfxVolume;
        
        Debug.Log($"BGM Value : {this.bgmVolume}");
        Debug.Log($"SFX Value : {this.sfxVolume}");

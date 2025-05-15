@@ -46,10 +46,10 @@ public class BurnStatusEffect : StatusEffect
 
     public override void Perform(int skillID, int elementalAttackPower)
     {
-        if (!CanPerformID(skillID))
-        {
-            return;
-        }
+        //if (!CanPerformID(skillID))
+        //{
+        //    return;
+        //}
 
         previousSkillId = skillID;
 

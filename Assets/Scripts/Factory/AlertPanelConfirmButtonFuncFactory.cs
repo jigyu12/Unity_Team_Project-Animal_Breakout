@@ -45,16 +45,16 @@ public static class AlertPanelConfirmButtonFuncFactory
 
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
-                    
-                    // GameDataManager.Instance.GachaSingleAdsButton.interactable = false; 
-                    
+
+
                     //보상형 광고 재생, 광고가 실패할경우에 대한 안전장치가 없다
-                            GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
+                    GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
+                    GameDataManager.Instance.GachaSingleAdsButton.interactable =
+                        GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
 
                      outGameManager.OutGameUIManager.lastAlertPanel.transform.GetChild(0).TryGetComponent(out AlertPanel alertPanel);
                      alertPanel.SetInteractableButton(false);
-                     
-                    
+
                     NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, () =>
                         {
                             outGameManager.GachaManager.GenerateRandomSingleGachaData();

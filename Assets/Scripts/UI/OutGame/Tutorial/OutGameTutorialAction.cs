@@ -10,6 +10,8 @@ using UnityEngine.UI;
 public class OutGameTutorialAction : MonoBehaviour
 {
     private ECEasyTutorial outgameTutorial;
+    [SerializeField]
+    private OutGameManager outGameManager;
     private void Start()
     {
         outgameTutorial = gameObject.GetComponent<ECEasyTutorial>();
@@ -59,13 +61,13 @@ public class OutGameTutorialAction : MonoBehaviour
     public void InitializeTutorialDoGachaWaitAction()
     {
         var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
-        //가챠 다하고 나가는거 기다려줘야되는데 저거 어케 받아옴
+        outGameManager.OutGameUIManager.onHideFullScreenPanel += CompleteTutorialDoGachaWaitAction;
     }
 
     private void CompleteTutorialDoGachaWaitAction()
     {
-       
-        TutorialEvent.Instance.Broadcast("");
+        outGameManager.OutGameUIManager.onHideFullScreenPanel -= CompleteTutorialDoGachaWaitAction;
+        TutorialEvent.Instance.Broadcast("Tutorial_DoGachaWait");
     }
 
     [SerializeField]
@@ -74,6 +76,7 @@ public class OutGameTutorialAction : MonoBehaviour
     {
         lobbyButton.onClick.Invoke();
     }
+
 
     public void InitializeTutorialAnimalClickAction()
     {
@@ -91,6 +94,13 @@ public class OutGameTutorialAction : MonoBehaviour
 
     public void InitializeTutorialAnimalElementClickAction()
     {
+        StartCoroutine(SearchAnimalElementHighlightTargetCoroutine());
+    }
+
+    private IEnumerator SearchAnimalElementHighlightTargetCoroutine()
+    {
+        yield return null;
+        
         var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
         pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialAnimalElementClickAction);
     }
@@ -105,6 +115,13 @@ public class OutGameTutorialAction : MonoBehaviour
 
     public void InitializeTutorialAnimalEnforceClickAction()
     {
+        StartCoroutine(SearchAnimalEnforceHighlightTargetCoroutine());
+    }
+    
+    private IEnumerator SearchAnimalEnforceHighlightTargetCoroutine()
+    {
+        yield return null;
+        
         var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
         pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialAnimalEnforcetClickAction);
     }
@@ -115,5 +132,26 @@ public class OutGameTutorialAction : MonoBehaviour
         pageData.HighlightTarget.GetComponent<Button>().onClick.RemoveListener(CompleteTutorialAnimalEnforcetClickAction);
 
         TutorialEvent.Instance.Broadcast("Tutorial_AnimalEnforceClick");
+    }
+
+    public void InitializeTutorialAnimalEnforceAlertClickAction()
+    {
+        StartCoroutine(SearchAnimalEnforceAlertHighlightTargetCoroutine());
+    }
+    
+    private IEnumerator SearchAnimalEnforceAlertHighlightTargetCoroutine()
+    {
+        yield return null;
+        
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialAnimalEnforceAlertClickAction);
+    }
+    
+    private void CompleteTutorialAnimalEnforceAlertClickAction()
+    {
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        pageData.HighlightTarget.GetComponent<Button>().onClick.RemoveListener(CompleteTutorialAnimalEnforceAlertClickAction);
+
+        TutorialEvent.Instance.Broadcast("Tutorial_AnimalEnforceAlertClick");
     }
 }

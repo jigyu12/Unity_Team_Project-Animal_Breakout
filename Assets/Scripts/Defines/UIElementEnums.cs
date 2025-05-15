@@ -14,5 +14,6 @@ public enum UIElementEnums
 	PausePanelFrame,
 	GameResultPanel ,
 	RevivalPanel,
+	RealGiveUpPanel,
 	TutorialPanel,
 }
