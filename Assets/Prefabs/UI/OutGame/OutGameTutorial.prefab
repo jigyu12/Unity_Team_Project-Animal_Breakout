@@ -1417,7 +1417,7 @@ MonoBehaviour:
       m_DynamicTargetRoot: {fileID: 0}
       m_DynamicTargetKey: 
       m_IndicatorPosition: 0
-      m_CompleteKey: 
+      m_CompleteKey: Tutorial_DoGachaWait
     m_DetailContentPageData:
       m_Skip: 0
       m_HideSkipButton: 0
@@ -1699,6 +1699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e153d17642b074f9a4f7b6eda32c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outGameManager: {fileID: 0}
   lobbyButton: {fileID: 0}
 --- !u!1 &7223316712624763197
 GameObject:

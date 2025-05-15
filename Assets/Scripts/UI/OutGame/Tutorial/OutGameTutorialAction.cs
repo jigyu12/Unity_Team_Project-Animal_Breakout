@@ -67,7 +67,7 @@ public class OutGameTutorialAction : MonoBehaviour
     private void CompleteTutorialDoGachaWaitAction()
     {
         outGameManager.OutGameUIManager.onHideFullScreenPanel -= CompleteTutorialDoGachaWaitAction;
-        TutorialEvent.Instance.Broadcast("");
+        TutorialEvent.Instance.Broadcast("Tutorial_DoGachaWait");
     }
 
     [SerializeField]
@@ -76,6 +76,7 @@ public class OutGameTutorialAction : MonoBehaviour
     {
         lobbyButton.onClick.Invoke();
     }
+
 
     public void InitializeTutorialAnimalClickAction()
     {
