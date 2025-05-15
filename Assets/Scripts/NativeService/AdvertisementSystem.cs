@@ -8,6 +8,7 @@ public class AdvertisementSystem : PersistentMonoSingleton<AdvertisementSystem>
 {
     private BannerView bannerView;
     private RewardedAd rewardedAd;
+    private InterstitialAd interstitialAd;
 
     private Action onGetReward;
     private Action onAdScreenClosed;
@@ -18,19 +19,21 @@ public class AdvertisementSystem : PersistentMonoSingleton<AdvertisementSystem>
     //테스트 코드
     private string bannerAdUnitId = "ca-app-pub-3940256099942544/9214589741";
     private string rewardAdUnitId = "ca-app-pub-3940256099942544/5224354917";
+    private string interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
     //진짜 광고코드
     //private string rewardAdUnitId = "ca-app-pub-9819783257891765/5740570359";
 #elif UNITY_IPHONE
-   private string bannerAdUnitId = "ca-app-pub-3940256099942544/2934735716
-    private string rewardAdUnitId = "ca-app-pub-3940256099942544/1712485313
+   private string bannerAdUnitId = "ca-app-pub-3940256099942544/2934735716"
+    private string rewardAdUnitId = "ca-app-pub-3940256099942544/1712485313"
+     private string interstitialAdUnitId = "ca-app-pub-3940256099942544/4411468910";
 #else
   private string bannerAdUnitId = "";
     private string rewardAdUnitId = "";
+     private string interstitialAdUnitId = "";;
 #endif
 
     public override void InitializeSingleton()
     {
-
         base.InitializeSingleton();
 
         MobileAds.Initialize(initializeStatus =>
@@ -38,6 +41,7 @@ public class AdvertisementSystem : PersistentMonoSingleton<AdvertisementSystem>
             Debug.Log("AdMob Initialize Success");
             //RequestBannerAdvertisement();
             RequestRewardAdvertisement();
+            RequestInterstitialAdvertisement();
         });
 
         // When true all events raised by GoogleMobileAds will be raised
@@ -204,5 +208,98 @@ public class AdvertisementSystem : PersistentMonoSingleton<AdvertisementSystem>
     {
         isWaitingAdScreenClosedCallback = false;
         onAdScreenClosed?.Invoke();
+    }
+
+    public void RequestInterstitialAdvertisement()
+    {
+        // Clean up the old ad before loading a new one.
+        if (interstitialAd != null)
+        {
+            interstitialAd.Destroy();
+            interstitialAd = null;
+        }
+
+        Debug.Log("Loading the interstitial ad.");
+
+        // create our request used to load the ad.
+        var adRequest = new AdRequest();
+
+        // send the request to load the ad.
+        InterstitialAd.Load(interstitialAdUnitId, adRequest,
+            (InterstitialAd ad, LoadAdError error) =>
+            {
+                // if error is not null, the load request failed.
+                if (error != null || ad == null)
+                {
+                    Debug.LogError("interstitial ad failed to load an ad " +
+                                   "with error : " + error);
+                    return;
+                }
+
+                Debug.Log("Interstitial ad loaded with response : "
+                          + ad.GetResponseInfo());
+
+                interstitialAd = ad;
+            });
+    }
+
+    public void ShowInterstitialAdvertisement(Action onAdScreenClosed, float timeScale = 0)
+    {
+        if (interstitialAd != null && interstitialAd.CanShowAd())
+        {
+            Debug.Log("Showing interstitial ad.");
+
+            this.onAdScreenClosed = onAdScreenClosed;
+            this.onAdScreenClosed += () => Time.timeScale = timeScale;
+
+            RegisterEventHandlers(interstitialAd);
+            //볼륨조절이 필요하다면 삽입
+            //SetApplicationVolume()
+            interstitialAd.Show();
+        }
+        else
+        {
+            Debug.LogError("Interstitial ad is not ready yet.");
+        }
+    }
+
+    private void RegisterEventHandlers(InterstitialAd ad)
+    {
+        // Raised when the ad is estimated to have earned money.
+        ad.OnAdPaid += (AdValue adValue) =>
+        {
+            Debug.Log(String.Format("Interstitial ad paid {0} {1}.",
+                adValue.Value,
+                adValue.CurrencyCode));
+        };
+        // Raised when an impression is recorded for an ad.
+        ad.OnAdImpressionRecorded += () =>
+        {
+            Debug.Log("Interstitial ad recorded an impression.");
+        };
+        // Raised when a click is recorded for an ad.
+        ad.OnAdClicked += () =>
+        {
+            Debug.Log("Interstitial ad was clicked.");
+        };
+        // Raised when an ad opened full screen content.
+        ad.OnAdFullScreenContentOpened += () =>
+        {
+            Debug.Log("Interstitial ad full screen content opened.");
+            RequestInterstitialAdvertisement();
+        };
+        // Raised when the ad closed full screen content.
+        ad.OnAdFullScreenContentClosed += () =>
+        {
+            Debug.Log("Interstitial ad full screen content closed.");
+            isWaitingAdScreenClosedCallback = true;
+            ad.Destroy();
+        };
+        // Raised when the ad failed to open full screen content.
+        ad.OnAdFullScreenContentFailed += (AdError error) =>
+        {
+            Debug.LogError("Interstitial ad failed to open full screen content " +
+                           "with error : " + error);
+        };
     }
 }
