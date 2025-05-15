@@ -50,8 +50,6 @@ public class InGameCountManager : InGameManager
         GameUIManager.OnGamePlayCounting -= OnGamePlayCouningHandler;
         PlayerManager.OnDeadCounting -= OnPlayerDeadCountingHandler;
         BossStatus.onBossDeadCounting -= OnBossDeadCountingHandler;
-
-
     }
 
     private void OnCoinAcquiredHandler(int amount)
