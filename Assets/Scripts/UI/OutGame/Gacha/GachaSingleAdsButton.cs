@@ -8,6 +8,7 @@ public class GachaSingleAdsButton : GachaButton
     protected void Awake()
     {
         AlertPanelConfirmButtonFuncFactory.onGachaByAds += SetGachaButtonText;
+        AlertPanelConfirmButtonFuncFactory.onGachaByAds += SetGachaButtonInteractive;
         GameDataManager.onLocaleChange += SetGachaButtonText;
     }
 
@@ -16,6 +17,7 @@ public class GachaSingleAdsButton : GachaButton
         base.OnDestroy();
         
         AlertPanelConfirmButtonFuncFactory.onGachaByAds -= SetGachaButtonText;
+        AlertPanelConfirmButtonFuncFactory.onGachaByAds -= SetGachaButtonInteractive;
         GameDataManager.onLocaleChange -= SetGachaButtonText;
     }
 
@@ -23,8 +25,7 @@ public class GachaSingleAdsButton : GachaButton
     {
         base.Start();
 
-        gachaButton.interactable = IsAdsRemain;
-
+        SetGachaButtonInteractive();
         SetGachaButtonText();
     }
 
@@ -37,5 +38,11 @@ public class GachaSingleAdsButton : GachaButton
     {
         this.countText.text = LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.GachaSingleAdsStringKey
             , GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount, GameDataManager.Instance.PlayerAccountData.GachaSingleAdsCount);
+
+    }
+
+    protected void SetGachaButtonInteractive()
+    {
+        gachaButton.interactable = IsAdsRemain;
     }
 }

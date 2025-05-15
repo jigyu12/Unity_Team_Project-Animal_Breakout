@@ -53,8 +53,7 @@ public static class AlertPanelConfirmButtonFuncFactory
 
                      outGameManager.OutGameUIManager.lastAlertPanel.transform.GetChild(0).TryGetComponent(out AlertPanel alertPanel);
                      alertPanel.SetInteractableButton(false);
-                            //GameDataManager.Instance.GachaSingleAdsButton.interactable =
-                            //    GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
+                     
                     
                     NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, () =>
                         {
@@ -64,7 +63,7 @@ public static class AlertPanelConfirmButtonFuncFactory
                             outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
                             outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
                             
-                            //alertPanel.SetInteractableButton(true);
+                            alertPanel.SetInteractableButton(true);
                         }
                         , Time.timeScale);
                 }
