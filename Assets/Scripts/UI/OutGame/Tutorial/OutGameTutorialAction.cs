@@ -10,6 +10,8 @@ using UnityEngine.UI;
 public class OutGameTutorialAction : MonoBehaviour
 {
     private ECEasyTutorial outgameTutorial;
+    [SerializeField]
+    private OutGameManager outGameManager;
     private void Start()
     {
         outgameTutorial = gameObject.GetComponent<ECEasyTutorial>();
@@ -59,12 +61,12 @@ public class OutGameTutorialAction : MonoBehaviour
     public void InitializeTutorialDoGachaWaitAction()
     {
         var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
-        //가챠 다하고 나가는거 기다려줘야되는데 저거 어케 받아옴
+        outGameManager.OutGameUIManager.onHideFullScreenPanel += CompleteTutorialDoGachaWaitAction;
     }
 
     private void CompleteTutorialDoGachaWaitAction()
     {
-       
+        outGameManager.OutGameUIManager.onHideFullScreenPanel -= CompleteTutorialDoGachaWaitAction;
         TutorialEvent.Instance.Broadcast("");
     }
 
