@@ -20,14 +20,25 @@ public class AlertPanel : MonoBehaviour
 
         if (confirmButton is not null)
         {
-            confirmButton.onClick.RemoveAllListeners();
             confirmButton.onClick.AddListener(alertPanelInfoData.confirmButtonAction);
         }
         
         if (cancelButton is not null)
         {
-            cancelButton.onClick.RemoveAllListeners();
             cancelButton.onClick.AddListener(alertPanelInfoData.cancelButtonAction);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (confirmButton is not null)
+        {
+            confirmButton.onClick.RemoveAllListeners();
+        }
+        
+        if (cancelButton is not null)
+        {
+            cancelButton.onClick.RemoveAllListeners();
         }
     }
 

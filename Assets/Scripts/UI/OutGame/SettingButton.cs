@@ -17,13 +17,11 @@ public class SettingButton : MonoBehaviour
         settingButton.onClick.AddListener(() =>
         {
             outGameUIManager.ShowSettingPanel();
-
-            SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
         });
     }
 
     private void OnDestroy()
     {
-        settingButton.onClick.RemoveAllListeners();
+        settingButton?.onClick.RemoveAllListeners();
     }
 }

@@ -9,7 +9,7 @@ public class ShopUISwitchPanel : MonoBehaviour
     
     [SerializeField] private List<Button> switchShopPanelButtonList;
     private readonly List<SwitchShopPanelButton> switchShopPanelButtonComponentList = new();
-    
+
     private void Start()
     {
         Initialize();
@@ -22,6 +22,11 @@ public class ShopUISwitchPanel : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (switchShopPanelButtonComponentList.Count != switchShopPanelButtonList.Count)
+        {
+            return;
+        }
+        
         for (int i = 0; i < switchShopPanelButtonList.Count; ++i)
         {
             switchShopPanelButtonComponentList[i].onSwitchShopPanelButtonClicked -= OnSwitchShopPanelButtonClickedHandler;
