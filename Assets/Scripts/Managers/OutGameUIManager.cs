@@ -338,6 +338,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
         }
     }
 
+    public Action onHideFullScreenPanel;
+
     public void HideFullScreenPanel()
     {
         SwitchActiveDefaultCanvas(DefaultCanvasType.FullScreen, false, true);
@@ -345,6 +347,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
         SwitchActiveDefaultCanvas(CurrentDefaultCanvasTypeInSwitchableCanvasType, true);
 
         isFullScreenActive = false;
+        //튜토리얼을 위해 임시로 추가
+        onHideFullScreenPanel?.Invoke();
     }
 
     public void SwitchActiveDefaultCanvas(DefaultCanvasType defaultCanvasType, bool isActive, bool inActiveOtherCanvas = false)
