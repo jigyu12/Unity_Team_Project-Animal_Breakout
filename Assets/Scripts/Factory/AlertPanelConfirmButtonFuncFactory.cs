@@ -42,28 +42,27 @@ public static class AlertPanelConfirmButtonFuncFactory
                 AlertPanelConfirmButtonFuncType.DoSingleGachaByAds, () =>
                 {
                     Debug.Log("Gacha By Ads");
-                    
+
                     GameObject.FindGameObjectWithTag("OutGameManager")
                         .TryGetComponent(out OutGameManager outGameManager);
-                    
+
                     // GameDataManager.Instance.GachaSingleAdsButton.interactable = false; 
                     // outGameManager.OutGameUIManager.lastAlertPanel.transform.GetChild(0).TryGetComponent(out AlertPanel alertPanel);
                     // alertPanel.SetInteractableButton(false);
+
+                    GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
+                    GameDataManager.Instance.GachaSingleAdsButton.interactable =
+                        GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
                     
                     //보상형 광고 재생
                     NativeServiceManager.Instance.AdvertisementSystem.ShowRewardedAdvertisement(null, () =>
                         {
-                            GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount--;
-
-                            GameDataManager.Instance.GachaSingleAdsButton.interactable =
-                                GameDataManager.Instance.PlayerAccountData.GachaSingleAdsRemainCount > 0;
-
                             outGameManager.GachaManager.GenerateRandomSingleGachaData();
                             onGachaByAds?.Invoke();
 
                             outGameManager.OutGameUIManager.HideAlertPanelSpawnPanelRoot();
                             outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.GachaScreen);
-                            
+
                             //alertPanel.SetInteractableButton(true);
                         }
                         , Time.timeScale);

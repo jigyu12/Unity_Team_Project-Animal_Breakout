@@ -133,4 +133,25 @@ public class OutGameTutorialAction : MonoBehaviour
 
         TutorialEvent.Instance.Broadcast("Tutorial_AnimalEnforceClick");
     }
+
+    public void InitializeTutorialAnimalEnforceAlertClickAction()
+    {
+        StartCoroutine(SearchAnimalEnforceAlertHighlightTargetCoroutine());
+    }
+    
+    private IEnumerator SearchAnimalEnforceAlertHighlightTargetCoroutine()
+    {
+        yield return null;
+        
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialAnimalEnforceAlertClickAction);
+    }
+    
+    private void CompleteTutorialAnimalEnforceAlertClickAction()
+    {
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        pageData.HighlightTarget.GetComponent<Button>().onClick.RemoveListener(CompleteTutorialAnimalEnforceAlertClickAction);
+
+        TutorialEvent.Instance.Broadcast("Tutorial_AnimalEnforceAlertClick");
+    }
 }
