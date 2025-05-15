@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
-public class RealGiveUpPanelUI : MonoBehaviour
+public class RealGiveUpPanelUI : UIElement
 {
     [SerializeField] private GameObject RealGiveUpPanel;
     [SerializeField] private GameObject GameResultPanel;
@@ -36,7 +36,8 @@ public class RealGiveUpPanelUI : MonoBehaviour
     }
     private void OnYesButtonClicked()
     {
-        GameResultPanel.SetActive(true);
+        gameManager.SetGameState(GameManager_new.GameState.GameOver);
+        // GameResultPanel.SetActive(true);
         RealGiveUpPanel.SetActive(false);
 
     }
