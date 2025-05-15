@@ -6,7 +6,7 @@ public class SettingButton : MonoBehaviour
 {
     private Button settingButton;
     private OutGameUIManager outGameUIManager;
-    
+
     private void Start()
     {
         TryGetComponent(out settingButton);
@@ -17,8 +17,6 @@ public class SettingButton : MonoBehaviour
         settingButton.onClick.AddListener(() =>
         {
             outGameUIManager.ShowSettingPanel();
-
-            SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
         });
     }
 
