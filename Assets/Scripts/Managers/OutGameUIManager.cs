@@ -65,12 +65,15 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private readonly List<GameObject> enforceAnimalPanelList = new();
 
     public GameObject lastAlertPanel { get; private set; }
+    public GameObject lastEnforceAnimalPanel { get; private set; }
 
     public bool isFullScreenActive { get; private set; }
 
     public static event Action<FullScreenType> onSpecificFullScreenActive;
     
     [SerializeField] private ECEasyTutorial tutorial;
+    
+    [SerializeField] private GameObject actionLogImage;
 
     private void Start()
     {
@@ -267,6 +270,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
         enforceAnimalPanelComponent.SetTargetAnimalUserData(animalUserData);
 
         enforceAnimalPanelList.Add(enforcePanel);
+
+        lastEnforceAnimalPanel = enforcePanel;
     }
 
     public void ShowSettingPanel()
@@ -567,13 +572,31 @@ public class OutGameUIManager : MonoBehaviour, IManager
         animalCanvasGroup.blocksRaycasts = true;
     }
     
-    public void OnShowEnforcePanelButtonClickTutorialBeginHandler()
+    public void InActiveLastAnimalEnforcePanelDetectTouch()
     {
-        
+        lastEnforceAnimalPanel.TryGetComponent(out DetectTouchInOtherUIScreenDoHideAllAlertPanel detectTouchInOtherUIScreenDoHideAllAlertPanel);
+        detectTouchInOtherUIScreenDoHideAllAlertPanel.enabled = false;
     }
     
-    public void OnEnforcePanelButtonClickTutorialBeginHandler()
+    public void ActiveLastAnimalEnforcePanelDetectTouch()
     {
-        
+        lastEnforceAnimalPanel.TryGetComponent(out DetectTouchInOtherUIScreenDoHideAllAlertPanel detectTouchInOtherUIScreenDoHideAllAlertPanel);
+        detectTouchInOtherUIScreenDoHideAllAlertPanel.enabled = true;
+    }
+    
+    public void InActiveActionLogImage()
+    {
+        StartCoroutine(InActiveActionLogImageCoroutine());
+    }
+
+    private IEnumerator InActiveActionLogImageCoroutine()
+    {
+        yield return null;
+        actionLogImage.SetActive(false);
+    }
+
+    public void ActiveActionLogImage()
+    {
+        actionLogImage.SetActive(true);
     }
 }
