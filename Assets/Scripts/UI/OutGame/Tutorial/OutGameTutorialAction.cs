@@ -4,6 +4,7 @@ using Excellcube.EasyTutorial.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class OutGameTutorialAction : MonoBehaviour
@@ -11,7 +12,7 @@ public class OutGameTutorialAction : MonoBehaviour
     private ECEasyTutorial outgameTutorial;
     private void Start()
     {
-        outgameTutorial=gameObject.GetComponent<ECEasyTutorial>();
+        outgameTutorial = gameObject.GetComponent<ECEasyTutorial>();
     }
 
     public void InitializeTutorialShopClickAction()
@@ -28,19 +29,91 @@ public class OutGameTutorialAction : MonoBehaviour
         TutorialEvent.Instance.Broadcast("Tutorial_ShopClick");
     }
 
+    private UnityAction originButtonClickEvent;
+
     public void InitializeTutorialDoGachaAction()
     {
-        //var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
-        //pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialDoGachaAction);
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        var button = pageData.HighlightTarget.GetComponent<Button>();
 
-        AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.DoSingleTutorialGacha).Invoke();
+        //기존 버튼 기능
+        originButtonClickEvent = () => button.onClick.Invoke();
+
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(CompleteTutorialDoGachaAction);
+
     }
 
     private void CompleteTutorialDoGachaAction()
     {
-        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
-        pageData.HighlightTarget.GetComponent<Button>().onClick.RemoveListener(CompleteTutorialShopClickAction);
+        AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.DoSingleTutorialGacha).Invoke();
 
-        TutorialEvent.Instance.Broadcast("Tutorial_DoGacha");
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        var button = pageData.HighlightTarget.GetComponent<Button>();
+        button.onClick.RemoveListener(CompleteTutorialShopClickAction);
+        button.onClick.AddListener(originButtonClickEvent);
+
+       TutorialEvent.Instance.Broadcast("Tutorial_DoGacha");
+    }
+
+    public void InitializeTutorialDoGachaWaitAction()
+    {
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        //가챠 다하고 나가는거 기다려줘야되는데 저거 어케 받아옴
+    }
+
+    private void CompleteTutorialDoGachaWaitAction()
+    {
+       
+        TutorialEvent.Instance.Broadcast("");
+    }
+
+    [SerializeField]
+    private Button lobbyButton;
+    public void OnTutorialDoGachaWaitEndAction()
+    {
+        lobbyButton.onClick.Invoke();
+    }
+
+    public void InitializeTutorialAnimalClickAction()
+    {
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialAnimalClickAction);
+    }
+
+    private void CompleteTutorialAnimalClickAction()
+    {
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        pageData.HighlightTarget.GetComponent<Button>().onClick.RemoveListener(CompleteTutorialAnimalClickAction);
+
+        TutorialEvent.Instance.Broadcast("Tutorial_AnimalClick");
+    }
+
+    public void InitializeTutorialAnimalElementClickAction()
+    {
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialAnimalElementClickAction);
+    }
+
+    private void CompleteTutorialAnimalElementClickAction()
+    {
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        pageData.HighlightTarget.GetComponent<Button>().onClick.RemoveListener(CompleteTutorialAnimalElementClickAction);
+
+        TutorialEvent.Instance.Broadcast("Tutorial_AnimalElementClick");
+    }
+
+    public void InitializeTutorialAnimalEnforceClickAction()
+    {
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        pageData.HighlightTarget.GetComponent<Button>().onClick.AddListener(CompleteTutorialAnimalEnforcetClickAction);
+    }
+
+    private void CompleteTutorialAnimalEnforcetClickAction()
+    {
+        var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
+        pageData.HighlightTarget.GetComponent<Button>().onClick.RemoveListener(CompleteTutorialAnimalEnforcetClickAction);
+
+        TutorialEvent.Instance.Broadcast("Tutorial_AnimalEnforceClick");
     }
 }
