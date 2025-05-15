@@ -4,15 +4,15 @@ using UnityEngine;
 public class OutGameManager : MonoBehaviour
 {
     #region manager
-    
+
     private List<IManager> managers = new();
-    
+
     private ObjectPoolManager objectPoolManager;
     public ObjectPoolManager ObjectPoolManager => objectPoolManager;
-    
+
     private OutGameUIManager outGameUIManager;
     public OutGameUIManager OutGameUIManager => outGameUIManager;
-    
+
     private GachaManager gachaManager;
     public GachaManager GachaManager => gachaManager;
 
@@ -26,12 +26,13 @@ public class OutGameManager : MonoBehaviour
     {
         isGameQuitPanelShow = false;
     }
-    
+
     private void Start()
     {
         InitializeManagers();
+        SoundManager.Instance.PlayBgm(BgmClipId.MainLobbyBgm);
     }
-    
+
     private void OnDestroy()
     {
         foreach (var manager in managers)
@@ -39,7 +40,7 @@ public class OutGameManager : MonoBehaviour
             manager.Clear();
         }
     }
-    
+
 #if UNITY_ANDROID
     private void Update()
     {
@@ -50,16 +51,16 @@ public class OutGameManager : MonoBehaviour
             {
                 return;
             }
-            
+
             outGameUIManager.HideLastAlertPanel();
             outGameUIManager.HideAlertPanelSpawnPanelRoot();
-            
+
             if (outGameUIManager.CurrentSwitchableCanvasType == SwitchableCanvasType.Lobby)
             {
                 if (!isGameQuitPanelShow)
                 {
                     outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.QuitGame));
-                    
+
                     isGameQuitPanelShow = true;
                 }
             }
@@ -67,24 +68,24 @@ public class OutGameManager : MonoBehaviour
             {
                 outGameUIManager.SwitchVisualizeSwitchableCanvas(SwitchableCanvasType.Lobby, true);
                 outGameUIManager.SwitchActiveSwitchableCanvas(SwitchableCanvasType.Lobby);
-                
+
                 MenuPanel.onMenuBottomButtonClicked?.Invoke(SwitchableCanvasType.Lobby);
             }
         }
     }
 #endif
-    
+
     private void InitializeManagers()
     {
         GameDataManager.Instance.Initialize();
-        
+
         objectPoolManager = new ObjectPoolManager();
         managers.Add(ObjectPoolManager);
 
         GameObject.FindGameObjectWithTag("OutGameUIManager").TryGetComponent(out outGameUIManager);
         outGameUIManager.SetOutGameManager(this);
         managers.Add(outGameUIManager);
-        
+
         GameObject.FindGameObjectWithTag("GachaManager").TryGetComponent(out gachaManager);
         gachaManager.SetOutGameManager(this);
         managers.Add(gachaManager);
@@ -98,7 +99,7 @@ public class OutGameManager : MonoBehaviour
             manager.Initialize();
         }
     }
-    
+
     public void SetTimeScale(float scale)
     {
         Time.timeScale = scale;

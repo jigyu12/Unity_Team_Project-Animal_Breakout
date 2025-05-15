@@ -10,22 +10,22 @@ public class EnforceSuccessPanel : MonoBehaviour
     [SerializeField] private TMP_Text attackPowerText;
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text passiveText;
-    
+
     [SerializeField] private Image starImage;
     [SerializeField] private Image animalImage;
-    
+
     [SerializeField] protected InputActionAsset inputActions;
     private InputAction touchAction;
-    
+
     protected OutGameUIManager outGameUIManager;
-    
+
     private bool isFindOtherComponent = false;
 
     private void Awake()
     {
         var actionMap = inputActions.FindActionMap("UIActions");
         touchAction = actionMap?.FindAction("TouchEnforce");
-        
+
         OutGameUIManager.onEnforceSuccessScreenActive += OnEnforceSuccessScreenActiveHandler;
     }
 
@@ -33,7 +33,7 @@ public class EnforceSuccessPanel : MonoBehaviour
     {
         OutGameUIManager.onEnforceSuccessScreenActive -= OnEnforceSuccessScreenActiveHandler;
     }
-    
+
     protected virtual void OnEnable()
     {
         if (touchAction is not null)
@@ -51,7 +51,7 @@ public class EnforceSuccessPanel : MonoBehaviour
             touchAction.Disable();
         }
     }
-    
+
     protected virtual void OnTouchPerformed(InputAction.CallbackContext context)
     {
         gameObject.SetActive(false);
@@ -61,10 +61,11 @@ public class EnforceSuccessPanel : MonoBehaviour
     private void OnEnforceSuccessScreenActiveHandler(AnimalUserData animalUserData)
     {
         SetEnforceSuccessPanel(animalUserData);
-        
+
         gameObject.SetActive(true);
+        SoundManager.Instance.PlaySfx(SfxClipId.UpgradeComplete);
     }
-    
+
     public void SetEnforceSuccessPanel(AnimalUserData animalUserData)
     {
         if (!isFindOtherComponent)
@@ -72,7 +73,7 @@ public class EnforceSuccessPanel : MonoBehaviour
             GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
             outGameUIManager = outGameManager.OutGameUIManager;
         }
-        
+
         SetEnforceSuccessText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalUpgradeCompleteStringKey));
         SetAnimalNameText(LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, animalUserData.AnimalStatData.StringID));
         SetAttackPowerText(animalUserData, animalUserData.AttackPower);
@@ -86,7 +87,7 @@ public class EnforceSuccessPanel : MonoBehaviour
     {
         enforceSuccessText.text = text;
     }
-    
+
     public void SetAnimalNameText(string text)
     {
         animalNameText.text = text;
@@ -126,10 +127,10 @@ public class EnforceSuccessPanel : MonoBehaviour
         }
         else
         {
-            passiveText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalEndowmentStringKey)}\n{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, passiveEffectData.StringID, value)}"; 
+            passiveText.text = $"{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalEndowmentStringKey)}\n{LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, passiveEffectData.StringID, value)}";
         }
     }
-    
+
     public void SetAnimalImage(Sprite animalImage)
     {
         this.animalImage.sprite = animalImage;
