@@ -432,4 +432,9 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
         
         onLocaleChange?.Invoke();
     }
+
+    private void OnBgmVolumeChangedHandler(float bgmValue, float sfxValue)
+    {
+        
+    }
 }
