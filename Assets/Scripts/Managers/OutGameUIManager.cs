@@ -75,6 +75,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
     
     [SerializeField] private GameObject actionLogImage;
 
+    [SerializeField] private GameObject touchBlockPanel;
+
     private void Start()
     {
         StartCoroutine(DisableAfterFrameAllLayoutGroup(SwitchableCanvasType.Lobby));
@@ -146,6 +148,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
         SortUnlockAnimalPanel();
 
         isFullScreenActive = false;
+        
+        StartCoroutine(DisableTouchBlockPanelCoroutine());
     }
 
     private void OnDestroy()
@@ -598,5 +602,12 @@ public class OutGameUIManager : MonoBehaviour, IManager
     public void ActiveActionLogImage()
     {
         actionLogImage.SetActive(true);
+    }
+
+    private IEnumerator DisableTouchBlockPanelCoroutine()
+    {
+        yield return null;
+        
+        touchBlockPanel.SetActive(false);
     }
 }
