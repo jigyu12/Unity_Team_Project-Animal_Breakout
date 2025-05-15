@@ -1,3 +1,4 @@
+using Excellcube.EasyTutorial;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -68,6 +69,8 @@ public class OutGameUIManager : MonoBehaviour, IManager
     public bool isFullScreenActive { get; private set; }
 
     public static event Action<FullScreenType> onSpecificFullScreenActive;
+    
+    [SerializeField] private ECEasyTutorial tutorial;
 
     private void Start()
     {
@@ -562,5 +565,15 @@ public class OutGameUIManager : MonoBehaviour, IManager
         animalCanvasGroup.alpha = 1;
         animalCanvasGroup.interactable = true;
         animalCanvasGroup.blocksRaycasts = true;
+    }
+    
+    public void OnShowEnforcePanelButtonClickTutorialBeginHandler()
+    {
+        
+    }
+    
+    public void OnEnforcePanelButtonClickTutorialBeginHandler()
+    {
+        
     }
 }

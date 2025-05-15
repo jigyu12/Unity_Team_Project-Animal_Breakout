@@ -2199,6 +2199,86 @@ PrefabInstance:
       value: OutGameTutorial
       objectReference: {fileID: 0}
     - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_PageType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[4].m_PageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_PageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_DialogPageData.m_Dialog
+      value: "\uCE90\uB9AD\uD130\uB97C \uAC15\uD654\uD558\uC138\uC694."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[4].m_DialogPageData.m_Dialog
+      value: "1\uD68C \uBF51\uAE30\uB97C \uC218\uD589\uD558\uC138\uC694"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_DialogPageData.m_Dialog
+      value: "1\uD68C \uBF51\uAE30\uB97C \uC218\uD589\uD558\uC138\uC694"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_ActionPageData.m_ActionLog
+      value: "\uAC15\uD654 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C \uCE90\uB9AD\uD130\uC758
+        \uB808\uBCA8\uC744 \uC0C1\uC2B9\uC2DC\uD0A4\uC138\uC694"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[4].m_ActionPageData.m_ActionLog
+      value: "\uAC15\uD654 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C \uCE90\uB9AD\uD130\uC758
+        \uB808\uBCA8\uC744 \uC0C1\uC2B9\uC2DC\uD0A4\uC138\uC694."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[5].m_ActionPageData.m_ActionLog
+      value: "\uAC15\uD654 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C \uCE90\uB9AD\uD130\uC758
+        \uB808\uBCA8\uC744 \uC0C1\uC2B9\uC2DC\uD0A4\uC138\uC694"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_ActionLog
+      value: "\uAC15\uD654 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C \uCE90\uB9AD\uD130\uC758
+        \uB808\uBCA8\uC744 \uC0C1\uC2B9\uC2DC\uD0A4\uC138\uC694"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_ActionPageData.m_CompleteKey
+      value: Tutorial_AnimalEnforceClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[4].m_ActionPageData.m_CompleteKey
+      value: Tutorial_AnimalClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[5].m_ActionPageData.m_CompleteKey
+      value: Tutorial_AnimalElementClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[6].m_ActionPageData.m_CompleteKey
+      value: Tutorial_AnimalEnforceClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_CompleteKey
+      value: Tutorial_AnimalEnforceClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_DialogPageData.m_HideSkipButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[4].m_DialogPageData.m_HideSkipButton
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_HideSkipButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
       propertyPath: m_TutorialPageMakers.Array.data[1].m_ActionPageData.m_HighlightTarget
       value: 
       objectReference: {fileID: 202220289}
@@ -2206,6 +2286,82 @@ PrefabInstance:
       propertyPath: m_TutorialPageMakers.Array.data[2].m_ActionPageData.m_HighlightTarget
       value: 
       objectReference: {fileID: 1875012275}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_BlockTouchDuringDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_ActionPageData.m_OnTutorialEnded.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_ActionPageData.m_OnTutorialEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_ActionPageData.m_OnTutorialEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 245641860}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 245641860}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_ActionPageData.m_OnTutorialEnded.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InitializeTutorialAnimalEnforceClickAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_ActionPageData.m_OnTutorialEnded.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnTutorialDoGachaWaitEndAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[4].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InitializeTutorialAnimalClickAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[5].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InitializeTutorialAnimalElementClickAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[6].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InitializeTutorialAnimalEnforceClickAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InitializeTutorialAnimalEnforceClickAction
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_ActionPageData.m_OnTutorialEnded.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: OutGameTutorialAction, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: OutGameTutorialAction, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[3].m_ActionPageData.m_OnTutorialEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016885983220338370, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+      propertyPath: m_TutorialPageMakers.Array.data[8].m_ActionPageData.m_OnTutorialBegin.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7243422863509409965, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2300,6 +2456,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7243422863509409965, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
   m_PrefabInstance: {fileID: 245641858}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &245641860 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9077827272542521909, guid: b30fefd537a9eee408047705b6b00df4, type: 3}
+  m_PrefabInstance: {fileID: 245641858}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e153d17642b074f9a4f7b6eda32c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &256146202
 PrefabInstance:
   m_ObjectHideFlags: 0
