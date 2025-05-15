@@ -14,7 +14,6 @@ public class SwitchShopPanelButton : MonoBehaviour
 
     private void Start()
     {
-        switchShopPanelButton.onClick.RemoveAllListeners();
         switchShopPanelButton.onClick.AddListener(() => onSwitchShopPanelButtonClicked?.Invoke(switchableShopPanelType));
 
         if (switchableShopPanelType == SwitchableShopPanelType.Stamina)
@@ -34,5 +33,10 @@ public class SwitchShopPanelButton : MonoBehaviour
                 }
             });
         }
+    }
+    
+    private void OnDestroy()
+    {
+        switchShopPanelButton.onClick.RemoveAllListeners();
     }
 }

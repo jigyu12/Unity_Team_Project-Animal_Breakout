@@ -26,12 +26,12 @@ public class LobbyPanel : MonoBehaviour
     {
         GameDataManager.onSetStartAnimalIDInGameDataManager -= OnSetStartAnimalIDInGameDataManagerHandler;
         StaminaSystem.onStaminaChanged -= OnStaminaChangedInGameDataManagerHandler;
+        
+        gameStartButton.onClick.RemoveAllListeners();
     }
 
     private void Start()
     {
-        gameStartButton.onClick.RemoveAllListeners();
-
         //var gameDataManagerStartAnimalId = GameDataManager.Instance.StartAnimalID;
         //GameDataManager.Instance.AnimalUserDataList가 해당 역할을 합니다.
 

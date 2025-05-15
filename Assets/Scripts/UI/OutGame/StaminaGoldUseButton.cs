@@ -23,6 +23,8 @@ public class StaminaGoldUseButton : MonoBehaviour
     private void OnDestroy()
     {
         GameDataManager.onLocaleChange -= SetStaminaGoldUseText;
+        
+        staminaGoldUseButton.onClick.RemoveAllListeners();
     }
 
     private void Start()
@@ -30,7 +32,6 @@ public class StaminaGoldUseButton : MonoBehaviour
         GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
         outGameUIManager = outGameManager.OutGameUIManager;
         
-        staminaGoldUseButton.onClick.RemoveAllListeners();
         staminaGoldUseButton.onClick.AddListener(() =>
         {
             onStaminaGoldUseButtonClicked?.Invoke(staminaGoldUseCost, staminaToAdd);

@@ -11,8 +11,10 @@ public class GachaSingleAdsButton : GachaButton
         GameDataManager.onLocaleChange += SetGachaButtonText;
     }
 
-    protected void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+        
         AlertPanelConfirmButtonFuncFactory.onGachaByAds -= SetGachaButtonText;
         GameDataManager.onLocaleChange -= SetGachaButtonText;
     }

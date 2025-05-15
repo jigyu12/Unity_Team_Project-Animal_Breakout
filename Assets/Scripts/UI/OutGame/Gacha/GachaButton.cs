@@ -17,8 +17,12 @@ public abstract class GachaButton : MonoBehaviour
         outGameUIManager = outGameManager.OutGameUIManager;
 
         TryGetComponent(out gachaButton);
-        gachaButton.onClick.RemoveAllListeners();
         gachaButton.onClick.AddListener(DoGacha);
+    }
+    
+    protected virtual void OnDestroy()
+    {
+        gachaButton.onClick.RemoveAllListeners();
     }
 
     protected void SetGachaButtonText(string headerText, string countText)

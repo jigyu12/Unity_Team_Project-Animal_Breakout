@@ -19,13 +19,10 @@ public class MenuPanel : MonoBehaviour
         menuPaButtonList.Add(lobbyBottomButton);
         menuPaButtonList.Add(animalBottomButton);
         
-        shopBottomButton.onClick.RemoveAllListeners();
         shopBottomButton.onClick.AddListener(() => onMenuBottomButtonClicked?.Invoke(SwitchableCanvasType.Shop));
         
-        lobbyBottomButton.onClick.RemoveAllListeners();
         lobbyBottomButton.onClick.AddListener(() => onMenuBottomButtonClicked?.Invoke(SwitchableCanvasType.Lobby));
         
-        animalBottomButton.onClick.RemoveAllListeners();
         animalBottomButton.onClick.AddListener(() => onMenuBottomButtonClicked?.Invoke(SwitchableCanvasType.Animal));
         
         onMenuBottomButtonClicked += OnMenuBottomButtonClickedHandler;
@@ -34,6 +31,12 @@ public class MenuPanel : MonoBehaviour
     private void OnDestroy()
     {
         onMenuBottomButtonClicked -= OnMenuBottomButtonClickedHandler;
+        
+        shopBottomButton.onClick.RemoveAllListeners();
+        
+        lobbyBottomButton.onClick.RemoveAllListeners();
+        
+        animalBottomButton.onClick.RemoveAllListeners();
     }
     
     private void OnMenuBottomButtonClickedHandler(SwitchableCanvasType switchableCanvasType)
