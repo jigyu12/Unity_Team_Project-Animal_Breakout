@@ -35,6 +35,9 @@ public class PlayerManager : InGameManager
 
     [ReadOnly]
     public Animator playerAnimator;
+
+    [ReadOnly]
+    public PlayerAnimationController playerAnimationController;
     #endregion
 
     public Action onPlayerDead;
@@ -129,6 +132,8 @@ public class PlayerManager : InGameManager
 
             GameObject character = Instantiate(prefab, playerGameObject.transform);
             playerAnimator = character.GetComponent<Animator>();
+            playerAnimationController = character.GetComponent<PlayerAnimationController>();
+
             playerMove.SetAnimator(playerAnimator);
 
             GameManager.UIManager?.ConnectPlayerMove(this.playerMove); // 버튼 연결
@@ -166,7 +171,10 @@ public class PlayerManager : InGameManager
         GameManager.UIManager.UnShowRotateButton();
         StopAllMovements();
         DisablePlayer(status);
-        PlayDeathAnimation();
+
+
+        playerAnimationController.SetDieAnimation();
+
         StartCoroutine(DieAndSwitch(status));
         OnDeadCounting?.Invoke(1);
         onPlayerDead?.Invoke();
@@ -206,19 +214,20 @@ public class PlayerManager : InGameManager
         // GameManager.UIManager?.SetDirectionButtonsInteractable(true);
     }
 
-    private void PlayDeathAnimation()
-    {
-        if (playerAnimator != null)
-        {
-            playerAnimator.ResetTrigger("Run");
-            playerAnimator.SetTrigger("Die");
-            Debug.Log("Death animation triggered.");
-        }
-        else
-        {
-            Debug.LogError("Animator not found. Unable to play death animation.");
-        }
-    }
+    //private void PlayDeathAnimation()
+    //{
+    //    if (playerAnimator != null)
+    //    {
+    //        playerAnimator.ResetTrigger("Run");
+    //        playerAnimator.SetTrigger("Die");
+    //        Debug.Log("Death animation triggered.");
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Animator not found. Unable to play death animation.");
+    //    }
+    //}
+
     private void PlayRunAnimaition()
     {
         playerAnimator.SetTrigger("Run");
@@ -320,7 +329,7 @@ public class PlayerManager : InGameManager
 
         // 애니메이션은 Run으로
         // currentPlayerAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
-        playerAnimator.SetTrigger("idle");
+        playerAnimator.SetTrigger("Idle");
 
 
         ActivatePlayer();
