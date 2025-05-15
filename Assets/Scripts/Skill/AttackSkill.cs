@@ -183,7 +183,9 @@ public abstract class AttackSkill : ISkill
 
         for (int i = 0; i < count; i++)
         {
-            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * (AttackSkillData.damageRate + attacker.AdditionalSkillAttackPowerRate), target);
+            AttackDamage(
+                attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental)
+                * (AttackSkillData.damageRate + attacker.AdditionalSkillAttackPowerRate), target);
         }
     }
 
@@ -197,7 +199,9 @@ public abstract class AttackSkill : ISkill
         ApplyElementalEffect(attacker, target, AttackSkillData.skillElemental);
         for (int i = 0; i < count; i++)
         {
-            AttackDamage(attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental) * AttackSkillData.damageRate, target);
+            AttackDamage(
+                attacker.GetElementalAdditionalAttackPower(AttackSkillData.skillElemental)
+                * (AttackSkillData.damageRate + attacker.AdditionalSkillAttackPowerRate), target);
         }
     }
 }
