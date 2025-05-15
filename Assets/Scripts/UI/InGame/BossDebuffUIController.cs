@@ -21,8 +21,12 @@ public class BossDebuffUIController : UIElement
                 debuffIconMap.Add(info.debuffId, info.icon);
             }
         }
+        BossStatus.onBossDead += ClearAllDebuffs;
     }
-
+    private void OnDestroy()
+    {
+        BossStatus.onBossDead -= ClearAllDebuffs;
+    }
     private const float iconSpacing = 60f;
 
     public DebuffIcon AddDebuff(string debuffId)
@@ -57,6 +61,7 @@ public class BossDebuffUIController : UIElement
 
     public void ClearAllDebuffs()
     {
+
         foreach (var debuffIcon in activeIcons.Values)
         {
             Destroy(debuffIcon.gameObject);
