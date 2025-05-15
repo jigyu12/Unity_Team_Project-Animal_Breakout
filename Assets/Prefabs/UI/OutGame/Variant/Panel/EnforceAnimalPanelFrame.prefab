@@ -179,7 +179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1275768292211932106, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
       propertyPath: m_Padding.m_Bottom
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1376161461559383641, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
       propertyPath: m_fontSize
@@ -437,6 +437,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 551c6ae3067ac4800ada74128b5ee32a, type: 3}
+    - target: {fileID: 3432423722907363261, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
+      propertyPath: m_FlexibleHeight
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4405779986989997264, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -608,6 +612,10 @@ PrefabInstance:
     - target: {fileID: 7440489769322401707, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
       propertyPath: m_fontSizeBase
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7703949745910792279, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7945403023693389059, guid: 12dea798d107c2e4195d2231800bb3a9, type: 3}
       propertyPath: m_CullTransparentMesh
