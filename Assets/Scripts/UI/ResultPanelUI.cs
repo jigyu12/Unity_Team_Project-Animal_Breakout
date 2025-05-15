@@ -13,8 +13,8 @@ public class ResultPanelUI : UIElement
     [SerializeField] private TMP_Text rewardGoldText;
     [SerializeField] private TMP_Text rewardExpText;
     [SerializeField] private TMP_Text playTimeText;
-    [SerializeField] InGameCountManager inGameCountManager;
-    [SerializeField] TrackingTime trackingTime;
+    private InGameCountManager inGameCountManager;
+    private TrackingTime trackingTime;
 
 
     public float TrackingTime
@@ -24,6 +24,9 @@ public class ResultPanelUI : UIElement
 
     public override void Initialize()
     {
+        inGameCountManager = gameManager.InGameCountManager;
+        trackingTime = inGameCountManager.gameObject.GetComponent<TrackingTime>();
+
         //gameUIManager = uiManager;
         base.Initialize();
         restartButton.onClick.RemoveAllListeners();

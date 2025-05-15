@@ -50,7 +50,7 @@ public class AnimalModelToTexture : MonoBehaviour
 
         var gobj = textureQueue.Dequeue();
         gobj.SetActive(true);
-        gobj.GetComponent<Animator>().SetTrigger("EyeExcited");
+        gobj.GetComponent<PlayerEyeExpressionController>().SetEyeExpression(PlayerEyeState.Excited);
 
         SceneView.RepaintAll();
 
@@ -80,7 +80,8 @@ public class AnimalModelToTexture : MonoBehaviour
 
             currentObj = textureQueue.Dequeue();
             currentObj.SetActive(true);
-            currentObj.GetComponent<Animator>().SetTrigger("EyeExcited");
+            currentObj.GetComponent<PlayerEyeExpressionController>().SetEyeExpression(PlayerEyeState.Excited);
+
 
             frameWait = 10; 
             return;

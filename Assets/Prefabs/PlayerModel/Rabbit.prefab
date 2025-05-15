@@ -387,6 +387,8 @@ GameObject:
   - component: {fileID: 1069540666348384553}
   - component: {fileID: 1069540666348384566}
   - component: {fileID: 1069540666348384567}
+  - component: {fileID: -2118713719815108633}
+  - component: {fileID: -4546720332664354584}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Untagged
@@ -466,6 +468,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-2118713719815108633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069540666348384564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5cde9855d260f4da08dced2351af38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1069540666348384567}
+--- !u!114 &-4546720332664354584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069540666348384564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f09839a56e94b1e49b1557d0dc25cbd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1069540666348384567}
 --- !u!1 &3702255223186304995
 GameObject:
   m_ObjectHideFlags: 0

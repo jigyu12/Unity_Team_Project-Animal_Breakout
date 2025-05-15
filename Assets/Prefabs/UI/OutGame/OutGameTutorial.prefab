@@ -411,7 +411,7 @@ RectTransform:
   m_Children:
   - {fileID: 5892402774124269573}
   - {fileID: 9193996309817536324}
-  - {fileID: 2851674236497607427}
+  - {fileID: 552054664726671716}
   - {fileID: 49144932314268935}
   m_Father: {fileID: 7243422863509409965}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -897,6 +897,82 @@ MonoBehaviour:
   m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &4017747539830371767
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 552054664726671716}
+  - component: {fileID: 6023790080270790304}
+  - component: {fileID: 7871482296287062499}
+  m_Layer: 5
+  m_Name: ActionLogImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &552054664726671716
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4017747539830371767}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2851674236497607427}
+  m_Father: {fileID: 4952692048244123052}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -400}
+  m_SizeDelta: {x: 0, y: 200}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!222 &6023790080270790304
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4017747539830371767}
+  m_CullTransparentMesh: 1
+--- !u!114 &7871482296287062499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4017747539830371767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.9019608}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 107118f511ac74cafb22ec0ee1ead364, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4164782265161661050
 GameObject:
   m_ObjectHideFlags: 0
@@ -1294,6 +1370,320 @@ MonoBehaviour:
       m_DetailSprite: {fileID: 0}
       m_Description: 
       m_DescriptionKey: 
+  - m_PageType: 1
+    m_DialogPageData:
+      m_Skip: 0
+      m_HideSkipButton: 0
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 0
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls: []
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_LeftSprite: {fileID: 0}
+      m_RightSprite: {fileID: 0}
+      m_CharacterName: 
+      m_CharacterNameKey: 
+      m_Dialog: "1\uD68C \uBF51\uAE30\uB97C \uC218\uD589\uD558\uC138\uC694"
+      m_DialogKey: 
+    m_ActionPageData:
+      m_Skip: 0
+      m_HideSkipButton: 1
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 1
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 9077827272542521909}
+            m_TargetAssemblyTypeName: OutGameTutorialAction, Assembly-CSharp
+            m_MethodName: InitializeTutorialDoGachaWaitAction
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_ActionLog: "\u3131\u3137"
+      m_ActionLogKey: 
+      m_HighlightTarget: {fileID: 0}
+      m_DynamicTargetRoot: {fileID: 0}
+      m_DynamicTargetKey: 
+      m_IndicatorPosition: 0
+      m_CompleteKey: 
+    m_DetailContentPageData:
+      m_Skip: 0
+      m_HideSkipButton: 0
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 0
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls: []
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_DetailSprite: {fileID: 0}
+      m_Description: 
+      m_DescriptionKey: 
+  - m_PageType: 0
+    m_DialogPageData:
+      m_Skip: 0
+      m_HideSkipButton: 1
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 0
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls: []
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_LeftSprite: {fileID: 0}
+      m_RightSprite: {fileID: 0}
+      m_CharacterName: 
+      m_CharacterNameKey: 
+      m_Dialog: "\uCE90\uB9AD\uD130\uB97C \uAC15\uD654\uD558\uC138\uC694."
+      m_DialogKey: 
+    m_ActionPageData:
+      m_Skip: 0
+      m_HideSkipButton: 1
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 1
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 9077827272542521909}
+            m_TargetAssemblyTypeName: OutGameTutorialAction, Assembly-CSharp
+            m_MethodName: InitializeTutorialAnimalEnforceClickAction
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_ActionLog: "\uAC15\uD654 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C \uCE90\uB9AD\uD130\uC758
+        \uB808\uBCA8\uC744 \uC0C1\uC2B9\uC2DC\uD0A4\uC138\uC694"
+      m_ActionLogKey: 
+      m_HighlightTarget: {fileID: 0}
+      m_DynamicTargetRoot: {fileID: 0}
+      m_DynamicTargetKey: 
+      m_IndicatorPosition: 0
+      m_CompleteKey: Tutorial_AnimalEnforceClick
+    m_DetailContentPageData:
+      m_Skip: 0
+      m_HideSkipButton: 0
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 0
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls: []
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_DetailSprite: {fileID: 0}
+      m_Description: 
+      m_DescriptionKey: 
+  - m_PageType: 1
+    m_DialogPageData:
+      m_Skip: 0
+      m_HideSkipButton: 0
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 0
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls: []
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_LeftSprite: {fileID: 0}
+      m_RightSprite: {fileID: 0}
+      m_CharacterName: 
+      m_CharacterNameKey: 
+      m_Dialog: "1\uD68C \uBF51\uAE30\uB97C \uC218\uD589\uD558\uC138\uC694"
+      m_DialogKey: 
+    m_ActionPageData:
+      m_Skip: 0
+      m_HideSkipButton: 1
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 1
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 9077827272542521909}
+            m_TargetAssemblyTypeName: OutGameTutorialAction, Assembly-CSharp
+            m_MethodName: InitializeTutorialAnimalClickAction
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_ActionLog: "\uAC15\uD654 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C \uCE90\uB9AD\uD130\uC758
+        \uB808\uBCA8\uC744 \uC0C1\uC2B9\uC2DC\uD0A4\uC138\uC694."
+      m_ActionLogKey: 
+      m_HighlightTarget: {fileID: 0}
+      m_DynamicTargetRoot: {fileID: 0}
+      m_DynamicTargetKey: 
+      m_IndicatorPosition: 0
+      m_CompleteKey: Tutorial_AnimalClick
+    m_DetailContentPageData:
+      m_Skip: 0
+      m_HideSkipButton: 0
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 0
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls: []
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_DetailSprite: {fileID: 0}
+      m_Description: 
+      m_DescriptionKey: 
+  - m_PageType: 1
+    m_DialogPageData:
+      m_Skip: 0
+      m_HideSkipButton: 0
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 0
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls: []
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_LeftSprite: {fileID: 0}
+      m_RightSprite: {fileID: 0}
+      m_CharacterName: 
+      m_CharacterNameKey: 
+      m_Dialog: "1\uD68C \uBF51\uAE30\uB97C \uC218\uD589\uD558\uC138\uC694"
+      m_DialogKey: 
+    m_ActionPageData:
+      m_Skip: 0
+      m_HideSkipButton: 1
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 1
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 9077827272542521909}
+            m_TargetAssemblyTypeName: OutGameTutorialAction, Assembly-CSharp
+            m_MethodName: InitializeTutorialAnimalElementClickAction
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_ActionLog: "\uAC15\uD654 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C \uCE90\uB9AD\uD130\uC758
+        \uB808\uBCA8\uC744 \uC0C1\uC2B9\uC2DC\uD0A4\uC138\uC694"
+      m_ActionLogKey: 
+      m_HighlightTarget: {fileID: 0}
+      m_DynamicTargetRoot: {fileID: 0}
+      m_DynamicTargetKey: 
+      m_IndicatorPosition: 0
+      m_CompleteKey: Tutorial_AnimalElementClick
+    m_DetailContentPageData:
+      m_Skip: 0
+      m_HideSkipButton: 0
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 0
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls: []
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_DetailSprite: {fileID: 0}
+      m_Description: 
+      m_DescriptionKey: 
+  - m_PageType: 1
+    m_DialogPageData:
+      m_Skip: 0
+      m_HideSkipButton: 0
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 0
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls: []
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_LeftSprite: {fileID: 0}
+      m_RightSprite: {fileID: 0}
+      m_CharacterName: 
+      m_CharacterNameKey: 
+      m_Dialog: "1\uD68C \uBF51\uAE30\uB97C \uC218\uD589\uD558\uC138\uC694"
+      m_DialogKey: 
+    m_ActionPageData:
+      m_Skip: 0
+      m_HideSkipButton: 1
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 1
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 9077827272542521909}
+            m_TargetAssemblyTypeName: OutGameTutorialAction, Assembly-CSharp
+            m_MethodName: InitializeTutorialAnimalEnforceClickAction
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_ActionLog: "\uAC15\uD654 \uBC84\uD2BC\uC744 \uB20C\uB7EC\uC11C \uCE90\uB9AD\uD130\uC758
+        \uB808\uBCA8\uC744 \uC0C1\uC2B9\uC2DC\uD0A4\uC138\uC694"
+      m_ActionLogKey: 
+      m_HighlightTarget: {fileID: 0}
+      m_DynamicTargetRoot: {fileID: 0}
+      m_DynamicTargetKey: 
+      m_IndicatorPosition: 0
+      m_CompleteKey: Tutorial_AnimalEnforceClick
+    m_DetailContentPageData:
+      m_Skip: 0
+      m_HideSkipButton: 0
+      m_StartDelay: 0
+      m_BlockTouchDuringDelay: 0
+      m_OnTutorialBegin:
+        m_PersistentCalls:
+          m_Calls: []
+      m_OnTutorialEnded:
+        m_PersistentCalls:
+          m_Calls: []
+      m_DetailSprite: {fileID: 0}
+      m_Description: 
+      m_DescriptionKey: 
   m_OnTutorialsSkipped:
     m_PersistentCalls:
       m_Calls: []
@@ -1309,6 +1699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e153d17642b074f9a4f7b6eda32c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lobbyButton: {fileID: 0}
 --- !u!1 &7223316712624763197
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,8 +1840,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 600}
+  m_AnchoredPosition: {x: 0, y: -100}
+  m_SizeDelta: {x: -20, y: 700}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &5419397135356041301
 CanvasRenderer:
@@ -1480,7 +1871,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 336101e84770047b3b836cc0f23b99dc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 107118f511ac74cafb22ec0ee1ead364, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1525,9 +1916,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -64.701904, y: 58.701904}
-  m_SizeDelta: {x: 34.7834, y: 34.7834}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -50, y: 50}
+  m_SizeDelta: {x: 64, y: 64}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &5345584986466547132
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1549,14 +1940,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9245283, g: 0.56033945, b: 0.28346387, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f0583966fdd7845b4801c9715939742f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2df02b8001c6648f5ac310fb17d414ce, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1614,7 +2005,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 360, y: -631}
-  m_SizeDelta: {x: 125.2026, y: 125.2026}
+  m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &608054019988931562
 CanvasRenderer:
@@ -1644,7 +2035,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 02fbf0356591d43d98ae372eb02e335a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7d01ce3823c7a4026b2869cc136341d4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1702,8 +2093,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -25, y: -75}
-  m_SizeDelta: {x: -250, y: -150}
+  m_AnchoredPosition: {x: -25, y: -50}
+  m_SizeDelta: {x: -250, y: -100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4583396589398822145
 CanvasRenderer:
@@ -1827,17 +2218,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8621859184646285236}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4952692048244123052}
+  m_Father: {fileID: 552054664726671716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -497}
-  m_SizeDelta: {x: 931.7015, y: 174.694}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 828, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4147247951535462091
 CanvasRenderer:
@@ -1870,7 +2261,7 @@ MonoBehaviour:
   m_text: "\uAE00\uC790 \uC774\uAC83\uC800\uAC83 \uB123\uC5B4\uC11C \uD14C\uC2A4\uD2B8."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 59086af70da4f46bfb5190edb8d9dd50, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 8877205388925014285, guid: 59086af70da4f46bfb5190edb8d9dd50, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1933,7 +2324,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &8979051650108756139
