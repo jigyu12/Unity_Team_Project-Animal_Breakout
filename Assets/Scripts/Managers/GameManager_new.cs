@@ -77,7 +77,6 @@ public class GameManager_new : MonoBehaviour
 
     private void Awake()
     {
-        NativeServiceManager.Instance.InitializeSingleton();
 
 
 #if UNITY_EDITOR
