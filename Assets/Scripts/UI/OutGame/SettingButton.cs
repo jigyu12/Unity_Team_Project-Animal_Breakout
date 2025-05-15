@@ -6,7 +6,7 @@ public class SettingButton : MonoBehaviour
 {
     private Button settingButton;
     private OutGameUIManager outGameUIManager;
-
+    
     private void Start()
     {
         TryGetComponent(out settingButton);
@@ -24,6 +24,6 @@ public class SettingButton : MonoBehaviour
 
     private void OnDestroy()
     {
-        settingButton.onClick.RemoveAllListeners();
+        settingButton?.onClick.RemoveAllListeners();
     }
 }

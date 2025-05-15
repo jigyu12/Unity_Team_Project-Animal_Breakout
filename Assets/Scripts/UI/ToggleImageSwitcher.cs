@@ -21,7 +21,7 @@ public class ToggleImageSwitcher : MonoBehaviour
 
     private void OnDestroy()
     {
-        toggle.onValueChanged.RemoveAllListeners();
+        toggle?.onValueChanged.RemoveAllListeners();
     }
 
     private void ChangeImage(bool isOn)
