@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
+using System.Collections;
 public class OutGameManager : MonoBehaviour
 {
     #region manager
@@ -18,6 +19,8 @@ public class OutGameManager : MonoBehaviour
 
     private EnforceAnimalManager enforceAnimalManager;
     public EnforceAnimalManager EnforceAnimalManager => enforceAnimalManager;
+
+
     #endregion
 
     [HideInInspector] public bool isGameQuitPanelShow;
@@ -25,6 +28,7 @@ public class OutGameManager : MonoBehaviour
     private void Awake()
     {
         isGameQuitPanelShow = false;
+
     }
 
     private void Start()
