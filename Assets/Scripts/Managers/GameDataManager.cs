@@ -105,7 +105,9 @@ public class GameDataManager : PersistentMonoSingleton<GameDataManager>
     protected override void Awake()
     {
         base.Awake();
-        
+
+        NativeServiceManager.Instance.InitializeSingleton();
+
         QualitySettings.vSyncCount = 0;
         SettingPanel.onFrameRateIndexChanged += OnFrameRateIndexChangedHandler;
         SettingPanel.onLanguageSettingTypeChanged += OnLanguageSettingTypeChangedHandler;
