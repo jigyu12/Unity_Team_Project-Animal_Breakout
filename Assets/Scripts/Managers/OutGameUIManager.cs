@@ -607,6 +607,11 @@ public class OutGameUIManager : MonoBehaviour, IManager
     private IEnumerator DisableTouchBlockPanelCoroutine()
     {
         yield return null;
+
+        if (touchBlockPanel == null)
+        {
+            yield break;
+        }
         
         touchBlockPanel.SetActive(false);
     }
