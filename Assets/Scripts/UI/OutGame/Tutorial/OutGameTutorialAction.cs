@@ -31,15 +31,10 @@ public class OutGameTutorialAction : MonoBehaviour
         TutorialEvent.Instance.Broadcast("Tutorial_ShopClick");
     }
 
-    private UnityAction originButtonClickEvent;
-
     public void InitializeTutorialDoGachaAction()
     {
         var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
         var button = pageData.HighlightTarget.GetComponent<Button>();
-
-        //기존 버튼 기능
-        originButtonClickEvent = () => button.onClick.Invoke();
 
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(CompleteTutorialDoGachaAction);
@@ -53,7 +48,7 @@ public class OutGameTutorialAction : MonoBehaviour
         var pageData = outgameTutorial.GetCurrentTutorialPageData() as ActionTutorialPageData;
         var button = pageData.HighlightTarget.GetComponent<Button>();
         button.onClick.RemoveListener(CompleteTutorialShopClickAction);
-        button.onClick.AddListener(originButtonClickEvent);
+        button.onClick.AddListener(button.GetComponent<GachaButton>().DoGacha);
 
        TutorialEvent.Instance.Broadcast("Tutorial_DoGacha");
     }
