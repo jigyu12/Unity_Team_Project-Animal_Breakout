@@ -43,6 +43,7 @@ namespace Excellcube.EasyTutorial.Page
 
                 m_View.Indicator.Place(data.HighlightTarget, data.IndicatorPosition == Page.IndicatorPosition.TOP);
                 m_View.Indicator.Show(data.HighlightTarget);
+                m_View.StartCoroutine(PlaceAndShowIndicator(data.HighlightTarget, data.IndicatorPosition == Page.IndicatorPosition.TOP));
             }
             else
             {
@@ -58,6 +59,14 @@ namespace Excellcube.EasyTutorial.Page
                 }
                 m_CompleteTutorial();
             });
+        }
+
+        private IEnumerator PlaceAndShowIndicator(RectTransform target, bool isTop)
+        {
+            yield return null;
+            
+            m_View.Indicator.Place(target, isTop);
+            m_View.Indicator.Show(target);
         }
 
         private void SearchDynamicHighlightTarget(ref ActionTutorialPageData data) 
