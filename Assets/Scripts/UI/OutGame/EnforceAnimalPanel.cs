@@ -74,14 +74,8 @@ public class EnforceAnimalPanel : MonoBehaviour
             //공격력, 비용 텍스트를 업데이트한다
             enforceAnimalManager.ExpectedEnforcedAnimalUserData(animalUserData.AnimalStatData, animalUserData.Level + 1, out int enforcedAttackPower, out int tokenCost, out int goldCost);
             bool isPossible = enforceAnimalManager.IsEnforceAnimalPossible(animalUserData, out bool hasEnoughTokens, out bool hasEnoughGolds);
-            if (!isPossible)
-            {
-                enforceButton.interactable = false;
-            }
-            else
-            {
-                enforceButton.interactable = true;
-            }
+           
+            enforceButton.interactable = isPossible;
             
             SetAttackPowerText(animalUserData.AttackPower, enforcedAttackPower);
             
@@ -217,5 +211,12 @@ public class EnforceAnimalPanel : MonoBehaviour
     public void SetGoldImage(Sprite goldImage)
     {
         this.goldImage.sprite = goldImage;
+    }
+
+    public void SetEnforceButtonInteractive()
+    {
+        bool isPossible = enforceAnimalManager.IsEnforceAnimalPossible(animalUserData, out bool hasEnoughTokens, out bool hasEnoughGolds);
+        
+        enforceButton.interactable = isPossible;
     }
 }

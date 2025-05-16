@@ -31,7 +31,7 @@ public static class AlertPanelCancelButtonFuncFactory
                     outGameManager.OutGameUIManager.HideLastAlertPanel();
                     outGameManager.OutGameUIManager.lastEnforceAnimalPanel.transform.GetChild(0).TryGetComponent(
                         out EnforceAnimalPanel enforceAnimalPanel);
-                    enforceAnimalPanel.EnforceButton.interactable = true;
+                    enforceAnimalPanel.SetEnforceButtonInteractive();
                 }
             }
         };
