@@ -305,6 +305,7 @@ public enum AlertPanelCancelButtonFuncType
 {
     CloseAlertPanel,
     CloseAlertPanelBySetActive,
+    CloseEnforceAlertPanelBySetActive,
 }
 
 public enum AlertPanelInfoDataType

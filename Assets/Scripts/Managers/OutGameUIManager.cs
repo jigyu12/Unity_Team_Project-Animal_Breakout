@@ -314,6 +314,12 @@ public class OutGameUIManager : MonoBehaviour, IManager
         alertPanelSpawnPanelRoot.SetActive(false);
         
         outGameManager.isGameQuitPanelShow = false;
+
+        if (lastEnforceAnimalPanel != null)
+        {
+            lastEnforceAnimalPanel.transform.GetChild(0).TryGetComponent(out EnforceAnimalPanel enforceAnimalPanelComponent);
+            enforceAnimalPanelComponent.EnforceButton.interactable = true;
+        }
     }
 
     public void HideLastAlertPanel()

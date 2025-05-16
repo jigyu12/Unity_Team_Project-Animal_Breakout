@@ -13,6 +13,7 @@ public class EnforceAnimalPanel : MonoBehaviour
     public AnimalUserData animalUserData { get; private set; }
 
     [SerializeField] private Button enforceButton;
+    public Button EnforceButton => enforceButton;
 
     [SerializeField] private Image animalImage;
     [SerializeField] private Image starImage;
@@ -45,6 +46,8 @@ public class EnforceAnimalPanel : MonoBehaviour
             onEnforceInfoSet?.Invoke(requiredTokenType, requiredTokenCount, requiredGoldCount, this);
 
             outGameUIManager.ShowAlertDoubleButtonPanel(AlertPanelInfoDataFactory.GetAlertPanelInfoData(AlertPanelInfoDataType.EnforceAnimal));
+
+            enforceButton.interactable = false;
         });
     }
 
@@ -188,7 +191,7 @@ public class EnforceAnimalPanel : MonoBehaviour
         if (!animalUserData.IsMaxLevel)
         {
             goldCostText.text = cost.ToString();
-            goldCostText.color = possible ? Color.black : Color.red;
+            goldCostText.color = possible ? Color.white : Color.red;
         }
         else
         {

@@ -188,6 +188,10 @@ public static class AlertPanelConfirmButtonFuncFactory
                     outGameManager.OutGameUIManager.ShowFullScreenPanel(FullScreenType.EnforceSuccessScreen);
 
                     outGameManager.OutGameUIManager.SortUnlockAnimalPanel();
+                    
+                    outGameManager.OutGameUIManager.lastEnforceAnimalPanel.transform.GetChild(0).TryGetComponent(
+                        out EnforceAnimalPanel enforceAnimalPanel);
+                    enforceAnimalPanel.EnforceButton.interactable = true;
                 }
             },
             {

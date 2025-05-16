@@ -22,6 +22,17 @@ public static class AlertPanelCancelButtonFuncFactory
                     outGameManager.isGameQuitPanelShow = false;
                     outGameManager.OutGameUIManager.HideLastAlertPanel();
                 }
+            },
+            {
+                AlertPanelCancelButtonFuncType.CloseEnforceAlertPanelBySetActive, () =>
+                {
+                    GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
+                    outGameManager.isGameQuitPanelShow = false;
+                    outGameManager.OutGameUIManager.HideLastAlertPanel();
+                    outGameManager.OutGameUIManager.lastEnforceAnimalPanel.transform.GetChild(0).TryGetComponent(
+                        out EnforceAnimalPanel enforceAnimalPanel);
+                    enforceAnimalPanel.EnforceButton.interactable = true;
+                }
             }
         };
     

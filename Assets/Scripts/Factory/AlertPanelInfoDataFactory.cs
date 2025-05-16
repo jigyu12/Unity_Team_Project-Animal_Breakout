@@ -123,7 +123,7 @@ public static class AlertPanelInfoDataFactory
                     alertPanelInfoData.description =  LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, Utils.AnimalUpgradeProcessStringKey,
                         GameDataManager.Instance.requiredTokenType.ToString() ,GameDataManager.Instance.requiredTokenCount, GameDataManager.Instance.requiredGoldCount);
                     alertPanelInfoData.confirmButtonAction = AlertPanelConfirmButtonFuncFactory.GetAlertPanelConfirmButtonFunc(AlertPanelConfirmButtonFuncType.EnforceAnimal);
-                    alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseAlertPanelBySetActive);
+                    alertPanelInfoData.cancelButtonAction = AlertPanelCancelButtonFuncFactory.GetAlertPanelCancelButtonFunc(AlertPanelCancelButtonFuncType.CloseEnforceAlertPanelBySetActive);
                     
                     return alertPanelInfoData;
                 }
