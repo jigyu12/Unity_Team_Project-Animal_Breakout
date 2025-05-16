@@ -94,6 +94,10 @@ public class OutGameTutorialAction : MonoBehaviour
 
     public void InitializeTutorialAnimalElementClickAction()
     {
+        //가챠 머니 지급
+        GameDataManager.Instance.GoldAnimalTokenKeySystem.AddGold(1000);
+        GameDataManager.Instance.GoldAnimalTokenKeySystem.AddBronzeToken(10);
+
         StartCoroutine(SearchAnimalElementHighlightTargetCoroutine());
     }
 
@@ -115,6 +119,9 @@ public class OutGameTutorialAction : MonoBehaviour
 
     public void InitializeTutorialAnimalEnforceClickAction()
     {
+
+
+
         StartCoroutine(SearchAnimalEnforceHighlightTargetCoroutine());
     }
     
@@ -153,5 +160,14 @@ public class OutGameTutorialAction : MonoBehaviour
         pageData.HighlightTarget.GetComponent<Button>().onClick.RemoveListener(CompleteTutorialAnimalEnforceAlertClickAction);
 
         TutorialEvent.Instance.Broadcast("Tutorial_AnimalEnforceAlertClick");
+    }
+
+    public void InitializeTutorialEndedAction()
+    {
+        //lobbyButton.onClick.Invoke();
+        //튜토리얼 보상
+
+        GameDataManager.Instance.GoldAnimalTokenKeySystem.AddGold(1000);
+        GameDataManager.Instance.PlayerLevelSystem.AddExperienceValue(60);
     }
 }
