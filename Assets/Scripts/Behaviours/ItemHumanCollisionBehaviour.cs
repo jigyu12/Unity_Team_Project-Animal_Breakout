@@ -10,8 +10,9 @@ public class JuniorResearcherCollisionBehaviour : BaseCollisionBehaviour
         foreach (var taker in list)
         {
             taker.ApplyItem((int)scoreToAdd);
-            SoundManager.Instance.PlaySfx(SfxClipId.RobotHit);
         }
+        
+        SoundManager.Instance.PlaySfx(SfxClipId.RobotHit);
     }
 }
 
@@ -26,7 +27,8 @@ public class ResearcherCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
-
+        
+        SoundManager.Instance.PlaySfx(SfxClipId.RobotHit);
     }
 }
 
@@ -41,6 +43,7 @@ public class SeniorResearcherCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
-
+        
+        SoundManager.Instance.PlaySfx(SfxClipId.RobotHit);
     }
 }

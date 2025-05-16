@@ -10,8 +10,9 @@ public class BronzeCoinCollisionBehaviour : BaseCollisionBehaviour
         foreach (var taker in list)
         {
             taker.ApplyItem((int)scoreToAdd);
-            SoundManager.Instance.PlaySfx(SfxClipId.EarnCoin);
         }
+        
+        SoundManager.Instance.PlaySfx(SfxClipId.EarnCoin);
 
         self.SetActive(false);
 
@@ -30,6 +31,8 @@ public class SilverCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+        
+        SoundManager.Instance.PlaySfx(SfxClipId.EarnCoin);
 
         self.SetActive(false);
 
@@ -48,6 +51,8 @@ public class GoldCoinCollisionBehaviour : BaseCollisionBehaviour
         {
             taker.ApplyItem((int)scoreToAdd);
         }
+        
+        SoundManager.Instance.PlaySfx(SfxClipId.EarnCoin);
 
         self.SetActive(false);
 
