@@ -20,8 +20,6 @@ namespace Excellcube.EasyTutorial.Widget
         private void OnEnable() 
         {
             m_IsRunning = true;
-            
-            Debug.Log("Indicator OnEnable");
         }
 
         private void OnDisable() 
@@ -44,7 +42,6 @@ namespace Excellcube.EasyTutorial.Widget
             if(placeOnTop)
             {
                 position.y += indicatordist;
-                position.x -= -200f;
                 rotation = Quaternion.identity;
             }
             else
