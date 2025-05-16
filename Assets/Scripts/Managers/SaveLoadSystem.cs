@@ -69,11 +69,18 @@ public class SaveLoadSystem : PersistentMonoSingleton<SaveLoadSystem>
             var textAsset = Resources.Load<TextAsset>(path);
             json = textAsset.text;
         }
+        else if (PlayerPrefs.GetInt("ECET_CLEAR_ALL")!=1)
+        {
+            Debug.Log($"tutorial not ended!");
+            path = "Tables/defaultSave";
+            var textAsset = Resources.Load<TextAsset>(path);
+            json = textAsset.text;
+        }
         else
         {
             json = File.ReadAllText(path);
         }
-        
+
         var saveData = JsonConvert.DeserializeObject<SaveData>(json, settings);
         while (saveData.Version < SaveDataVersion)
         {
@@ -89,7 +96,7 @@ public class SaveLoadSystem : PersistentMonoSingleton<SaveLoadSystem>
         onApplicationQuitSave?.Invoke();
     }
 
-    public void  RegisterOnSaveAction(ISaveLoad target)
+    public void RegisterOnSaveAction(ISaveLoad target)
     {
         onApplicationQuitSave += target.Save;
     }
