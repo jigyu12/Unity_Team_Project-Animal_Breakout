@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.google.unity.ads" android:versionName="1.0" android:versionCode="1">
   <uses-sdk android:minSdkVersion="21" />
   <application>
@@ -6,4 +6,5 @@
     <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-9819783257891765~4934755149" />
     <meta-data android:name="com.google.unity.ads.UNITY_VERSION" android:value="2022.3.60f1" />
   </application>
+  <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 </manifest>

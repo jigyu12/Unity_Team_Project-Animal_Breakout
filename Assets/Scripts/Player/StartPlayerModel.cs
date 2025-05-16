@@ -16,12 +16,12 @@ public class StartPlayerModel : MonoBehaviour
     private GameObject startAnimalModel=null;
     public float rotationSpeed=5f;
 
-    [SerializeField]
-    private InputActionReference onTouch;
+    //[SerializeField]
+    //private InputActionReference onTouch;
 
     private void Start()
     {
-        onTouch.action.performed += OnTouch;
+        //onTouch.action.performed += OnTouch;
 
         GameDataManager.onSetStartAnimalIDInGameDataManager += SetStartPlayerModel;
         SetStartPlayerModel(0,0,GameDataManager.Instance.AnimalUserDataList.CurrentAnimalPlayer);
@@ -65,24 +65,24 @@ public class StartPlayerModel : MonoBehaviour
         };
     }
 
-    public void OnTouch(InputAction.CallbackContext context)
-    {
-        if(context.ReadValue<TouchState>().phase!=TouchPhase.Began)
-        {
-            return;
-        }
+    //public void OnTouch(InputAction.CallbackContext context)
+    //{
+    //    if(context.ReadValue<TouchState>().phase!=TouchPhase.Began)
+    //    {
+    //        return;
+    //    }
 
-        Ray ray;
-        RaycastHit hit;
+    //    Ray ray;
+    //    RaycastHit hit;
 
-        var position = context.ReadValue<TouchState>().position;
-        ray = Camera.main.ScreenPointToRay(position);
-        if (Physics.Raycast(ray, out hit))
-        {
-            if(hit.collider.gameObject==gameObject)
-            {
-                Debug.Log("터취");
-            }
-        }
-    }
+    //    var position = context.ReadValue<TouchState>().position;
+    //    ray = Camera.main.ScreenPointToRay(position);
+    //    if (Physics.Raycast(ray, out hit))
+    //    {
+    //        if(hit.collider.gameObject==gameObject)
+    //        {
+    //            Debug.Log("터취");
+    //        }
+    //    }
+    //}
 }
