@@ -20,6 +20,8 @@ namespace Excellcube.EasyTutorial.Widget
         private void OnEnable() 
         {
             m_IsRunning = true;
+            
+            Debug.Log("Indicator OnEnable");
         }
 
         private void OnDisable() 
