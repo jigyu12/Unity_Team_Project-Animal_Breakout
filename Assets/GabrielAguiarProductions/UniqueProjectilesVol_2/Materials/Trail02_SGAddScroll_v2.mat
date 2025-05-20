@@ -21,17 +21,19 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Trail02_SGAddScroll_v2
-  m_Shader: {fileID: 4800000, guid: 17882f89ffea94f479bfcc52855cb542, type: 3}
-  m_ValidKeywords: []
+  m_Shader: {fileID: 4800000, guid: 8dd944eaa6c5f9d40a31d383a07fd824, type: 3}
+  m_ValidKeywords:
+  - _BUILTIN_SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
-  - _DISTORTMAINTEXTURE_ON
-  - _EMISSION
+  - _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -48,7 +50,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_E5130C32:
-        m_Texture: {fileID: 2800000, guid: 03e4ee8d0b5f45045bb12e2930ed4058, type: 3}
+        m_Texture: {fileID: 2800000, guid: 663540ab948415c4bac0ba0ab5ccc1da, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -71,8 +73,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DissolveTexture:
+        m_Texture: {fileID: 2800000, guid: b9e77bc19a4cc5347876bb42eeaf60f7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Distortion:
         m_Texture: {fileID: 2800000, guid: 2f67131bd8bcd5540badff1422fbbf7b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DistortionTexture:
+        m_Texture: {fileID: 2800000, guid: 137630b98fb8ca14994287aeddeb8b75, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -84,7 +94,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 1d853f1f75c64464fa710478fc99e06c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3283f1eebfcf78a428098c12f653fe0a, type: 3}
         m_Scale: {x: -1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTexutre:
@@ -92,7 +102,7 @@ Material:
         m_Scale: {x: 2, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
-        m_Texture: {fileID: 2800000, guid: 03e4ee8d0b5f45045bb12e2930ed4058, type: 3}
+        m_Texture: {fileID: 2800000, guid: 663540ab948415c4bac0ba0ab5ccc1da, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -123,17 +133,33 @@ Material:
     m_Floats:
     - Vector1_C1728026: 2.05
     - Vector1_D1034171: 0.1
+    - _AlphaClip: 0
+    - _BUILTIN_AlphaClip: 0
+    - _BUILTIN_Blend: 2
+    - _BUILTIN_CullMode: 0
+    - _BUILTIN_DstBlend: 1
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
+    - _BUILTIN_SrcBlend: 5
+    - _BUILTIN_Surface: 1
+    - _BUILTIN_ZTest: 4
+    - _BUILTIN_ZWrite: 0
+    - _BUILTIN_ZWriteControl: 0
+    - _Blend: 2
     - _BumpScale: 1
+    - _CastShadows: 1
+    - _Clip: 0.01
     - _ColorMultiplier: 2.5
+    - _Cull: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DissolveAmount: 2.05
     - _DistortMainTexture: 1
+    - _DistortionAmount: 0.1
     - _DistortionUSpeed: -1
     - _DistortionVSpeed: 0.1
     - _DoubleSided: 1
-    - _DstBlend: 0
+    - _DstBlend: 1
     - _EdgeSoftness: 0
     - _FaceSignClamp: 1
     - _GlossMapScale: 1
@@ -155,11 +181,15 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SmoothnessTextureChannel: 0
+    - _SoftParticle: 20
     - _Softness: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
+    - _SrcBlend: 5
+    - _Surface: 1
     - _UVSec: 0
-    - _ZWrite: 1
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
     m_Colors:
     - Color_DB555ADA: {r: 5.992157, g: 5.992157, b: 5.992157, a: 1}
     - Vector2_781FB8A4: {r: 0.5, g: 0.5, b: 0, a: 0}
@@ -168,11 +198,17 @@ Material:
     - Vector2_C3A961A0: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_D6AA7B7D: {r: 2, g: 1, b: 0, a: 0}
     - Vector2_E10066FE: {r: -0.5, g: 0.2, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 5.992157, g: 5.992157, b: 5.992157, a: 1}
+    - _DissolveSpeed: {r: -0.8, g: 0.1, b: 0, a: 0}
+    - _DissolveTiling: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _DistortionSpeed: {r: -0.5, g: 0.2, b: 0, a: 0}
+    - _DistortionTiling: {r: 1, g: 1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainTexSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _MainTexTiling: {r: 2, g: 1, b: 0, a: 0}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &7231802464791592517
+--- !u!114 &6487023531362776454
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
