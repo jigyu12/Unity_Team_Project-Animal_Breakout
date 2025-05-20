@@ -55,6 +55,7 @@ public class BossStatus : DamageableStatus
         if (Mathf.Approximately(0f, currentHp))
         {
             OnDead();
+            SoundManager.Instance.PlaySfx(SfxClipId.BossDeath);
         }
     }
 
@@ -73,8 +74,9 @@ public class BossStatus : DamageableStatus
         bossBehaviourController?.ClearTempBossProjectile();
         bossBehaviourController?.BossProjectilePooler.ClearPooledProjectiles();
 
-        
+
         StartCoroutine(DelayDestroy());
+
     }
 
     private IEnumerator DelayDestroy()

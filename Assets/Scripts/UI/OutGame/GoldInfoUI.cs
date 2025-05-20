@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,14 +11,19 @@ public class GoldInfoUI : MonoBehaviour
 
     private void Awake()
     {
-        GameDataManager.OnGoldChangedInGameDataManager += SetGoldInfoText;
+        GoldAnimalTokenKeySystem.onGoldChanged += SetGoldInfoText;
+    }
+
+    private void Start()
+    {
+        SetGoldInfoText(GameDataManager.Instance.GoldAnimalTokenKeySystem.CurrentGolds);
     }
 
     private void OnDestroy()
     {
-        GameDataManager.OnGoldChangedInGameDataManager -= SetGoldInfoText;
+        GoldAnimalTokenKeySystem.onGoldChanged -= SetGoldInfoText;
     }
-    
+
     private void SetGoldInfoText(long currentGold)
     {
         goldInfoText.text = currentGold.ToString();

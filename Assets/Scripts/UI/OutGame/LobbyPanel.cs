@@ -8,30 +8,34 @@ public class LobbyPanel : MonoBehaviour
 {
     [SerializeField] private Button gameStartButton;
 
-    private readonly WaitForSeconds waitTime = new(Utils.GameStartWaitTime);
-    private readonly int staminaRequiredToStartGame = 5;
+    private readonly int staminaRequiredToStartGame = 1;
     private bool isStaminaEnoughToStartGame;
+
+    [SerializeField] private Image animalImage;
     
     public static event Action<int> onGameStartButtonClicked;
 
     private void Awake()
     {
         GameDataManager.onSetStartAnimalIDInGameDataManager += OnSetStartAnimalIDInGameDataManagerHandler;
-        GameDataManager.onStaminaChangedInGameDataManager += OnStaminaChangedInGameDataManagerHandler;
+        StaminaSystem.onStaminaChanged += OnStaminaChangedInGameDataManagerHandler;
     }
 
     private void OnDestroy()
     {
         GameDataManager.onSetStartAnimalIDInGameDataManager -= OnSetStartAnimalIDInGameDataManagerHandler;
-        GameDataManager.onStaminaChangedInGameDataManager -= OnStaminaChangedInGameDataManagerHandler;
+        StaminaSystem.onStaminaChanged -= OnStaminaChangedInGameDataManagerHandler;
+        
+        gameStartButton.onClick.RemoveAllListeners();
     }
 
     private void Start()
     {
-        gameStartButton.onClick.RemoveAllListeners();
-        
-        var gameDataManagerStartAnimalId = GameDataManager.Instance.StartAnimalID;
-        if (gameDataManagerStartAnimalId == 0 || !IsContainsAnimalIdInTable(gameDataManagerStartAnimalId) || !isStaminaEnoughToStartGame)
+        //var gameDataManagerStartAnimalId = GameDataManager.Instance.StartAnimalID;
+        //GameDataManager.Instance.AnimalUserDataList가 해당 역할을 합니다.
+
+        //if (GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID == 0 || !IsContainsAnimalIdInTable(GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID))
+        if (GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID == 0 || !IsContainsAnimalIdInTable(GameDataManager.Instance.AnimalUserDataList.CurrentAnimalID) || !(GameDataManager.Instance.StaminaSystem.CurrentStamina>= staminaRequiredToStartGame))
         {
             gameStartButton.interactable = false;
         }
@@ -44,28 +48,23 @@ public class LobbyPanel : MonoBehaviour
         {
             onGameStartButtonClicked?.Invoke(staminaRequiredToStartGame);
             gameStartButton.interactable = false;
-            StartCoroutine(OnGameStartButtonClicked());
+            SceneManager.LoadScene("Run");
         }
             );
     }
-
-    private IEnumerator OnGameStartButtonClicked()
-    {
-        yield return waitTime;
-
-        SceneManager.LoadScene("Run");
-    }
-
-    private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID, int currentStamina)
+    
+    private void OnSetStartAnimalIDInGameDataManagerHandler(int animalID, int currentStamina, AnimalUserData animalUserData)
     {
         if (animalID == 0 || !IsContainsAnimalIdInTable(animalID))
         {
             gameStartButton.interactable = false;
 
-            Debug.Assert(false, "Invalid animal ID");
+            Debug.Assert(false, $"Invalid animal ID{animalID}");
             
             return;
         }
+        
+        animalImage.sprite = animalUserData.AnimalStatData.iconImage;
 
         if (currentStamina < staminaRequiredToStartGame)
         {
@@ -84,7 +83,7 @@ public class LobbyPanel : MonoBehaviour
         return animalIdList.Contains(animalID);
     }
 
-    private void OnStaminaChangedInGameDataManagerHandler(int currentStamina, int maxStamina)
+    private void OnStaminaChangedInGameDataManagerHandler(int currentStamina, int maxstaminaCanFilled)
     {
         if (currentStamina >= staminaRequiredToStartGame)
         {

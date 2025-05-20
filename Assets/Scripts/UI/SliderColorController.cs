@@ -8,8 +8,8 @@ public class SliderColorController : MonoBehaviour
 
     void Update()
     {
-        float value = slider.value / slider.maxValue;
-        fillImage.color = GetColorByValue(value);
+        // float value = slider.value / slider.maxValue;
+        // fillImage.color = GetColorByValue(value);
     }
 
     Color GetColorByValue(float value)

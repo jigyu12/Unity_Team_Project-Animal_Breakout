@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 public class StageManager : InGameManager
@@ -27,12 +25,19 @@ public class StageManager : InGameManager
     public Action onBossStageEnter;
     private bool isTrackingStarted = false;
 
+    private int bossStageSetCount;
+    public event Action<RunPhaseType> onBossStageSet;
+    private bool isFirstBossSpawn;
+    private int stagePlayCount = 0;
 
     private void Awake()
     {
         BossStatus.onBossDeathAnimationEnded += OnBossStageClear;
 
         onBossStageEnter += () => IsPlayerInBossStage = true;
+
+        bossStageSetCount = 0;
+        isFirstBossSpawn = true;
     }
 
     private void OnDestroy()
@@ -56,9 +61,54 @@ public class StageManager : InGameManager
     //?뚯뒪?몄슜?쇰줈 臾댄븳 諛섎났?섍쾶 ?좉쾬?낅땲??
     private void OnSetRoadMode()
     {
-
         currentStageDataIndex++;
-        currentStageDataIndex %= stageDatas.Count;
+        //currentStageDataIndex %= stageDatas.Count;
+
+        if (currentStageDataIndex == stageDatas.Count)
+        {
+            currentStageDataIndex -= 2;
+        }
+
+        if (CurrentStageData.isBossStage)
+        {
+            ++bossStageSetCount;
+        }
+
+        switch (bossStageSetCount)
+        {
+            case < 2:
+                {
+                    onBossStageSet?.Invoke(RunPhaseType.EarlyPhase);
+                }
+                break;
+            case < 4:
+                {
+                    onBossStageSet?.Invoke(RunPhaseType.MiddlePhase);
+                }
+                break;
+            case < 6:
+                {
+                    onBossStageSet?.Invoke(RunPhaseType.LateMiddlePhase);
+                }
+                break;
+            case < Int32.MaxValue:
+                {
+                    onBossStageSet?.Invoke(RunPhaseType.LatePhase);
+                }
+                break;
+        }
+
+        if (isFirstBossSpawn && CurrentStageData.isBossStage)
+        {
+            //GameManager.UIManager.runStageUI.SetTotalByRoadWayCount(CurrentStageData.roadWayCount); //추가
+            GameManager.RoadMaker.PushNextStageRoadWayData(CurrentStageData);
+
+            currentStageDataIndex = -1;
+
+            isFirstBossSpawn = false;
+
+            return;
+        }
 
         Debug.Log("Stage " + currentStageDataIndex + "is boss stage " + CurrentStageData.isBossStage);
 
@@ -74,6 +124,9 @@ public class StageManager : InGameManager
         isTrackingStarted = true;
 
         GameManager.UIManager.runStageUI.Reset();
+        // int nonBossCount = GameManager.RoadMaker.GetNonBossRoadWayCountFromStageData(CurrentStageData);
+        // GameManager.UIManager.runStageUI.SetTotalByRoadWayCount(nonBossCount);
+        GameManager.UIManager.runStageUI.SetTotalByRoadWayCount(CurrentStageData.roadWayCount, stagePlayCount);
         GameManager.UIManager.runStageUI.StartBossWayTracking();
         GameManager.UIManager.runStageUI.Show();
         GameManager.UIManager.bossWayUI.Hide();
@@ -92,8 +145,11 @@ public class StageManager : InGameManager
         GameManager.UIManager.runStageUI.StopBossWayTracking(); //추가
         GameManager.UIManager.runStageUI.Hide();
         GameManager.UIManager.bossWayUI.Show();
+        SoundManager.Instance.PlayBgm(BgmClipId.BossBGM);
         GameManager.PlayerManager.StopAllMovements();
         GameManager.UIManager.bossTimeLimit.StartTimeOut();
+        stagePlayCount++;
+
         onBossStageEnter?.Invoke();
     }
 
@@ -103,12 +159,12 @@ public class StageManager : InGameManager
         GameManager.PlayerManager.ActivatePlayer();
         GameManager.UIManager.bossWayUI.Hide();
         GameManager.UIManager.runStageUI.Show();
+        SoundManager.Instance.PlayBgm(BgmClipId.IngameBGM);
         isTrackingStarted = false;
         RoadWayDistanceTracking();
-        GameManager.UIManager.runStageUI.total = 100f;
+        // GameManager.UIManager.runStageUI.total += 60f;
         GameManager.UIManager.bossTimeLimit.StopTimeOut();
         OnCurrentStageClear();
+        GameManager.PlayerManager.moveForward.AddSpeed(1f);
     }
-
-
 }

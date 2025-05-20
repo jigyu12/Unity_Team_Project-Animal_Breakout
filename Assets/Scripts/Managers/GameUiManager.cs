@@ -31,16 +31,19 @@ public class GameUIManager : InGameManager
     [SerializeField] public BossDebuffUIController bossDebuffUI;
     [SerializeField] public SupportSlotUI supportSlotUI;
     [SerializeField] public AttackSlotUI attackSlotUI;
-
-
-
-
-
+    [SerializeField] private Button koreanButton; // 임시 한글 설정 버튼
+    [SerializeField] private Button englishButton; //임시 영어 설정 버튼
 
     public override void Initialize()
     {
         base.Initialize();
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, ShowGameOverPanel);
+        GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameOver, () =>
+        {
+            SoundManager.Instance.PlaySfx(SfxClipId.Death);
+            SoundManager.Instance.StopBgm();
+        });
+
         GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReady, () => SetDirectionButtonsInteractable(false));
         //GameManager.AddGameStateEnterAction(GameManager_new.GameState.GameReStart, () => CountDown());
         // GameManager.AddGameStateEnterAction(GameManager_new.GameState.GamePlay, () => SetDirectionButtonsInteractable(true));
@@ -59,6 +62,10 @@ public class GameUIManager : InGameManager
         {
             element.SetUIManager(GameManager, this);
         }
+    }
+
+    public void InitializedUIElements()
+    {
         //Start보다 이전에 값을 세팅해야하는 UI들의 UIElements은 Initialze에서 해주면 된다
         foreach (var element in uiElements)
         {
@@ -80,9 +87,17 @@ public class GameUIManager : InGameManager
         onShowGameOverPanel?.Invoke();
         resultPanelUI.Show();
     }
-
     public void RestartGame()
     {
+        int requiredStamina = 1;
+
+        if (GameDataManager.Instance.StaminaSystem.CurrentStamina < requiredStamina)
+        {
+            Debug.LogWarning("Not enough stamina to restart the game.");
+            return;
+        }
+
+        GameDataManager.Instance.StaminaSystem.PayStamina(requiredStamina);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -99,6 +114,10 @@ public class GameUIManager : InGameManager
         pauseButtonUI.SetInteractable(interactable);
     }
 
+    // public void SetRestartButtonInteractable(bool interactable)
+    // {
+    //     RestartButton.SetInteractable(interactable);
+    // }
     public void Pause()
     {
         pauseHandler.TogglePause();

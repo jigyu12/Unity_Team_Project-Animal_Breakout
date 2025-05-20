@@ -15,13 +15,13 @@ public abstract class DataTable
 {
     public static readonly string FormatPath = "Tables/{0}";
 
-    public bool IsReady
-    {
-        get;
-        private set;
-    }
+    //public bool IsReady
+    //{
+    //    get;
+    //    private set;
+    //}
 
-    public int currentVersion = 0;
+    //public int currentVersion = 0;
 
     public abstract void Load(string filename);
 
@@ -56,5 +56,7 @@ public abstract class DataTable
         }
 
         File.WriteAllText(path, text);
+        string loaded = File.ReadAllText(path);
+        Debug.Log(loaded);
     }
 }

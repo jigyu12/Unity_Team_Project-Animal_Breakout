@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SkillManager : InGameManager
@@ -25,6 +24,11 @@ public class SkillManager : InGameManager
     public IReadOnlyList<ISkill> Skills
     {
         get => skills;
+    }
+
+    public int SkillSelectionRerollMaxCount
+    {
+        get => 5;
     }
 
     private SkillQueue readyAttackSkillQueue = new SkillQueue();
@@ -104,6 +108,11 @@ public class SkillManager : InGameManager
 
     public float GetSkillInheritedForwardSpeed()
     {
+        if (GameManager == null)
+        {
+            return 0;
+        }
+
         var moveforward = GameManager.PlayerManager.moveForward;
         return moveforward.enabled ? moveforward.speed : 0f;
     }
@@ -145,8 +154,9 @@ public class SkillManager : InGameManager
             }
 
             var currentSkill = readyAttackSkillQueue.Dequeue();
-            //PerformSkill(currentSkill);
-            PerformAttackSkill(currentSkill);
+            //스킬 실행을 기다린다.
+            yield return StartCoroutine(currentSkill.coPerform(GameManager.PlayerManager.playerAttack, skillTarget, GameManager.PlayerManager.playerStatus.transform, skillTarget?.transform ?? null));
+            //스킬당 인터벌을 기다린다.
             yield return new WaitForSeconds(skillPerformInterval);
         }
         coSkillPerform = null;
@@ -187,7 +197,7 @@ public class SkillManager : InGameManager
 
     public bool IsSkillTargetValid()
     {
-        return skillTarget != null;
+        return skillTarget != null || isInititySkillMode;
     }
 
     public void SkillSelection(int currentLevel, int exp)
@@ -204,5 +214,11 @@ public class SkillManager : InGameManager
     public int GetSkillTypeMaxCount(SkillType type)
     {
         return maxSkillTypeCount[(int)type];
+    }
+
+    private bool isInititySkillMode = false;
+    public void SetInititySkillMode()
+    {
+        isInititySkillMode = true;
     }
 }

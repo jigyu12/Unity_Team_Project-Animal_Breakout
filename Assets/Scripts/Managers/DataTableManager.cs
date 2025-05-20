@@ -33,6 +33,22 @@ public static class DataTableManager
         var additionalStatusEffectTable = new AdditionalStatusEffectDataTable();
         additionalStatusEffectTable.Load(Utils.AdditionalStatusEffectTableName);
         tables.Add(Utils.AdditionalStatusEffectTableName, additionalStatusEffectTable);
+
+        var passiveEffectTable = new PassiveEffectDataTable();
+        passiveEffectTable.Load(Utils.PassiveEffectTableName);
+        tables.Add(Utils.PassiveEffectTableName, passiveEffectTable);
+
+        var gachaTable = new GachaTable();
+        gachaTable.Load(Utils.GachaTableName);
+        tables.Add(Utils.GachaTableName, gachaTable);
+
+        var playerLevelTable = new PlayerLevelDataTable();
+        playerLevelTable.Load(Utils.PlayerLevelTableName);
+        tables.Add(Utils.PlayerLevelTableName, playerLevelTable);
+
+        var enforceAnimalTable = new EnforceAnimalDataTable();
+        enforceAnimalTable.Load( Utils.EnforceAnimalTableName);
+        tables.Add(Utils.EnforceAnimalTableName, enforceAnimalTable);
     }
 
     public static MapObjectsDataTable mapObjectsDataTable => Get<MapObjectsDataTable>(Utils.MapObjectsTableName);
@@ -45,6 +61,12 @@ public static class DataTableManager
 
     public static AdditionalStatusEffectDataTable additionalStatusEffectDataTable => Get<AdditionalStatusEffectDataTable>(Utils.AdditionalStatusEffectTableName);
 
+    public static PassiveEffectDataTable passiveEffectDataTable => Get<PassiveEffectDataTable>(Utils.PassiveEffectTableName);
+    
+    public static GachaTable gachaTable => Get<GachaTable>(Utils.GachaTableName);
+    public static PlayerLevelDataTable playerLevelDataTalble => Get<PlayerLevelDataTable>(Utils.PlayerLevelTableName);
+
+    public static EnforceAnimalDataTable enforceAnimalDataTable => Get<EnforceAnimalDataTable>(Utils.EnforceAnimalTableName);
     public static T Get<T>(string id) where T : DataTable
     {
         if (!tables.ContainsKey(id))

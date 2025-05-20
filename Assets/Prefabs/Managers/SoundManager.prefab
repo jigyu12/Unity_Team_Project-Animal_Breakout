@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1070490841665000553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2798857831055291419}
+  - component: {fileID: 1981538630064057080}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2798857831055291419
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070490841665000553}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1981538630064057080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070490841665000553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6869d1d9f406e2d43b4d79f04ddf2ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UnparentOnAwake: 1
+  audioMixer: {fileID: 24100000, guid: de09ed67b7d332b45afd8c54170c7cf5, type: 2}
+  bgmClips:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 8300000, guid: 8f3f86900786d934aadfa0a514344eec, type: 3}
+    - Key: 3
+      Value: {fileID: 8300000, guid: e2db6ea16b78eb942ba4416e4679bbaf, type: 3}
+    - Key: 1
+      Value: {fileID: 8300000, guid: 9621b6855e88ddc4391cfbdad0037d4e, type: 3}
+    - Key: 2
+      Value: {fileID: 8300000, guid: 5545de2c8aaf54b418addcf89de157c3, type: 3}
+  bgmAudioSource: {fileID: 0}
+  sfxClips:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 8300000, guid: c31eb7fe476c29a459095833162db230, type: 3}
+    - Key: 1
+      Value: {fileID: 8300000, guid: c7ae5ca1c5ed8d54fb8fe1865e42cd93, type: 3}
+    - Key: 2
+      Value: {fileID: 8300000, guid: 8750a7a790f01e64da53b4fb92a20929, type: 3}
+    - Key: 3
+      Value: {fileID: 8300000, guid: ccba394888084374ab8b9aaf81d54b4c, type: 3}
+    - Key: 4
+      Value: {fileID: 8300000, guid: 7b312e32465a6c44d809620c03ed995b, type: 3}
+    - Key: 5
+      Value: {fileID: 8300000, guid: 7b2d77377268c2d44a2bd569afb713cd, type: 3}
+    - Key: 6
+      Value: {fileID: 8300000, guid: 6373d95b1eb614945b4b93ac0e8c6b6b, type: 3}
+    - Key: 7
+      Value: {fileID: 8300000, guid: dcb12c32f1a171e4eb2a0834853630c0, type: 3}
+    - Key: 8
+      Value: {fileID: 8300000, guid: 0e4758a06db1f9b4ea53d02b92fdcd1b, type: 3}
+    - Key: 9
+      Value: {fileID: 8300000, guid: 4103d5c00e43cde47a9f953967ed52a7, type: 3}
+    - Key: 10
+      Value: {fileID: 8300000, guid: 6cf3a5feccbddca4cbe8082526b1fb4b, type: 3}
+    - Key: 11
+      Value: {fileID: 8300000, guid: f21da52addf58a04aab54d98937296a0, type: 3}
+    - Key: 12
+      Value: {fileID: 8300000, guid: 691da49b1c0a72549b6b3096a8d20d23, type: 3}
+    - Key: 13
+      Value: {fileID: 8300000, guid: c183ea8ae43668a478c2659c3d5d7977, type: 3}
+    - Key: 14
+      Value: {fileID: 8300000, guid: 66c034cfbe38bcb44a145e84912f3e0c, type: 3}
+    - Key: 15
+      Value: {fileID: 8300000, guid: d0b0140e16850544bb437d648997c128, type: 3}
+    - Key: 16
+      Value: {fileID: 8300000, guid: 8b5e9e4abeb327149b70c1925c782aa1, type: 3}
+    - Key: 17
+      Value: {fileID: 8300000, guid: b9e7437df38a039449362b42d5cdd954, type: 3}
+    - Key: 18
+      Value: {fileID: 8300000, guid: 05c702cc4fd09934582d02d1fe87a529, type: 3}
+    - Key: 19
+      Value: {fileID: 8300000, guid: e115d9862a5344a468fe6eb1bb344d86, type: 3}
+    - Key: 20
+      Value: {fileID: 8300000, guid: b5cb5825180424e4b9253afb21f55535, type: 3}
+    - Key: 21
+      Value: {fileID: 8300000, guid: c19fc74a0c4a01149b28938b3cfc0eac, type: 3}
+    - Key: 22
+      Value: {fileID: 8300000, guid: 6ca589eff08fc1942b7792526f908e5e, type: 3}
+    - Key: 24
+      Value: {fileID: 8300000, guid: f05e51558a6235f489e3f3344e9a4bee, type: 3}
+    - Key: 25
+      Value: {fileID: 8300000, guid: 9ed87cf184e64f54697e45cca103561d, type: 3}
+    - Key: 26
+      Value: {fileID: 8300000, guid: 0e94c0d8dc7cc6146806ad86321148d3, type: 3}
+    - Key: 27
+      Value: {fileID: 8300000, guid: 88149e37495c84b4581c57bba0abf388, type: 3}
+  sfxAudioSourceList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  audioSourcePlayer: {fileID: 0}

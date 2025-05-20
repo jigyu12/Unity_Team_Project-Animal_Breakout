@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectileSkill : AttackSkill
@@ -18,6 +15,7 @@ public class ProjectileSkill : AttackSkill
     {
         if (!skillManager.IsSkillTargetValid())
         {
+            SetSkillPerformed();
             return;
         }
 
@@ -37,8 +35,7 @@ public class ProjectileSkill : AttackSkill
             projectile.Fire(start, destination, AttackSkillData.speed);
         }
 
-        lastPerformedTime = Time.time;
-        CoolTime = 0f;
+        SetSkillPerformed();
     }
 
     public override IEnumerator coPerform(AttackPowerStatus attacker, DamageableStatus target, Transform start, Transform destination)
@@ -52,6 +49,7 @@ public class ProjectileSkill : AttackSkill
 
             if (!skillManager.IsSkillTargetValid())
             {
+                SetSkillPerformed();
                 yield break;
             }
 
@@ -69,9 +67,12 @@ public class ProjectileSkill : AttackSkill
             projectile.Fire(start, destination, AttackSkillData.speed);
         }
 
+        SetSkillPerformed();
+    }
+
+    private void SetSkillPerformed()
+    {
         lastPerformedTime = Time.time;
         CoolTime = 0f;
     }
-
-
 }

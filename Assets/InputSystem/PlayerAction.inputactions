@@ -168,6 +168,94 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "UIActions",
+            "id": "5e2f3c9c-4089-4c13-a6b1-19654c1d96f5",
+            "actions": [
+                {
+                    "name": "TouchGacha1",
+                    "type": "Button",
+                    "id": "a470b948-42c9-48e1-9b7a-cbd1131a618a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TouchGacha2",
+                    "type": "Button",
+                    "id": "e8d78ceb-7746-424f-a997-34c2e7fb2293",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TouchGacha3",
+                    "type": "Button",
+                    "id": "c1df313e-917d-4241-b275-9199650aa313",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TouchEnforce",
+                    "type": "Button",
+                    "id": "e1a6cc6a-d764-46bd-8086-a59920b9ec42",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "80da4421-ce99-427d-a60f-a4790cef673d",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchGacha1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "28ac3a8c-a9da-4f55-93ed-1f9386c7d35a",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchGacha2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0e7225c8-07c6-438b-b75e-db9b7c0a9076",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchGacha3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a25c1449-ec5e-4b00-bbc2-91e8cc9c37fa",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchEnforce",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

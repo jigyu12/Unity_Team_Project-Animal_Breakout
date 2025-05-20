@@ -6,6 +6,7 @@ public class CurvedWorld : MonoBehaviour
 {
     //public float curvature;
     //public float trimming;
+    public StageManager stageManager;
 
     public float maxHorizonCurvatureValue;
     public float maxVirticalCurvatureValue;
@@ -27,13 +28,21 @@ public class CurvedWorld : MonoBehaviour
 
     private void Update()
     {
-        UpdateShaderValue();
+        //최악. 그런데 그냥 임시로 이렇게 가자
+        if (stageManager.IsPlayerInBossStage)
+        {
+            curvedWorldController.SetBendHorizontalSize(0);
+        }
+        else
+        {
+            UpdateShaderValue();
+        }
     }
 
     [ContextMenu("Update Shader Value")]
     public void UpdateShaderValue()
     {
-        curvedWorldController.SetBendHorizontalSize(Mathf.Sin(Time.time/5f) * maxHorizonCurvatureValue);
+        curvedWorldController.SetBendHorizontalSize(Mathf.Sin(Time.time / 5f) * maxHorizonCurvatureValue);
         //curvedWorldController.SetBendVerticalSize(Mathf.Sin(Time.time/5f)*maxVirticalCurvatureValue);
     }
 

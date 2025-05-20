@@ -7,25 +7,66 @@ public class PausePanelUI : UIElement
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button giveUpButton;
     [SerializeField] private Button settingsButton;
+    [SerializeField] private Button settingsOkbutton;
+    [SerializeField] private Button koreanButton;
+    [SerializeField] private Button englishButton;
+
+
     [SerializeField] private GameObject realGiveUpPanel;
     [SerializeField] private GameObject pausePanelRoot;
+    [SerializeField] private GameObject OptionPanel;
+
+
     [SerializeField] private TMP_Text countdownText;
 
     [SerializeField] private ResultPanelUI resultPanelUI;
+
 
     public override void Initialize()
     {
         //gameUIManager = uiManager;
         base.Initialize();
         resumeButton.onClick.RemoveAllListeners();
-        resumeButton.onClick.AddListener(OnResumeClicked);
+        resumeButton.onClick.AddListener(() =>
+        {
+            OnResumeClicked();
+            SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+            if (gameManager.StageManager.IsPlayerInBossStage)
+            {
+                SoundManager.Instance.PlayBgm(BgmClipId.BossBGM);
+            }
+            else
+            {
+                SoundManager.Instance.PlayBgm(BgmClipId.IngameBGM);
+            }
+        });
 
         giveUpButton.onClick.RemoveAllListeners();
-        giveUpButton.onClick.AddListener(OnGiveUpClicked);
-
+        giveUpButton.onClick.AddListener(() =>
+            {
+                OnGiveUpClicked();
+                SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+            });
         settingsButton.onClick.RemoveAllListeners();
-        settingsButton.onClick.AddListener(OnSettingsClicked);
+        // settingsButton.onClick.AddListener(OnSettingsClicked);
+        settingsButton.onClick.AddListener(() =>
+                 {
+                     OnSettingsClicked();
+                     SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+                 });
+        settingsOkbutton.onClick.RemoveAllListeners();
+        // settingsOkbutton.onClick.AddListener(OnSettingOkClikced);
+        settingsOkbutton.onClick.AddListener(() =>
+              {
+                  OnSettingOkClikced();
+                  SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+              });
 
+    }
+    private void Start()
+    {
+        koreanButton.onClick.AddListener(() => LocalizationUtility.ChangeLocaleNow("Korean (South Korea) (ko-KR)"));
+        englishButton.onClick.AddListener(() => LocalizationUtility.ChangeLocaleNow("English (United States) (en-US)"));
     }
 
     private void OnResumeClicked()
@@ -40,24 +81,30 @@ public class PausePanelUI : UIElement
         resultPanelUI.SetCoinCount();
         resultPanelUI.SetExpCount();
         resultPanelUI.SetTimeCount();
+        resultPanelUI.SetRewardTexts();
     }
 
     private void OnSettingsClicked()
     {
-        Debug.Log("Settings 버튼 클릭");
+        OptionPanel.SetActive(true);
+    }
+    private void OnSettingOkClikced()
+    {
+        OptionPanel.SetActive(false);
     }
 
     public void Hide()
     {
         pausePanelRoot.SetActive(false);
     }
-    public void Show()
+    public override void Show()
     {
         pausePanelRoot.SetActive(true);
     }
     public void ShowCountdown()
     {
         countdownText.gameObject.SetActive(true);
+
     }
 
     public void HideCountdown()

@@ -31,6 +31,20 @@ public class SwipeTurnTrigger : MonoBehaviour
                 player.SetCanTurn(true, gameObject, allowedDirection);
 
             }
+            // if (status != null && status.IsInvincible)
+            // {
+            //     gameUIManager.UnShowRotateButton();
+            //     AutoTurn(player);
+            // }
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayerMove player = other.GetComponent<PlayerMove>();
+            PlayerStatus status = other.GetComponent<PlayerStatus>();
+            RotateButtonController rotateButtonController = gameUIManager.rotateButtonController;
             if (status != null && status.IsInvincible)
             {
                 gameUIManager.UnShowRotateButton();
@@ -79,6 +93,7 @@ public class SwipeTurnTrigger : MonoBehaviour
             if (player != null)
             {
                 player.SetCanTurn(false, gameObject, allowedDirection);
+                gameUIManager.UnShowRotateButton();
             }
         }
     }

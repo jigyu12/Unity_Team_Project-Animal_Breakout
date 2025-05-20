@@ -54,7 +54,7 @@ public class MapObjectManager : InGameManager
 
     private readonly Queue<int> nextMapObjectsPrefabIdQueue = new();
     private readonly List<int> mapObjectsPrefabIds = new();
-    public const int maxPrefabIdQueueSize = 12;
+    private int maxPrefabIdQueueSize;
 
     [SerializeField] private AnimationCurve hillCurve;
     
@@ -444,21 +444,54 @@ public class MapObjectManager : InGameManager
         return itemPenaltyCoinComponent;
     }
 
-    public int GetNextRandomMapObjectsPrefabId()
+    public int GetNextRandomMapObjectsPrefabId(RunPhaseType type)
     {
-        if ((MinMapObjectId != MinRewardItemId) || (MaxMapObjectId != MaxRewardItemId))
-        {
-            Debug.Assert(false, "MapObjectId is different from RewardItemId");
-
-            return -1;
-        }
-
         if (nextMapObjectsPrefabIdQueue.Count == 0)
         {
             mapObjectsPrefabIds.Clear();
-            for (int i = MinMapObjectId; i <= MaxMapObjectId; ++i)
+            
+            switch (type)
             {
-                mapObjectsPrefabIds.Add(i);
+                case RunPhaseType.EarlyPhase:
+                    {
+                        for (int i = 1; i <= 9; ++i)
+                        {
+                            mapObjectsPrefabIds.Add(i);
+                        }
+
+                        maxPrefabIdQueueSize = 9;
+                    }
+                    break;
+                case RunPhaseType.MiddlePhase:
+                    {
+                        for (int i = 1; i <= 21; ++i)
+                        {
+                            mapObjectsPrefabIds.Add(i);
+                        }
+                        
+                        maxPrefabIdQueueSize = 21;
+                    }
+                    break;
+                case RunPhaseType.LateMiddlePhase:
+                    {
+                        for (int i = 11; i <= 31; ++i)
+                        {
+                            mapObjectsPrefabIds.Add(i);
+                        }
+                        
+                        maxPrefabIdQueueSize = 21;
+                    }
+                    break;
+                case RunPhaseType.LatePhase:
+                    {
+                        for (int i = 30; i <= 50; ++i)
+                        {
+                            mapObjectsPrefabIds.Add(i);
+                        }
+                        
+                        maxPrefabIdQueueSize = 21;
+                    }
+                    break;
             }
 
             if (mapObjectsPrefabIds.Count < maxPrefabIdQueueSize)

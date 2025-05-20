@@ -24,11 +24,13 @@ public class PlayerStatus : MonoBehaviour
     public int defaultLayer;
     public int invincibleLayer;
     public bool IsInvincible => isInvincible;
+    public Action<bool> onInvincibleChanged;
     //public int AttackPower => statData != null ? statData.AttackPower : 0;
     public float MoveSpeed => statData != null ? statData.StartSpeed : 0;
     public float JumpPower => statData != null ? statData.Jump : 0;
     private PlayerManager playerManager;
     public bool IsReviving { get; private set; }
+    [SerializeField] private GameObject InvisibleEffect;
 
     public void SetReviving(bool value)
     {
@@ -40,7 +42,6 @@ public class PlayerStatus : MonoBehaviour
         var GameManager = GameObject.FindGameObjectWithTag(Utils.GameManagerTag);
         var GameManager_new = GameManager.GetComponent<GameManager_new>();
         playerManager = GameManager_new.PlayerManager;
-
         //if (animalDB == null)
         //{
         //    animalDB = FindObjectOfType<AnimalDatabase>();
@@ -72,6 +73,7 @@ public class PlayerStatus : MonoBehaviour
         // animalData = DataTableManager.animalDataTable.Get(animalID);
         //animalDB = database;
         //SetAnimal(animalID);
+
         defaultLayer = LayerMask.NameToLayer("Player");
         invincibleLayer = LayerMask.NameToLayer("InvinciblePlayer");
     }
@@ -95,12 +97,26 @@ public class PlayerStatus : MonoBehaviour
     {
         isInvincible = value;
         gameObject.layer = isInvincible ? invincibleLayer : defaultLayer;
+        onInvincibleChanged?.Invoke(value);
+        if (isInvincible == true)
+        {
+            InvisibleEffect.SetActive(true);
+        }
+        else
+        {
+            InvisibleEffect.SetActive(false);
+        }
     }
 
     [ContextMenu("Toggle Invincible")]
     public void ToggleInvincible()
     {
         SetInvincible(!isInvincible);
+    }
+    public IEnumerator DisableInvincibilityAfterDelay(PlayerStatus status, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        status.SetInvincible(false);
     }
 
 

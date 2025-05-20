@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,12 +15,14 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public static class LocalizationUtility
 {
     static private Coroutine coLocaleChange;
+    
     static public string CurrentLocale
     {
         get => LocalizationSettings.SelectedLocale.LocaleName;
     }
 
     public const string defaultStringTableName = "StringTable";
+    public const string defaultSpriteTableName = "SpriteTable";
 
     private static Dictionary<string, int> localeIndexTable = new();
     private static int defaultIndex = 0;
@@ -35,6 +38,19 @@ public static class LocalizationUtility
             Debug.Log(locale.LocaleName);
         }
         Debug.Log("현재 언어 : " + CurrentLocale);
+
+        
+    }
+
+    public static void PreloadLocalizedTables()
+    {
+        var tables = LocalizationSettings.StringDatabase.GetAllTables();
+        tables.WaitForCompletion();
+
+        foreach (var table in tables.Result)
+        {
+            Debug.Log("Loaded " + table.TableCollectionName);
+        }
     }
 
     //public static void ChangeLocale(string targetLocal)
@@ -45,9 +61,9 @@ public static class LocalizationUtility
     //    coLocaleChange = StartCoroutine(LocaleChange(GetAvaliableLocaleIndex(targetLocal)));
     //}
 
-    private static IEnumerator LocaleChange(string targetLocal)
+    public static IEnumerator LocaleChange(string targetLocal)
     {
-        if (coLocaleChange!=null||CurrentLocale == targetLocal)
+        if (coLocaleChange != null || CurrentLocale == targetLocal)
             yield break;
 
         int index = GetAvaliableLocaleIndex(targetLocal);
@@ -93,6 +109,47 @@ public static class LocalizationUtility
         {
             Debug.LogError($"GetLZString| stringOperation fail : {lzString.TableEntryReference} is not exist in {lzString.TableEntryReference}");
             return lzString.TableEntryReference;
+        }
+    }
+    public static void ChangeLocaleNow(string localeName)
+    {
+        foreach (var locale in LocalizationSettings.AvailableLocales.Locales)
+        {
+            if (locale.LocaleName == localeName)
+            {
+                LocalizationSettings.SelectedLocale = locale;
+                Debug.Log($"Changed Language to: {localeName}");
+                return;
+            }
+        }
+        Debug.LogWarning($"Locale '{localeName}' not found!");
+    }
+
+    public static Sprite GetLocalizeSprite(string table, string key)
+    {
+        if (int.TryParse(key, out int number))
+        {
+            Debug.LogError($"String Id : {number} need to Change!");
+        }
+
+        LocalizedSprite lzSprite = new LocalizedSprite() { TableReference = table, TableEntryReference = key };
+        return GetLocalizeSprite(lzSprite);
+    }
+
+    public static Sprite GetLocalizeSprite(LocalizedSprite lzSprite)
+    {
+        var spriteOperation = lzSprite.LoadAssetAsync();
+
+        //Async가 끝날때까지 기다린다.
+        spriteOperation.WaitForCompletion();
+        if (spriteOperation.Status == AsyncOperationStatus.Succeeded)
+        {
+            return spriteOperation.Result;
+        }
+        else
+        {
+            Debug.LogError($"GetLocalizeSprite| spriteOperation fail : {lzSprite.TableEntryReference} is not exist in {lzSprite.TableEntryReference}");
+            return null;
         }
     }
 }

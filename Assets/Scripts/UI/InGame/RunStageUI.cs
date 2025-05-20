@@ -15,7 +15,6 @@ public class RunStageUI : UIElement
 
     public void StartBossWayTracking()
     {
-
         BossWaySlider.value = 0f;
         tracking = true;
     }
@@ -28,7 +27,7 @@ public class RunStageUI : UIElement
     {
         moveForward.moveForwardSum = 0;
     }
-    public void Show()
+    public override void Show()
     {
         panel.SetActive(true);
     }
@@ -46,6 +45,13 @@ public class RunStageUI : UIElement
         float progress = Mathf.Clamp01(current / total);
         BossWaySlider.value = progress;
 
+    }
+    public void SetTotalByRoadWayCount(int roadWayCount, int stagePlayCount)
+    {
+        total = roadWayCount * 60f + 60f;
+
+        if (stagePlayCount == 0)
+            total -= 60f;
     }
 
 

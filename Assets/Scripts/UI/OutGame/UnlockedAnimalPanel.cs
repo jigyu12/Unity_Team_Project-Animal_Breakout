@@ -1,34 +1,59 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UnlockedAnimalPanel : MonoBehaviour
 {
-    private AnimalDataTable.AnimalData animalStatData;
-    [SerializeField] private Button animalChooseButton;
-    [SerializeField] private TMP_Text tempAnimalNameText;
-    [SerializeField] private AnimalChooseButton animalChooseButtonScript;
+    //Raw데이터말고 AnimalUserData로 변동
+    //private AnimalDataTable.AnimalRawData animalStatData;
+
+    private OutGameUIManager outGameUIManager;
     
-    public int animalId => animalStatData.AnimalID;
+    private AnimalUserData animalUserData;
+    [SerializeField] private Button animalChooseButton;
+    [SerializeField] private Button animalImageButton;
+    private Image animalImage;
+    [SerializeField] private AnimalChooseButton animalChooseButtonScript;
+    [SerializeField] private Image starImage;
+    
+    public int animalId => animalUserData.AnimalStatData.AnimalID;
     
     public static event Action<int> onSetStartAnimalIDInPanel;
 
+    private void Awake()
+    {
+        animalImageButton.gameObject.TryGetComponent(out animalImage);
+    }
+    
     private void Start()
     {
-        animalChooseButton.onClick.RemoveAllListeners();
+        GameObject.FindGameObjectWithTag("OutGameManager").TryGetComponent(out OutGameManager outGameManager);
+        outGameUIManager = outGameManager.OutGameUIManager;
+        
         animalChooseButton.onClick.AddListener(() =>
         {
-            onSetStartAnimalIDInPanel?.Invoke(animalStatData.AnimalID);
+            onSetStartAnimalIDInPanel?.Invoke(animalUserData.AnimalStatData.AnimalID);
             
-            Debug.Log($"Set Start Animal ID :{animalStatData.AnimalID}");
+            Debug.Log($"Set Start Animal ID :{animalUserData.AnimalStatData.AnimalID}");
+        });
+        
+        animalImageButton.onClick.AddListener(() =>
+        {
+            outGameUIManager.ShowEnforceAnimalPanel(animalUserData);
         });
     }
     
-    public void SetAnimalStatData(AnimalDataTable.AnimalData statData)
+    private void OnDestroy()
     {
-        animalStatData = statData;
-        tempAnimalNameText.text = statData.StringID;
-        animalChooseButtonScript.SetAnimalID(statData.AnimalID);
+        animalChooseButton.onClick.RemoveAllListeners();
+        animalImageButton.onClick.RemoveAllListeners();
+    }
+
+    public void SetAnimalUserData(AnimalUserData userData)
+    {
+        animalUserData = userData;
+        animalImage.sprite = animalUserData.AnimalStatData.iconImage;
+        animalChooseButtonScript.SetAnimalID(animalUserData.AnimalStatData.AnimalID);
+        starImage.sprite = animalUserData.AnimalStatData.starIconImage;
     }
 }

@@ -45,6 +45,9 @@ public class TempleRunStyleRoadMaker : InGameManager
     public Transform BossEntryRoadTransform => bossEntryRoadWay?.transform;
 
     //
+
+    private RunPhaseType runPhaseType;
+
     public struct NextRoadWayData
     {
         public int roadWayIndex;
@@ -168,15 +171,15 @@ public class TempleRunStyleRoadMaker : InGameManager
 
         foreach (var trs in startPoints)
         {
-            var roadWay = CreateRoadWay(previousRoadWay.index + 1, nextRoadWayData.roadWayIndex, nextRoadWayData.isBossEnter ? GameManager.StageManager.OnBossStageEnter : GameManager.StageManager.RoadWayDistanceTracking );
+            var roadWay = CreateRoadWay(previousRoadWay.index + 1, nextRoadWayData.roadWayIndex, nextRoadWayData.isBossEnter ? GameManager.StageManager.OnBossStageEnter : GameManager.StageManager.RoadWayDistanceTracking);
             roadWay.transform.SetPositionAndRotation(trs.position, trs.rotation);
 
             if (nextRoadWayData.itemMode == ItemSetMode.TrapAndReward)
             {
                 //吏洹쒓? ?섏젙??肄붾뱶濡?蹂寃?duim
-                int randomIndex1 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
-                int randomIndex2 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
-                int randomIndex3 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId();
+                int randomIndex1 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId(runPhaseType);
+                int randomIndex2 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId(runPhaseType);
+                int randomIndex3 = GameManager.MapObjectManager.GetNextRandomMapObjectsPrefabId(runPhaseType);
 
                 roadWay.SetMapObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetMapObjectsBlueprint(randomIndex1));
                 roadWay.SetRewardItemObjects(RoadWay.RoadSegmentType.Entry, GameManager.MapObjectManager.GetRewardItemBlueprint(randomIndex1));
@@ -246,7 +249,20 @@ public class TempleRunStyleRoadMaker : InGameManager
 
     }
 
+    private void Start()
+    {
+        GameManager.StageManager.onBossStageSet += OnBossStageSetHandler;
+    }
 
+    private void OnDestroy()
+    {
+        GameManager.StageManager.onBossStageSet -= OnBossStageSetHandler;
+    }
+
+    private void OnBossStageSetHandler(RunPhaseType type)
+    {
+        runPhaseType = type;
+    }
 
     #region mapObjectsMode
     //public void SetMapObjectMakeMode(ItemSetMode mode)
@@ -344,6 +360,31 @@ public class TempleRunStyleRoadMaker : InGameManager
 
         return stageRoadWayDataQueue.Dequeue();
 
+    }
+    // 민재 로드 카운트 계산 코드
+
+    public int GetNonBossRoadWayCountFromStageData(StageData data)
+    {
+        int count = 0;
+
+        if (data.roadMode == RoadMakeMode.RandomWay)
+        {
+            for (int i = 0; i < data.roadWayCount; i++)
+            {
+                bool isBoss = (i == data.roadWayCount - 1) && data.isBossStage; // 마지막 하나가 보스일 때만
+                if (!isBoss) count++;
+            }
+        }
+        else if (data.roadMode == RoadMakeMode.Vertical)
+        {
+            for (int i = 0; i < data.roadWayCount; i++)
+            {
+                bool isBoss = (i == data.roadWayCount - 1) && data.isBossStage;
+                if (!isBoss) count++;
+            }
+        }
+
+        return count;
     }
 
     #endregion

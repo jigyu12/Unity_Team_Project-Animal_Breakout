@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
-public class RealGiveUpPanelUI : MonoBehaviour
+public class RealGiveUpPanelUI : UIElement
 {
     [SerializeField] private GameObject RealGiveUpPanel;
     [SerializeField] private GameObject GameResultPanel;
@@ -12,10 +12,22 @@ public class RealGiveUpPanelUI : MonoBehaviour
     {
 
         noButton.onClick.RemoveAllListeners();
-        noButton.onClick.AddListener(OnNoButtonClicked);
+        // noButton.onClick.AddListener(OnNoButtonClicked);
 
+        noButton.onClick.AddListener(() =>
+        {
+            OnNoButtonClicked();
+
+            SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+        });
         yesButton.onClick.RemoveAllListeners();
-        yesButton.onClick.AddListener(OnYesButtonClicked);
+        // yesButton.onClick.AddListener(OnYesButtonClicked);
+        yesButton.onClick.AddListener(() =>
+    {
+        OnYesButtonClicked();
+
+        SoundManager.Instance.PlaySfx(SfxClipId.ButtonTouch);
+    });
 
     }
     private void OnNoButtonClicked()
@@ -24,7 +36,8 @@ public class RealGiveUpPanelUI : MonoBehaviour
     }
     private void OnYesButtonClicked()
     {
-        GameResultPanel.SetActive(true);
+        gameManager.SetGameState(GameManager_new.GameState.GameOver);
+        // GameResultPanel.SetActive(true);
         RealGiveUpPanel.SetActive(false);
 
     }

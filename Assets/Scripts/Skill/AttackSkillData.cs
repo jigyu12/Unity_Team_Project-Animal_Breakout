@@ -21,7 +21,7 @@ public class AttackSkillData : SkillData
 
 #if UNITY_EDITOR
     private string prefabPath = "Assets/Resources/Prefab/Skill/Projectile{0}.prefab";
-    private string iconPath = "Assets/Resources/SkillIcon/{0}.png";
+    private string iconPath = "Assets/Resources/Textures/SkillIcon/{0}.png";
     public void SetData(AttackSkillRawData rawData)
     {
         skillType = SkillType.Attack;
@@ -52,4 +52,9 @@ public class AttackSkillData : SkillData
         projectileBehaviourPrefab = projectile;
     }
 #endif
+    
+    public override string GetDescriptionString()
+    {
+        return LocalizationUtility.GetLZString(LocalizationUtility.defaultStringTableName, descriptionID, damageRate);
+    }
 }

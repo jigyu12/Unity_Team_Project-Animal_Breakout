@@ -230,4 +230,9 @@ public class SkillSelectionSystem
             }
         }
     }
+    public void OnSkillUpdated()
+    {
+        onSkillListUpdated?.Invoke(skills);
+        // 쓰지 마세요 
+    }
 }

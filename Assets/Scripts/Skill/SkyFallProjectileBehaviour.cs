@@ -2,27 +2,32 @@ using UnityEngine;
 
 public class SkyFallProjectileBehaviour : ProjectileBehaviour
 {
-    public Vector3 skyOffset;
+    //public Vector3 skyOffset;
+
+    private float firedTime;
 
     public override void Fire(Transform attacker, Transform target, float speed)
     {
+        isArrival = false;
         this.target = target.position;
         this.speed = speed;
 
-        transform.position = target.position + skyOffset;
+        transform.position = target.position;
+        transform.rotation = Quaternion.LookRotation(attacker.forward);
         gameObject.SetActive(true);
+
+        firedTime = Time.time;
+
+        SoundManager.Instance.PlaySfx(sfxClipThorwId);
     }
 
-    //private void Update()
-    //{
-    //    if ((target - transform.position).magnitude <= arrivalThreshold)
-    //    {
-    //        OnArrival();
-    //        return;
-    //    }
-
-    //    direction = (target - transform.position).normalized;
-    //    transform.position += direction * (Speed + skillManager?.GetSkillInheritedForwardSpeed() ?? 0f) * Time.deltaTime;
-    //    transform.LookAt(this.target);
-    //}
+    private void Update()
+    {
+        //if (Time.time - firedTime > 5f / speed)
+        if (Time.time - firedTime > 0.7f)
+        {
+            OnArrival();
+            return;
+        }
+    }
 }

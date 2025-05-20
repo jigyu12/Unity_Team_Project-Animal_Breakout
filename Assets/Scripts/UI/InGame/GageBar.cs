@@ -18,6 +18,7 @@ public class GageBar : MonoBehaviour
 
     private Action<int> onGageChange;
 
+
     [Serializable]
     public class ColorValue
     {
@@ -35,7 +36,7 @@ public class GageBar : MonoBehaviour
 
     public void OnValueChange(float value)
     {
-        SetColor();
+        //  SetColor();
     }
 
     public void SetMaxValue(int max)

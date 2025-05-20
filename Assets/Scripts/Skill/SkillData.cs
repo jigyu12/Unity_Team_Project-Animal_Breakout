@@ -50,6 +50,12 @@ public class SkillData : ScriptableObject
     public Sprite iconImage;
 
     public bool selectPossible;
+
+
+    public virtual string GetDescriptionString()
+    {
+        return descriptionID;
+    }
 }
 
 
