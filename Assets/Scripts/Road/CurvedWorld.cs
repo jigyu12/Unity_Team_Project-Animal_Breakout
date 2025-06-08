@@ -1,3 +1,4 @@
+using AmazingAssets.CurvedWorld;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,12 +14,6 @@ public class CurvedWorld : MonoBehaviour
 
     public AmazingAssets.CurvedWorld.CurvedWorldController curvedWorldController;
 
-    private void Awake()
-    {
-        //Shader.SetGlobalFloat("_Curvature", 0);
-        //Shader.SetGlobalFloat("_Trimming", 0);
-    }
-
 
 
     private void Start()
@@ -26,24 +21,53 @@ public class CurvedWorld : MonoBehaviour
         //Shader.EnableKeyword("CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_Z_POSITIVE");
     }
 
+    private Vector3 currentForward;
+    private bool right;
+
     private void Update()
     {
-        //최악. 그런데 그냥 임시로 이렇게 가자
-        if (stageManager.IsPlayerInBossStage)
+        if (curvedWorldController.bendPivotPoint.forward != currentForward)
         {
-            curvedWorldController.SetBendHorizontalSize(0);
+            currentForward = curvedWorldController.bendPivotPoint.forward;
+            UpdateHorizontalShaderValue(right, 1f);
+            right = !right;
         }
-        else
-        {
-            UpdateShaderValue();
-        }
+        UpdateShaderValue();
     }
+
+
+    private float startValue;
+    private float endValue;
+    private float durationTime = 0;
+    private float lerpTime = -1;
+
+    public void UpdateHorizontalShaderValue(bool r, float time)
+    {
+        startValue = curvedWorldController.bendHorizontalSize;
+        endValue = r ? maxHorizonCurvatureValue : -maxHorizonCurvatureValue;
+        durationTime = time;
+        lerpTime = 0;
+    }
+
 
     [ContextMenu("Update Shader Value")]
     public void UpdateShaderValue()
     {
-        curvedWorldController.SetBendHorizontalSize(Mathf.Sin(Time.time / 5f) * maxHorizonCurvatureValue);
-        //curvedWorldController.SetBendVerticalSize(Mathf.Sin(Time.time/5f)*maxVirticalCurvatureValue);
+        if (lerpTime < 0)
+        {
+            return;
+        }
+
+        lerpTime += Time.deltaTime;
+        if (lerpTime > durationTime)
+        {
+            curvedWorldController.SetBendHorizontalSize(endValue);
+            lerpTime = -1;
+        }
+        else
+        {
+            curvedWorldController.SetBendHorizontalSize(Mathf.Lerp(curvedWorldController.bendHorizontalSize, endValue, lerpTime / durationTime));
+        }
     }
 
     //[ContextMenu("X+")]

@@ -18,8 +18,7 @@ public enum ItemSetMode
 
 public class TempleRunStyleRoadMaker : InGameManager
 {
-    //private RoadMakeMode currentRoadMakeMode;
-    //private ItemSetMode currentMapObjectsMode;
+    private CurvedWorld curvedShader;
 
     public GameObject[] roadWayPrefabs;
     private List<ObjectPool<GameObject>> roadWayPools = new();
@@ -57,6 +56,7 @@ public class TempleRunStyleRoadMaker : InGameManager
 
     private Queue<int> nextRoadWayTypeQueue = new();
     private Queue<NextRoadWayData> stageRoadWayDataQueue = new();
+
 
     public override void Initialize()
     {
@@ -252,6 +252,7 @@ public class TempleRunStyleRoadMaker : InGameManager
     private void Start()
     {
         GameManager.StageManager.onBossStageSet += OnBossStageSetHandler;
+        curvedShader = GetComponentInChildren<CurvedWorld>();
     }
 
     private void OnDestroy()
