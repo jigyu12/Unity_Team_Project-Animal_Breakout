@@ -28,6 +28,8 @@ public static class GoogleSheetManager
         EditorCoroutineUtility.StartCoroutineOwnerless(LoadGoogleSheet(csvURL, path));
     }
 
+
+    //구글시트 URL을 CSV형식으로 게시된 URL로 변경
     public static string ConvertGoogleSheetURLToCSVURL(string sheetURL)
     {
         int idLastIndex = sheetURL.IndexOf('/', googleSheetURLFront.Length);

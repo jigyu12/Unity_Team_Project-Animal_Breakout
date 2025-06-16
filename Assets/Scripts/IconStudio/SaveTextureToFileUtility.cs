@@ -53,7 +53,8 @@ public class SaveTextureToFileUtility
 
     }
 
-    static public Texture2D RenderTextureToTexture2D(RenderTexture renderTexture, SaveTextureFileFormat fileFormat = SaveTextureFileFormat.PNG)
+    static public Texture2D RenderTextureToTexture2D(RenderTexture renderTexture, 
+        SaveTextureFileFormat fileFormat = SaveTextureFileFormat.PNG)
     {
         Texture2D tex;
         if (fileFormat != SaveTextureFileFormat.EXR)
