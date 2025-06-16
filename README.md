@@ -28,6 +28,7 @@
   </tr>
 </table>
 
+<!--
 <table>
   <tr>
     <td align="center"><strong>로컬라이제이션</strong></td>
