@@ -29,7 +29,7 @@ public class AdvertisementSystem : PersistentMonoSingleton<AdvertisementSystem>
 #else
   private string bannerAdUnitId = "";
     private string rewardAdUnitId = "";
-     private string interstitialAdUnitId = "";;
+     private string interstitialAdUnitId = "";
 #endif
 
     public override void InitializeSingleton()
