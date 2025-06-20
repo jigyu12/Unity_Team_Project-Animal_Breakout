@@ -37,11 +37,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_LP_SciFi_Interior_Emissive_01_Blue
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 08ed0d9dfc7b9d54480990896ab62fe8, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE
   - _EMISSION
   - _GLOSSYREFLECTIONS_OFF
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - CURVEDWORLD_BEND_ID_1
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -53,6 +57,7 @@ Material:
   - TransparentBackface
   - RayTracingPrepass
   - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -325,6 +330,7 @@ Material:
     - _BaseColor: {r: 0, g: 0.762609, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0, g: 0.76260895, b: 1, a: 1}
+    - _CurvedWorldBendSettings: {r: 0, g: 1, b: 0, a: 0}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 0, g: 1.80188, b: 2.297397, a: 1}

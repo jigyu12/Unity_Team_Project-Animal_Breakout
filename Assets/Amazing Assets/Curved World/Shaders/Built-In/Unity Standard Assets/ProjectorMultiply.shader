@@ -5,7 +5,7 @@ Shader "Amazing Assets/Curved World/Unity Standard Assets/Projector/Multiply"
 {
 	Properties 
 	{	
-		[HideInInspector][CurvedWorldBendSettings] _CurvedWorldBendSettings("0|1", Vector) = (0, 0, 0, 0)
+		[HideInInspector][CurvedWorldBendSettings] _CurvedWorldBendSettings("0,27|1", Vector) = (0, 0, 0, 0)
 
 		_ShadowTex ("Cookie", 2D) = "gray" {}
 		_FalloffTex ("FallOff", 2D) = "white" {}
@@ -29,7 +29,7 @@ Shader "Amazing Assets/Curved World/Unity Standard Assets/Projector/Multiply"
 			#include "UnityCG.cginc"
 
 
-#define CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE
+#pragma shader_feature_local CURVEDWORLD_BEND_TYPE_CLASSICRUNNER_X_POSITIVE CURVEDWORLD_BEND_TYPE_TWISTEDSPIRAL_X_POSITIVE
 #define CURVEDWORLD_BEND_ID_1
 #pragma shader_feature_local CURVEDWORLD_DISABLED_ON
 #include "Assets/Amazing Assets/Curved World/Shaders/Core/CurvedWorldTransform.cginc"

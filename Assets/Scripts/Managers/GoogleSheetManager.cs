@@ -28,6 +28,8 @@ public static class GoogleSheetManager
         EditorCoroutineUtility.StartCoroutineOwnerless(LoadGoogleSheet(csvURL, path));
     }
 
+
+    //구글시트 URL을 CSV형식으로 게시된 URL로 변경
     public static string ConvertGoogleSheetURLToCSVURL(string sheetURL)
     {
         int idLastIndex = sheetURL.IndexOf('/', googleSheetURLFront.Length);
@@ -65,8 +67,11 @@ public static class GoogleSheetManager
         }
         else
         {
+            //구글시트 데이터로 csv 파일 변경
             string csv = www.downloadHandler.text;
             DataTable.SaveCSV(csv, path);
+
+            //파일이 변경되었으니 에셋데이터베이스 갱신
             var assetPath = "Assets/" + path.Substring(Application.dataPath.Length + 1);
             AssetDatabase.Refresh();
             var newAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(assetPath);

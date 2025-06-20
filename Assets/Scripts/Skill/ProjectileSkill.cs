@@ -38,7 +38,8 @@ public class ProjectileSkill : AttackSkill
         SetSkillPerformed();
     }
 
-    public override IEnumerator coPerform(AttackPowerStatus attacker, DamageableStatus target, Transform start, Transform destination)
+    public override IEnumerator coPerform(AttackPowerStatus attacker, DamageableStatus target, 
+                                                    Transform start , Transform destination)
     {
         for (int i = 0; i < AttackSkillData.projectileCount; i++)
         {
@@ -53,7 +54,9 @@ public class ProjectileSkill : AttackSkill
                 yield break;
             }
 
-            var projectile = UnityEngine.Object.Instantiate(AttackSkillData.projectileBehaviourPrefab.gameObject, skillManager.transform).GetComponent<ProjectileBehaviour>();
+            var projectile = UnityEngine.Object.Instantiate
+                (AttackSkillData.projectileBehaviourPrefab.gameObject, skillManager.transform)
+                .GetComponent<ProjectileBehaviour>();
             projectile.InitializeSkilManager(skillManager);
             if (i != AttackSkillData.elementalEffectAttackIndex)
             {
