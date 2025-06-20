@@ -20,24 +20,32 @@
     <td align="center"><strong>스와이프로 레인 이동, 점프</strong></td>
     <td align="center"><strong>스킬 선택</strong></td>
     <td align="center"><strong>보스 전투</strong></td>
-    <td align="center"><strong>동물 강화</strong></td>
   </tr>
   <tr>
     <td><img src="./Screenshot/플레이화면.png" width="250"/></td>
     <td><img src="./Screenshot/스킬선택화면.png" width="250"/></td>
     <td><img src="./Screenshot/스킬과보스전화면.png" width="250"/></td>
-    <td><img src="./Screenshot/동물강화화면.png" width="250"/></td>
   </tr>
 </table>
 
-
+<table>
+  <tr>
+    <td align="center"><strong>동물 캐릭터 가챠</strong></td>
+    <td align="center"><strong>동물 강화</strong></td>
+  </tr>
+  <tr>
+    <td><img src="./Screenshot/가챠화면.png" width="260"/><img src="./Screenshot/가챠결과.png" width="250"/></td>
+    <td><img src="./Screenshot/동물강화화면.png" width="250"/></td>
+  </tr>
+ 
+</table>
 <table>
   <tr>
     <td align="center"><strong>로컬라이제이션</strong></td>
     <td align="center"><strong>애드몹 보상 광고</strong></td>
   </tr>
   <tr>
-    <td><img src="./Screenshot/TowerInfo.jpg" width="250"/></td>
+    <td><img src="./Screenshot/설정화면.png" width="250"/></td>
     <td><img src="./Screenshot/광고.jpg" width="500"/></td>
   </tr>
 </table>
