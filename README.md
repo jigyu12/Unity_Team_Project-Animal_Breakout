@@ -9,6 +9,8 @@
 🧑‍💻 **개발진**
  <img src="https://img.shields.io/badge/김희정, 민지규, 박민재-80247B?style=flat-square&logo=&logoColor=white"/> <img src="https://img.shields.io/badge/강지훈, 김용광, 이충림-005E9D?style=flat-square&logo=&logoColor=white"/> 
 
+👉 [구글 플레이스토어 출시](https://play.google.com/store/apps/details?id=com.Kyungil.AnimalBreakOut&pcampaignid=web_share)
+
 유니티로 제작한 모바일 3D 런 게임 프로젝트입니다.
 달리면서 얻은 스킬로 보스를 물리쳐야 합니다.
 
@@ -50,4 +52,6 @@
   </tr>
 </table>
 
-<li><a href="https://play.google.com/store/apps/details?id=com.Kyungil.AnimalBreakOut&pcampaignid=web_share"target="_blank" rel="noopener noreferrer"> Google Play 스토어 출시</a></li>
+- **개발 툴**
+  - 게임 오브젝트를 캡처해 png파일로 생성하는 에디터 툴(**아이콘 이미지 캡처 툴**) 개발 👉 [SaveTextureToFileUtility.cs](https://github.com/KALI-UM/Unity-AnimalBreakOut/blob/main/Assets/Scripts/IconStudio/SaveTextureToFileUtility.cs)
+  - **유니티 웹리퀘스트**를 활용해 에디터 상에서 최신 데이터 테이블 파일로 갱신하는 **데이터 테이블 갱신 툴** 구현 👉 [GoogleSheetManager.cs](https://github.com/KALI-UM/Unity-AnimalBreakOut/blob/main/Assets/Scripts/Managers/GoogleSheetManager.cs#L59)  
