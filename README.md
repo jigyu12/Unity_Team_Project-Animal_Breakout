@@ -12,7 +12,10 @@
 👉 [구글 플레이스토어 출시](https://play.google.com/store/apps/details?id=com.Kyungil.AnimalBreakOut&pcampaignid=web_share)
 
 유니티로 제작한 모바일 3D 런 게임 프로젝트입니다.
-달리면서 얻은 스킬로 보스를 물리쳐야 합니다.
+
+> 장애물을 피하고, 코인을 섭취하며 달리세요.  
+> 달리면서 얻은 스킬로 보스를 물리쳐야 합니다.  
+> 캐릭터를 뽑고, 강화할 수 있습니다.
 
 ---
 
