@@ -60,5 +60,12 @@
 - **개발 툴**
   - 게임 오브젝트를 캡처해 png파일로 생성하는 **아이콘 이미지 캡처 툴** 개발 👉 [SaveTextureToFileUtility.cs](https://github.com/KALI-UM/Unity-AnimalBreakOut/blob/main/Assets/Scripts/IconStudio/SaveTextureToFileUtility.cs)
   - **유니티 웹리퀘스트**를 활용해 최신 데이터 테이블 파일로 갱신하는 **데이터 테이블 갱신 툴** 구현 👉 [GoogleSheetManager.cs](https://github.com/KALI-UM/Unity-AnimalBreakOut/blob/main/Assets/Scripts/Managers/GoogleSheetManager.cs#L59)
+
+ - **플레이어 조작** 구현
+ -  스와이프 기반 좌우 이동 및 점프,버튼 기반 회전 구현 👉 [PlayerMove.cs](https://github.com/KALI-UM/Unity-AnimalBreakOut/blob/main/Assets/Scripts/Player/PlayerMove.cs)
+ -  **어드레서블 기반 리소스 관리 및 자동화** 구현
+ -  Addressables 시스템을 활용하여 리소스를 비동기 로딩하고, 씬 분할 구조 및 캐릭터 프리팹 로딩 자동화 구현 👉 [PlayerLoadManager.cs](https://github.com/KALI-UM/Unity-AnimalBreakOut/blob/main/Assets/Scripts/Managers/PlayerLoadManager.cs)
+ -  
+   
  
 
