@@ -20,4 +20,9 @@ public class PlayerEyeExpressionController : MonoBehaviour
     {
         animator.SetInteger(eyeAnimationHash, (int)eye);
     }
+
+    public void SetEyeExpressionImmidiate(PlayerEyeState eye)
+    {
+        animator.Play("Eyes_" + eye.ToString(), 1, 0.5f);
+    }
 }
