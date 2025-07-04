@@ -68,6 +68,8 @@ public class CurvedWorld : MonoBehaviour
         {
             curvedWorldController.SetBendHorizontalSize(Mathf.Lerp(curvedWorldController.bendHorizontalSize, endValue, lerpTime / durationTime));
         }
+
+        curvedWorldController.SetBendVerticalSize(maxVirticalCurvatureValue);
     }
 
     //[ContextMenu("X+")]

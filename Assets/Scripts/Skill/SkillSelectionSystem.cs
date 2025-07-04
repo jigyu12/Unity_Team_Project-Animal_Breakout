@@ -155,7 +155,7 @@ public class SkillSelectionSystem
         }
     }
 
-    public string GetExistkillGroup(SkillType type)
+    public string GetExistSkillGroup(SkillType type)
     {
         int randomIndex = UnityEngine.Random.Range(0, skillTypes[(int)type].Count);
         string skillGroupName = skillTypes[(int)type][randomIndex].SkillGroup;
@@ -211,7 +211,7 @@ public class SkillSelectionSystem
         {
             while (true)
             {
-                string targetSkillGroup = GetExistkillGroup(type);
+                string targetSkillGroup = GetExistSkillGroup(type);
 
                 int targetSkillLevel = selectableSkillGroupTable[targetSkillGroup];
                 if (targetSkillLevel >= skillManager.SkillFactory.GetSkillMaxLevel(type, targetSkillGroup))

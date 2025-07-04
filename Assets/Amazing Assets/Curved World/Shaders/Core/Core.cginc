@@ -2159,6 +2159,7 @@ void CurvedWorld_SpiralVerticalRolloff_Z(inout float4 inVertexOS, inout float3 n
 //                                Twisted Spiral                              //
 //                                                                            //
 //////////////////////////////////////////////////////////////////////////////// 
+
 void CurvedWorld_TwistedSpiral_X_Positive(inout float4 inVertexOS, float3 pivotPoint, float3 rotationAxis, float3 bendSize, float3 bendOffset)
 {
     float3 normalizedAxis = normalize(rotationAxis);
@@ -2166,7 +2167,6 @@ void CurvedWorld_TwistedSpiral_X_Positive(inout float4 inVertexOS, float3 pivotP
 
     if (abs(dot(normalizedAxis, float3(1, 0, 0))) > 0.999)
     {
-        //normalizedAxis.x > 0 ?
         if (normalizedAxis.x > 0)
         {
             CurvedWorld_ClassicRunner_X_Positive(inVertexOS, pivotPoint, bendSize.yz, bendOffset.yz);
@@ -2178,7 +2178,6 @@ void CurvedWorld_TwistedSpiral_X_Positive(inout float4 inVertexOS, float3 pivotP
     }
     else if (abs(dot(normalizedAxis, float3(0, 0, 1))) > 0.999)
     {
-        //normalizedAxis.z > 0 ?
         if (normalizedAxis.z > 0)
         {
             CurvedWorld_ClassicRunner_Z_Positive(inVertexOS, pivotPoint, bendSize.yz, bendOffset.yz);
