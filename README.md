@@ -64,7 +64,7 @@
 - **행동 트리** 구현 👉 [BehaviorTree](https://github.com/KALI-UM/Unity-AnimalBreakOut/tree/main/Assets/Scripts/BehaviourTree)
   
 - **개발 툴**
-  - 게임 오브젝트를 캡처해 png파일로 생성하는 **아이콘 이미지 캡처 툴** 개발 👉 [SaveTextureToFileUtility.cs](https://github.com/KALI-UM/Unity-AnimalBreakOut/blob/main/Assets/Scripts/IconStudio/SaveTextureToFileUtility.cs)
+  - 게임 오브젝트를 캡처해 png파일로 생성하는 **아이콘 이미지 캡처 툴** 개발 👉 [GameObjectToTexture.cs](https://github.com/KALI-UM/Unity-AnimalBreakOut/blob/main/Assets/Scripts/IconStudio/GameObjectToTexture.cs#L22)
   - **유니티 웹리퀘스트**를 활용해 최신 데이터 테이블 파일로 갱신하는 **데이터 테이블 갱신 툴** 구현 👉 [GoogleSheetManager.cs](https://github.com/KALI-UM/Unity-AnimalBreakOut/blob/main/Assets/Scripts/Managers/GoogleSheetManager.cs#L59)
   - 스테미나, 경험치, 보스 HP 등을 테스트 할 수 있는 **에디터 툴** 개발
     - 👉 [BossStatusEditor.cs](https://github.com/KALI-UM/Unity-AnimalBreakOut/blob/main/Assets/Editor/BossStatusEditor.cs)
