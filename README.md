@@ -27,9 +27,9 @@
     <td align="center"><strong>동물 강화</strong></td>
   </tr>
   <tr>
-    <td><img src="./Screenshot/메인 화면 3.png" width="200"/></td>
-    <td><img src="./Screenshot/가챠화면.png" width="200"/><img src="./Screenshot/가챠결과.png" width="200"/></td>
-    <td><img src="./Screenshot/동물강화화면.png" width="200"/></td>
+    <td><img src="./Screenshot/메인 화면 3.png" width="180"/></td>
+    <td><img src="./Screenshot/가챠화면.png" width="180"/><img src="./Screenshot/가챠결과.png" width="180"/></td>
+    <td><img src="./Screenshot/동물강화화면.png" width="180"/></td>
   </tr>
 </table>
 
